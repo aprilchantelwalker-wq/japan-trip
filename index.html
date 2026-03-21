@@ -3,40 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Japan 2026 🌸</title>
+<title>Japan 2026 🏪 7-Eleven Edition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --ink:#1a1512; --ink-light:#3d342c;
-  --parchment:#faf7f2;
-  --blossom:#e8a0b4; --blossom-deep:#c96d8a;
-  --matcha:#6b8f5e; --matcha-light:#a3bc99;
-  --gold:#c9973a; --gold-light:#f0d9a8;
-  --stone:#8c8075; --stone-light:#d4cdc5;
-  --red-torii:#c0392b; --sky:#5b8fa8;
-  --shadow:rgba(26,21,18,0.10); --shadow-deep:rgba(26,21,18,0.20);
-  --ca:#c96d8a; --pj:#6b8f5e; --tog:#5b8fa8;
+  /* 7-Eleven palette: red, green, orange on white */
+  --ink:#c8102e;           /* 7-Eleven red */
+  --ink-light:#a00e26;
+  --parchment:#ffffff;
+  --blossom:#f7941d;       /* 7-Eleven orange */
+  --blossom-deep:#e07a00;
+  --matcha:#007a3d;        /* 7-Eleven green */
+  --matcha-light:#4db87a;
+  --gold:#f7941d;
+  --gold-light:#fde8c0;
+  --stone:#666666;
+  --stone-light:#dddddd;
+  --red-torii:#c8102e;
+  --sky:#007a3d;
+  --shadow:rgba(200,16,46,0.10); --shadow-deep:rgba(200,16,46,0.20);
+  --ca:#c8102e; --pj:#007a3d; --tog:#f7941d;
+  /* 7-Eleven stripe pattern variables */
+  --stripe-red:#c8102e;
+  --stripe-green:#007a3d;
+  --stripe-orange:#f7941d;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--ink);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
 
-/* HEADER */
-.app-header{background:var(--ink);padding:14px 16px 11px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;}
-.app-header h1{font-family:'Shippori Mincho',serif;font-size:20px;font-weight:700;color:var(--parchment);}
-.app-header .sub{font-size:10px;color:var(--blossom);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
+/* HEADER — 7-Eleven style with colour stripe */
+.app-header{
+  background:white;
+  padding:0;
+  position:sticky;top:0;z-index:100;
+  display:flex;flex-direction:column;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.app-header-stripe{
+  height:6px;
+  background:linear-gradient(to right,
+    var(--stripe-red) 0%, var(--stripe-red) 33%,
+    var(--stripe-orange) 33%, var(--stripe-orange) 66%,
+    var(--stripe-green) 66%, var(--stripe-green) 100%);
+}
+.app-header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px 10px;
+}
+.app-header h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;font-weight:400;
+  color:var(--stripe-red);
+  letter-spacing:.04em;
+  line-height:1;
+}
+.app-header h1 span.seven{color:var(--stripe-green);}
+.app-header h1 span.eleven{color:var(--stripe-red);}
+.app-header .sub{font-size:10px;color:var(--stone);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
-.couple-badge{font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;cursor:pointer;color:white;background:var(--ca);}
+.couple-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(--ca);letter-spacing:.03em;}
 .couple-badge.pj{background:var(--pj);}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
 
-/* NAV */
-.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:sticky;top:55px;z-index:99;}
+/* NAV — red background with orange active indicator */
+.nav-tabs{background:var(--stripe-red);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:3px solid var(--stripe-orange);position:sticky;top:62px;z-index:99;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:500;color:var(--stone);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
-.nav-tab.active{color:var(--blossom);border-bottom-color:var(--blossom);}
+.nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;}
+.nav-tab.active{color:white;border-bottom-color:var(--stripe-orange);}
+
+/* TAB */
+.tab-content{display:none;padding-bottom:90px;}
+.tab-content.active{display:block;}
+
+/* CITY */
 
 /* TAB */
 .tab-content{display:none;padding-bottom:90px;}
@@ -249,6 +291,123 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .dgc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
 
 /* ── UNIVERSAL COLLAPSIBLE SECTIONS ── */
+.coll-section{margin:0 12px 6px;}
+.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:0;cursor:pointer;box-shadow:0 1px 4px var(--shadow);border-left:4px solid var(--stripe-red);border-top:1px solid #eee;border-right:1px solid #eee;border-bottom:1px solid #eee;transition:border-radius .15s;user-select:none;}
+.coll-hdr.open{border-bottom:2px solid var(--stripe-orange);}
+.coll-hdr-left{display:flex;align-items:center;gap:8px;flex:1;}
+.coll-hdr-title{font-size:12px;font-weight:700;color:#1a1a1a;letter-spacing:.04em;text-transform:uppercase;}
+.coll-hdr-count{font-size:11px;color:var(--stone);font-weight:400;}
+.coll-chev{font-size:11px;color:var(--stone);transition:transform .22s;flex-shrink:0;}
+.coll-chev.open{transform:rotate(180deg);}
+.coll-add-btn{background:none;border:none;color:var(--stripe-red);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
+.coll-body{background:white;border-radius:0;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 6px rgba(0,0,0,.08);border:1px solid #eee;border-top:none;margin-bottom:8px;}
+.coll-body.open{max-height:3000px;}
+.coll-inner{padding:8px 0 4px;}
+.coll-inner .booking-card{margin:0;border-radius:0;box-shadow:none;border:none;border-bottom:1px solid #f0f0f0;}
+.coll-inner .booking-card:last-child{border-bottom:none;}
+.coll-inner .shin-card{margin:8px 12px;}
+.coll-inner .tip-banner{margin:6px 12px;}
+
+/* city header — 7-Eleven bold stripe */
+.city-header{display:flex;align-items:center;gap:10px;padding:12px 14px 7px;margin-top:3px;border-left:5px solid var(--stripe-orange);margin-left:12px;margin-right:12px;background:white;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.city-name{font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400;color:#1a1a1a;letter-spacing:.04em;}
+.city-kanji{font-size:13px;color:var(--stone);}
+.city-dates{margin-left:auto;font-size:11px;color:var(--stripe-red);font-weight:600;background:rgba(200,16,46,.08);padding:3px 10px;border-radius:2px;}
+
+/* day header */
+.day-header-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 3px;cursor:pointer;user-select:none;border-left:3px solid var(--stripe-green);margin:4px 12px 0;}
+.day-header-row .dl{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:.06em;}
+
+/* itin card — sharper corners */
+.itin-card{margin:0 12px 7px;background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-red);transition:box-shadow .2s;cursor:grab;}
+.itin-card.tentative{border-left-color:var(--stripe-orange);background:#fffdf9;}
+.itin-card.idea{border-left-color:#ccc;background:#fafafa;}
+
+/* booking card */
+.booking-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:7px;border:1px solid #e8e8e8;}
+.bk-header{padding:10px 12px;display:flex;align-items:center;gap:8px;border-left:3px solid var(--stripe-green);}
+
+/* disc card */
+.disc-card{background:white;border-radius:2px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-orange);cursor:pointer;transition:all .18s;}
+
+/* disc grid card */
+.disc-grid-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-top:3px solid var(--stripe-red);cursor:pointer;transition:all .18s;position:relative;}
+
+/* tips section */
+.tips-section{margin:0 12px 6px;}
+.tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f0f0f0;cursor:default;}
+
+/* note card */
+.note-card{background:white;border-radius:2px;padding:12px;margin-bottom:8px;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-red);}
+
+/* tt card */
+.tt-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-top:3px solid var(--stripe-red);}
+
+/* FAB — 7-Eleven red */
+.fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:var(--stripe-red);color:white;border-radius:4px;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(200,16,46,.4);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;}
+.fab:hover{transform:scale(1.06);}
+
+/* section label */
+.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stripe-red);padding:12px 14px 5px;}
+.disc-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stripe-red);padding:10px 14px 5px;}
+
+/* status badges */
+.sc{background:rgba(0,122,61,.12);color:var(--stripe-green);}
+.sp{background:rgba(247,148,29,.15);color:var(--stripe-orange);}
+.st{background:rgba(200,16,46,.1);color:var(--stripe-red);}
+.sq{background:rgba(247,148,29,.12);color:var(--stripe-orange);}
+
+/* filter pills */
+.fpill{flex:none;padding:6px 12px;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #ddd;color:var(--stone);background:white;transition:all .2s;letter-spacing:.02em;}
+.fpill.active{background:var(--stripe-red);color:white;border-color:var(--stripe-red);}
+
+/* picker */
+.picker-card{background:white;border-radius:4px;padding:28px 22px;width:100%;max-width:340px;text-align:center;border-top:6px solid var(--stripe-red);}
+.picker-btn{border-radius:4px;}
+
+/* shinkansen dark card stays — just tweak border */
+.shin-card{border-left:4px solid var(--stripe-orange);}
+
+/* tag colours adjusted */
+.tag-booked{background:rgba(200,16,46,.1);color:var(--stripe-red);}
+.tag-must{background:rgba(247,148,29,.12);color:var(--stripe-orange);}
+.tag-flex{background:rgba(0,122,61,.1);color:var(--stripe-green);}
+
+/* progress bar */
+.bp-fill{background:linear-gradient(to right,var(--stripe-orange),var(--stripe-red));}
+
+/* view toggle */
+.view-btn.active{background:var(--stripe-red);color:white;box-shadow:none;}
+
+/* collapse btns */
+.itin-collapse-btns button:hover{background:var(--stripe-red);color:white;border-color:var(--stripe-red);}
+
+/* who stripe on itin cards */
+.ws-together{background:var(--stripe-orange);}
+.ws-ca{background:var(--stripe-red);}
+.ws-pj{background:var(--stripe-green);}
+
+/* dot colours */
+.dot-food{background:var(--stripe-green);}
+.dot-activity{background:var(--stripe-red);}
+.dot-hotel{background:var(--stripe-orange);}
+.dot-shopping{background:var(--stripe-red);}
+
+/* itin toolbar who filter */
+.iwf-btn.active{background:var(--stripe-red);color:white;border-color:var(--stripe-red);border-radius:2px;}
+
+/* toast */
+.toast{background:var(--stripe-red);border-radius:4px;}
+
+/* coll add btn colour */
+.coll-add-btn{color:var(--stripe-red);}
+.day-add-btn{color:var(--stripe-red);}
+
+/* notif bell badge */
+.notif-badge{background:var(--stripe-green);}
+.notif-bell{color:var(--stripe-red);}
+
+/* ── BOOKINGS ── */
 .coll-section{margin:0 12px 6px;}
 .coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
 .coll-hdr:active{box-shadow:0 1px 3px var(--shadow);}
@@ -484,17 +643,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 
 <!-- HEADER -->
 <div class="app-header">
-  <div>
-    <h1>Japan 2026 🌸</h1>
-    <div class="sub">Connor & April · Pat & Julia</div>
-  </div>
-  <div class="hdr-right">
-    <div class="live-dot" id="liveDot"></div>
-    <button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
-      🔔
-      <span class="notif-badge" id="notifBadge">0</span>
-    </button>
-    <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
+  <div class="app-header-stripe"></div>
+  <div class="app-header-inner">
+    <div>
+      <h1><span class="seven">7</span>-<span class="eleven">JAPAN</span> 2026</h1>
+      <div class="sub">Connor & April · Pat & Julia</div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-dot" id="liveDot"></div>
+      <button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
+        🔔
+        <span class="notif-badge" id="notifBadge">0</span>
+      </button>
+      <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
+    </div>
   </div>
 </div>
 
@@ -562,6 +724,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
     <div class="fpill" onclick="filterDisc('city','kyoto',this)">Kyoto</div>
     <div class="fpill" onclick="filterDisc('city','osaka',this)">Osaka</div>
     <div class="fpill" onclick="filterDisc('city','fuji',this)">Mt. Fuji</div>
+    <div id="customCityPills"></div>
+    <button class="fpill" onclick="openAddCitySheet()" style="border-style:dashed;color:var(--blossom-deep);border-color:var(--blossom-deep)">＋ City</button>
   </div>
   <!-- Category filter -->
   <div class="filter-scroll" id="discCatFilters">
@@ -750,6 +914,30 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
     </div>
   </div>
   <div class="notes-feed" id="notesFeed"><div class="empty-st"><div class="empty-icon">💬</div><p>Loading notes…</p></div></div>
+</div>
+
+<!-- CITY SHEET -->
+<div class="sheet-overlay" id="citySheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Add a City</div>
+    <div class="sheet-body">
+      <div class="form-row">
+        <label class="form-label">City Name</label>
+        <input class="form-input" id="cityName" placeholder="e.g. Hiroshima">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Emoji (optional)</label>
+        <input class="form-input" id="cityEmoji" placeholder="e.g. 🏯" maxlength="4">
+      </div>
+      <div id="existingCitiesWrap">
+        <label class="form-label">Existing Custom Cities</label>
+        <div id="existingCitiesList" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"></div>
+      </div>
+      <button class="form-submit" onclick="saveCity()" style="margin-top:14px">Add City →</button>
+      <button class="form-cancel" onclick="closeSheet('citySheet')">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- FAB -->
@@ -947,8 +1135,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
           <select class="form-select" id="discCity">
             <option value="tokyo">Tokyo</option><option value="kyoto">Kyoto</option>
             <option value="osaka">Osaka</option><option value="fuji">Mt. Fuji</option>
-          </select>
-        </div>
+          </select>        </div>
         <div>
           <label class="form-label">Category</label>
           <select class="form-select" id="discCat" onchange="autofillEmoji()">
@@ -1139,6 +1326,8 @@ window.onload = () => {
   if (!ttItems) { ttItems = SEED_TT; save('tt'); }
   populateDaySelect();
   renderAll();
+  renderCustomCityPills();
+  updateDiscCitySelects();
   initSupabase();
   updateNotifBadge();
   if (!currentCouple) showPicker(); else applyCouple(currentCouple);
@@ -1608,6 +1797,80 @@ function populateDaySelect() {
 // DISCOVER + MAP
 // ════════════════════════════════════════
 let discCityFilter='all', discCatFilter='all', discView='list';
+let customCities = JSON.parse(localStorage.getItem('jp-cities') || '[]');
+// { key: string (lowercase slug), label: string, emoji: string }
+
+const BASE_CITIES = [
+  {key:'tokyo', label:'Tokyo'}, {key:'kyoto', label:'Kyoto'},
+  {key:'osaka', label:'Osaka'}, {key:'fuji', label:'Mt. Fuji'},
+];
+
+function allCities() { return [...BASE_CITIES, ...customCities]; }
+
+function renderCustomCityPills() {
+  const wrap = document.getElementById('customCityPills');
+  if (!wrap) return;
+  wrap.innerHTML = customCities.map(c =>
+    `<div class="fpill" onclick="filterDisc('city','${c.key}',this)">${c.emoji||'📍'} ${c.label}</div>`
+  ).join('');
+}
+
+function updateDiscCitySelects() {
+  const selects = ['discCity'];
+  selects.forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    // keep base options, add custom ones
+    const existing = [...sel.options].map(o => o.value);
+    customCities.forEach(c => {
+      if (!existing.includes(c.key)) {
+        const opt = document.createElement('option');
+        opt.value = c.key; opt.textContent = (c.emoji||'📍') + ' ' + c.label;
+        sel.appendChild(opt);
+      }
+    });
+  });
+}
+
+function openAddCitySheet() {
+  document.getElementById('cityName').value = '';
+  document.getElementById('cityEmoji').value = '';
+  // show existing custom cities with delete buttons
+  const list = document.getElementById('existingCitiesList');
+  if (list) {
+    list.innerHTML = customCities.length
+      ? customCities.map(c => `<div style="display:flex;align-items:center;gap:5px;background:white;border:1.5px solid var(--stone-light);border-radius:20px;padding:4px 10px 4px 10px;font-size:12px">
+          ${c.emoji||'📍'} ${c.label}
+          <button onclick="deleteCity('${c.key}')" style="background:none;border:none;color:var(--stone);cursor:pointer;font-size:13px;padding:0 0 0 4px">✕</button>
+        </div>`).join('')
+      : `<span style="font-size:12px;color:var(--stone)">No custom cities yet</span>`;
+  }
+  openSheet('citySheet');
+}
+
+function saveCity() {
+  const name = document.getElementById('cityName').value.trim();
+  if (!name) { showToast('Enter a city name'); return; }
+  const key = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+  if (customCities.find(c => c.key === key) || BASE_CITIES.find(c => c.key === key)) {
+    showToast('City already exists'); return;
+  }
+  const city = { key, label: name, emoji: document.getElementById('cityEmoji').value.trim() || '📍' };
+  customCities.push(city);
+  localStorage.setItem('jp-cities', JSON.stringify(customCities));
+  renderCustomCityPills();
+  updateDiscCitySelects();
+  closeSheet('citySheet');
+  showToast(`📍 ${name} added!`);
+}
+
+function deleteCity(key) {
+  customCities = customCities.filter(c => c.key !== key);
+  localStorage.setItem('jp-cities', JSON.stringify(customCities));
+  renderCustomCityPills();
+  openAddCitySheet(); // re-render the list in sheet
+  showToast('🗑 City removed');
+}
 let visitedSpots = new Set(JSON.parse(localStorage.getItem('jp-visited') || '[]'));
 let activeSpotId = null;
 
