@@ -233,7 +233,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .dgc-visit-btn{font-size:10px;font-weight:500;border-radius:20px;padding:3px 0;cursor:pointer;border:none;flex:1;text-align:center;background:#f0ece6;color:var(--stone);}
 .dgc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
 
-/* BOOKINGS */
+/* ── UNIVERSAL COLLAPSIBLE SECTIONS ── */
+.coll-section{margin:0 12px 6px;}
+.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
+.coll-hdr:active{box-shadow:0 1px 3px var(--shadow);}
+.coll-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
+.coll-hdr-left{display:flex;align-items:center;gap:8px;flex:1;}
+.coll-hdr-title{font-size:13px;font-weight:600;color:var(--ink);}
+.coll-hdr-count{font-size:11px;color:var(--stone);font-weight:400;}
+.coll-chev{font-size:11px;color:var(--stone);transition:transform .22s;flex-shrink:0;}
+.coll-chev.open{transform:rotate(180deg);}
+.coll-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
+.coll-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.coll-body.open{max-height:3000px;}
+.coll-inner{padding:8px 0 4px;}
+/* items inside coll sections lose their own card shadow */
+.coll-inner .booking-card{margin:0;border-radius:0;box-shadow:none;border:none;border-bottom:1px solid #f5f2ee;}
+.coll-inner .booking-card:last-child{border-bottom:none;}
+.coll-inner .shin-card{margin:8px 12px;}
+.coll-inner .tip-banner{margin:6px 12px;}
+
+/* ── BOOKINGS ── */
 .section-label{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
 .booking-section{margin:0 12px 12px;}
 .booking-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);margin-bottom:7px;border:1px solid rgba(0,0,0,.04);}
@@ -546,12 +566,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 
 <!-- ══ TRANSIT ══ -->
 <div class="tab-content" id="content-transit">
-  <div class="section-label">🚄 SHINKANSEN & TRAINS</div>
+  <div class="section-label" id="transitLabel" style="display:none"></div>
   <div id="transitRoot"></div>
-  <div class="section-label" style="margin-top:8px">📱 TRANSIT TIPS</div>
-  <div class="tip-banner"><div class="tip-icon">💳</div><div class="tip-text"><strong>Suica IC Card</strong> — buy at the airport. Works on all trains, subways, and konbini. Get it on the Smartex app before you leave.</div></div>
-  <div class="tip-banner"><div class="tip-icon">🧳</div><div class="tip-text"><strong>Yamato Luggage Delivery</strong> — send bags to next hotel the night before (before 4pm). Never lug suitcases on trains!</div></div>
-  <div class="tip-banner"><div class="tip-icon">📶</div><div class="tip-text"><strong>eSIM / Wi-Fi</strong> — get NTT Docomo JW-Auto eSIM or Skyroam pocket Wi-Fi at the airport.</div></div>
 </div>
 
 <!-- ══ TRAVEL TIPS ══ -->
@@ -1135,6 +1151,8 @@ function applyCouple(c) {
   badge.className = 'couple-badge'+(isCA?'':' pj');
   document.getElementById('noteCouple').value = c;
   updateCoupleSelect();
+  // re-render all sections so collapse prefs apply for this couple
+  renderBook(); renderTransit(); renderTips(); renderTT(); renderDisc();
 }
 function updateCoupleSelect() {
   const v = document.getElementById('noteCouple').value;
@@ -1700,9 +1718,9 @@ function renderBook() {
   const hotels=bookItems.filter(b=>b.icon==='🏨'||b.icon==='🏕️');
   const acts=bookItems.filter(b=>!['✈️','🏨','🏕️'].includes(b.icon));
   let html='';
-  if(flights.length) html+=`<div class="section-label">✈️ FLIGHTS</div><div class="booking-section">${flights.map(bkCard).join('')}</div>`;
-  if(hotels.length) html+=`<div class="section-label">🏨 HOTELS & STAYS</div><div class="booking-section">${hotels.map(bkCard).join('')}</div>`;
-  if(acts.length) html+=`<div class="section-label">🎟 ACTIVITIES TO BOOK</div><div class="booking-section">${acts.map(bkCard).join('')}</div>`;
+  if(flights.length) html+=collSection('bk-flights','✈️ Flights',flights.length,'openBkSheet()',flights.map(bkCard).join(''));
+  if(hotels.length) html+=collSection('bk-hotels','🏨 Hotels & Stays',hotels.length,'openBkSheet()',hotels.map(bkCard).join(''));
+  if(acts.length) html+=collSection('bk-activities','🎟 Activities to Book',acts.length,'openBkSheet()',acts.map(bkCard).join(''));
   root.innerHTML=html;
 }
 function bkCard(b) {
@@ -1761,26 +1779,35 @@ function deleteBk() {
 // ════════════════════════════════════════
 function renderTransit() {
   const root=document.getElementById('transitRoot');
-  if(!transitItems.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🚄</div><p>No trains added yet!</p></div>`;return;}
-  root.innerHTML=transitItems.map(t=>{
-    const sts=t.status==='confirmed'?'shin-ok':'shin-book';
-    const stl=t.status==='confirmed'?'✓ Confirmed':'📌 Book Now';
-    const statusEl = t.status==='confirmed'
-      ? `<div class="shin-status ${sts}">${stl}</div>`
-      : `<a class="shin-status ${sts}" href="https://www.klook.com/en-US/activity/25308-jr-pass-japan/" target="_blank" style="text-decoration:none;cursor:pointer" title="Book on Klook">📌 Book on Klook ↗</a>`;
-    return `<div class="shin-card">
-      ${statusEl}
-      <div class="shin-type">${t.trainName||'Shinkansen'}</div>
-      <div class="shin-route"><div class="shin-city">${t.from}</div><div class="shin-arrow">→</div><div class="shin-city">${t.to}</div></div>
-      <div class="shin-grid">
-        <div class="shin-d"><div class="lbl">DATE</div><div class="val">${t.date||'—'}</div></div>
-        <div class="shin-d"><div class="lbl">DEPARTS</div><div class="val">${t.departs||'—'}</div></div>
-        <div class="shin-d"><div class="lbl">SEATS</div><div class="val">${t.seats||'—'}</div></div>
-      </div>
-      ${t.notes?`<div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:7px">${t.notes}</div>`:''}
-      <button class="shin-edit-btn" onclick="editTr('${t.id}')">✏️</button>
-    </div>`;
-  }).join('');
+  const trainsHtml = !transitItems.length
+    ? `<div class="empty-st" style="padding:16px"><div class="empty-icon">🚄</div><p>No trains added yet!</p></div>`
+    : transitItems.map(t=>{
+        const sts=t.status==='confirmed'?'shin-ok':'shin-book';
+        const statusEl = t.status==='confirmed'
+          ? `<div class="shin-status ${sts}">✓ Confirmed</div>`
+          : `<a class="shin-status ${sts}" href="https://www.klook.com/en-US/activity/25308-jr-pass-japan/" target="_blank" style="text-decoration:none;cursor:pointer">📌 Book on Klook ↗</a>`;
+        return `<div class="shin-card">
+          ${statusEl}
+          <div class="shin-type">${t.trainName||'Shinkansen'}</div>
+          <div class="shin-route"><div class="shin-city">${t.from}</div><div class="shin-arrow">→</div><div class="shin-city">${t.to}</div></div>
+          <div class="shin-grid">
+            <div class="shin-d"><div class="lbl">DATE</div><div class="val">${t.date||'—'}</div></div>
+            <div class="shin-d"><div class="lbl">DEPARTS</div><div class="val">${t.departs||'—'}</div></div>
+            <div class="shin-d"><div class="lbl">SEATS</div><div class="val">${t.seats||'—'}</div></div>
+          </div>
+          ${t.notes?`<div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:7px">${t.notes}</div>`:''}
+          <button class="shin-edit-btn" onclick="editTr('${t.id}')">✏️</button>
+        </div>`;
+      }).join('');
+
+  const tipsHtml = `
+    <div class="tip-banner"><div class="tip-icon">💳</div><div class="tip-text"><strong>Suica IC Card</strong> — buy at the airport. Works on all trains, subways, and konbini. Get it on the Smartex app before you leave.</div></div>
+    <div class="tip-banner"><div class="tip-icon">🧳</div><div class="tip-text"><strong>Yamato Luggage Delivery</strong> — send bags to next hotel the night before (before 4pm). Never lug suitcases on trains!</div></div>
+    <div class="tip-banner"><div class="tip-icon">📶</div><div class="tip-text"><strong>eSIM / Wi-Fi</strong> — get NTT Docomo JW-Auto eSIM or Skyroam pocket Wi-Fi at the airport.</div></div>`;
+
+  root.innerHTML =
+    collSection('tr-trains', '🚄 Shinkansen & Trains', transitItems.length||null, 'openTrSheet()', trainsHtml) +
+    collSection('tr-tips', '📱 Transit Tips', null, null, tipsHtml);
 }
 let editTrId=null;
 function openTrSheet() {
@@ -2017,79 +2044,93 @@ const TIP_SECTIONS = [
   {key:'blossoms', label:'🌸 Cherry Blossoms 2026'},
 ];
 
-// track which sections are open (default: first two open)
-let tipsOpen = JSON.parse(localStorage.getItem('jp-tips-open') || '{"apps":true,"links":true}');
+// ════════════════════════════════════════
+// COLLAPSIBLE SECTION ENGINE
+// Per-couple preferences stored in localStorage
+// key format: jp-collapse-{couple}  → { sectionKey: bool }
+// ════════════════════════════════════════
 
-function toggleTipsSection(key) {
-  tipsOpen[key] = !tipsOpen[key];
-  localStorage.setItem('jp-tips-open', JSON.stringify(tipsOpen));
-  // toggle classes directly without full re-render for smoothness
-  const hdr = document.getElementById('tips-hdr-'+key);
-  const body = document.getElementById('tips-body-'+key);
-  const chev = document.getElementById('tips-chev-'+key);
-  if (!hdr || !body) return;
-  const isOpen = tipsOpen[key];
-  hdr.classList.toggle('open', isOpen);
-  body.classList.toggle('open', isOpen);
-  if (chev) chev.classList.toggle('open', isOpen);
+function getCollapsePrefs() {
+  const key = 'jp-collapse-' + (currentCouple||'default');
+  return JSON.parse(localStorage.getItem(key) || 'null') || getDefaultCollapsePrefs();
+}
+
+function getDefaultCollapsePrefs() {
+  // sensible defaults: everything open
+  return {
+    // bookings
+    'bk-flights': true, 'bk-hotels': true, 'bk-activities': true,
+    // transit
+    'tr-trains': true, 'tr-tips': false,
+    // discover cats — open
+    // tips — first two open
+    'tips-apps': true, 'tips-links': true, 'tips-transport': false,
+    'tips-etiquette': false, 'tips-misc': false, 'tips-phrases': false, 'tips-blossoms': false,
+    // notes
+    'notes-composer': true,
+    // tiktok cats — open by default
+    // itinerary city sections — open
+  };
+}
+
+function isOpen(key) {
+  const prefs = getCollapsePrefs();
+  return key in prefs ? prefs[key] : true; // default open
+}
+
+function toggleSection(key, noRender) {
+  const k = 'jp-collapse-' + (currentCouple||'default');
+  const prefs = getCollapsePrefs();
+  prefs[key] = !prefs[key];
+  localStorage.setItem(k, JSON.stringify(prefs));
+  if (!noRender) {
+    // toggle DOM directly — no re-render needed
+    const hdr = document.getElementById('chdr-'+key);
+    const body = document.getElementById('cbody-'+key);
+    const chev = document.getElementById('cchev-'+key);
+    if (hdr) hdr.classList.toggle('open', prefs[key]);
+    if (body) body.classList.toggle('open', prefs[key]);
+    if (chev) chev.classList.toggle('open', prefs[key]);
+  }
+}
+
+// Build a collapsible section HTML wrapper
+function collSection(key, title, countOrBadge, addFn, innerHtml) {
+  const open = isOpen(key);
+  const countHtml = countOrBadge ? `<span class="coll-hdr-count">${countOrBadge}</span>` : '';
+  const addBtn = addFn ? `<button class="coll-add-btn" onclick="event.stopPropagation();${addFn}" title="Add">＋</button>` : '';
+  return `<div class="coll-section">
+    <div class="coll-hdr ${open?'open':''}" id="chdr-${key}" onclick="toggleSection('${key}')">
+      <div class="coll-hdr-left">
+        <span class="coll-chev ${open?'open':''}" id="cchev-${key}">▼</span>
+        <span class="coll-hdr-title">${title}</span>
+        ${countHtml}
+      </div>
+      ${addBtn}
+    </div>
+    <div class="coll-body ${open?'open':''}" id="cbody-${key}">
+      <div class="coll-inner">${innerHtml}</div>
+    </div>
+  </div>`;
 }
 
 function renderTips() {
   const root = document.getElementById('tipsRoot');
-  let html = '<div style="padding:8px 0 4px"></div>';
+  let html = '<div style="padding:6px 0 2px"></div>';
   TIP_SECTIONS.forEach(sec => {
     const items = tipsItems.filter(t=>t.section===sec.key);
-    const isOpen = !!tipsOpen[sec.key];
-    const count = items.length;
-    html += `<div class="tips-section">
-      <div class="tips-section-hdr ${isOpen?'open':''}" id="tips-hdr-${sec.key}" onclick="toggleTipsSection('${sec.key}')">
-        <div class="tips-section-left">
-          <span class="tips-section-chevron ${isOpen?'open':''}" id="tips-chev-${sec.key}">▼</span>
-          <span class="tips-section-title">${sec.label}</span>
-          <span style="font-size:11px;color:var(--stone);font-weight:400">${count}</span>
-        </div>
-        <button class="tips-section-add" onclick="event.stopPropagation();openTipsSheet('${sec.key}')" title="Add">＋</button>
-      </div>
-      <div class="tips-section-body ${isOpen?'open':''}" id="tips-body-${sec.key}">
-        <div class="tips-section-inner">`;
-
+    let innerHtml = '';
     if (sec.key === 'phrases') {
-      html += `<div>`;
-      items.forEach(t => {
-        html += `<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer">
-          <div class="phrase-en">${t.title}</div>
-          <div class="phrase-jp">${t.detail}</div>
-        </div>`;
-      });
-      html += `</div>`;
+      innerHtml = '<div>' + items.map(t=>`<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="phrase-en">${t.title}</div><div class="phrase-jp">${t.detail}</div></div>`).join('') + (items.length?'':'<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>') + '</div>';
     } else if (sec.key === 'blossoms') {
-      html += `<div class="blossom-grid" style="padding:4px 12px 8px">`;
-      items.forEach(t => {
-        html += `<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer">
-          <div class="blossom-city">${t.title.split('—')[0].trim()}</div>
-          <div class="blossom-date">${t.title.split('—')[1]?.trim()||''}</div>
-          ${t.detail?`<div style="font-size:11px;color:var(--stone);margin-top:3px">${t.detail}</div>`:''}
-        </div>`;
-      });
-      html += `</div>`;
+      innerHtml = `<div class="blossom-grid" style="padding:4px 12px 8px">${items.map(t=>`<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="blossom-city">${t.title.split('—')[0].trim()}</div><div class="blossom-date">${t.title.split('—')[1]?.trim()||''}</div>${t.detail?`<div style="font-size:11px;color:var(--stone);margin-top:3px">${t.detail}</div>`:''}</div>`).join('')||'<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>'}</div>`;
     } else {
-      if (!items.length) {
-        html += `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
-      }
-      items.forEach(t => {
+      innerHtml = items.length ? items.map(t=>{
         const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
-        html += `<div class="tip-item">
-          <div class="tip-item-icon">${t.emoji||'💡'}</div>
-          <div class="tip-item-body">
-            <div class="tip-item-title">${t.title}</div>
-            ${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}
-            ${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}
-          </div>
-          <button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button>
-        </div>`;
-      });
+        return `<div class="tip-item"><div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
+      }).join('') : `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
     }
-    html += `</div></div></div>`;
+    html += collSection('tips-'+sec.key, sec.label, items.length||null, `openTipsSheet('${sec.key}')`, innerHtml);
   });
   root.innerHTML = html;
 }
@@ -2155,9 +2196,7 @@ function renderTT() {
   filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
   let html='';
   Object.entries(cats).forEach(([cat,items])=>{
-    if(ttFilter==='all') html+=`<div class="tt-section-label">${TT_CAT_LABELS[cat]||cat}</div>`;
-    html+=`<div class="tt-grid">`;
-    items.forEach(t=>{
+    const cardsHtml = `<div class="tt-grid" style="padding:8px 12px 4px">` + items.map(t=>{
       const rx = ttReactions[t.id]||{likes:[],comments:[]};
       const likes = rx.likes||[];
       const comments = rx.comments||[];
@@ -2165,7 +2204,7 @@ function renderTT() {
       const colStyle=TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
       const previewOpen = !!ttPreviews[t.id];
       const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
-      html+=`<div class="tt-card" id="ttcard-${t.id}">
+      return `<div class="tt-card" id="ttcard-${t.id}" style="margin-bottom:8px">
         <div class="tt-top">
           <div class="tt-thumb" onclick="openTT('${esc(t.url)}')">
             ${t.thumb?`<img src="${t.thumb}" alt="">`:'<span style="font-size:28px">🎵</span>'}
@@ -2180,11 +2219,7 @@ function renderTT() {
           </div>
         </div>
         ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''}
-        <!-- embed preview -->
-        <div class="tt-embed ${previewOpen?'show':''}" id="ttembed-${t.id}">
-          ${previewOpen?`<div class="tt-embed-loading">Loading preview…</div>`:''}
-        </div>
-        <!-- actions -->
+        <div class="tt-embed ${previewOpen?'show':''}" id="ttembed-${t.id}">${previewOpen?`<div class="tt-embed-loading">Loading preview…</div>`:''}</div>
         <div class="tt-actions">
           <div class="tt-like-area">
             <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')" title="${myLike?'Unlike':'Like'}">${myLike?'❤️':'🤍'}</button>
@@ -2195,25 +2230,17 @@ function renderTT() {
           <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">Open ↗</a>
           <button class="tt-edit-btn" onclick="editTTItem('${t.id}')">✏️</button>
         </div>
-        <!-- comments -->
         <div class="tt-comments" id="ttcomments-${t.id}">
-          ${comments.map(c=>`
-            <div class="tt-comment">
-              <span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span>
-              <div style="flex:1">
-                <div class="tt-comment-text">${esc(c.text)}</div>
-                <div class="tt-comment-time">${fmtTime(c.ts)}</div>
-              </div>
-              ${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:''}
-            </div>`).join('')}
-          <div class="tt-comment-form">
-            <input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')">
-            <button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button>
-          </div>
+          ${comments.map(c=>`<div class="tt-comment"><span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span><div style="flex:1"><div class="tt-comment-text">${esc(c.text)}</div><div class="tt-comment-time">${fmtTime(c.ts)}</div></div>${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:''}</div>`).join('')}
+          <div class="tt-comment-form"><input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')"><button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button></div>
         </div>
       </div>`;
-    });
-    html+=`</div>`;
+    }).join('') + `</div>`;
+    if (ttFilter==='all') {
+      html += collSection('tt-'+cat, TT_CAT_LABELS[cat]||cat, items.length, 'openTTSheet()', cardsHtml);
+    } else {
+      html += cardsHtml;
+    }
   });
   root.innerHTML=html;
   // load any open previews
