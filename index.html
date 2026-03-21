@@ -9,307 +9,285 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --ink: #1a1512; --ink-light: #3d342c;
-  --parchment: #faf7f2;
-  --blossom: #e8a0b4; --blossom-deep: #c96d8a;
-  --matcha: #6b8f5e; --matcha-light: #a3bc99;
-  --gold: #c9973a; --gold-light: #f0d9a8;
-  --stone: #8c8075; --stone-light: #d4cdc5;
-  --red-torii: #c0392b;
-  --sky: #5b8fa8;
-  --shadow: rgba(26,21,18,0.10);
-  --shadow-deep: rgba(26,21,18,0.20);
-  --together: #5b8fa8;
-  --ca-color: #c96d8a;
-  --pj-color: #6b8f5e;
+  --ink:#1a1512; --ink-light:#3d342c;
+  --parchment:#faf7f2;
+  --blossom:#e8a0b4; --blossom-deep:#c96d8a;
+  --matcha:#6b8f5e; --matcha-light:#a3bc99;
+  --gold:#c9973a; --gold-light:#f0d9a8;
+  --stone:#8c8075; --stone-light:#d4cdc5;
+  --red-torii:#c0392b; --sky:#5b8fa8;
+  --shadow:rgba(26,21,18,0.10); --shadow-deep:rgba(26,21,18,0.20);
+  --ca:#c96d8a; --pj:#6b8f5e; --tog:#5b8fa8;
 }
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(--ink); min-height:100vh; max-width:430px; margin:0 auto; overflow-x:hidden; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--ink);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
 
-/* ── HEADER ── */
-.app-header { background:var(--ink); padding:16px 16px 12px; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; }
-.app-header h1 { font-family:'Shippori Mincho',serif; font-size:21px; font-weight:700; color:var(--parchment); }
-.app-header .sub { font-size:10px; color:var(--blossom); letter-spacing:.08em; text-transform:uppercase; margin-top:1px; }
-.header-right { display:flex; align-items:center; gap:8px; }
-.couple-badge { font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px; cursor:pointer; color:white; background:var(--ca-color); }
-.couple-badge.pj { background:var(--pj-color); }
-.live-dot { width:8px; height:8px; border-radius:50%; background:#4ade80; animation:pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+/* HEADER */
+.app-header{background:var(--ink);padding:14px 16px 11px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;}
+.app-header h1{font-family:'Shippori Mincho',serif;font-size:20px;font-weight:700;color:var(--parchment);}
+.app-header .sub{font-size:10px;color:var(--blossom);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.couple-badge{font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;cursor:pointer;color:white;background:var(--ca);}
+.couple-badge.pj{background:var(--pj);}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
 
-/* ── NAV ── */
-.nav-tabs { background:var(--ink); display:flex; overflow-x:auto; scrollbar-width:none; border-bottom:2px solid var(--ink-light); position:sticky; top:58px; z-index:99; }
-.nav-tabs::-webkit-scrollbar { display:none; }
-.nav-tab { flex:none; padding:9px 14px; font-size:11px; font-weight:500; color:var(--stone); letter-spacing:.05em; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; display:flex; align-items:center; gap:5px; }
-.nav-tab.active { color:var(--blossom); border-bottom-color:var(--blossom); }
+/* NAV */
+.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:sticky;top:55px;z-index:99;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:500;color:var(--stone);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.nav-tab.active{color:var(--blossom);border-bottom-color:var(--blossom);}
 
-/* ── TAB CONTENT ── */
-.tab-content { display:none; padding-bottom:90px; }
-.tab-content.active { display:block; }
+/* TAB */
+.tab-content{display:none;padding-bottom:90px;}
+.tab-content.active{display:block;}
 
-/* ── CITY HEADER ── */
-.city-header { display:flex; align-items:center; gap:10px; padding:14px 14px 8px; margin-top:4px; }
-.city-name { font-family:'Shippori Mincho',serif; font-size:20px; font-weight:700; }
-.city-kanji { font-family:'Shippori Mincho',serif; font-size:13px; color:var(--stone); }
-.city-dates { margin-left:auto; font-size:11px; color:var(--blossom-deep); font-weight:500; background:rgba(232,160,180,.15); padding:3px 10px; border-radius:20px; }
-.city-divider { height:5px; background:linear-gradient(to right,var(--stone-light),transparent); margin:2px 0 6px; opacity:.25; }
+/* CITY */
+.city-header{display:flex;align-items:center;gap:10px;padding:13px 14px 7px;margin-top:3px;}
+.city-name{font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;}
+.city-kanji{font-family:'Shippori Mincho',serif;font-size:13px;color:var(--stone);}
+.city-dates{margin-left:auto;font-size:11px;color:var(--blossom-deep);font-weight:500;background:rgba(232,160,180,.15);padding:3px 10px;border-radius:20px;}
+.city-divider{height:4px;background:linear-gradient(to right,var(--stone-light),transparent);margin:2px 0 5px;opacity:.2;}
 
-/* ── DAY HEADER ── */
-.day-label-row { display:flex; align-items:center; justify-content:space-between; padding:10px 14px 4px; }
-.day-label-row .dlabel { font-family:'Shippori Mincho',serif; font-size:13px; font-weight:700; color:var(--ink-light); }
-.day-label-row .ddate { font-size:11px; color:var(--stone); }
-.add-to-day { background:none; border:none; color:var(--blossom-deep); font-size:20px; cursor:pointer; padding:0 2px; line-height:1; }
+/* DAY ROW */
+.day-label-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px 3px;}
+.day-label-row .dl{font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:var(--ink-light);}
+.day-label-row .day-btns{display:flex;gap:4px;}
+.day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:19px;cursor:pointer;padding:0 2px;line-height:1;}
 
-/* ── ITINERARY ITEM CARD ── */
-.itin-card {
-  margin:0 12px 8px;
-  background:white;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 1px 8px var(--shadow);
-  border:1px solid rgba(0,0,0,.05);
-  transition:all .2s;
-}
-.itin-card.tentative { border-style:dashed; border-color:var(--stone-light); background:#fcfaf7; }
-.itin-card.idea { border-style:dashed; border-color:var(--gold); background:#fffdf7; }
+/* ITIN CARD */
+.itin-card{margin:0 12px 7px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
+.itin-card:active{cursor:grabbing;}
+.itin-card.tentative{border-style:dashed;border-color:var(--stone-light);background:#fcfaf7;}
+.itin-card.idea{border-style:dashed;border-color:var(--gold);background:#fffdf7;}
+.itin-card.dragging{opacity:.5;box-shadow:0 8px 24px var(--shadow-deep);}
+.itin-card.drag-over{box-shadow:0 0 0 2px var(--blossom-deep);}
 
-/* who stripe */
-.who-stripe { height:3px; }
-.who-together { background:var(--together); }
-.who-ca { background:var(--ca-color); }
-.who-pj { background:var(--pj-color); }
+.who-stripe{height:3px;}
+.ws-together{background:var(--tog);}
+.ws-ca{background:var(--ca);}
+.ws-pj{background:var(--pj);}
 
-.itin-card-body { padding:10px 12px 8px; }
-.itin-top { display:flex; align-items:flex-start; gap:8px; }
-.itin-time { font-size:11px; color:var(--stone); min-width:52px; padding-top:2px; font-weight:500; }
-.itin-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
-.dot-food { background:var(--matcha); }
-.dot-activity { background:var(--sky); }
-.dot-hotel { background:var(--gold); }
-.dot-shopping { background:var(--blossom-deep); }
-.dot-onsen { background:#a78bfa; }
-.dot-transport { background:var(--stone); }
-.itin-main { flex:1; }
-.itin-title { font-size:14px; font-weight:500; color:var(--ink); line-height:1.3; }
-.itin-detail { font-size:12px; color:var(--stone); margin-top:2px; line-height:1.4; }
-.itin-actions { display:flex; gap:4px; margin-left:auto; }
-.itin-action-btn { background:none; border:none; font-size:15px; cursor:pointer; opacity:.4; padding:2px; transition:opacity .15s; }
-.itin-action-btn:hover { opacity:1; }
+.itin-card-body{padding:10px 12px 7px;}
+.itin-top{display:flex;align-items:flex-start;gap:7px;}
+.drag-handle{font-size:14px;color:var(--stone-light);cursor:grab;padding-top:1px;flex-shrink:0;touch-action:none;}
+.itin-time{font-size:11px;color:var(--stone);min-width:50px;padding-top:2px;font-weight:500;}
+.itin-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.dot-food{background:var(--matcha);}
+.dot-activity{background:var(--sky);}
+.dot-hotel{background:var(--gold);}
+.dot-shopping{background:var(--blossom-deep);}
+.dot-onsen{background:#a78bfa;}
+.dot-transport{background:var(--stone);}
+.dot-explore{background:#f97316;}
+.dot-rest{background:#94a3b8;}
+.itin-main{flex:1;}
+.itin-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
+.itin-detail{font-size:12px;color:var(--stone);margin-top:2px;line-height:1.4;}
+.itin-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.3;padding:2px;flex-shrink:0;}
+.itin-edit-btn:hover{opacity:.9;}
 
-/* tags row */
-.itin-tags { display:flex; gap:4px; margin-top:6px; flex-wrap:wrap; align-items:center; }
-.tag { font-size:10px; padding:2px 8px; border-radius:20px; font-weight:500; }
-.tag-booked { background:rgba(192,57,43,.1); color:var(--red-torii); }
-.tag-must { background:rgba(201,151,58,.12); color:var(--gold); }
-.tag-flex { background:rgba(107,143,94,.12); color:var(--matcha); }
-.tag-idea { background:rgba(201,151,58,.1); color:var(--gold); border:1px dashed var(--gold); }
-.tag-together { background:rgba(91,143,168,.12); color:var(--together); }
-.tag-ca { background:rgba(201,109,138,.12); color:var(--ca-color); }
-.tag-pj { background:rgba(107,143,94,.12); color:var(--pj-color); }
+.itin-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
+.tag-booked{background:rgba(192,57,43,.1);color:var(--red-torii);}
+.tag-must{background:rgba(201,151,58,.12);color:var(--gold);}
+.tag-flex{background:rgba(107,143,94,.12);color:var(--matcha);}
+.tag-idea{background:rgba(201,151,58,.08);color:var(--gold);border:1px dashed var(--gold);}
+.tag-tog{background:rgba(91,143,168,.12);color:var(--tog);}
+.tag-ca{background:rgba(201,109,138,.12);color:var(--ca);}
+.tag-pj{background:rgba(107,143,94,.12);color:var(--pj);}
 
-/* confirmations row */
-.confirm-row { display:flex; gap:6px; padding:6px 12px 10px; border-top:1px solid #f0ece6; background:#faf8f5; }
-.confirm-couple { display:flex; align-items:center; gap:5px; flex:1; }
-.confirm-label { font-size:10px; color:var(--stone); font-weight:500; }
-.confirm-btns { display:flex; gap:3px; margin-left:auto; }
-.cbtn { font-size:12px; padding:3px 8px; border-radius:20px; border:1px solid var(--stone-light); background:white; cursor:pointer; transition:all .15s; }
-.cbtn:hover { transform:scale(1.05); }
-.cbtn.active-yes { background:#dcfce7; border-color:#86efac; }
-.cbtn.active-maybe { background:var(--gold-light); border-color:var(--gold); }
-.cbtn.active-no { background:#fee2e2; border-color:#fca5a5; }
+/* CONFIRM ROW */
+.confirm-row{border-top:1px solid #f0ece6;background:#faf8f5;}
+.confirm-couple-row{display:flex;align-items:center;gap:6px;padding:5px 12px;}
+.confirm-couple-row:first-child{padding-bottom:2px;}
+.confirm-couple-row:last-child{padding-top:2px;padding-bottom:7px;}
+.clabel{font-size:10px;font-weight:600;min-width:26px;}
+.clabel.ca{color:var(--ca);}
+.clabel.pj{color:var(--pj);}
+.cvote-btns{display:flex;gap:3px;}
+.cvbtn{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--stone-light);background:white;cursor:pointer;transition:all .15s;font-family:inherit;}
+.cvbtn.vy{background:#dcfce7;border-color:#86efac;}
+.cvbtn.vm{background:var(--gold-light);border-color:var(--gold);}
+.cvbtn.vn{background:#fee2e2;border-color:#fca5a5;}
+.vote-comment{flex:1;font-size:12px;background:transparent;border:none;outline:none;color:var(--ink);font-family:inherit;padding:1px 4px;min-width:0;}
+.vote-comment::placeholder{color:var(--stone-light);}
 
-/* ── FLOATING ADD BTN ── */
-.fab { position:fixed; bottom:22px; right:18px; width:52px; height:52px; background:var(--blossom-deep); color:white; border-radius:50%; border:none; font-size:24px; cursor:pointer; box-shadow:0 4px 18px rgba(201,109,138,.45); z-index:50; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-.fab:hover { transform:scale(1.08); }
-.fab:active { transform:scale(.95); }
+/* FAB */
+.fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:var(--blossom-deep);color:white;border-radius:50%;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(201,109,138,.45);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.fab:hover{transform:scale(1.08);}
+.fab:active{transform:scale(.95);}
 
-/* ── BOTTOM SHEET / MODAL ── */
-.sheet-overlay { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:200; display:flex; align-items:flex-end; justify-content:center; opacity:0; pointer-events:none; transition:opacity .25s; max-width:430px; margin:0 auto; }
-.sheet-overlay.open { opacity:1; pointer-events:all; }
-.sheet { background:var(--parchment); border-radius:20px 20px 0 0; width:100%; padding:0; max-height:92vh; overflow-y:auto; transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1); }
-.sheet-overlay.open .sheet { transform:translateY(0); }
-.sheet-handle { width:40px; height:4px; background:var(--stone-light); border-radius:2px; margin:14px auto 0; }
-.sheet-title { font-family:'Shippori Mincho',serif; font-size:18px; font-weight:700; color:var(--ink); padding:14px 18px 4px; }
-.sheet-body { padding:4px 18px 24px; }
+/* SHEET */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;max-width:430px;margin:0 auto;}
+.sheet-overlay.open{opacity:1;pointer-events:all;}
+.sheet{background:var(--parchment);border-radius:20px 20px 0 0;width:100%;padding:0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet-overlay.open .sheet{transform:translateY(0);}
+.sheet-handle{width:38px;height:4px;background:var(--stone-light);border-radius:2px;margin:13px auto 0;}
+.sheet-title{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700;color:var(--ink);padding:13px 18px 3px;}
+.sheet-body{padding:4px 18px 28px;}
 
-/* form elements */
-.form-row { margin-bottom:13px; }
-.form-label { font-size:11px; font-weight:500; color:var(--stone); text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; display:block; }
-.form-input, .form-select, .form-textarea {
-  width:100%; padding:10px 13px; border:1.5px solid var(--stone-light); border-radius:10px;
-  font-size:14px; font-family:inherit; color:var(--ink); background:white; outline:none;
-  transition:border-color .2s;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--blossom-deep); }
-.form-textarea { resize:none; min-height:60px; }
-.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:13px; }
+.form-row{margin-bottom:12px;}
+.form-label{font-size:11px;font-weight:500;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border:1.5px solid var(--stone-light);border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:white;outline:none;transition:border-color .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blossom-deep);}
+.form-textarea{resize:none;min-height:58px;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
 
-/* who selector */
-.who-selector { display:flex; gap:6px; }
-.who-opt { flex:1; padding:8px 6px; border-radius:10px; border:1.5px solid var(--stone-light); text-align:center; cursor:pointer; font-size:12px; font-weight:500; color:var(--stone); transition:all .2s; }
-.who-opt.sel-together { border-color:var(--together); background:rgba(91,143,168,.12); color:var(--together); }
-.who-opt.sel-ca { border-color:var(--ca-color); background:rgba(201,109,138,.1); color:var(--ca-color); }
-.who-opt.sel-pj { border-color:var(--pj-color); background:rgba(107,143,94,.12); color:var(--pj-color); }
+.who-sel{display:flex;gap:6px;}
+.who-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(--stone-light);text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--stone);transition:all .2s;}
+.who-opt.s-tog{border-color:var(--tog);background:rgba(91,143,168,.12);color:var(--tog);}
+.who-opt.s-ca{border-color:var(--ca);background:rgba(201,109,138,.1);color:var(--ca);}
+.who-opt.s-pj{border-color:var(--pj);background:rgba(107,143,94,.12);color:var(--pj);}
 
-/* status selector */
-.status-selector { display:flex; gap:6px; }
-.status-opt { flex:1; padding:8px 4px; border-radius:10px; border:1.5px solid var(--stone-light); text-align:center; cursor:pointer; font-size:11px; font-weight:500; color:var(--stone); transition:all .2s; }
-.status-opt.sel { border-color:var(--ink); background:var(--ink); color:white; }
+.status-sel{display:flex;gap:6px;}
+.status-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(--stone-light);text-align:center;cursor:pointer;font-size:11px;font-weight:500;color:var(--stone);transition:all .2s;}
+.status-opt.sel{border-color:var(--ink);background:var(--ink);color:white;}
 
-.form-submit { width:100%; padding:13px; background:var(--ink); color:white; border:none; border-radius:12px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; margin-top:4px; transition:all .2s; }
-.form-submit:hover { background:var(--ink-light); }
-.form-cancel { width:100%; padding:10px; background:transparent; color:var(--stone); border:none; border-radius:12px; font-size:14px; cursor:pointer; font-family:inherit; margin-top:6px; }
-.form-delete { width:100%; padding:10px; background:rgba(192,57,43,.08); color:var(--red-torii); border:1px solid rgba(192,57,43,.2); border-radius:12px; font-size:14px; cursor:pointer; font-family:inherit; margin-top:6px; }
+.form-submit{width:100%;padding:13px;background:var(--ink);color:white;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s;}
+.form-submit:hover{background:var(--ink-light);}
+.form-cancel{width:100%;padding:10px;background:transparent;color:var(--stone);border:none;border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
+.form-delete{width:100%;padding:10px;background:rgba(192,57,43,.07);color:var(--red-torii);border:1px solid rgba(192,57,43,.2);border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
 
-/* ── SPOT CARDS (map tab) ── */
-.map-categories { display:flex; gap:6px; padding:12px 12px 8px; overflow-x:auto; scrollbar-width:none; }
-.map-categories::-webkit-scrollbar { display:none; }
-.cat-pill { flex:none; padding:6px 13px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; border:1.5px solid var(--stone-light); color:var(--stone); background:white; transition:all .2s; display:flex; align-items:center; gap:4px; }
-.cat-pill.active { background:var(--ink); color:white; border-color:var(--ink); }
-.map-embed-wrapper { margin:0 12px; border-radius:14px; overflow:hidden; box-shadow:0 2px 12px var(--shadow); border:1px solid rgba(0,0,0,.08); background:var(--stone-light); height:240px; display:flex; align-items:center; justify-content:center; }
-.map-placeholder { text-align:center; color:var(--stone); padding:20px; }
-.map-placeholder .map-icon { font-size:34px; margin-bottom:8px; }
-.map-placeholder p { font-size:13px; line-height:1.5; }
-.map-placeholder a { color:var(--blossom-deep); text-decoration:underline; }
-.spots-grid { display:flex; flex-direction:column; gap:7px; padding:0 12px; }
-.spot-card { background:white; border-radius:12px; padding:11px 13px; display:flex; align-items:center; gap:11px; box-shadow:0 1px 6px var(--shadow); border:1px solid rgba(0,0,0,.04); cursor:pointer; transition:all .2s; }
-.spot-card:active { transform:scale(.98); }
-.spot-emoji { font-size:22px; width:36px; text-align:center; flex-shrink:0; }
-.spot-info { flex:1; }
-.spot-name { font-size:14px; font-weight:500; }
-.spot-meta { font-size:12px; color:var(--stone); margin-top:1px; }
-.spot-city-tag { font-size:10px; background:rgba(107,143,94,.12); color:var(--matcha); padding:2px 8px; border-radius:10px; font-weight:500; margin-top:4px; display:inline-block; }
-.spot-right { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
-.heart-btn { background:none; border:none; font-size:17px; cursor:pointer; opacity:.35; transition:all .2s; }
-.heart-btn.liked { opacity:1; }
-.open-maps { font-size:10px; color:var(--sky); text-decoration:none; font-weight:500; }
-.spot-edit-btn { background:none; border:none; font-size:13px; cursor:pointer; opacity:.3; }
-.spot-edit-btn:hover { opacity:.8; }
+/* DISCOVER LIST */
+.discover-list-picker{max-height:200px;overflow-y:auto;border:1.5px solid var(--stone-light);border-radius:10px;background:white;margin-bottom:8px;}
+.dl-item{padding:9px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid #f0ece6;display:flex;align-items:center;gap:8px;transition:background .15s;}
+.dl-item:last-child{border-bottom:none;}
+.dl-item:hover{background:#f5f0eb;}
+.dl-item.selected{background:rgba(201,109,138,.08);}
+.dl-tab{display:flex;gap:0;margin-bottom:10px;border:1.5px solid var(--stone-light);border-radius:10px;overflow:hidden;}
+.dl-tab-btn{flex:1;padding:8px;background:white;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--stone);transition:all .2s;}
+.dl-tab-btn.active{background:var(--ink);color:white;}
 
-/* ── SECTION LABEL ── */
-.section-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--stone); padding:14px 14px 6px; }
+/* ── DISCOVER + MAP (merged) ── */
+.disc-map-wrap{margin:0 12px 10px;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);height:220px;background:#e8e4df;position:relative;}
+.disc-map-wrap iframe{width:100%;height:100%;border:0;}
+.disc-map-link{position:absolute;bottom:8px;right:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(--ink);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
 
-/* ── BOOKING CARDS ── */
-.booking-section { margin:0 12px 14px; }
-.booking-card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 8px var(--shadow); margin-bottom:7px; border:1px solid rgba(0,0,0,.04); }
-.booking-header { padding:11px 13px; display:flex; align-items:center; gap:9px; }
-.booking-icon { font-size:19px; }
-.booking-title { font-size:14px; font-weight:500; }
-.booking-sub { font-size:12px; color:var(--stone); margin-top:1px; }
-.booking-status { margin-left:auto; font-size:11px; font-weight:500; padding:3px 9px; border-radius:20px; white-space:nowrap; }
-.status-confirmed { background:rgba(107,143,94,.15); color:var(--matcha); }
-.status-pending { background:rgba(201,151,58,.15); color:var(--gold); }
-.status-todo { background:rgba(192,57,43,.1); color:var(--red-torii); }
-.booking-details { border-top:1px solid #f0ece6; padding:9px 13px; display:grid; grid-template-columns:1fr 1fr; gap:7px; }
-.booking-detail-item .label { font-size:10px; color:var(--stone); text-transform:uppercase; letter-spacing:.07em; }
-.booking-detail-item .value { font-size:13px; font-weight:500; margin-top:1px; }
-.booking-edit-btn { background:none; border:none; font-size:14px; cursor:pointer; opacity:.3; padding:2px 4px; }
-.booking-edit-btn:hover { opacity:.8; }
+.filter-scroll{display:flex;gap:6px;padding:10px 12px 7px;overflow-x:auto;scrollbar-width:none;}
+.filter-scroll::-webkit-scrollbar{display:none;}
+.fpill{flex:none;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--stone-light);color:var(--stone);background:white;transition:all .2s;}
+.fpill.active{background:var(--ink);color:white;border-color:var(--ink);}
 
-/* ── SHINKANSEN ── */
-.shinkansen-card { background:linear-gradient(135deg,#1a1512,#2d2520); border-radius:14px; padding:15px; margin:0 12px 10px; color:white; position:relative; overflow:hidden; }
-.shinkansen-card::before { content:'新幹線'; position:absolute; right:-8px; top:-8px; font-family:'Shippori Mincho',serif; font-size:54px; color:rgba(255,255,255,.05); pointer-events:none; }
-.sh-train-name { font-size:11px; color:var(--blossom); letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
-.shinkansen-route { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
-.sh-city { font-family:'Shippori Mincho',serif; font-size:16px; font-weight:700; }
-.sh-arrow { color:var(--blossom); font-size:14px; flex:1; text-align:center; }
-.sh-details { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; }
-.sh-detail .label { font-size:10px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.07em; }
-.sh-detail .value { font-size:13px; font-weight:500; margin-top:1px; }
-.sh-status { position:absolute; top:13px; right:13px; font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; }
-.sh-confirmed { background:rgba(107,143,94,.3); color:#86efac; border:1px solid rgba(107,143,94,.4); }
-.sh-book { background:rgba(201,151,58,.3); color:#fcd34d; border:1px solid rgba(201,151,58,.4); }
+.disc-section-label{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);padding:10px 14px 5px;}
 
-/* ── TIPS BANNER ── */
-.tips-banner { margin:0 12px 8px; background:linear-gradient(135deg,rgba(107,143,94,.1),rgba(107,143,94,.05)); border:1px solid rgba(107,143,94,.2); border-radius:12px; padding:11px 13px; display:flex; gap:9px; align-items:flex-start; }
-.tips-banner-icon { font-size:17px; }
-.tips-banner-text { font-size:13px; color:var(--ink-light); line-height:1.5; }
-.tips-banner-text strong { color:var(--matcha); }
+/* Discover cards */
+.disc-grid{display:flex;flex-direction:column;gap:6px;padding:0 12px;}
+.disc-card{background:white;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
+.disc-icon{font-size:21px;flex-shrink:0;}
+.disc-body{flex:1;}
+.disc-name{font-size:14px;font-weight:500;}
+.disc-desc{font-size:12px;color:var(--stone);margin-top:2px;line-height:1.4;}
+.disc-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.disc-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;}
+.db-0{background:rgba(107,143,94,.12);color:var(--matcha);}
+.db-1{background:rgba(201,151,58,.12);color:var(--gold);}
+.db-2{background:rgba(232,160,180,.2);color:var(--blossom-deep);}
+.db-3{background:rgba(91,143,168,.12);color:var(--sky);}
+.disc-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+.disc-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.25;}
+.disc-edit-btn:hover{opacity:.8;}
+.disc-city-chip{font-size:10px;background:rgba(107,143,94,.1);color:var(--matcha);padding:2px 8px;border-radius:10px;font-weight:500;}
 
-/* ── DISCOVER ── */
-.discover-city-tabs { display:flex; gap:5px; padding:10px 12px 7px; overflow-x:auto; scrollbar-width:none; }
-.discover-city-tabs::-webkit-scrollbar { display:none; }
-.d-city-tab { flex:none; font-size:12px; font-weight:500; padding:5px 13px; border-radius:20px; background:white; border:1.5px solid var(--stone-light); color:var(--stone); cursor:pointer; transition:all .2s; }
-.d-city-tab.active { background:var(--ink); color:white; border-color:var(--ink); }
-.discover-category { padding:2px 12px 4px; }
-.discover-cat-label { display:flex; align-items:center; gap:7px; font-size:12px; font-weight:500; color:var(--stone); text-transform:uppercase; letter-spacing:.07em; padding:7px 0 5px; border-bottom:1px solid #eee; margin-bottom:7px; }
-.discover-item { background:white; border-radius:12px; padding:11px; margin-bottom:7px; display:flex; gap:9px; align-items:flex-start; box-shadow:0 1px 6px var(--shadow); border:1px solid rgba(0,0,0,.04); position:relative; }
-.discover-item-icon { font-size:21px; padding-top:1px; }
-.discover-item-body { flex:1; }
-.discover-item-name { font-size:14px; font-weight:500; }
-.discover-item-desc { font-size:12px; color:var(--stone); margin-top:2px; line-height:1.4; }
-.discover-item-meta { display:flex; gap:5px; margin-top:5px; flex-wrap:wrap; }
-.discover-badge { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:500; }
-.badge-matcha { background:rgba(107,143,94,.12); color:var(--matcha); }
-.badge-gold { background:rgba(201,151,58,.12); color:var(--gold); }
-.badge-blush { background:rgba(232,160,180,.2); color:var(--blossom-deep); }
-.badge-sky { background:rgba(91,143,168,.12); color:var(--sky); }
-.discover-edit { position:absolute; top:9px; right:9px; background:none; border:none; font-size:14px; cursor:pointer; opacity:.25; }
-.discover-edit:hover { opacity:.8; }
+/* BOOKINGS */
+.section-label{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
+.booking-section{margin:0 12px 12px;}
+.booking-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);margin-bottom:7px;border:1px solid rgba(0,0,0,.04);}
+.bk-header{padding:10px 12px;display:flex;align-items:center;gap:8px;}
+.bk-icon{font-size:18px;}
+.bk-title{font-size:14px;font-weight:500;}
+.bk-sub{font-size:12px;color:var(--stone);margin-top:1px;}
+.bk-status{margin-left:auto;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.sc{background:rgba(107,143,94,.15);color:var(--matcha);}
+.sp{background:rgba(201,151,58,.15);color:var(--gold);}
+.st{background:rgba(192,57,43,.1);color:var(--red-torii);}
+.bk-edit{background:none;border:none;font-size:14px;cursor:pointer;opacity:.25;padding:0 2px;}
+.bk-edit:hover{opacity:.8;}
+.bk-details{border-top:1px solid #f0ece6;padding:8px 12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.bk-di .lbl{font-size:10px;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;}
+.bk-di .val{font-size:13px;font-weight:500;margin-top:1px;}
 
-/* ── NOTES ── */
-.note-composer { margin:0 12px 12px; background:white; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px var(--shadow); border:1px solid rgba(0,0,0,.05); }
-.note-composer-top { display:flex; align-items:center; gap:7px; padding:11px 13px 7px; border-bottom:1px solid #f0ece6; }
-.composer-select { font-size:12px; font-weight:500; padding:4px 9px; border-radius:20px; border:none; font-family:inherit; cursor:pointer; }
-.composer-couple { background:var(--ca-color); color:white; }
-.composer-couple.pj { background:var(--pj-color); }
-.composer-type { background:#f0ece6; color:var(--ink); }
-.note-textarea { width:100%; padding:11px 13px; border:none; outline:none; font-family:inherit; font-size:14px; color:var(--ink); resize:none; min-height:66px; background:transparent; line-height:1.5; }
-.note-textarea::placeholder { color:var(--stone-light); }
-.note-footer { display:flex; align-items:center; justify-content:flex-end; padding:7px 13px 11px; gap:7px; }
-.note-char-count { font-size:11px; color:var(--stone); }
-.note-submit { background:var(--ink); color:white; border:none; padding:7px 17px; border-radius:20px; font-size:13px; font-weight:500; cursor:pointer; font-family:inherit; transition:all .2s; }
-.note-submit:active { transform:scale(.97); }
-.notes-feed { padding:0 12px; }
-.note-card { background:white; border-radius:14px; padding:13px; margin-bottom:9px; box-shadow:0 2px 10px var(--shadow); border:1px solid rgba(0,0,0,.05); animation:slideIn .25s ease; }
-@keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-.note-card-top { display:flex; align-items:center; gap:7px; margin-bottom:7px; }
-.note-author-badge { font-size:11px; font-weight:500; padding:3px 9px; border-radius:20px; }
-.badge-ca { background:rgba(201,109,138,.15); color:var(--ca-color); }
-.badge-pj { background:rgba(107,143,94,.15); color:var(--pj-color); }
-.note-type-tag { font-size:10px; color:var(--stone); letter-spacing:.04em; }
-.note-timestamp { font-size:10px; color:var(--stone-light); margin-left:auto; }
-.note-text { font-size:14px; color:var(--ink); line-height:1.6; }
-.note-reactions { display:flex; gap:5px; margin-top:9px; }
-.reaction-btn { background:#f5f2ee; border:none; border-radius:20px; padding:4px 9px; font-size:13px; cursor:pointer; transition:all .2s; }
-.reaction-btn:hover { background:var(--stone-light); }
+/* TRANSIT */
+.shin-card{background:linear-gradient(135deg,#1a1512,#2d2520);border-radius:13px;padding:14px;margin:0 12px 9px;color:white;position:relative;overflow:hidden;}
+.shin-card::before{content:'新幹線';position:absolute;right:-6px;top:-8px;font-family:'Shippori Mincho',serif;font-size:50px;color:rgba(255,255,255,.05);}
+.shin-type{font-size:10px;color:var(--blossom);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.shin-route{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.shin-city{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;}
+.shin-arrow{color:var(--blossom);flex:1;text-align:center;}
+.shin-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.shin-d .lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;}
+.shin-d .val{font-size:13px;font-weight:500;margin-top:1px;}
+.shin-status{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.shin-ok{background:rgba(107,143,94,.3);color:#86efac;border:1px solid rgba(107,143,94,.4);}
+.shin-book{background:rgba(201,151,58,.3);color:#fcd34d;border:1px solid rgba(201,151,58,.4);}
+.shin-edit-btn{position:absolute;bottom:10px;right:12px;background:none;border:none;font-size:13px;cursor:pointer;opacity:.3;color:white;}
+.shin-edit-btn:hover{opacity:.9;}
 
-/* ── COUPLE PICKER ── */
-.picker-overlay { position:fixed; inset:0; background:rgba(26,21,18,.88); z-index:300; display:none; align-items:center; justify-content:center; padding:24px; }
-.picker-overlay.show { display:flex; }
-.picker-card { background:var(--parchment); border-radius:20px; padding:28px 22px; width:100%; max-width:340px; text-align:center; }
-.picker-emoji { font-size:30px; margin-bottom:10px; }
-.picker-title { font-family:'Shippori Mincho',serif; font-size:21px; font-weight:700; margin-bottom:5px; }
-.picker-sub { font-size:13px; color:var(--stone); margin-bottom:22px; }
-.picker-btn { width:100%; padding:13px; border:none; border-radius:12px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; margin-bottom:9px; color:white; transition:all .2s; }
-.picker-btn:last-child { margin-bottom:0; }
-.picker-btn-a { background:var(--ca-color); }
-.picker-btn-b { background:var(--pj-color); }
+/* NOTES */
+.note-composer{margin:0 12px 11px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 2px 10px var(--shadow);border:1px solid rgba(0,0,0,.05);}
+.nc-top{display:flex;align-items:center;gap:7px;padding:10px 12px 7px;border-bottom:1px solid #f0ece6;}
+.nc-sel{font-size:12px;font-weight:500;padding:4px 9px;border-radius:20px;border:none;font-family:inherit;cursor:pointer;}
+.nc-couple{background:var(--ca);color:white;}
+.nc-couple.pj{background:var(--pj);}
+.nc-type{background:#f0ece6;color:var(--ink);}
+.note-ta{width:100%;padding:10px 12px;border:none;outline:none;font-family:inherit;font-size:14px;color:var(--ink);resize:none;min-height:62px;background:transparent;line-height:1.5;}
+.note-ta::placeholder{color:var(--stone-light);}
+.note-footer{display:flex;align-items:center;justify-content:flex-end;padding:6px 12px 10px;gap:6px;}
+.note-cc{font-size:11px;color:var(--stone);}
+.note-post{background:var(--ink);color:white;border:none;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.notes-feed{padding:0 12px;}
+.note-card{background:white;border-radius:13px;padding:12px;margin-bottom:8px;box-shadow:0 2px 10px var(--shadow);border:1px solid rgba(0,0,0,.05);animation:si .25s ease;}
+@keyframes si{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.nc-top2{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.nc-badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
+.nc-badge.ca{background:rgba(201,109,138,.15);color:var(--ca);}
+.nc-badge.pj{background:rgba(107,143,94,.15);color:var(--pj);}
+.nc-ttype{font-size:10px;color:var(--stone);}
+.nc-ts{font-size:10px;color:var(--stone-light);margin-left:auto;}
+.note-text{font-size:14px;color:var(--ink);line-height:1.6;}
+.react-row{display:flex;gap:5px;margin-top:8px;}
+.rbtn{background:#f5f2ee;border:none;border-radius:20px;padding:4px 9px;font-size:12px;cursor:pointer;transition:all .2s;}
+.rbtn:hover{background:var(--stone-light);}
 
-/* ── PROGRESS ── */
-.booking-progress { margin:0 12px 12px; background:white; border-radius:12px; padding:13px; box-shadow:0 1px 6px var(--shadow); }
-.progress-label { font-size:12px; color:var(--stone); margin-bottom:7px; display:flex; justify-content:space-between; }
-.progress-bar { height:5px; background:#f0ece6; border-radius:3px; overflow:hidden; }
-.progress-fill { height:100%; background:linear-gradient(to right,var(--matcha-light),var(--matcha)); border-radius:3px; transition:width .5s ease; }
+/* PICKER */
+.picker-ov{position:fixed;inset:0;background:rgba(26,21,18,.88);z-index:300;display:none;align-items:center;justify-content:center;padding:22px;}
+.picker-ov.show{display:flex;}
+.picker-card{background:var(--parchment);border-radius:20px;padding:26px 22px;width:100%;max-width:340px;text-align:center;}
+.picker-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;margin-bottom:9px;color:white;transition:all .2s;}
+.picker-btn:last-child{margin-bottom:0;}
 
-/* ── EMPTY STATE ── */
-.empty-state { text-align:center; padding:28px 18px; color:var(--stone); }
-.empty-icon { font-size:38px; margin-bottom:9px; }
+/* BOOKING PROGRESS */
+.bk-progress{margin:0 12px 11px;background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px var(--shadow);}
+.bp-label{font-size:12px;color:var(--stone);margin-bottom:6px;display:flex;justify-content:space-between;}
+.bp-bar{height:5px;background:#f0ece6;border-radius:3px;overflow:hidden;}
+.bp-fill{height:100%;background:linear-gradient(to right,var(--matcha-light),var(--matcha));border-radius:3px;transition:width .5s ease;}
 
-/* ── TOAST ── */
-.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:white; padding:9px 18px; border-radius:20px; font-size:13px; z-index:400; opacity:0; transition:all .3s; pointer-events:none; white-space:nowrap; }
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+/* TIPS */
+.tip-banner{margin:0 12px 7px;background:linear-gradient(135deg,rgba(107,143,94,.1),rgba(107,143,94,.05));border:1px solid rgba(107,143,94,.2);border-radius:12px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;}
+.tip-icon{font-size:16px;}
+.tip-text{font-size:13px;color:var(--ink-light);line-height:1.5;}
+.tip-text strong{color:var(--matcha);}
+
+/* TOAST */
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:white;padding:8px 16px;border-radius:20px;font-size:13px;z-index:400;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* EMPTY */
+.empty-st{text-align:center;padding:26px 16px;color:var(--stone);}
+.empty-icon{font-size:36px;margin-bottom:8px;}
 </style>
 </head>
 <body>
 
 <!-- COUPLE PICKER -->
-<div class="picker-overlay" id="pickerOverlay">
+<div class="picker-ov" id="pickerOv">
   <div class="picker-card">
-    <div class="picker-emoji">🌸</div>
-    <div class="picker-title">Japan 2026</div>
-    <div class="picker-sub">Which couple are you?</div>
-    <button class="picker-btn picker-btn-a" onclick="pickCouple('ca')">💑 Connor & April</button>
-    <button class="picker-btn picker-btn-b" onclick="pickCouple('pj')">💑 Pat & Julia</button>
+    <div style="font-size:28px;margin-bottom:10px">🌸</div>
+    <div style="font-family:'Shippori Mincho',serif;font-size:20px;font-weight:700;margin-bottom:4px">Japan 2026</div>
+    <div style="font-size:13px;color:var(--stone);margin-bottom:20px">Which couple are you?</div>
+    <button class="picker-btn" style="background:var(--ca)" onclick="pickCouple('ca')">💑 Connor & April</button>
+    <button class="picker-btn" style="background:var(--pj)" onclick="pickCouple('pj')">💑 Pat & Julia</button>
   </div>
 </div>
 
@@ -319,7 +297,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(
     <h1>Japan 2026 🌸</h1>
     <div class="sub">Connor & April · Pat & Julia</div>
   </div>
-  <div class="header-right">
+  <div class="hdr-right">
     <div class="live-dot" id="liveDot"></div>
     <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
   </div>
@@ -328,103 +306,124 @@ body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(
 <!-- NAV -->
 <div class="nav-tabs">
   <div class="nav-tab active" onclick="switchTab('itinerary')" id="tab-itinerary">📅 ITINERARY</div>
-  <div class="nav-tab" onclick="switchTab('map')" id="tab-map">🗺 MAP</div>
+  <div class="nav-tab" onclick="switchTab('discover')" id="tab-discover">🗺 DISCOVER</div>
   <div class="nav-tab" onclick="switchTab('bookings')" id="tab-bookings">🎫 BOOKINGS</div>
-  <div class="nav-tab" onclick="switchTab('discover')" id="tab-discover">🍜 DISCOVER</div>
+  <div class="nav-tab" onclick="switchTab('transit')" id="tab-transit">🚄 TRANSIT</div>
   <div class="nav-tab" onclick="switchTab('notes')" id="tab-notes">💬 NOTES</div>
 </div>
 
-<!-- ═══════════════ ITINERARY ═══════════════ -->
+<!-- ══ ITINERARY ══ -->
 <div class="tab-content active" id="content-itinerary">
-  <div id="itineraryRoot"></div>
+  <div id="itinRoot"></div>
 </div>
 
-<!-- ═══════════════ MAP ═══════════════ -->
-<div class="tab-content" id="content-map">
-  <div class="map-categories" id="mapCats">
-    <div class="cat-pill active" onclick="filterMap('all',this)">🗾 All</div>
-    <div class="cat-pill" onclick="filterMap('temple',this)">⛩️ Temples</div>
-    <div class="cat-pill" onclick="filterMap('food',this)">🍜 Food</div>
-    <div class="cat-pill" onclick="filterMap('coffee',this)">☕ Coffee</div>
-    <div class="cat-pill" onclick="filterMap('shopping',this)">🛍 Shopping</div>
-    <div class="cat-pill" onclick="filterMap('hotel',this)">🏨 Hotels</div>
+<!-- ══ DISCOVER + MAP ══ -->
+<div class="tab-content" id="content-discover">
+  <!-- Embedded Map -->
+  <div class="disc-map-wrap">
+    <iframe src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
+    <a class="disc-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" target="_blank">↗ Open Map</a>
   </div>
-  <div class="map-embed-wrapper">
-    <div class="map-placeholder">
-      <div class="map-icon">🗺️</div>
-      <p><a href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI&usp=sharing" target="_blank">Open your custom map ↗</a><br><br>Paste an embed URL to show it inline.</p>
-    </div>
+  <!-- City filter -->
+  <div class="filter-scroll" id="discCityFilters">
+    <div class="fpill active" onclick="filterDisc('city','all',this)">All Cities</div>
+    <div class="fpill" onclick="filterDisc('city','tokyo',this)">Tokyo</div>
+    <div class="fpill" onclick="filterDisc('city','kyoto',this)">Kyoto</div>
+    <div class="fpill" onclick="filterDisc('city','osaka',this)">Osaka</div>
+    <div class="fpill" onclick="filterDisc('city','fuji',this)">Mt. Fuji</div>
   </div>
-  <div class="section-label">SAVED SPOTS</div>
-  <div class="spots-grid" id="spotsGrid"></div>
+  <!-- Category filter -->
+  <div class="filter-scroll" id="discCatFilters">
+    <div class="fpill active" onclick="filterDisc('cat','all',this)">Everything</div>
+    <div class="fpill" onclick="filterDisc('cat','matcha',this)">🍵 Matcha</div>
+    <div class="fpill" onclick="filterDisc('cat','coffee',this)">☕ Coffee</div>
+    <div class="fpill" onclick="filterDisc('cat','ramen',this)">🍜 Ramen</div>
+    <div class="fpill" onclick="filterDisc('cat','sushi',this)">🍣 Sushi</div>
+    <div class="fpill" onclick="filterDisc('cat','street',this)">🦀 Street Food</div>
+    <div class="fpill" onclick="filterDisc('cat','breakfast',this)">🥞 Breakfast</div>
+    <div class="fpill" onclick="filterDisc('cat','shopping',this)">🛍 Shopping</div>
+    <div class="fpill" onclick="filterDisc('cat','experience',this)">🎨 Experience</div>
+    <div class="fpill" onclick="filterDisc('cat','attraction',this)">⛩️ Attraction</div>
+    <div class="fpill" onclick="filterDisc('cat','onsen',this)">♨️ Onsen</div>
+  </div>
+  <div id="discRoot"></div>
 </div>
 
-<!-- ═══════════════ BOOKINGS ═══════════════ -->
+<!-- ══ BOOKINGS ══ -->
 <div class="tab-content" id="content-bookings">
-  <div class="booking-progress">
-    <div class="progress-label"><span>Booking Progress</span><span id="progressText">Hotels + Flights confirmed</span></div>
-    <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+  <div class="bk-progress">
+    <div class="bp-label"><span>Booking Progress</span><span>Hotels + Flights confirmed</span></div>
+    <div class="bp-bar"><div class="bp-fill" style="width:55%"></div></div>
   </div>
   <div id="bookingsRoot"></div>
 </div>
 
-<!-- ═══════════════ DISCOVER ═══════════════ -->
-<div class="tab-content" id="content-discover">
-  <div class="discover-city-tabs">
-    <div class="d-city-tab active" onclick="filterDiscover('all',this)">All Cities</div>
-    <div class="d-city-tab" onclick="filterDiscover('tokyo',this)">Tokyo</div>
-    <div class="d-city-tab" onclick="filterDiscover('kyoto',this)">Kyoto</div>
-    <div class="d-city-tab" onclick="filterDiscover('osaka',this)">Osaka</div>
-    <div class="d-city-tab" onclick="filterDiscover('fuji',this)">Mt. Fuji</div>
-  </div>
-  <div id="discoverRoot"></div>
+<!-- ══ TRANSIT ══ -->
+<div class="tab-content" id="content-transit">
+  <div class="section-label">🚄 SHINKANSEN & TRAINS</div>
+  <div id="transitRoot"></div>
+  <div class="section-label" style="margin-top:8px">📱 TRANSIT TIPS</div>
+  <div class="tip-banner"><div class="tip-icon">💳</div><div class="tip-text"><strong>Suica IC Card</strong> — buy at the airport. Works on all trains, subways, and konbini. Get it on the Smartex app before you leave.</div></div>
+  <div class="tip-banner"><div class="tip-icon">🧳</div><div class="tip-text"><strong>Yamato Luggage Delivery</strong> — send bags to next hotel the night before (before 4pm). Never lug suitcases on trains!</div></div>
+  <div class="tip-banner"><div class="tip-icon">📶</div><div class="tip-text"><strong>eSIM / Wi-Fi</strong> — get NTT Docomo JW-Auto eSIM or Skyroam pocket Wi-Fi at the airport.</div></div>
 </div>
 
-<!-- ═══════════════ NOTES ═══════════════ -->
+<!-- ══ NOTES ══ -->
 <div class="tab-content" id="content-notes">
-  <div style="padding:14px 14px 6px">
+  <div style="padding:13px 14px 5px">
     <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Couples Notes 💬</div>
-    <div style="font-size:12px;color:var(--stone);margin-top:2px">Real-time board for both couples</div>
+    <div style="font-size:12px;color:var(--stone);margin-top:2px">Real-time board for both couples — synced live</div>
   </div>
   <div class="note-composer">
-    <div class="note-composer-top">
-      <select class="composer-select composer-couple" id="noteCouple">
+    <div class="nc-top">
+      <select class="nc-sel nc-couple" id="noteCouple" onchange="updateCoupleSelect()">
         <option value="ca">Connor & April</option>
         <option value="pj">Pat & Julia</option>
       </select>
-      <select class="composer-select composer-type" id="noteType">
+      <select class="nc-sel nc-type" id="noteType">
         <option>💡 Idea</option><option>🗳 Vote</option><option>📝 Note</option>
         <option>⚠️ Reminder</option><option>❤️ Loved It</option><option>👎 Skip</option>
       </select>
     </div>
-    <textarea class="note-textarea" id="noteText" placeholder="Drop an idea, vote on a plan, share something you loved…" maxlength="300" oninput="updateCharCount()"></textarea>
+    <textarea class="note-ta" id="noteText" placeholder="Drop an idea, vote on a plan, share something you loved…" maxlength="300" oninput="updateCC()"></textarea>
     <div class="note-footer">
-      <span class="note-char-count" id="charCount">0/300</span>
-      <button class="note-submit" onclick="postNote()">Post →</button>
+      <span class="note-cc" id="charCount">0/300</span>
+      <button class="note-post" onclick="postNote()">Post →</button>
     </div>
   </div>
-  <div class="notes-feed" id="notesFeed"></div>
+  <div class="notes-feed" id="notesFeed"><div class="empty-st"><div class="empty-icon">💬</div><p>Loading notes…</p></div></div>
 </div>
 
 <!-- FAB -->
-<button class="fab" id="mainFab" onclick="openAddSheet()">＋</button>
+<button class="fab" onclick="openFab()">＋</button>
 
-<!-- ═══════════════ ADD / EDIT SHEETS ═══════════════ -->
+<!-- ══ SHEETS ══ -->
 
-<!-- ITINERARY SHEET -->
+<!-- ITIN SHEET -->
 <div class="sheet-overlay" id="itinSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title" id="itinSheetTitle">Add to Itinerary</div>
     <div class="sheet-body">
       <input type="hidden" id="itinEditId">
+      <!-- Pick from Discover or add new -->
       <div class="form-row">
-        <label class="form-label">Activity / Place Name</label>
-        <input class="form-input" id="itinName" placeholder="e.g. Onitsuka Tiger Store">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Notes / Details</label>
-        <textarea class="form-textarea" id="itinDetail" placeholder="Address, tips, links…"></textarea>
+        <div class="dl-tab">
+          <button class="dl-tab-btn active" id="dlTabPick" onclick="switchItinMode('pick')">Pick from Discover</button>
+          <button class="dl-tab-btn" id="dlTabNew" onclick="switchItinMode('new')">Add New</button>
+        </div>
+        <div id="itinPickMode">
+          <input class="form-input" id="discoverSearch" placeholder="Search…" oninput="filterDiscoverPicker()" style="margin-bottom:6px">
+          <div class="discover-list-picker" id="discoverPickerList"></div>
+        </div>
+        <div id="itinNewMode" style="display:none">
+          <label class="form-label">Name</label>
+          <input class="form-input" id="itinName" placeholder="e.g. Onitsuka Tiger Store">
+          <div style="margin-top:10px">
+            <label class="form-label">Notes / Details</label>
+            <textarea class="form-textarea" id="itinDetail" placeholder="Address, tips, links…" style="margin-top:4px"></textarea>
+          </div>
+        </div>
       </div>
       <div class="form-row-2">
         <div>
@@ -443,6 +442,8 @@ body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(
             <option value="activity">🎯 Activity</option>
             <option value="food">🍜 Food</option>
             <option value="shopping">🛍 Shopping</option>
+            <option value="explore">🚶 Explore</option>
+            <option value="rest">😴 Rest</option>
             <option value="hotel">🏨 Hotel</option>
             <option value="onsen">♨️ Onsen</option>
             <option value="transport">🚄 Transport</option>
@@ -455,107 +456,59 @@ body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(
       </div>
       <div class="form-row">
         <label class="form-label">Who's going?</label>
-        <div class="who-selector">
-          <div class="who-opt sel-together" data-who="together" onclick="selectWho(this)">🤝 Together</div>
-          <div class="who-opt" data-who="ca" onclick="selectWho(this)">💑 C & A</div>
-          <div class="who-opt" data-who="pj" onclick="selectWho(this)">💑 P & J</div>
+        <div class="who-sel">
+          <div class="who-opt s-tog" data-who="together" onclick="selWho(this)">🤝 Together</div>
+          <div class="who-opt" data-who="ca" onclick="selWho(this)">💑 C & A</div>
+          <div class="who-opt" data-who="pj" onclick="selWho(this)">💑 P & J</div>
         </div>
       </div>
       <div class="form-row">
         <label class="form-label">Status</label>
-        <div class="status-selector">
-          <div class="status-opt" data-status="confirmed" onclick="selectStatus(this)">✅ Confirmed</div>
-          <div class="status-opt sel" data-status="tentative" onclick="selectStatus(this)">💭 Tentative</div>
-          <div class="status-opt" data-status="idea" onclick="selectStatus(this)">💡 Idea</div>
+        <div class="status-sel">
+          <div class="status-opt" data-status="confirmed" onclick="selStatus(this)">✅ Confirmed</div>
+          <div class="status-opt sel" data-status="tentative" onclick="selStatus(this)">💭 Tentative</div>
+          <div class="status-opt" data-status="idea" onclick="selStatus(this)">💡 Idea</div>
         </div>
       </div>
-      <button class="form-submit" onclick="saveItinItem()">Save →</button>
-      <button class="form-delete" id="itinDeleteBtn" style="display:none" onclick="deleteItinItem()">🗑 Delete this item</button>
+      <button class="form-submit" onclick="saveItin()">Save →</button>
+      <button class="form-delete" id="itinDelBtn" style="display:none" onclick="deleteItin()">🗑 Delete</button>
       <button class="form-cancel" onclick="closeSheet('itinSheet')">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- SPOT SHEET -->
-<div class="sheet-overlay" id="spotSheet">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title" id="spotSheetTitle">Add a Spot</div>
-    <div class="sheet-body">
-      <input type="hidden" id="spotEditId">
-      <div class="form-row">
-        <label class="form-label">Place Name</label>
-        <input class="form-input" id="spotName" placeholder="e.g. Onitsuka Tiger Harajuku">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Description</label>
-        <input class="form-input" id="spotDesc" placeholder="Short note">
-      </div>
-      <div class="form-row-2">
-        <div>
-          <label class="form-label">City</label>
-          <select class="form-select" id="spotCity">
-            <option>Tokyo</option><option>Kyoto</option><option>Osaka</option>
-            <option>Hakone</option><option>Fuji Area</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Category</label>
-          <select class="form-select" id="spotCat">
-            <option value="food">🍜 Food</option>
-            <option value="temple">⛩️ Temple/Attraction</option>
-            <option value="coffee">☕ Coffee</option>
-            <option value="shopping">🛍 Shopping</option>
-            <option value="hotel">🏨 Hotel</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <label class="form-label">Google Maps Link (optional)</label>
-        <input class="form-input" id="spotMaps" placeholder="https://maps.google.com/…">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Emoji</label>
-        <input class="form-input" id="spotEmoji" placeholder="e.g. 👟" maxlength="4">
-      </div>
-      <button class="form-submit" onclick="saveSpot()">Save Spot →</button>
-      <button class="form-delete" id="spotDeleteBtn" style="display:none" onclick="deleteSpot()">🗑 Delete</button>
-      <button class="form-cancel" onclick="closeSheet('spotSheet')">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <!-- BOOKING SHEET -->
-<div class="sheet-overlay" id="bookingSheet">
+<div class="sheet-overlay" id="bkSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title" id="bookingSheetTitle">Add Booking</div>
+    <div class="sheet-title" id="bkSheetTitle">Add Booking</div>
     <div class="sheet-body">
-      <input type="hidden" id="bookingEditId">
+      <input type="hidden" id="bkEditId">
       <div class="form-row">
         <label class="form-label">Name</label>
-        <input class="form-input" id="bookingName" placeholder="e.g. Sumo Show — Shinjuku">
+        <input class="form-input" id="bkName" placeholder="e.g. Sumo Show">
       </div>
       <div class="form-row">
         <label class="form-label">Subtitle / Dates</label>
-        <input class="form-input" id="bookingSub" placeholder="e.g. Tokyo · Apr 3 · evening">
+        <input class="form-input" id="bkSub" placeholder="e.g. Tokyo · Apr 3">
       </div>
-      <div class="form-row-2">
+      <div class="form-row-3">
         <div>
           <label class="form-label">Type</label>
-          <select class="form-select" id="bookingType">
-            <option value="✈️">✈️ Flight</option>
-            <option value="🏨">🏨 Hotel</option>
-            <option value="🎟">🎟 Activity</option>
-            <option value="🚄">🚄 Train</option>
-            <option value="🏕️">🏕️ Glamping</option>
-            <option value="🎨">🎨 Experience</option>
+          <select class="form-select" id="bkType">
+            <option value="✈️">✈️ Flight</option><option value="🏨">🏨 Hotel</option>
+            <option value="🎟">🎟 Activity</option><option value="🚄">🚄 Train</option>
+            <option value="🏕️">🏕️ Glamping</option><option value="🎨">🎨 Experience</option>
             <option value="🍣">🍣 Restaurant</option>
           </select>
         </div>
         <div>
+          <label class="form-label">Time</label>
+          <input class="form-input" id="bkTime" placeholder="e.g. 9:00 AM">
+        </div>
+        <div>
           <label class="form-label">Status</label>
-          <select class="form-select" id="bookingStatus">
+          <select class="form-select" id="bkStatus">
             <option value="confirmed">✅ Confirmed</option>
             <option value="pending">⏳ Pending</option>
             <option value="todo">📌 Book Now</option>
@@ -564,876 +517,946 @@ body { font-family:'DM Sans',sans-serif; background:var(--parchment); color:var(
       </div>
       <div class="form-row">
         <label class="form-label">Notes (confirmation #, address, etc.)</label>
-        <textarea class="form-textarea" id="bookingNotes" placeholder="Any details…"></textarea>
+        <textarea class="form-textarea" id="bkNotes" placeholder="Any details…"></textarea>
       </div>
-      <button class="form-submit" onclick="saveBooking()">Save →</button>
-      <button class="form-delete" id="bookingDeleteBtn" style="display:none" onclick="deleteBooking()">🗑 Delete</button>
-      <button class="form-cancel" onclick="closeSheet('bookingSheet')">Cancel</button>
+      <button class="form-submit" onclick="saveBk()">Save →</button>
+      <button class="form-delete" id="bkDelBtn" style="display:none" onclick="deleteBk()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('bkSheet')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSIT SHEET -->
+<div class="sheet-overlay" id="transitSheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="transitSheetTitle">Add Train</div>
+    <div class="sheet-body">
+      <input type="hidden" id="trEditId">
+      <div class="form-row-2">
+        <div><label class="form-label">From</label><input class="form-input" id="trFrom" placeholder="e.g. Osaka"></div>
+        <div><label class="form-label">To</label><input class="form-input" id="trTo" placeholder="e.g. Tokyo"></div>
+      </div>
+      <div class="form-row-2">
+        <div><label class="form-label">Date</label><input class="form-input" id="trDate" placeholder="e.g. Apr 9"></div>
+        <div><label class="form-label">Departs</label><input class="form-input" id="trDeparts" placeholder="e.g. 09:33"></div>
+      </div>
+      <div class="form-row-2">
+        <div><label class="form-label">Train Name</label><input class="form-input" id="trName" placeholder="e.g. Nozomi"></div>
+        <div><label class="form-label">Seats</label><input class="form-input" id="trSeats" placeholder="e.g. Car 3 A–D"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Duration / Notes</label>
+        <input class="form-input" id="trNotes" placeholder="e.g. ~2h 30m · reserved seats">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="trStatus">
+          <option value="confirmed">✅ Confirmed</option>
+          <option value="todo">📌 Book Now</option>
+        </select>
+      </div>
+      <button class="form-submit" onclick="saveTr()">Save →</button>
+      <button class="form-delete" id="trDelBtn" style="display:none" onclick="deleteTr()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('transitSheet')">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- DISCOVER SHEET -->
-<div class="sheet-overlay" id="discoverSheet">
+<div class="sheet-overlay" id="discSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title" id="discoverSheetTitle">Add to Discover</div>
+    <div class="sheet-title" id="discSheetTitle">Add to Discover</div>
     <div class="sheet-body">
-      <input type="hidden" id="discoverEditId">
+      <input type="hidden" id="discEditId">
       <div class="form-row">
         <label class="form-label">Name</label>
-        <input class="form-input" id="discoverName" placeholder="e.g. Ichiran Ramen">
+        <input class="form-input" id="discName" placeholder="e.g. Ichiran Ramen">
       </div>
       <div class="form-row">
         <label class="form-label">Description</label>
-        <textarea class="form-textarea" id="discoverDesc" placeholder="Why it's worth going…"></textarea>
+        <textarea class="form-textarea" id="discDesc" placeholder="Why it's worth going…"></textarea>
       </div>
       <div class="form-row-2">
         <div>
           <label class="form-label">City</label>
-          <select class="form-select" id="discoverCity2">
+          <select class="form-select" id="discCity">
             <option value="tokyo">Tokyo</option><option value="kyoto">Kyoto</option>
             <option value="osaka">Osaka</option><option value="fuji">Mt. Fuji</option>
           </select>
         </div>
         <div>
           <label class="form-label">Category</label>
-          <select class="form-select" id="discoverCat2">
-            <option>🍜 Ramen</option><option>🍣 Sushi</option><option>🥞 Breakfast</option>
-            <option>🛒 Market</option><option>☕ Coffee</option><option>🛍 Shopping</option>
-            <option>🎨 Experience</option><option>🗻 Attraction</option><option>♨️ Onsen</option>
+          <select class="form-select" id="discCat" onchange="autofillEmoji()">
+            <option value="matcha">🍵 Matcha</option>
+            <option value="coffee">☕ Coffee</option>
+            <option value="ramen">🍜 Ramen</option>
+            <option value="sushi">🍣 Sushi</option>
+            <option value="street">🦀 Street Food</option>
+            <option value="breakfast">🥞 Breakfast</option>
+            <option value="shopping">🛍 Shopping</option>
+            <option value="experience">🎨 Experience</option>
+            <option value="attraction">⛩️ Attraction</option>
+            <option value="onsen">♨️ Onsen</option>
           </select>
         </div>
       </div>
       <div class="form-row">
         <label class="form-label">Tags (comma separated)</label>
-        <input class="form-input" id="discoverTags" placeholder="e.g. Must-Try, Late Night">
+        <input class="form-input" id="discTags" placeholder="e.g. Must-Try, Late Night">
       </div>
       <div class="form-row">
-        <label class="form-label">Emoji</label>
-        <input class="form-input" id="discoverEmoji" placeholder="e.g. 🍜" maxlength="4">
+        <label class="form-label">Emoji <span style="color:var(--stone);font-size:10px;font-weight:400">(auto-set by category, override here)</span></label>
+        <input class="form-input" id="discEmoji" placeholder="e.g. 🍜" maxlength="4">
       </div>
-      <button class="form-submit" onclick="saveDiscover()">Save →</button>
-      <button class="form-delete" id="discoverDeleteBtn" style="display:none" onclick="deleteDiscover()">🗑 Delete</button>
-      <button class="form-cancel" onclick="closeSheet('discoverSheet')">Cancel</button>
+      <button class="form-submit" onclick="saveDisc()">Save →</button>
+      <button class="form-delete" id="discDelBtn" style="display:none" onclick="deleteDisc()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('discSheet')">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 // CONFIG
-// ═══════════════════════════════════════════
-const SUPABASE_URL = 'https://xaddapgmmlbxlzhsqwqm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhZGRhcGdtbWxieGx6aHNxd3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjE3NDgsImV4cCI6MjA4OTY5Nzc0OH0.XbRBp23Kn6bh9WTjpkLxqBI22Q6_ioZkERXaeXhcqWE';
+// ════════════════════════════════════════
+const SB_URL = 'https://xaddapgmmlbxlzhsqwqm.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhZGRhcGdtbWxieGx6aHNxd3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjE3NDgsImV4cCI6MjA4OTY5Nzc0OH0.XbRBp23Kn6bh9WTjpkLxqBI22Q6_ioZkERXaeXhcqWE';
 let sb = null;
 let currentCouple = localStorage.getItem('japan-couple') || null;
+let currentTab = 'itinerary';
 
-// ═══════════════════════════════════════════
-// DATA STORES (local, synced to Supabase)
-// ═══════════════════════════════════════════
-let itinItems   = JSON.parse(localStorage.getItem('japan-itin')     || '[]');
-let spots       = JSON.parse(localStorage.getItem('japan-spots')    || '[]');
-let bookings    = JSON.parse(localStorage.getItem('japan-bookings') || '[]');
-let discoverItems = JSON.parse(localStorage.getItem('japan-discover')|| '[]');
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+let itinItems   = JSON.parse(localStorage.getItem('jp-itin')     || 'null');
+let discItems   = JSON.parse(localStorage.getItem('jp-disc')     || 'null');
+let bookItems   = JSON.parse(localStorage.getItem('jp-book')     || 'null');
+let transitItems= JSON.parse(localStorage.getItem('jp-transit')  || 'null');
+let votes       = JSON.parse(localStorage.getItem('jp-votes')    || '{}');
 let notes       = [];
-let votes       = JSON.parse(localStorage.getItem('japan-votes')    || '{}');
-let likedSpots  = new Set(JSON.parse(localStorage.getItem('japan-liked') || '[]'));
-let currentTab  = 'itinerary';
-let mapFilter   = 'all';
-let discoverFilter = 'all';
 
-// ═══════════════════════════════════════════
-// SEED DATA (pre-filled from spreadsheet)
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
+// SEED DATA
+// ════════════════════════════════════════
+const DAYS = [
+  'Day 0 — Mar 27','Day 1 — Mar 28','Day 2 — Mar 29','Day 3 — Mar 30',
+  'Day 4 — Mar 31','Day 5 — Apr 1 🎂','Day 6 — Apr 2','Day 7 — Apr 3',
+  'Day 8 — Apr 4','Day 9 — Apr 5','Day 10 — Apr 6',
+  'Day 11 — Apr 7','Day 12 — Apr 8',
+  'Day 13 — Apr 9','Day 14 — Apr 10','Day 15 — Apr 11',
+];
+const CITY_MAP = {
+  'Day 0':'Tokyo','Day 1':'Tokyo','Day 2':'Tokyo','Day 3':'Tokyo',
+  'Day 4':'Hakone → Kyoto','Day 5':'Kyoto','Day 6':'Kyoto','Day 7':'Kyoto',
+  'Day 8':'Osaka','Day 9':'Osaka','Day 10':'Osaka',
+  'Day 11':'Mt. Fuji','Day 12':'Mt. Fuji',
+  'Day 13':'Tokyo','Day 14':'Tokyo','Day 15':'Tokyo',
+};
+const CITY_KANJI={'Tokyo':'東京','Hakone → Kyoto':'箱根 → 京都','Kyoto':'京都','Osaka':'大阪','Mt. Fuji':'富士山'};
+const CITY_DATES={'Tokyo':'Mar 27–31 & Apr 9–11','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9'};
+
+const CAT_EMOJI = {
+  matcha:'🍵',coffee:'☕',ramen:'🍜',sushi:'🍣',street:'🦀',breakfast:'🥞',
+  shopping:'🛍',experience:'🎨',attraction:'⛩️',onsen:'♨️',
+};
+
 const SEED_ITIN = [
-  // DAY 0
-  { id:'s1', day:'Day 0 — Mar 27', time:'All Day',  name:'Meet in YYC → Fly to Narita ✈️', detail:'C&A: YYZ→YYC→NRT · P&J: YHZ→YYC→NRT · Land 4:30PM', cat:'transport', who:'together', status:'confirmed' },
-  { id:'s2', day:'Day 0 — Mar 27', time:'Evening',  name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku · Train from Narita to Asakusa', cat:'hotel', who:'together', status:'confirmed' },
-  { id:'s3', day:'Day 0 — Mar 27', time:'Evening',  name:'Find food & drinks near hotel', detail:'Ichiryu or wander Asakusa · slow first night', cat:'food', who:'together', status:'tentative' },
-  // DAY 1
-  { id:'s4', day:'Day 1 — Mar 28', time:'Morning',  name:'Benitsuru Pancake 🥞', detail:'Famous fluffy Japanese pancakes · 2 min walk from OMO3', cat:'food', who:'together', status:'confirmed' },
-  { id:'s5', day:'Day 1 — Mar 28', time:'Morning',  name:'Senso-ji Temple & Kaminarimon Gate ⛩️', detail:'Tokyo\'s most iconic temple · book ~1 month ahead! · ~$30 CAD', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s6', day:'Day 1 — Mar 28', time:'Afternoon',name:'Chopstick Making Class 🥢', detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s7', day:'Day 1 — Mar 28', time:'Afternoon',name:'Nakamise Street — snacks + souvenirs', detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative' },
-  { id:'s8', day:'Day 1 — Mar 28', time:'Evening',  name:'Explore Asakusa / Ameyoko Market', detail:'Walk around · find dinner near hotel', cat:'food', who:'together', status:'idea' },
-  // DAY 2
-  { id:'s9',  day:'Day 2 — Mar 29', time:'Morning',  name:'Meiji Shrine 🌿', detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s10', day:'Day 2 — Mar 29', time:'Midday',   name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s11', day:'Day 2 — Mar 29', time:'Afternoon',name:'Shibuya Crossing 🚦', detail:'View from above at Starbucks or Mag\'s Park · most famous crossing in the world', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s12', day:'Day 2 — Mar 29', time:'Evening',  name:'Shinjuku → Memory Lane (dinner + drinks)', detail:'Omoide Yokocho "Piss Alley" — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed' },
-  // DAY 3
-  { id:'s13', day:'Day 3 — Mar 30', time:'Morning',  name:'Tsukiji Outer Market 🍣', detail:'Best breakfast sushi in the world · arrive early', cat:'food', who:'together', status:'confirmed' },
-  { id:'s14', day:'Day 3 — Mar 30', time:'Midday',   name:'Akihabara 🎮', detail:'Electronics, anime, arcades, manga', cat:'shopping', who:'together', status:'tentative' },
-  { id:'s15', day:'Day 3 — Mar 30', time:'Afternoon',name:'TeamLab Planets Toyosu 🎨', detail:'Immersive digital art · must book in advance!', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s16', day:'Day 3 — Mar 30', time:'Evening',  name:'Ichiran Ramen 🍜', detail:'Solo booth tonkotsu ramen · late night open', cat:'food', who:'together', status:'tentative' },
-  // DAY 4 HAKONE
-  { id:'s17', day:'Day 4 — Mar 31', time:'Morning',  name:'Check out Tokyo → transit to Hakone', detail:'Stop in Hakone on way to Kyoto', cat:'transport', who:'together', status:'confirmed' },
-  { id:'s18', day:'Day 4 — Mar 31', time:'Afternoon',name:'Tenzan Onsen ♨️ (tattoo friendly!)', detail:'250-0312 Kanagawa, Ashigarashimo District · natural hot springs', cat:'onsen', who:'together', status:'confirmed' },
-  { id:'s19', day:'Day 4 — Mar 31', time:'Evening',  name:'Transit to Kyoto → Hotel Amanek', detail:'~2h 48m · 2616 Azuchicho, Shimogyo-ku', cat:'transport', who:'together', status:'confirmed' },
-  // DAY 5 APRIL'S BDAY
-  { id:'s20', day:'Day 5 — Apr 1 🎂', time:'Morning',  name:'April\'s Birthday! 🎂 Nishiki Market', detail:'"Kyoto\'s Kitchen" · 400 years old, 100+ stalls', cat:'food', who:'together', status:'confirmed' },
-  { id:'s21', day:'Day 5 — Apr 1 🎂', time:'Midday',   name:'Uji Day Trip — Matcha!! 🍵', detail:'By train · matcha tea experience · Byodoin Temple · SHOP TILL I DROP', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s22', day:'Day 5 — Apr 1 🎂', time:'Evening',  name:'Birthday dinner 🥂', detail:'TBD — somewhere special!', cat:'food', who:'together', status:'idea' },
-  // DAY 6
-  { id:'s23', day:'Day 6 — Apr 2', time:'Morning',  name:'Fushimi Inari Shrine ⛩️', detail:'Thousand torii gates · go early · full hike ~2h', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s24', day:'Day 6 — Apr 2', time:'Afternoon',name:'Philosopher\'s Path 🌸', detail:'Cherry blossom canal walk · perfect in April!', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s25', day:'Day 6 — Apr 2', time:'Afternoon',name:'% Arabica Higashiyama ☕', detail:'Best latte in Kyoto · stunning minimalist café', cat:'food', who:'together', status:'confirmed' },
-  { id:'s26', day:'Day 6 — Apr 2', time:'Evening',  name:'Gion District dinner', detail:'Wander Gion, Pontocho Alley for dinner', cat:'food', who:'together', status:'tentative' },
-  // DAY 7 (buffer / more kyoto)
-  { id:'s27', day:'Day 7 — Apr 3', time:'All Day',  name:'Free day in Kyoto — explore!', detail:'Arashiyama, Kinkaku-ji, extra temple time · your call', cat:'activity', who:'together', status:'idea' },
-  // DAY 8 OSAKA
-  { id:'s28', day:'Day 8 — Apr 4', time:'Morning',  name:'Check out Kyoto → Citadines Namba Osaka', detail:'53-5-25 Nippombashi, Naniwa-ku · drop bags, then explore', cat:'transport', who:'together', status:'confirmed' },
-  { id:'s29', day:'Day 8 — Apr 4', time:'Midday',   name:'Dotonbori Food Walk 🦀', detail:'Takoyaki, okonomiyaki, crab, kushikatsu — all in one street', cat:'food', who:'together', status:'confirmed' },
-  { id:'s30', day:'Day 8 — Apr 4', time:'Afternoon',name:'Super Nintendo World 🎮', detail:'Universal Studios Japan · less busy weekday', cat:'activity', who:'together', status:'idea' },
-  // DAY 9 OSAKA SPLIT
-  { id:'s31', day:'Day 9 — Apr 5', time:'All Day',  name:'Hiroshima Day Trip', detail:'Peace Memorial Park, Miyajima Island 🦌', cat:'activity', who:'pj', status:'tentative' },
-  { id:'s32', day:'Day 9 — Apr 5', time:'All Day',  name:'Free day in Osaka', detail:'Shinsekai, Kuromon Market, Nakanoshima', cat:'activity', who:'ca', status:'tentative' },
-  // DAY 10 OSAKA
-  { id:'s33', day:'Day 10 — Apr 6', time:'All Day', name:'Final Osaka day — explore!', detail:'Anything you haven\'t done yet · pack up', cat:'activity', who:'together', status:'idea' },
-  // DAY 11 MT FUJI
-  { id:'s34', day:'Day 11 — Apr 7', time:'Morning',  name:'Transit Osaka → Kawaguchiko', detail:'Send bags via Yamato delivery! Don\'t lug suitcases on transit', cat:'transport', who:'together', status:'confirmed' },
-  { id:'s35', day:'Day 11 — Apr 7', time:'Afternoon',name:'Chureito Pagoda + Fuji Views 🗻', detail:'Hike 400 steps · go early morning for best photos', cat:'activity', who:'together', status:'confirmed' },
-  { id:'s36', day:'Day 11 — Apr 7', time:'Afternoon',name:'Boys: Golf ⛳ / Girls: Fuji trails 🥾', detail:'Split up! Boys golf at Mt. Fuji course · Girls hike + explore', cat:'activity', who:'together', status:'tentative' },
-  { id:'s37', day:'Day 11 — Apr 7', time:'Evening',  name:'Vision Glamping — Yamanakako 🏕️ + ONSEN', detail:'vision-glamping.yamanakako · onsen included!', cat:'onsen', who:'together', status:'confirmed' },
-  // DAY 13 BACK TO TOKYO
-  { id:'s38', day:'Day 13 — Apr 9', time:'Morning',  name:'Drive back → Tosei 98 Cocone Ueno', detail:'Final Tokyo hotel · Ueno Park area', cat:'transport', who:'together', status:'confirmed' },
-  { id:'s39', day:'Day 13 — Apr 9', time:'Afternoon',name:'Imperial Palace East Gardens 🌸', detail:'Closed Mon/Sun — plan accordingly!', cat:'activity', who:'together', status:'tentative' },
-  { id:'s40', day:'Day 13 — Apr 9', time:'Evening',  name:'Nabezo Shabu Shabu 🍲', detail:'All-you-can-eat hot pot · great for the group', cat:'food', who:'together', status:'tentative' },
-  // DAY 14
-  { id:'s41', day:'Day 14 — Apr 10', time:'Morning',  name:'Onigiri Gorichan 🍙', detail:'Famous onigiri spot · worth the Instagram', cat:'food', who:'together', status:'tentative' },
-  { id:'s42', day:'Day 14 — Apr 10', time:'All Day',  name:'Last souvenir shopping + chill', detail:'Send bags to Narita via Yamato before 4pm!', cat:'shopping', who:'together', status:'tentative' },
-  { id:'s43', day:'Day 14 — Apr 10', time:'Evening',  name:'Last dinner together 🥂', detail:'TBD — make it special!', cat:'food', who:'together', status:'idea' },
-  // DAY 15
-  { id:'s44', day:'Day 15 — Apr 11', time:'Morning', name:'Transit to Narita → Fly home ✈️ 🥲', detail:'NRT → Home', cat:'transport', who:'together', status:'confirmed' },
+  {id:'s1',  day:'Day 0 — Mar 27', time:'All Day',   name:'Meet in YYC → Fly to Narita ✈️',           detail:'C&A: YYZ→YYC→NRT · P&J: YHZ→YYC→NRT · Land 4:30PM', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s2',  day:'Day 0 — Mar 27', time:'Evening',   name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku', cat:'hotel', who:'together', status:'confirmed', order:1},
+  {id:'s3',  day:'Day 0 — Mar 27', time:'Evening',   name:'Find food & drinks near hotel',              detail:'Ichiryu or wander Asakusa', cat:'food', who:'together', status:'tentative', order:2},
+  {id:'s4',  day:'Day 1 — Mar 28', time:'Morning',   name:'Benitsuru Pancake 🥞',                       detail:'Famous fluffy pancakes · 2 min from OMO3', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s5',  day:'Day 1 — Mar 28', time:'Morning',   name:'Senso-ji Temple & Kaminarimon Gate ⛩️',      detail:'Most iconic temple in Tokyo · book ahead ~$30 CAD', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s6',  day:'Day 1 — Mar 28', time:'Afternoon', name:'Chopstick Making Class 🥢',                  detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s7',  day:'Day 1 — Mar 28', time:'Afternoon', name:'Nakamise Street — snacks + souvenirs',       detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative', order:3},
+  {id:'s8',  day:'Day 1 — Mar 28', time:'Evening',   name:'Explore Asakusa / find dinner',              detail:'Ameyoko Market area', cat:'explore', who:'together', status:'idea', order:4},
+  {id:'s9',  day:'Day 2 — Mar 29', time:'Morning',   name:'Meiji Shrine 🌿',                            detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed', order:0},
+  {id:'s10', day:'Day 2 — Mar 29', time:'Midday',    name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'explore', who:'together', status:'confirmed', order:1},
+  {id:'s11', day:'Day 2 — Mar 29', time:'Afternoon', name:'Shibuya Crossing 🚦',                        detail:'View from above at Starbucks or Mag\'s Park', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s12', day:'Day 2 — Mar 29', time:'Evening',   name:'Shinjuku → Memory Lane 🍻',                  detail:'Omoide Yokocho — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed', order:3},
+  {id:'s13', day:'Day 3 — Mar 30', time:'Morning',   name:'Tsukiji Outer Market 🍣',                    detail:'Best breakfast sushi on earth · arrive early', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s14', day:'Day 3 — Mar 30', time:'Midday',    name:'Akihabara 🎮',                               detail:'Electronics, anime, arcades, manga', cat:'shopping', who:'together', status:'tentative', order:1},
+  {id:'s15', day:'Day 3 — Mar 30', time:'Afternoon', name:'TeamLab Planets Toyosu 🎨',                  detail:'Immersive digital art · must book in advance!', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s16', day:'Day 3 — Mar 30', time:'Evening',   name:'Ichiran Ramen 🍜',                           detail:'Solo booth tonkotsu ramen · late night open', cat:'food', who:'together', status:'tentative', order:3},
+  {id:'s17', day:'Day 4 — Mar 31', time:'Morning',   name:'Check out Tokyo → transit to Hakone',        detail:'Stop in Hakone on way to Kyoto', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s18', day:'Day 4 — Mar 31', time:'Afternoon', name:'Tenzan Onsen ♨️ (tattoo friendly!)',         detail:'250-0312 Kanagawa, Ashigarashimo District', cat:'onsen', who:'together', status:'confirmed', order:1},
+  {id:'s19', day:'Day 4 — Mar 31', time:'Evening',   name:'Transit to Kyoto → Hotel Amanek',            detail:'~2h 48m · 2616 Azuchicho, Shimogyo-ku', cat:'transport', who:'together', status:'confirmed', order:2},
+  {id:'s20', day:'Day 5 — Apr 1 🎂', time:'Morning', name:'April\'s Birthday! 🎂 Nishiki Market',       detail:'"Kyoto\'s Kitchen" · 400 years old, 100+ stalls', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s21', day:'Day 5 — Apr 1 🎂', time:'Midday',  name:'Uji Day Trip — Matcha!! 🍵',                 detail:'By train · matcha tea experience · Byodoin Temple · SHOP TILL I DROP', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s22', day:'Day 5 — Apr 1 🎂', time:'Evening', name:'Birthday dinner 🥂',                         detail:'TBD — somewhere special!', cat:'food', who:'together', status:'idea', order:2},
+  {id:'s23', day:'Day 6 — Apr 2', time:'Morning',    name:'Fushimi Inari Shrine ⛩️',                    detail:'Thousand torii gates · go early · full hike ~2h', cat:'activity', who:'together', status:'confirmed', order:0},
+  {id:'s24', day:'Day 6 — Apr 2', time:'Afternoon',  name:'Philosopher\'s Path 🌸',                     detail:'Cherry blossom canal walk · perfect in April!', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s25', day:'Day 6 — Apr 2', time:'Afternoon',  name:'% Arabica Higashiyama ☕',                   detail:'Best latte in Kyoto · stunning minimalist café', cat:'food', who:'together', status:'confirmed', order:2},
+  {id:'s26', day:'Day 6 — Apr 2', time:'Evening',    name:'Gion District — Pontocho Alley dinner',      detail:'Wander Gion, maybe spot a geisha', cat:'food', who:'together', status:'tentative', order:3},
+  {id:'s27', day:'Day 7 — Apr 3', time:'All Day',    name:'Free day in Kyoto — explore!',               detail:'Arashiyama, Kinkaku-ji, extra temple time', cat:'explore', who:'together', status:'idea', order:0},
+  {id:'s28', day:'Day 8 — Apr 4', time:'Morning',    name:'Check out Kyoto → Citadines Namba Osaka',    detail:'53-5-25 Nippombashi, Naniwa-ku · drop bags, explore', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s29', day:'Day 8 — Apr 4', time:'Midday',     name:'Dotonbori Food Walk 🦀',                     detail:'Takoyaki, okonomiyaki, crab, kushikatsu', cat:'food', who:'together', status:'confirmed', order:1},
+  {id:'s30', day:'Day 8 — Apr 4', time:'Afternoon',  name:'Super Nintendo World 🎮',                    detail:'Universal Studios Japan · less busy weekday', cat:'activity', who:'together', status:'idea', order:2},
+  {id:'s31', day:'Day 9 — Apr 5', time:'All Day',    name:'Hiroshima Day Trip',                         detail:'Peace Memorial Park, Miyajima Island 🦌', cat:'activity', who:'pj', status:'tentative', order:0},
+  {id:'s32', day:'Day 9 — Apr 5', time:'All Day',    name:'Free day in Osaka',                          detail:'Shinsekai, Kuromon Market, Nakanoshima', cat:'explore', who:'ca', status:'tentative', order:1},
+  {id:'s33', day:'Day 10 — Apr 6', time:'All Day',   name:'Final Osaka day — explore!',                 detail:'Anything you haven\'t done yet · pack up', cat:'explore', who:'together', status:'idea', order:0},
+  {id:'s34', day:'Day 11 — Apr 7', time:'Morning',   name:'Transit Osaka → Kawaguchiko',                detail:'Send bags via Yamato! Don\'t lug suitcases on trains', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s35', day:'Day 11 — Apr 7', time:'Afternoon', name:'Chureito Pagoda + Fuji Views 🗻',            detail:'Hike 400 steps · go early for best photos', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s36', day:'Day 11 — Apr 7', time:'Afternoon', name:'Boys: Golf ⛳ / Girls: Fuji trails 🥾',      detail:'Split up! Boys golf at Mt. Fuji course · Girls hike + explore', cat:'activity', who:'together', status:'tentative', order:2},
+  {id:'s37', day:'Day 11 — Apr 7', time:'Evening',   name:'Vision Glamping + ONSEN 🏕️',                detail:'vision-glamping.yamanakako · onsen included!', cat:'onsen', who:'together', status:'confirmed', order:3},
+  {id:'s38', day:'Day 13 — Apr 9', time:'Morning',   name:'Drive back → Tosei 98 Cocone Ueno',          detail:'Final Tokyo hotel · Ueno Park area', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s39', day:'Day 13 — Apr 9', time:'Afternoon', name:'Imperial Palace East Gardens 🌸',            detail:'Closed Mon/Sun — plan accordingly!', cat:'activity', who:'together', status:'tentative', order:1},
+  {id:'s40', day:'Day 13 — Apr 9', time:'Evening',   name:'Nabezo Shabu Shabu 🍲',                      detail:'All-you-can-eat hot pot · great for the group', cat:'food', who:'together', status:'tentative', order:2},
+  {id:'s41', day:'Day 14 — Apr 10', time:'Morning',  name:'Onigiri Gorichan 🍙',                        detail:'Famous onigiri spot · worth the Instagram', cat:'food', who:'together', status:'tentative', order:0},
+  {id:'s42', day:'Day 14 — Apr 10', time:'All Day',  name:'Last souvenir shopping + chill',             detail:'Send bags to Narita via Yamato before 4pm!', cat:'shopping', who:'together', status:'tentative', order:1},
+  {id:'s43', day:'Day 14 — Apr 10', time:'Evening',  name:'Last dinner together 🥂',                    detail:'TBD — make it special!', cat:'food', who:'together', status:'idea', order:2},
+  {id:'s44', day:'Day 15 — Apr 11', time:'Morning',  name:'Transit to Narita → Fly home ✈️ 🥲',         detail:'NRT → Home', cat:'transport', who:'together', status:'confirmed', order:0},
 ];
 
-const SEED_SPOTS = [
-  { id:'sp1', name:'Senso-ji Temple', city:'Tokyo', cat:'temple', emoji:'⛩️', desc:'Kaminarimon Gate — Tokyo\'s most iconic temple', maps:'https://www.senso-ji.jp/english/' },
-  { id:'sp2', name:'Meiji Shrine', city:'Tokyo', cat:'temple', emoji:'🌿', desc:'Peaceful forested shrine in central Tokyo', maps:'https://maps.google.com/?q=Meiji+Shrine+Tokyo' },
-  { id:'sp3', name:'Shibuya Crossing', city:'Tokyo', cat:'temple', emoji:'🚦', desc:'World\'s busiest pedestrian crossing', maps:'https://maps.google.com/?q=Shibuya+Crossing' },
-  { id:'sp4', name:'Fushimi Inari', city:'Kyoto', cat:'temple', emoji:'⛩️', desc:'Thousand torii gates — go early!', maps:'https://maps.google.com/?q=Fushimi+Inari' },
-  { id:'sp5', name:'Philosopher\'s Path', city:'Kyoto', cat:'temple', emoji:'🌸', desc:'Cherry blossom canal walk — perfect in April!', maps:'https://maps.google.com/?q=Philosophers+Path+Kyoto' },
-  { id:'sp6', name:'Chureito Pagoda', city:'Fuji Area', cat:'temple', emoji:'🗻', desc:'Iconic Fuji + pagoda viewpoint · hike 400 steps', maps:'https://maps.google.com/?q=Chureito+Pagoda' },
-  { id:'sp7', name:'Ichiran Ramen', city:'Tokyo', cat:'food', emoji:'🍜', desc:'Solo booth tonkotsu ramen — iconic experience', maps:'https://ichiran.com' },
-  { id:'sp8', name:'Tsukiji Outer Market', city:'Tokyo', cat:'food', emoji:'🍣', desc:'Best breakfast sushi on earth — arrive early', maps:'https://maps.google.com/?q=Tsukiji+Market' },
-  { id:'sp9', name:'Dotonbori', city:'Osaka', cat:'food', emoji:'🦀', desc:'Iconic street food — takoyaki, crab, okonomiyaki', maps:'https://maps.google.com/?q=Dotonbori' },
-  { id:'sp10',name:'Nishiki Market', city:'Kyoto', cat:'food', emoji:'🛒', desc:'Kyoto\'s Kitchen — 400 years old, 100+ stalls', maps:'https://maps.google.com/?q=Nishiki+Market+Kyoto' },
-  { id:'sp11',name:'% Arabica', city:'Kyoto', cat:'coffee', emoji:'☕', desc:'Best latte in Kyoto · stunning minimalist café', maps:'https://maps.google.com/?q=Arabica+Kyoto+Higashiyama' },
-  { id:'sp12',name:'Takeshita Street', city:'Tokyo', cat:'shopping', emoji:'🛍', desc:'Wild Harajuku fashion street', maps:'https://maps.google.com/?q=Takeshita+Street+Harajuku' },
-  { id:'sp13',name:'Nakamise Street', city:'Tokyo', cat:'shopping', emoji:'🛒', desc:'Snacks + souvenirs near Senso-ji', maps:'https://maps.google.com/?q=Nakamise+Dori+Asakusa' },
-  { id:'sp14',name:'OMO3 Asakusa', city:'Tokyo', cat:'hotel', emoji:'🏨', desc:'Home base · 1-15-5 Hanakawado, Taito-ku', maps:'https://hoshinoresorts.com/en/hotels/omo3asakusa' },
-  { id:'sp15',name:'Hotel Amanek Kyoto', city:'Kyoto', cat:'hotel', emoji:'🏨', desc:'Kawaramachi Gojo · Gion area', maps:'https://maps.google.com/?q=Hotel+Amanek+Kyoto' },
-  { id:'sp16',name:'Citadines Namba Osaka', city:'Osaka', cat:'hotel', emoji:'🏨', desc:'53-5-25 Nippombashi, Naniwa-ku', maps:'https://maps.google.com/?q=Citadines+Namba+Osaka' },
-  { id:'sp17',name:'Tenzan Onsen', city:'Hakone', cat:'hotel', emoji:'♨️', desc:'Tattoo-friendly natural hot springs', maps:'https://maps.google.com/?q=Tenzan+Onsen+Hakone' },
+const SEED_DISC = [
+  {id:'d1', city:'tokyo', cat:'ramen', name:'Ichiran Ramen', desc:'Solo booth tonkotsu — customize everything, late night open.', tags:['Must-Try','Late Night'], emoji:'🍜'},
+  {id:'d2', city:'tokyo', cat:'ramen', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku.', tags:['Yuzu','Less Queue'], emoji:'🍜'},
+  {id:'d3', city:'tokyo', cat:'sushi', name:'Tsukiji Outer Market', desc:'Arrive 7AM. Best breakfast sushi on earth. Multiple tiny counters.', tags:['Breakfast','Must-Do'], emoji:'🍣'},
+  {id:'d4', city:'tokyo', cat:'breakfast', name:'Benitsuru Pancake', desc:'Fluffy Japanese soufflé pancakes · 2 min from OMO3.', tags:['Near Hotel','Must-Try'], emoji:'🥞'},
+  {id:'d5', city:'tokyo', cat:'breakfast', name:'Onigiri Gorichan', desc:'Famous onigiri spot — try salmon and tuna mayo.', tags:['Instagram','Quick Bite'], emoji:'🍙'},
+  {id:'d6', city:'tokyo', cat:'shopping', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable.', tags:['Harajuku','Free Entry'], emoji:'🛍'},
+  {id:'d7', city:'tokyo', cat:'shopping', name:'Akihabara', desc:'Electronics, anime, manga, arcades.', tags:['Electronics','Anime'], emoji:'🎮'},
+  {id:'d8', city:'tokyo', cat:'shopping', name:'Nakamise Street', desc:'Snacks + souvenirs right near Senso-ji.', tags:['Souvenirs','Near Senso-ji'], emoji:'🛒'},
+  {id:'d9', city:'tokyo', cat:'experience', name:'TeamLab Planets Toyosu', desc:'Immersive digital art — walking through light and water.', tags:['Must-Book','Unmissable'], emoji:'🎨'},
+  {id:'d10',city:'tokyo', cat:'attraction', name:'Meiji Shrine', desc:'Peaceful forested shrine in the heart of Tokyo.', tags:['Must-Do','Free'], emoji:'⛩️'},
+  {id:'d11',city:'tokyo', cat:'attraction', name:'Shibuya Crossing', desc:'World\'s busiest pedestrian crossing. View from above.', tags:['Iconic','Free'], emoji:'🚦'},
+  {id:'d12',city:'kyoto', cat:'matcha', name:'Uji — Matcha Everything', desc:'Birthplace of Japanese matcha. Tea experience, Byodoin Temple, matcha soft serve.', tags:['Must-Do','Birthday!'], emoji:'🍵'},
+  {id:'d13',city:'kyoto', cat:'coffee', name:'% Arabica Higashiyama', desc:'Best latte in Kyoto. Stunning minimalist café.', tags:['Coffee','Scenic'], emoji:'☕'},
+  {id:'d14',city:'kyoto', cat:'attraction', name:'Fushimi Inari', desc:'Thousand torii gates. Go early to beat crowds. Full hike ~2h.', tags:['Must-Do','Iconic'], emoji:'⛩️'},
+  {id:'d15',city:'kyoto', cat:'attraction', name:'Philosopher\'s Path', desc:'Cherry blossom canal walk — perfect in April.', tags:['Must-Do','Scenic'], emoji:'🌸'},
+  {id:'d16',city:'kyoto', cat:'sushi', name:'Nishiki Market', desc:'"Kyoto\'s Kitchen" — 400 years old, 100+ stalls.', tags:['Must-Do','Lunch'], emoji:'🛒'},
+  {id:'d17',city:'osaka', cat:'street', name:'Dotonbori', desc:'Takoyaki, okonomiyaki, crab, kushikatsu — all in one iconic street.', tags:['Must-Do','Street Food'], emoji:'🦀'},
+  {id:'d18',city:'osaka', cat:'street', name:'Kushikatsu — Daruma', desc:'Fried skewers since 1929. NO double-dipping rule!', tags:['Iconic','Cheap Eats'], emoji:'🍢'},
+  {id:'d19',city:'fuji', cat:'attraction', name:'Chureito Pagoda', desc:'Hike 400 steps for the iconic Fuji + pagoda shot. Go early.', tags:['Iconic View','Hike'], emoji:'🗻'},
+  {id:'d20',city:'fuji', cat:'onsen', name:'Vision Glamping + Onsen', desc:'Glamping at Yamanakako with Fuji views. Onsen included!', tags:['Booked','Onsen'], emoji:'🏕️'},
 ];
 
-const SEED_BOOKINGS = [
-  { id:'b1',  name:'Connor & April — YYZ → NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', status:'confirmed', notes:'Land 4:30PM · Return Apr 11' },
-  { id:'b2',  name:'Pat & Julia — YHZ → NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', status:'confirmed', notes:'Land 4:30PM · Return Apr 11' },
-  { id:'b3',  name:'OMO3 Asakusa by Hoshino Resorts', sub:'Tokyo · Mar 27–31 · 4 nights', icon:'🏨', status:'confirmed', notes:'1-15-5 Hanakawado, Taito-ku · Check in Mar 27' },
-  { id:'b4',  name:'Hotel Amanek Kyoto Kawaramachi Gojo', sub:'Kyoto · Mar 31 – Apr 4 · 4 nights', icon:'🏨', status:'confirmed', notes:'2616 Azuchicho, Shimogyo-ku · Check in Mar 31' },
-  { id:'b5',  name:'Citadines Namba Osaka', sub:'Osaka · Apr 4–7 · 3 nights', icon:'🏨', status:'confirmed', notes:'53-5-25 Nippombashi, Naniwa-ku' },
-  { id:'b6',  name:'Vision Glamping — Yamanakako', sub:'Mt. Fuji · Apr 7–9 · 2 nights', icon:'🏕️', status:'todo', notes:'vision-glamping.yamanakako/en · Onsen included! Golf for boys!' },
-  { id:'b7',  name:'Tosei 98 Cocone Ueno', sub:'Tokyo · Apr 9–11 · 2 nights', icon:'🏨', status:'confirmed', notes:'Final Tokyo hotel · Ueno area' },
-  { id:'b8',  name:'Chopstick Making Class', sub:'Asakusa · reserva.be/karakimokkou0143', icon:'🥢', status:'confirmed', notes:'Booked Feb 1st @ 12pm' },
-  { id:'b9',  name:'TeamLab Planets Toyosu', sub:'Tokyo · must book in advance', icon:'🎨', status:'todo', notes:'Book at teamlab.art' },
-  { id:'b10', name:'Super Nintendo World', sub:'Osaka · Universal Studios Japan', icon:'🎮', status:'todo', notes:'Less busy on weekdays' },
-  { id:'b11', name:'Sumo Show Experience', sub:'Shinjuku · optional evening', icon:'🥊', status:'todo', notes:'getyourguide sumo show shinjuku' },
+const SEED_BOOK = [
+  {id:'b1', name:'Connor & April — YYZ→NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
+  {id:'b2', name:'Pat & Julia — YHZ→NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
+  {id:'b3', name:'OMO3 Asakusa by Hoshino Resorts', sub:'Tokyo · Mar 27–31 · 4 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'1-15-5 Hanakawado, Taito-ku'},
+  {id:'b4', name:'Hotel Amanek Kyoto Kawaramachi Gojo', sub:'Kyoto · Mar 31–Apr 4 · 4 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'2616 Azuchicho, Shimogyo-ku'},
+  {id:'b5', name:'Citadines Namba Osaka', sub:'Osaka · Apr 4–7 · 3 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'53-5-25 Nippombashi, Naniwa-ku'},
+  {id:'b6', name:'Vision Glamping — Yamanakako', sub:'Mt. Fuji · Apr 7–9 · 2 nights', icon:'🏕️', time:'TBD', status:'todo', notes:'vision-glamping.yamanakako/en · Onsen included!'},
+  {id:'b7', name:'Tosei 98 Cocone Ueno', sub:'Tokyo · Apr 9–11 · 2 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'Final Tokyo hotel · Ueno area'},
+  {id:'b8', name:'Chopstick Making Class', sub:'Asakusa · reserva.be/karakimokkou0143', icon:'🥢', time:'12:00 PM', status:'confirmed', notes:'Booked Feb 1st'},
+  {id:'b9', name:'TeamLab Planets Toyosu', sub:'Tokyo · must book in advance', icon:'🎨', time:'TBD', status:'todo', notes:'teamlab.art'},
+  {id:'b10',name:'Super Nintendo World', sub:'Osaka · Universal Studios Japan', icon:'🎮', time:'TBD', status:'todo', notes:'Less busy on weekdays'},
+  {id:'b11',name:'Sumo Show Experience', sub:'Shinjuku · optional evening', icon:'🥊', time:'Evening', status:'todo', notes:'getyourguide sumo show shinjuku'},
 ];
 
-const SEED_DISCOVER = [
-  { id:'d1',  city:'tokyo', cat:'🍜 Ramen', name:'Ichiran Ramen', desc:'Solo booth tonkotsu — customize everything, late night open.', tags:['Must-Try','Late Night'], emoji:'🍜' },
-  { id:'d2',  city:'tokyo', cat:'🍜 Ramen', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku.', tags:['Yuzu','Less Queue'], emoji:'🍜' },
-  { id:'d3',  city:'tokyo', cat:'🍜 Ramen', name:'Nabezo Shabu Shabu', desc:'All-you-can-eat hot pot. Great for the whole group.', tags:['Group Friendly','AYCE'], emoji:'🍲' },
-  { id:'d4',  city:'tokyo', cat:'🍣 Sushi', name:'Tsukiji Outer Market', desc:'Arrive 7AM. Best breakfast sushi on earth.', tags:['Breakfast','Must-Do'], emoji:'🍣' },
-  { id:'d5',  city:'tokyo', cat:'🥞 Breakfast', name:'Benitsuru Pancake', desc:'Fluffy Japanese soufflé pancakes · 2 min from OMO3.', tags:['Near Hotel','Must-Try'], emoji:'🥞' },
-  { id:'d6',  city:'tokyo', cat:'🥞 Breakfast', name:'Onigiri Gorichan', desc:'Famous onigiri spot — try salmon and tuna mayo.', tags:['Instagram','Quick Bite'], emoji:'🍙' },
-  { id:'d7',  city:'tokyo', cat:'🛍 Shopping', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable.', tags:['Harajuku','Free Entry'], emoji:'🛍' },
-  { id:'d8',  city:'tokyo', cat:'🛍 Shopping', name:'Akihabara', desc:'Electronics, anime, manga, arcades.', tags:['Electronics','Anime'], emoji:'🎮' },
-  { id:'d9',  city:'tokyo', cat:'🛍 Shopping', name:'Nakamise Street', desc:'Snacks + souvenirs right near Senso-ji.', tags:['Souvenirs','Near Senso-ji'], emoji:'🛒' },
-  { id:'d10', city:'tokyo', cat:'🎨 Experiences', name:'TeamLab Planets Toyosu', desc:'Immersive digital art — walking through light and water. Completely unique.', tags:['Must-Book','Unmissable'], emoji:'🎨' },
-  { id:'d11', city:'kyoto', cat:'🍵 Matcha & Tea', name:'Uji — Matcha Everything', desc:'Birthplace of Japanese matcha. Tea experience, Byodoin Temple, matcha soft serve.', tags:['Must-Do','Birthday Day!'], emoji:'🍵' },
-  { id:'d12', city:'kyoto', cat:'☕ Coffee', name:'% Arabica Higashiyama', desc:'Best latte in Kyoto. Stunning minimalist café. Line up — worth it.', tags:['Coffee','Scenic'], emoji:'☕' },
-  { id:'d13', city:'kyoto', cat:'🛒 Markets', name:'Nishiki Market', desc:'"Kyoto\'s Kitchen" — 400 years old, 100+ stalls. Pickles, skewers, tofu skin.', tags:['Must-Do','Lunch'], emoji:'🛒' },
-  { id:'d14', city:'kyoto', cat:'🍽 Dinner', name:'Pontocho Alley', desc:'Narrow lantern-lit alley of restaurants. Pick one that looks good!', tags:['Dinner','Atmospheric'], emoji:'🏮' },
-  { id:'d15', city:'osaka', cat:'🦀 Street Food', name:'Takoyaki — Wanaka', desc:'Best takoyaki in Dotonbori. Crispy outside, gooey inside.', tags:['Street Food','Must-Try'], emoji:'🐙' },
-  { id:'d16', city:'osaka', cat:'🦀 Street Food', name:'Okonomiyaki — Fukutaro', desc:'Osaka-style savory pancake. Order the special with everything.', tags:['Local Favourite'], emoji:'🥚' },
-  { id:'d17', city:'osaka', cat:'🦀 Street Food', name:'Kushikatsu — Daruma', desc:'Fried skewers since 1929. NO double-dipping rule!', tags:['Iconic','Cheap Eats'], emoji:'🍢' },
-  { id:'d18', city:'fuji', cat:'🗻 Mt. Fuji', name:'Chureito Pagoda', desc:'Hike 400 steps for the iconic pagoda + Fuji shot. Go early morning.', tags:['Iconic View','Hike'], emoji:'🗻' },
-  { id:'d19', city:'fuji', cat:'🏕️ Glamping', name:'Vision Glamping', desc:'Glamping at Yamanakako with Fuji views. Onsen included. Boys golf!', tags:['Booked','Onsen'], emoji:'🏕️' },
-  { id:'d20', city:'fuji', cat:'🚲 Activities', name:'Lake Kawaguchiko', desc:'Rent bikes and cycle the lake with Fuji views. ~1h loop.', tags:['Active','Scenic'], emoji:'🚲' },
+const SEED_TRANSIT = [
+  {id:'t1', from:'Osaka',from2:'',to:'Tokyo',to2:'',trainName:'Nozomi',date:'TBD',departs:'TBD',seats:'TBD',notes:'Tokaido Line · ~2h 30m',status:'todo'},
+  {id:'t2', from:'Tokyo',to:'Hakone',trainName:'Romancecar',date:'Mar 31',departs:'TBD',seats:'—',notes:'Odakyu Line from Shinjuku · ~1h 30m',status:'todo'},
+  {id:'t3', from:'Hakone',to:'Kyoto',trainName:'Shinkansen',date:'Mar 31',departs:'TBD',seats:'—',notes:'Odawara → Kyoto · Hikari ~2h 15m',status:'todo'},
+  {id:'t4', from:'Kyoto',to:'Osaka',trainName:'JR Rapid',date:'Apr 4',departs:'TBD',seats:'—',notes:'JR Kyoto Line · 15 min',status:'todo'},
+  {id:'t5', from:'Osaka',to:'Kawaguchiko',trainName:'Shinkansen + Bus',date:'Apr 7',departs:'TBD',seats:'—',notes:'Osaka → Nagoya → Mt. Fuji area · ~4h total',status:'todo'},
+  {id:'t6', from:'Kawaguchiko',to:'Tokyo',trainName:'Bus + Train',date:'Apr 9',departs:'TBD',seats:'—',notes:'Bus back to Shinjuku ~2h',status:'todo'},
 ];
 
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════
-window.onload = function() {
-  initSupabase();
-  if (!itinItems.length) { itinItems = SEED_ITIN; saveLocal('itin'); }
-  if (!spots.length) { spots = SEED_SPOTS; saveLocal('spots'); }
-  if (!bookings.length) { bookings = SEED_BOOKINGS; saveLocal('bookings'); }
-  if (!discoverItems.length) { discoverItems = SEED_DISCOVER; saveLocal('discover'); }
+// ════════════════════════════════════════
+window.onload = () => {
+  if (!itinItems) { itinItems = SEED_ITIN; save('itin'); }
+  if (!discItems) { discItems = SEED_DISC; save('disc'); }
+  if (!bookItems) { bookItems = SEED_BOOK; save('book'); }
+  if (!transitItems) { transitItems = SEED_TRANSIT; save('transit'); }
   populateDaySelect();
   renderAll();
-  if (!currentCouple) showPicker();
-  else applyCouple(currentCouple);
+  initSupabase();
+  if (!currentCouple) showPicker(); else applyCouple(currentCouple);
 };
+
+function save(key) {
+  const m = {itin:itinItems,disc:discItems,book:bookItems,transit:transitItems};
+  localStorage.setItem('jp-'+key, JSON.stringify(m[key]));
+}
 
 function initSupabase() {
   try {
-    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    loadNotes();
-    subscribeNotes();
+    sb = supabase.createClient(SB_URL, SB_KEY);
+    loadNotes(); subscribeNotes();
     document.getElementById('liveDot').style.background = '#4ade80';
   } catch(e) { console.error(e); }
 }
 
 async function loadNotes() {
-  if (!sb) return;
-  const { data } = await sb.from('japan_notes').select('*').order('created_at',{ascending:false}).limit(60);
+  const {data} = await sb.from('japan_notes').select('*').order('created_at',{ascending:false}).limit(80);
   if (data) { notes = data; renderNotes(); }
 }
 
 function subscribeNotes() {
-  if (!sb) return;
-  sb.channel('notes').on('postgres_changes',{event:'INSERT',schema:'public',table:'japan_notes'},(p) => {
+  sb.channel('notes-v2').on('postgres_changes',{event:'INSERT',schema:'public',table:'japan_notes'},p=>{
     notes.unshift(p.new); renderNotes();
   }).subscribe();
 }
 
-function saveLocal(key) {
-  const map = { itin: itinItems, spots, bookings, discover: discoverItems };
-  localStorage.setItem('japan-'+key, JSON.stringify(map[key]));
-}
-
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 // COUPLE
-// ═══════════════════════════════════════════
-function showPicker() { document.getElementById('pickerOverlay').classList.add('show'); }
+// ════════════════════════════════════════
+function showPicker() { document.getElementById('pickerOv').classList.add('show'); }
 function pickCouple(c) {
-  currentCouple = c;
-  localStorage.setItem('japan-couple', c);
-  document.getElementById('pickerOverlay').classList.remove('show');
+  currentCouple = c; localStorage.setItem('japan-couple',c);
+  document.getElementById('pickerOv').classList.remove('show');
   applyCouple(c);
 }
 function applyCouple(c) {
+  const isCA = c==='ca';
   const badge = document.getElementById('coupleBadge');
-  const isCA = c === 'ca';
   badge.textContent = isCA ? 'Connor & April' : 'Pat & Julia';
-  badge.className = 'couple-badge' + (isCA ? '' : ' pj');
+  badge.className = 'couple-badge'+(isCA?'':' pj');
   document.getElementById('noteCouple').value = c;
-  const sel = document.querySelector('.composer-couple');
-  sel.className = 'composer-select composer-couple' + (isCA ? '' : ' pj');
+  updateCoupleSelect();
+}
+function updateCoupleSelect() {
+  const v = document.getElementById('noteCouple').value;
+  const sel = document.querySelector('.nc-couple');
+  sel.className = 'nc-sel nc-couple'+(v==='pj'?' pj':'');
 }
 
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 // TABS
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 function switchTab(name) {
   currentTab = name;
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(e=>e.classList.remove('active'));
   document.getElementById('content-'+name).classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-// ═══════════════════════════════════════════
-// RENDER ALL
-// ═══════════════════════════════════════════
-function renderAll() { renderItinerary(); renderSpots(); renderBookings(); renderDiscover(); renderNotes(); }
+function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit(); renderNotes(); }
 
-// ═══════════════════════════════════════════
-// ITINERARY RENDER
-// ═══════════════════════════════════════════
-function renderItinerary() {
-  const root = document.getElementById('itineraryRoot');
-  // Group by day
-  const days = {};
-  itinItems.forEach(item => {
-    if (!days[item.day]) days[item.day] = [];
-    days[item.day].push(item);
-  });
-  // Sort days by id
-  const sortedDays = Object.keys(days).sort((a,b) => {
-    const ai = itinItems.find(i=>i.day===a); const bi = itinItems.find(i=>i.day===b);
-    return (ai?.id||'').localeCompare(bi?.id||'');
-  });
+// ════════════════════════════════════════
+// ITINERARY
+// ════════════════════════════════════════
+let dragSrc = null, dragDay = null;
 
-  // City boundaries
-  const cityMap = {
-    'Day 0':'Tokyo','Day 1':'Tokyo','Day 2':'Tokyo','Day 3':'Tokyo',
-    'Day 4':'Hakone → Kyoto','Day 5':'Kyoto','Day 6':'Kyoto','Day 7':'Kyoto',
-    'Day 8':'Osaka','Day 9':'Osaka','Day 10':'Osaka',
-    'Day 11':'Mt. Fuji','Day 12':'Mt. Fuji',
-    'Day 13':'Tokyo','Day 14':'Tokyo','Day 15':'Tokyo',
-  };
-  const cityKanji = {'Tokyo':'東京','Hakone → Kyoto':'箱根 → 京都','Kyoto':'京都','Osaka':'大阪','Mt. Fuji':'富士山'};
-  const cityDates = {'Tokyo':'Mar 27–31','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9'};
-  let lastCity = '';
+function renderItin() {
+  const root = document.getElementById('itinRoot');
+  const byDay = {};
+  itinItems.forEach(item => { if(!byDay[item.day]) byDay[item.day]=[]; byDay[item.day].push(item); });
+  Object.keys(byDay).forEach(d => { byDay[d].sort((a,b)=>(a.order||0)-(b.order||0)); });
 
-  let html = '';
-  sortedDays.forEach(day => {
+  let lastCity='', html='';
+  DAYS.forEach(day => {
+    if (!byDay[day] && !itinItems.find(i=>i.day===day)) return;
     const dayKey = day.split('—')[0].trim();
-    const city = cityMap[dayKey] || '';
-    if (city && city !== lastCity) {
+    const city = CITY_MAP[dayKey]||'';
+    if (city && city!==lastCity) {
       if (lastCity) html += `<div class="city-divider"></div>`;
-      const kanji = cityKanji[city]||''; const dates = cityDates[city]||'';
-      html += `<div class="city-header">
-        <div><div class="city-name">${city}</div><div class="city-kanji">${kanji}</div></div>
-        <div class="city-dates">${dates}</div>
-      </div>`;
+      html += `<div class="city-header"><div><div class="city-name">${city}</div><div class="city-kanji">${CITY_KANJI[city]||''}</div></div><div class="city-dates">${CITY_DATES[city]||''}</div></div>`;
       lastCity = city;
     }
-    html += `<div class="day-label-row">
-      <span class="dlabel">${day}</span>
-      <button class="add-to-day" onclick="openAddItinDay('${escapeAttr(day)}')" title="Add to this day">＋</button>
-    </div>`;
-    days[day].forEach(item => { html += renderItinCard(item); });
+    html += `<div class="day-label-row"><span class="dl">${day}</span><div class="day-btns"><button class="day-add-btn" onclick="openItinSheet('${esc(day)}')" title="Add to this day">＋</button></div></div>`;
+    html += `<div class="day-drop-zone" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
+    (byDay[day]||[]).forEach(item => { html += renderItinCard(item); });
+    html += `</div>`;
   });
-
   root.innerHTML = html;
+  initDrag();
 }
 
-function dotClass(cat) {
-  return {food:'dot-food',activity:'dot-activity',hotel:'dot-hotel',shopping:'dot-shopping',onsen:'dot-onsen',transport:'dot-transport'}[cat]||'dot-activity';
+function dotCls(cat) {
+  return {food:'dot-food',activity:'dot-activity',hotel:'dot-hotel',shopping:'dot-shopping',onsen:'dot-onsen',transport:'dot-transport',explore:'dot-explore',rest:'dot-rest'}[cat]||'dot-activity';
 }
-function whoTag(who) {
-  if (who==='ca') return `<span class="tag tag-ca">Connor & April</span>`;
-  if (who==='pj') return `<span class="tag tag-pj">Pat & Julia</span>`;
-  return `<span class="tag tag-together">Together</span>`;
-}
-function statusTag(status) {
-  if (status==='confirmed') return `<span class="tag tag-booked">✅ Confirmed</span>`;
-  if (status==='tentative') return `<span class="tag tag-flex">💭 Tentative</span>`;
-  return `<span class="tag tag-idea">💡 Idea</span>`;
-}
-function whoStripe(who) {
-  return {together:'who-together',ca:'who-ca',pj:'who-pj'}[who]||'who-together';
-}
+function stripeCls(who) { return {together:'ws-together',ca:'ws-ca',pj:'ws-pj'}[who]||'ws-together'; }
 
 function renderItinCard(item) {
-  const cv = votes[item.id] || {};
-  const caVote = cv.ca || '';
-  const pjVote = cv.pj || '';
-  return `<div class="itin-card ${item.status}" id="icard-${item.id}">
-    <div class="who-stripe ${whoStripe(item.who)}"></div>
+  const cv = votes[item.id]||{};
+  const whoTagHtml = item.who==='ca'?`<span class="tag tag-ca">Connor & April</span>`:item.who==='pj'?`<span class="tag tag-pj">Pat & Julia</span>`:`<span class="tag tag-tog">Together</span>`;
+  const statusTagHtml = item.status==='confirmed'?`<span class="tag tag-booked">✅ Confirmed</span>`:item.status==='tentative'?`<span class="tag tag-flex">💭 Tentative</span>`:`<span class="tag tag-idea">💡 Idea</span>`;
+  return `<div class="itin-card ${item.status}" id="ic-${item.id}" draggable="true" data-id="${item.id}" data-day="${esc(item.day)}"
+    ondragstart="onDragStart(event,'${item.id}')" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
+    <div class="who-stripe ${stripeCls(item.who)}"></div>
     <div class="itin-card-body">
       <div class="itin-top">
+        <span class="drag-handle" title="Drag to reorder">⠿</span>
         <span class="itin-time">${item.time||''}</span>
-        <div class="itin-dot ${dotClass(item.cat)}" style="margin-top:5px"></div>
+        <div class="itin-dot ${dotCls(item.cat)}"></div>
         <div class="itin-main">
           <div class="itin-title">${item.name}</div>
-          ${item.detail ? `<div class="itin-detail">${item.detail}</div>` : ''}
-          <div class="itin-tags">
-            ${whoTag(item.who)} ${statusTag(item.status)}
-            ${item.cost ? `<span class="tag tag-flex">${item.cost}</span>` : ''}
-          </div>
+          ${item.detail?`<div class="itin-detail">${item.detail}</div>`:''}
+          <div class="itin-tags">${whoTagHtml}${statusTagHtml}${item.cost?`<span class="tag tag-flex">${item.cost}</span>`:''}</div>
         </div>
-        <div class="itin-actions">
-          <button class="itin-action-btn" onclick="editItinItem('${item.id}')" title="Edit">✏️</button>
-        </div>
+        <button class="itin-edit-btn" onclick="editItin('${item.id}')">✏️</button>
       </div>
     </div>
     <div class="confirm-row">
-      <div class="confirm-couple">
-        <span class="confirm-label" style="color:var(--ca-color)">C&A</span>
-        <div class="confirm-btns">
-          <button class="cbtn ${caVote==='yes'?'active-yes':''}" onclick="setVote('${item.id}','ca','yes',this)">✅</button>
-          <button class="cbtn ${caVote==='maybe'?'active-maybe':''}" onclick="setVote('${item.id}','ca','maybe',this)">💭</button>
-          <button class="cbtn ${caVote==='no'?'active-no':''}" onclick="setVote('${item.id}','ca','no',this)">👋</button>
+      <div class="confirm-couple-row">
+        <span class="clabel ca">C&A</span>
+        <div class="cvote-btns">
+          <button class="cvbtn ${cv.ca==='yes'?'vy':''}" onclick="castVote('${item.id}','ca','yes',this)">✅</button>
+          <button class="cvbtn ${cv.ca==='maybe'?'vm':''}" onclick="castVote('${item.id}','ca','maybe',this)">💭</button>
+          <button class="cvbtn ${cv.ca==='no'?'vn':''}" onclick="castVote('${item.id}','ca','no',this)">👋</button>
         </div>
+        <input class="vote-comment" placeholder="Add a note…" value="${esc(cv.ca_note||'')}" onchange="saveVoteNote('${item.id}','ca',this.value)">
       </div>
-      <div style="width:1px;background:var(--stone-light);margin:0 6px"></div>
-      <div class="confirm-couple">
-        <span class="confirm-label" style="color:var(--pj-color)">P&J</span>
-        <div class="confirm-btns">
-          <button class="cbtn ${pjVote==='yes'?'active-yes':''}" onclick="setVote('${item.id}','pj','yes',this)">✅</button>
-          <button class="cbtn ${pjVote==='maybe'?'active-maybe':''}" onclick="setVote('${item.id}','pj','maybe',this)">💭</button>
-          <button class="cbtn ${pjVote==='no'?'active-no':''}" onclick="setVote('${item.id}','pj','no',this)">👋</button>
+      <div class="confirm-couple-row">
+        <span class="clabel pj">P&J</span>
+        <div class="cvote-btns">
+          <button class="cvbtn ${cv.pj==='yes'?'vy':''}" onclick="castVote('${item.id}','pj','yes',this)">✅</button>
+          <button class="cvbtn ${cv.pj==='maybe'?'vm':''}" onclick="castVote('${item.id}','pj','maybe',this)">💭</button>
+          <button class="cvbtn ${cv.pj==='no'?'vn':''}" onclick="castVote('${item.id}','pj','no',this)">👋</button>
         </div>
+        <input class="vote-comment" placeholder="Add a note…" value="${esc(cv.pj_note||'')}" onchange="saveVoteNote('${item.id}','pj',this.value)">
       </div>
     </div>
   </div>`;
 }
 
-// ═══════════════════════════════════════════
-// VOTING
-// ═══════════════════════════════════════════
-function setVote(itemId, couple, choice, btn) {
-  if (!votes[itemId]) votes[itemId] = {};
-  const current = votes[itemId][couple];
-  // toggle off if same
-  if (current === choice) {
-    delete votes[itemId][couple];
-  } else {
-    votes[itemId][couple] = choice;
-  }
-  localStorage.setItem('japan-votes', JSON.stringify(votes));
-  // re-render just that card
-  const item = itinItems.find(i=>i.id===itemId);
-  if (item) {
-    const el = document.getElementById('icard-'+itemId);
-    if (el) el.outerHTML = renderItinCard(item);
-  }
-  showToast(choice === 'yes' ? '✅ Confirmed!' : choice === 'maybe' ? '💭 Tentative' : '👋 Skipping');
+// ════════════════════════════════════════
+// DRAG & DROP REORDER
+// ════════════════════════════════════════
+function initDrag() {
+  // touch drag handled via pointer events on handle
+  document.querySelectorAll('.drag-handle').forEach(h => {
+    h.addEventListener('touchstart', onTouchStart, {passive:false});
+  });
 }
 
-// ═══════════════════════════════════════════
+let touchDragItem=null, touchClone=null, touchOffY=0;
+function onTouchStart(e) {
+  e.preventDefault();
+  const card = e.currentTarget.closest('.itin-card');
+  touchDragItem = card;
+  card.classList.add('dragging');
+  const rect = card.getBoundingClientRect();
+  touchClone = card.cloneNode(true);
+  touchClone.style.cssText = `position:fixed;width:${rect.width}px;left:${rect.left}px;top:${rect.top}px;opacity:.8;pointer-events:none;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.3);border-radius:13px;`;
+  document.body.appendChild(touchClone);
+  touchOffY = e.touches[0].clientY - rect.top;
+  document.addEventListener('touchmove', onTouchMove, {passive:false});
+  document.addEventListener('touchend', onTouchEnd);
+}
+function onTouchMove(e) {
+  e.preventDefault();
+  const t = e.touches[0];
+  if (touchClone) touchClone.style.top = (t.clientY - touchOffY)+'px';
+  // find element below
+  touchClone.style.display='none';
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  touchClone.style.display='';
+  if (!el) return;
+  const over = el.closest('.itin-card');
+  if (over && over !== touchDragItem) {
+    const zone = over.closest('.day-drop-zone');
+    if (zone) zone.insertBefore(touchDragItem, over);
+  }
+}
+function onTouchEnd() {
+  if (touchDragItem) { touchDragItem.classList.remove('dragging'); touchDragItem=null; }
+  if (touchClone) { touchClone.remove(); touchClone=null; }
+  document.removeEventListener('touchmove', onTouchMove);
+  document.removeEventListener('touchend', onTouchEnd);
+  persistOrder();
+}
+
+function onDragStart(e, id) {
+  dragSrc = id;
+  e.dataTransfer.effectAllowed = 'move';
+  document.getElementById('ic-'+id)?.classList.add('dragging');
+}
+function onCardDragOver(e) {
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function onCardDrop(e, targetId) {
+  e.preventDefault(); e.stopPropagation();
+  e.currentTarget.classList.remove('drag-over');
+  if (!dragSrc || dragSrc===targetId) return;
+  const srcCard = document.getElementById('ic-'+dragSrc);
+  const tgtCard = document.getElementById('ic-'+targetId);
+  if (srcCard && tgtCard) tgtCard.parentNode.insertBefore(srcCard, tgtCard);
+  srcCard?.classList.remove('dragging');
+  persistOrder();
+}
+function onDayDragOver(e) { e.preventDefault(); }
+function onDayDrop(e, day) {
+  e.preventDefault();
+  if (!dragSrc) return;
+  const zone = e.currentTarget;
+  const srcCard = document.getElementById('ic-'+dragSrc);
+  if (srcCard) zone.appendChild(srcCard);
+  const item = itinItems.find(i=>i.id===dragSrc);
+  if (item) item.day = day;
+  srcCard?.classList.remove('dragging');
+  persistOrder();
+}
+function persistOrder() {
+  document.querySelectorAll('.day-drop-zone').forEach(zone => {
+    const day = zone.dataset.day;
+    zone.querySelectorAll('.itin-card').forEach((card, idx) => {
+      const id = card.dataset.id;
+      const item = itinItems.find(i=>i.id===id);
+      if (item) { item.order = idx; item.day = day; }
+    });
+  });
+  save('itin');
+}
+
+// ════════════════════════════════════════
+// VOTES + COMMENTS
+// ════════════════════════════════════════
+function castVote(itemId, couple, choice, btn) {
+  if (!votes[itemId]) votes[itemId]={};
+  const cur = votes[itemId][couple];
+  if (cur===choice) delete votes[itemId][couple]; else votes[itemId][couple]=choice;
+  localStorage.setItem('jp-votes', JSON.stringify(votes));
+  // update just the confirm row
+  const card = document.getElementById('ic-'+itemId);
+  if (card) {
+    const cv = votes[itemId]||{};
+    card.querySelectorAll('.cvbtn').forEach(b=>{ b.classList.remove('vy','vm','vn'); });
+    const rows = card.querySelectorAll('.confirm-couple-row');
+    const setRow = (row, c) => {
+      const btns = row.querySelectorAll('.cvbtn');
+      const v = cv[c];
+      if (v==='yes') btns[0].classList.add('vy');
+      if (v==='maybe') btns[1].classList.add('vm');
+      if (v==='no') btns[2].classList.add('vn');
+    };
+    if (rows[0]) setRow(rows[0],'ca');
+    if (rows[1]) setRow(rows[1],'pj');
+  }
+  showToast(choice==='yes'?'✅ Confirmed!':choice==='maybe'?'💭 Tentative':'👋 Skipping');
+}
+function saveVoteNote(itemId, couple, val) {
+  if (!votes[itemId]) votes[itemId]={};
+  votes[itemId][couple+'_note']=val;
+  localStorage.setItem('jp-votes', JSON.stringify(votes));
+}
+
+// ════════════════════════════════════════
 // ITIN CRUD
-// ═══════════════════════════════════════════
-let editingItinId = null;
+// ════════════════════════════════════════
+let editItinId=null, itinMode='pick', selectedDiscId=null;
 
-function openAddSheet() {
-  const map = {
-    itinerary:'itinSheet', map:'spotSheet',
-    bookings:'bookingSheet', discover:'discoverSheet', notes:null
-  };
-  const sheet = map[currentTab];
-  if (!sheet) { document.getElementById('noteText').focus(); return; }
-  resetItinSheet();
-  openSheet(sheet);
-}
-
-function openAddItinDay(day) {
-  resetItinSheet();
-  document.getElementById('itinDay').value = day;
+function openItinSheet(day) {
+  editItinId=null; selectedDiscId=null;
+  document.getElementById('itinSheetTitle').textContent='Add to Itinerary';
+  document.getElementById('itinDelBtn').style.display='none';
+  document.getElementById('itinEditId').value='';
+  document.getElementById('itinName').value='';
+  document.getElementById('itinDetail').value='';
+  document.getElementById('itinTime').value='';
+  document.getElementById('itinCost').value='';
+  document.getElementById('itinCat').value='activity';
+  if (day) document.getElementById('itinDay').value=day;
+  selWhoVal('together'); selStatusVal('tentative');
+  switchItinMode('pick');
+  populateDiscoverPicker('');
   openSheet('itinSheet');
 }
 
-function resetItinSheet() {
-  editingItinId = null;
-  document.getElementById('itinSheetTitle').textContent = 'Add to Itinerary';
-  document.getElementById('itinEditId').value = '';
-  document.getElementById('itinName').value = '';
-  document.getElementById('itinDetail').value = '';
-  document.getElementById('itinTime').value = '';
-  document.getElementById('itinCost').value = '';
-  document.getElementById('itinCat').value = 'activity';
-  document.getElementById('itinDeleteBtn').style.display = 'none';
-  selectWhoVal('together');
-  selectStatusVal('tentative');
-}
-
-function editItinItem(id) {
+function editItin(id) {
   const item = itinItems.find(i=>i.id===id);
   if (!item) return;
-  editingItinId = id;
-  document.getElementById('itinSheetTitle').textContent = 'Edit Item';
-  document.getElementById('itinEditId').value = id;
-  document.getElementById('itinName').value = item.name;
-  document.getElementById('itinDetail').value = item.detail||'';
-  document.getElementById('itinDay').value = item.day;
-  document.getElementById('itinTime').value = item.time||'';
-  document.getElementById('itinCat').value = item.cat||'activity';
-  document.getElementById('itinCost').value = item.cost||'';
-  document.getElementById('itinDeleteBtn').style.display = '';
-  selectWhoVal(item.who||'together');
-  selectStatusVal(item.status||'tentative');
+  editItinId=id;
+  document.getElementById('itinSheetTitle').textContent='Edit Item';
+  document.getElementById('itinDelBtn').style.display='';
+  document.getElementById('itinEditId').value=id;
+  document.getElementById('itinDay').value=item.day;
+  document.getElementById('itinTime').value=item.time||'';
+  document.getElementById('itinCost').value=item.cost||'';
+  document.getElementById('itinCat').value=item.cat||'activity';
+  switchItinMode('new');
+  document.getElementById('itinName').value=item.name;
+  document.getElementById('itinDetail').value=item.detail||'';
+  selWhoVal(item.who||'together'); selStatusVal(item.status||'tentative');
   openSheet('itinSheet');
 }
 
-function saveItinItem() {
-  const name = document.getElementById('itinName').value.trim();
-  if (!name) { showToast('Please enter a name'); return; }
-  const who = document.querySelector('.who-opt.sel-together, .who-opt.sel-ca, .who-opt.sel-pj')?.dataset.who || 'together';
-  const status = document.querySelector('.status-opt.sel')?.dataset.status || 'tentative';
-  const item = {
-    id: editingItinId || 'u'+Date.now(),
-    day: document.getElementById('itinDay').value,
-    time: document.getElementById('itinTime').value,
-    name,
-    detail: document.getElementById('itinDetail').value,
-    cat: document.getElementById('itinCat').value,
-    cost: document.getElementById('itinCost').value,
-    who, status
-  };
-  if (editingItinId) {
-    const idx = itinItems.findIndex(i=>i.id===editingItinId);
-    if (idx>-1) itinItems[idx] = item;
-  } else {
-    itinItems.push(item);
-  }
-  saveLocal('itin');
-  renderItinerary();
-  closeSheet('itinSheet');
-  showToast(editingItinId ? '✏️ Updated!' : '✅ Added!');
+function switchItinMode(mode) {
+  itinMode=mode;
+  document.getElementById('itinPickMode').style.display = mode==='pick'?'':'none';
+  document.getElementById('itinNewMode').style.display = mode==='new'?'':'none';
+  document.getElementById('dlTabPick').classList.toggle('active', mode==='pick');
+  document.getElementById('dlTabNew').classList.toggle('active', mode==='new');
 }
 
-function deleteItinItem() {
-  if (!editingItinId) return;
-  if (!confirm('Delete this item?')) return;
-  itinItems = itinItems.filter(i=>i.id!==editingItinId);
-  saveLocal('itin');
-  renderItinerary();
-  closeSheet('itinSheet');
-  showToast('🗑 Deleted');
+function populateDiscoverPicker(query) {
+  const list = document.getElementById('discoverPickerList');
+  const q = query.toLowerCase();
+  const filtered = discItems.filter(d => !q || d.name.toLowerCase().includes(q) || d.city.toLowerCase().includes(q));
+  list.innerHTML = filtered.map(d=>`
+    <div class="dl-item ${selectedDiscId===d.id?'selected':''}" onclick="selectDiscItem('${d.id}')">
+      <span>${d.emoji||CAT_EMOJI[d.cat]||'📍'}</span>
+      <span>${d.name} <span style="font-size:11px;color:var(--stone)">${d.city}</span></span>
+    </div>`).join('') || `<div style="padding:12px;color:var(--stone);font-size:13px">No matches — switch to "Add New"</div>`;
 }
+
+function filterDiscoverPicker() { populateDiscoverPicker(document.getElementById('discoverSearch').value); }
+
+function selectDiscItem(id) {
+  selectedDiscId=id;
+  const d = discItems.find(x=>x.id===id);
+  if (!d) return;
+  // auto-fill fields
+  document.getElementById('itinCat').value = d.cat==='matcha'||d.cat==='coffee'?'food':d.cat==='attraction'?'activity':d.cat==='onsen'?'onsen':d.cat==='shopping'?'shopping':'activity';
+  populateDiscoverPicker(document.getElementById('discoverSearch').value);
+  showToast('📍 '+d.name+' selected');
+}
+
+function saveItin() {
+  let name='', detail='';
+  if (itinMode==='pick' && selectedDiscId && !editItinId) {
+    const d = discItems.find(x=>x.id===selectedDiscId);
+    if (!d) { showToast('Select a spot first'); return; }
+    name=d.name; detail=d.desc||'';
+  } else {
+    name = document.getElementById('itinName').value.trim();
+    detail = document.getElementById('itinDetail').value;
+    if (!name) { showToast('Please enter a name'); return; }
+  }
+  const who = document.querySelector('.who-opt.s-tog, .who-opt.s-ca, .who-opt.s-pj')?.dataset.who||'together';
+  const status = document.querySelector('.status-opt.sel')?.dataset.status||'tentative';
+  const day = document.getElementById('itinDay').value;
+  const dayItems = itinItems.filter(i=>i.day===day);
+  const item = {
+    id: editItinId||'u'+Date.now(),
+    day, time:document.getElementById('itinTime').value,
+    name, detail, cat:document.getElementById('itinCat').value,
+    cost:document.getElementById('itinCost').value,
+    who, status,
+    order: editItinId ? (itinItems.find(i=>i.id===editItinId)?.order||0) : dayItems.length
+  };
+  if (editItinId) { const i=itinItems.findIndex(x=>x.id===editItinId); if(i>-1) itinItems[i]=item; }
+  else itinItems.push(item);
+  save('itin'); renderItin(); closeSheet('itinSheet');
+  showToast(editItinId?'✏️ Updated!':'✅ Added!');
+  editItinId=null; selectedDiscId=null;
+}
+
+function deleteItin() {
+  if (!editItinId||!confirm('Delete this item?')) return;
+  itinItems=itinItems.filter(i=>i.id!==editItinId);
+  save('itin'); renderItin(); closeSheet('itinSheet');
+  showToast('🗑 Deleted'); editItinId=null;
+}
+
+function selWho(el) {
+  document.querySelectorAll('.who-opt').forEach(o=>o.classList.remove('s-tog','s-ca','s-pj'));
+  const m={together:'s-tog',ca:'s-ca',pj:'s-pj'};
+  if(m[el.dataset.who]) el.classList.add(m[el.dataset.who]);
+}
+function selWhoVal(val) {
+  document.querySelectorAll('.who-opt').forEach(o=>{
+    o.classList.remove('s-tog','s-ca','s-pj');
+    if(o.dataset.who===val){const m={together:'s-tog',ca:'s-ca',pj:'s-pj'};if(m[val])o.classList.add(m[val]);}
+  });
+}
+function selStatus(el){document.querySelectorAll('.status-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
+function selStatusVal(val){document.querySelectorAll('.status-opt').forEach(o=>o.classList.toggle('sel',o.dataset.status===val));}
 
 function populateDaySelect() {
-  const days = [...new Set(SEED_ITIN.map(i=>i.day))];
-  const sel = document.getElementById('itinDay');
-  sel.innerHTML = days.map(d=>`<option value="${d}">${d}</option>`).join('');
+  const sel=document.getElementById('itinDay');
+  sel.innerHTML=DAYS.map(d=>`<option value="${d}">${d}</option>`).join('');
 }
 
-function selectWho(el) {
-  document.querySelectorAll('.who-opt').forEach(o=>{
-    o.classList.remove('sel-together','sel-ca','sel-pj');
-  });
-  const cls = {together:'sel-together',ca:'sel-ca',pj:'sel-pj'}[el.dataset.who];
-  if (cls) el.classList.add(cls);
-}
-function selectWhoVal(val) {
-  document.querySelectorAll('.who-opt').forEach(o=>{
-    o.classList.remove('sel-together','sel-ca','sel-pj');
-    if (o.dataset.who===val) {
-      const cls = {together:'sel-together',ca:'sel-ca',pj:'sel-pj'}[val];
-      if (cls) o.classList.add(cls);
-    }
-  });
-}
-function selectStatus(el) {
-  document.querySelectorAll('.status-opt').forEach(o=>o.classList.remove('sel'));
-  el.classList.add('sel');
-}
-function selectStatusVal(val) {
-  document.querySelectorAll('.status-opt').forEach(o=>{
-    o.classList.toggle('sel', o.dataset.status===val);
-  });
-}
+// ════════════════════════════════════════
+// DISCOVER + MAP
+// ════════════════════════════════════════
+let discCityFilter='all', discCatFilter='all';
 
-// ═══════════════════════════════════════════
-// SPOTS RENDER + CRUD
-// ═══════════════════════════════════════════
-function renderSpots() {
-  const grid = document.getElementById('spotsGrid');
-  const filtered = mapFilter==='all' ? spots : spots.filter(s=>s.cat===mapFilter);
-  if (!filtered.length) { grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📍</div><p>No spots yet — add some!</p></div>`; return; }
-  grid.innerHTML = filtered.map(s=>`
-    <div class="spot-card">
-      <div class="spot-emoji">${s.emoji||'📍'}</div>
-      <div class="spot-info">
-        <div class="spot-name">${s.name}</div>
-        <div class="spot-meta">${s.desc||''}</div>
-        <span class="spot-city-tag">${s.city}</span>
-      </div>
-      <div class="spot-right">
-        <button class="heart-btn ${likedSpots.has(s.id)?'liked':''}" onclick="toggleLike('${s.id}',this)">${likedSpots.has(s.id)?'❤️':'🤍'}</button>
-        ${s.maps ? `<a class="open-maps" href="${s.maps}" target="_blank">↗ Maps</a>` : ''}
-        <button class="spot-edit-btn" onclick="editSpot('${s.id}')">✏️</button>
-      </div>
-    </div>`).join('');
-}
-
-function filterMap(cat, el) {
-  mapFilter = cat;
-  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+function filterDisc(type, val, el) {
+  if (type==='city') { discCityFilter=val; document.querySelectorAll('#discCityFilters .fpill').forEach(p=>p.classList.remove('active')); }
+  else { discCatFilter=val; document.querySelectorAll('#discCatFilters .fpill').forEach(p=>p.classList.remove('active')); }
   el.classList.add('active');
-  renderSpots();
+  renderDisc();
 }
 
-function toggleLike(id, btn) {
-  likedSpots.has(id) ? likedSpots.delete(id) : likedSpots.add(id);
-  btn.textContent = likedSpots.has(id)?'❤️':'🤍';
-  btn.classList.toggle('liked', likedSpots.has(id));
-  localStorage.setItem('japan-liked', JSON.stringify([...likedSpots]));
+function renderDisc() {
+  const root=document.getElementById('discRoot');
+  let items=discItems;
+  if (discCityFilter!=='all') items=items.filter(d=>d.city===discCityFilter);
+  if (discCatFilter!=='all') items=items.filter(d=>d.cat===discCatFilter);
+  if (!items.length) { root.innerHTML=`<div class="empty-st"><div class="empty-icon">🗺</div><p>Nothing here yet — add some spots!</p></div>`; return; }
+  // Group by cat
+  const cats={};
+  items.forEach(d=>{ if(!cats[d.cat]) cats[d.cat]=[]; cats[d.cat].push(d); });
+  const catLabels={matcha:'🍵 Matcha',coffee:'☕ Coffee',ramen:'🍜 Ramen & Noodles',sushi:'🍣 Sushi & Seafood',street:'🦀 Street Food',breakfast:'🥞 Breakfast & Snacks',shopping:'🛍 Shopping',experience:'🎨 Experiences',attraction:'⛩️ Attractions',onsen:'♨️ Onsen'};
+  const dbcls=['db-0','db-1','db-2','db-3'];
+  let html='';
+  Object.entries(cats).forEach(([cat,its])=>{
+    html+=`<div class="disc-section-label">${catLabels[cat]||cat}</div><div class="disc-grid">`;
+    its.forEach(d=>{
+      html+=`<div class="disc-card">
+        <div class="disc-icon">${d.emoji||CAT_EMOJI[d.cat]||'📍'}</div>
+        <div class="disc-body">
+          <div class="disc-name">${d.name}</div>
+          <div class="disc-desc">${d.desc||''}</div>
+          <div class="disc-meta">
+            ${(d.tags||[]).map((t,i)=>`<span class="disc-badge ${dbcls[i%4]}">${t}</span>`).join('')}
+          </div>
+        </div>
+        <div class="disc-right">
+          <span class="disc-city-chip">${d.city}</span>
+          <button class="disc-edit-btn" onclick="editDisc('${d.id}')">✏️</button>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  root.innerHTML=html;
 }
 
-let editingSpotId = null;
-function editSpot(id) {
-  const s = spots.find(x=>x.id===id);
-  if (!s) return;
-  editingSpotId = id;
-  document.getElementById('spotSheetTitle').textContent = 'Edit Spot';
-  document.getElementById('spotEditId').value = id;
-  document.getElementById('spotName').value = s.name;
-  document.getElementById('spotDesc').value = s.desc||'';
-  document.getElementById('spotCity').value = s.city;
-  document.getElementById('spotCat').value = s.cat;
-  document.getElementById('spotMaps').value = s.maps||'';
-  document.getElementById('spotEmoji').value = s.emoji||'';
-  document.getElementById('spotDeleteBtn').style.display = '';
-  openSheet('spotSheet');
+// DISC CRUD
+let editDiscId=null;
+function openDiscSheet() {
+  editDiscId=null;
+  document.getElementById('discSheetTitle').textContent='Add to Discover';
+  document.getElementById('discDelBtn').style.display='none';
+  ['discName','discDesc','discTags','discEmoji'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('discCat').value='ramen';
+  autofillEmoji();
+  openSheet('discSheet');
 }
-
-function saveSpot() {
-  const name = document.getElementById('spotName').value.trim();
-  if (!name) { showToast('Please enter a name'); return; }
-  const s = {
-    id: editingSpotId||'sp'+Date.now(),
-    name, desc:document.getElementById('spotDesc').value,
-    city:document.getElementById('spotCity').value,
-    cat:document.getElementById('spotCat').value,
-    maps:document.getElementById('spotMaps').value,
-    emoji:document.getElementById('spotEmoji').value||'📍',
+function editDisc(id) {
+  const d=discItems.find(x=>x.id===id); if(!d) return;
+  editDiscId=id;
+  document.getElementById('discSheetTitle').textContent='Edit Spot';
+  document.getElementById('discDelBtn').style.display='';
+  document.getElementById('discName').value=d.name;
+  document.getElementById('discDesc').value=d.desc||'';
+  document.getElementById('discCity').value=d.city;
+  document.getElementById('discCat').value=d.cat;
+  document.getElementById('discTags').value=(d.tags||[]).join(', ');
+  document.getElementById('discEmoji').value=d.emoji||'';
+  openSheet('discSheet');
+}
+function autofillEmoji() {
+  const cat=document.getElementById('discCat').value;
+  const emojiField=document.getElementById('discEmoji');
+  if (!emojiField.value||Object.values(CAT_EMOJI).includes(emojiField.value)) emojiField.value=CAT_EMOJI[cat]||'📍';
+}
+function saveDisc() {
+  const name=document.getElementById('discName').value.trim(); if(!name){showToast('Name required');return;}
+  const cat=document.getElementById('discCat').value;
+  const d={
+    id:editDiscId||'d'+Date.now(),
+    name, desc:document.getElementById('discDesc').value,
+    city:document.getElementById('discCity').value,
+    cat, tags:document.getElementById('discTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    emoji:document.getElementById('discEmoji').value||CAT_EMOJI[cat]||'📍',
   };
-  if (editingSpotId) { const i=spots.findIndex(x=>x.id===editingSpotId); if(i>-1) spots[i]=s; }
-  else spots.push(s);
-  saveLocal('spots'); renderSpots(); closeSheet('spotSheet');
-  showToast(editingSpotId?'✏️ Updated!':'📍 Spot added!');
-  editingSpotId = null;
+  if(editDiscId){const i=discItems.findIndex(x=>x.id===editDiscId);if(i>-1)discItems[i]=d;}
+  else discItems.push(d);
+  save('disc'); renderDisc(); closeSheet('discSheet');
+  showToast(editDiscId?'✏️ Updated!':'✨ Added!');
+  editDiscId=null;
+}
+function deleteDisc() {
+  if(!editDiscId||!confirm('Delete?'))return;
+  discItems=discItems.filter(d=>d.id!==editDiscId);
+  save('disc'); renderDisc(); closeSheet('discSheet');
+  showToast('🗑 Deleted'); editDiscId=null;
 }
 
-function deleteSpot() {
-  if (!editingSpotId||!confirm('Delete this spot?')) return;
-  spots = spots.filter(s=>s.id!==editingSpotId);
-  saveLocal('spots'); renderSpots(); closeSheet('spotSheet');
-  showToast('🗑 Deleted'); editingSpotId=null;
+// ════════════════════════════════════════
+// BOOKINGS
+// ════════════════════════════════════════
+function renderBook() {
+  const root=document.getElementById('bookingsRoot');
+  const flights=bookItems.filter(b=>b.icon==='✈️');
+  const hotels=bookItems.filter(b=>b.icon==='🏨'||b.icon==='🏕️');
+  const acts=bookItems.filter(b=>!['✈️','🏨','🏕️'].includes(b.icon));
+  let html='';
+  if(flights.length) html+=`<div class="section-label">✈️ FLIGHTS</div><div class="booking-section">${flights.map(bkCard).join('')}</div>`;
+  if(hotels.length) html+=`<div class="section-label">🏨 HOTELS & STAYS</div><div class="booking-section">${hotels.map(bkCard).join('')}</div>`;
+  if(acts.length) html+=`<div class="section-label">🎟 ACTIVITIES TO BOOK</div><div class="booking-section">${acts.map(bkCard).join('')}</div>`;
+  root.innerHTML=html;
 }
-
-// ═══════════════════════════════════════════
-// BOOKINGS RENDER + CRUD
-// ═══════════════════════════════════════════
-function renderBookings() {
-  const root = document.getElementById('bookingsRoot');
-  // Group by type
-  const flights = bookings.filter(b=>b.icon==='✈️');
-  const hotels = bookings.filter(b=>b.icon==='🏨'||b.icon==='🏕️');
-  const activities = bookings.filter(b=>!['✈️','🏨','🏕️'].includes(b.icon));
-  let html = '';
-  if (flights.length) { html += `<div class="section-label">✈️ FLIGHTS</div><div class="booking-section">${flights.map(b=>renderBookingCard(b)).join('')}</div>`; }
-  if (hotels.length) { html += `<div class="section-label">🏨 HOTELS & STAYS</div><div class="booking-section">${hotels.map(b=>renderBookingCard(b)).join('')}</div>`; }
-  if (activities.length) { html += `<div class="section-label">🎟 ACTIVITIES & THINGS TO BOOK</div><div class="booking-section">${activities.map(b=>renderBookingCard(b)).join('')}</div>`; }
-
-  html += `<div class="section-label">📱 TRANSIT TIPS</div>
-    <div class="tips-banner"><div class="tips-banner-icon">🧳</div><div class="tips-banner-text"><strong>Yamato Luggage Delivery</strong> — send bags to your next hotel the night before (before 4pm). Don't lug suitcases on trains!</div></div>
-    <div class="tips-banner"><div class="tips-banner-icon">📶</div><div class="tips-banner-text"><strong>Wi-Fi / eSIM</strong> — get NTT Docomo's JW-Auto eSIM or Skyroam pocket Wi-Fi at the airport.</div></div>
-    <div class="tips-banner"><div class="tips-banner-icon">💳</div><div class="tips-banner-text"><strong>Suica IC Card</strong> — buy at the airport. Works on all trains, subways, and convenience stores. Get it on Smartex app before you go!</div></div>`;
-  root.innerHTML = html;
-}
-
-function renderBookingCard(b) {
-  const statusClass = {confirmed:'status-confirmed',pending:'status-pending',todo:'status-todo'}[b.status]||'status-todo';
-  const statusText = {confirmed:'Confirmed ✓',pending:'Pending',todo:'Book Now'}[b.status]||'Book Now';
+function bkCard(b) {
+  const sc={confirmed:'sc',pending:'sp',todo:'st'}[b.status]||'st';
+  const sl={confirmed:'Confirmed ✓',pending:'Pending',todo:'Book Now'}[b.status]||'Book Now';
   return `<div class="booking-card">
-    <div class="booking-header">
-      <div class="booking-icon">${b.icon||'🎟'}</div>
-      <div>
-        <div class="booking-title">${b.name}</div>
-        <div class="booking-sub">${b.sub||''}</div>
-      </div>
-      <div class="booking-status ${statusClass}">${statusText}</div>
-      <button class="booking-edit-btn" onclick="editBooking('${b.id}')">✏️</button>
+    <div class="bk-header">
+      <div class="bk-icon">${b.icon||'🎟'}</div>
+      <div><div class="bk-title">${b.name}</div><div class="bk-sub">${b.sub||''}</div></div>
+      <div class="bk-status ${sc}">${sl}</div>
+      <button class="bk-edit" onclick="editBk('${b.id}')">✏️</button>
     </div>
-    ${b.notes ? `<div class="booking-details"><div class="booking-detail-item" style="grid-column:1/-1"><div class="label">Notes</div><div class="value">${b.notes}</div></div></div>` : ''}
+    ${(b.time||b.notes)?`<div class="bk-details">
+      ${b.time?`<div class="bk-di"><div class="lbl">Time</div><div class="val">${b.time}</div></div>`:''}
+      ${b.notes?`<div class="bk-di" style="grid-column:${b.time?'2':'1/-1'}"><div class="lbl">Notes</div><div class="val">${b.notes}</div></div>`:''}
+    </div>`:''}
   </div>`;
 }
-
-let editingBookingId = null;
-function editBooking(id) {
-  const b = bookings.find(x=>x.id===id);
-  if (!b) return;
-  editingBookingId = id;
-  document.getElementById('bookingSheetTitle').textContent = 'Edit Booking';
-  document.getElementById('bookingEditId').value = id;
-  document.getElementById('bookingName').value = b.name;
-  document.getElementById('bookingSub').value = b.sub||'';
-  document.getElementById('bookingType').value = b.icon||'🎟';
-  document.getElementById('bookingStatus').value = b.status||'todo';
-  document.getElementById('bookingNotes').value = b.notes||'';
-  document.getElementById('bookingDeleteBtn').style.display = '';
-  openSheet('bookingSheet');
+let editBkId=null;
+function openBkSheet() {
+  editBkId=null;
+  document.getElementById('bkSheetTitle').textContent='Add Booking';
+  document.getElementById('bkDelBtn').style.display='none';
+  ['bkName','bkSub','bkTime','bkNotes'].forEach(id=>document.getElementById(id).value='');
+  openSheet('bkSheet');
+}
+function editBk(id) {
+  const b=bookItems.find(x=>x.id===id); if(!b) return;
+  editBkId=id;
+  document.getElementById('bkSheetTitle').textContent='Edit Booking';
+  document.getElementById('bkDelBtn').style.display='';
+  document.getElementById('bkName').value=b.name;
+  document.getElementById('bkSub').value=b.sub||'';
+  document.getElementById('bkType').value=b.icon||'🎟';
+  document.getElementById('bkTime').value=b.time||'';
+  document.getElementById('bkStatus').value=b.status||'todo';
+  document.getElementById('bkNotes').value=b.notes||'';
+  openSheet('bkSheet');
+}
+function saveBk() {
+  const name=document.getElementById('bkName').value.trim(); if(!name){showToast('Name required');return;}
+  const b={id:editBkId||'b'+Date.now(),name,sub:document.getElementById('bkSub').value,icon:document.getElementById('bkType').value,time:document.getElementById('bkTime').value,status:document.getElementById('bkStatus').value,notes:document.getElementById('bkNotes').value};
+  if(editBkId){const i=bookItems.findIndex(x=>x.id===editBkId);if(i>-1)bookItems[i]=b;}else bookItems.push(b);
+  save('book'); renderBook(); closeSheet('bkSheet'); showToast(editBkId?'✏️ Updated!':'🎟 Added!'); editBkId=null;
+}
+function deleteBk() {
+  if(!editBkId||!confirm('Delete?'))return;
+  bookItems=bookItems.filter(b=>b.id!==editBkId);
+  save('book'); renderBook(); closeSheet('bkSheet'); showToast('🗑 Deleted'); editBkId=null;
 }
 
-function saveBooking() {
-  const name = document.getElementById('bookingName').value.trim();
-  if (!name) { showToast('Please enter a name'); return; }
-  const b = {
-    id: editingBookingId||'b'+Date.now(),
-    name, sub:document.getElementById('bookingSub').value,
-    icon:document.getElementById('bookingType').value,
-    status:document.getElementById('bookingStatus').value,
-    notes:document.getElementById('bookingNotes').value,
-  };
-  if (editingBookingId) { const i=bookings.findIndex(x=>x.id===editingBookingId); if(i>-1) bookings[i]=b; }
-  else bookings.push(b);
-  saveLocal('bookings'); renderBookings(); closeSheet('bookingSheet');
-  showToast(editingBookingId?'✏️ Updated!':'🎟 Added!');
-  editingBookingId=null;
-  // reset form
-  document.getElementById('bookingSheetTitle').textContent='Add Booking';
-  document.getElementById('bookingDeleteBtn').style.display='none';
-}
-
-function deleteBooking() {
-  if (!editingBookingId||!confirm('Delete this booking?')) return;
-  bookings = bookings.filter(b=>b.id!==editingBookingId);
-  saveLocal('bookings'); renderBookings(); closeSheet('bookingSheet');
-  showToast('🗑 Deleted'); editingBookingId=null;
-}
-
-// ═══════════════════════════════════════════
-// DISCOVER RENDER + CRUD
-// ═══════════════════════════════════════════
-function renderDiscover() {
-  const root = document.getElementById('discoverRoot');
-  const filtered = discoverFilter==='all' ? discoverItems : discoverItems.filter(d=>d.city===discoverFilter);
-  // Group by cat
-  const cats = {};
-  filtered.forEach(d => { if(!cats[d.cat]) cats[d.cat]=[]; cats[d.cat].push(d); });
-  const badgeClasses = ['badge-matcha','badge-gold','badge-blush','badge-sky'];
-  let html = '';
-  Object.entries(cats).forEach(([cat, items]) => {
-    html += `<div class="discover-category">
-      <div class="discover-cat-label">${cat}</div>
-      ${items.map(item=>`
-        <div class="discover-item">
-          <div class="discover-item-icon">${item.emoji||'📍'}</div>
-          <div class="discover-item-body">
-            <div class="discover-item-name">${item.name}</div>
-            <div class="discover-item-desc">${item.desc||''}</div>
-            <div class="discover-item-meta">
-              ${(item.tags||[]).map((t,i)=>`<span class="discover-badge ${badgeClasses[i%4]}">${t}</span>`).join('')}
-            </div>
-          </div>
-          <button class="discover-edit" onclick="editDiscover('${item.id}')">✏️</button>
-        </div>`).join('')}
+// ════════════════════════════════════════
+// TRANSIT
+// ════════════════════════════════════════
+function renderTransit() {
+  const root=document.getElementById('transitRoot');
+  if(!transitItems.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🚄</div><p>No trains added yet!</p></div>`;return;}
+  root.innerHTML=transitItems.map(t=>{
+    const sts=t.status==='confirmed'?'shin-ok':'shin-book';
+    const stl=t.status==='confirmed'?'✓ Confirmed':'📌 Book Now';
+    return `<div class="shin-card">
+      <div class="shin-status ${sts}">${stl}</div>
+      <div class="shin-type">${t.trainName||'Shinkansen'}</div>
+      <div class="shin-route"><div class="shin-city">${t.from}</div><div class="shin-arrow">→</div><div class="shin-city">${t.to}</div></div>
+      <div class="shin-grid">
+        <div class="shin-d"><div class="lbl">DATE</div><div class="val">${t.date||'—'}</div></div>
+        <div class="shin-d"><div class="lbl">DEPARTS</div><div class="val">${t.departs||'—'}</div></div>
+        <div class="shin-d"><div class="lbl">SEATS</div><div class="val">${t.seats||'—'}</div></div>
+      </div>
+      ${t.notes?`<div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:7px">${t.notes}</div>`:''}
+      <button class="shin-edit-btn" onclick="editTr('${t.id}')">✏️</button>
     </div>`;
-  });
-  if (!html) html = `<div class="empty-state"><div class="empty-icon">🍜</div><p>No spots yet for this city!</p></div>`;
-  root.innerHTML = html;
+  }).join('');
+}
+let editTrId=null;
+function openTrSheet() {
+  editTrId=null;
+  document.getElementById('transitSheetTitle').textContent='Add Train';
+  document.getElementById('trDelBtn').style.display='none';
+  ['trFrom','trTo','trDate','trDeparts','trName','trSeats','trNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('trStatus').value='todo';
+  openSheet('transitSheet');
+}
+function editTr(id) {
+  const t=transitItems.find(x=>x.id===id); if(!t) return;
+  editTrId=id;
+  document.getElementById('transitSheetTitle').textContent='Edit Train';
+  document.getElementById('trDelBtn').style.display='';
+  document.getElementById('trFrom').value=t.from;
+  document.getElementById('trTo').value=t.to;
+  document.getElementById('trDate').value=t.date||'';
+  document.getElementById('trDeparts').value=t.departs||'';
+  document.getElementById('trName').value=t.trainName||'';
+  document.getElementById('trSeats').value=t.seats||'';
+  document.getElementById('trNotes').value=t.notes||'';
+  document.getElementById('trStatus').value=t.status||'todo';
+  openSheet('transitSheet');
+}
+function saveTr() {
+  const from=document.getElementById('trFrom').value.trim(),to=document.getElementById('trTo').value.trim();
+  if(!from||!to){showToast('From + To required');return;}
+  const t={id:editTrId||'t'+Date.now(),from,to,trainName:document.getElementById('trName').value,date:document.getElementById('trDate').value,departs:document.getElementById('trDeparts').value,seats:document.getElementById('trSeats').value,notes:document.getElementById('trNotes').value,status:document.getElementById('trStatus').value};
+  if(editTrId){const i=transitItems.findIndex(x=>x.id===editTrId);if(i>-1)transitItems[i]=t;}else transitItems.push(t);
+  save('transit'); renderTransit(); closeSheet('transitSheet'); showToast(editTrId?'✏️ Updated!':'🚄 Added!'); editTrId=null;
+}
+function deleteTr() {
+  if(!editTrId||!confirm('Delete?'))return;
+  transitItems=transitItems.filter(t=>t.id!==editTrId);
+  save('transit'); renderTransit(); closeSheet('transitSheet'); showToast('🗑 Deleted'); editTrId=null;
 }
 
-function filterDiscover(city, el) {
-  discoverFilter = city;
-  document.querySelectorAll('.d-city-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderDiscover();
-}
-
-let editingDiscoverId = null;
-function editDiscover(id) {
-  const d = discoverItems.find(x=>x.id===id);
-  if (!d) return;
-  editingDiscoverId = id;
-  document.getElementById('discoverSheetTitle').textContent = 'Edit Spot';
-  document.getElementById('discoverEditId').value = id;
-  document.getElementById('discoverName').value = d.name;
-  document.getElementById('discoverDesc').value = d.desc||'';
-  document.getElementById('discoverCity2').value = d.city;
-  document.getElementById('discoverCat2').value = d.cat;
-  document.getElementById('discoverTags').value = (d.tags||[]).join(', ');
-  document.getElementById('discoverEmoji').value = d.emoji||'';
-  document.getElementById('discoverDeleteBtn').style.display = '';
-  openSheet('discoverSheet');
-}
-
-function saveDiscover() {
-  const name = document.getElementById('discoverName').value.trim();
-  if (!name) { showToast('Please enter a name'); return; }
-  const tags = document.getElementById('discoverTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  const d = {
-    id: editingDiscoverId||'d'+Date.now(),
-    name, desc:document.getElementById('discoverDesc').value,
-    city:document.getElementById('discoverCity2').value,
-    cat:document.getElementById('discoverCat2').value,
-    tags, emoji:document.getElementById('discoverEmoji').value||'📍',
-  };
-  if (editingDiscoverId) { const i=discoverItems.findIndex(x=>x.id===editingDiscoverId); if(i>-1) discoverItems[i]=d; }
-  else discoverItems.push(d);
-  saveLocal('discover'); renderDiscover(); closeSheet('discoverSheet');
-  showToast(editingDiscoverId?'✏️ Updated!':'✨ Added!');
-  editingDiscoverId=null;
-  document.getElementById('discoverSheetTitle').textContent='Add to Discover';
-  document.getElementById('discoverDeleteBtn').style.display='none';
-}
-
-function deleteDiscover() {
-  if (!editingDiscoverId||!confirm('Delete this spot?')) return;
-  discoverItems = discoverItems.filter(d=>d.id!==editingDiscoverId);
-  saveLocal('discover'); renderDiscover(); closeSheet('discoverSheet');
-  showToast('🗑 Deleted'); editingDiscoverId=null;
-}
-
-// ═══════════════════════════════════════════
+// ════════════════════════════════════════
 // NOTES
-// ═══════════════════════════════════════════
-function updateCharCount() {
-  document.getElementById('charCount').textContent = document.getElementById('noteText').value.length+'/300';
-}
+// ════════════════════════════════════════
+function updateCC(){document.getElementById('charCount').textContent=document.getElementById('noteText').value.length+'/300';}
 
 async function postNote() {
-  const text = document.getElementById('noteText').value.trim();
-  if (!text) return;
-  const note = { couple:document.getElementById('noteCouple').value, type:document.getElementById('noteType').value, text, created_at:new Date().toISOString() };
-  if (sb) { await sb.from('japan_notes').insert([note]); }
-  else { note.id=Date.now(); notes.unshift(note); renderNotes(); }
-  document.getElementById('noteText').value = '';
-  document.getElementById('charCount').textContent = '0/300';
+  const text=document.getElementById('noteText').value.trim(); if(!text) return;
+  const note={couple:document.getElementById('noteCouple').value,type:document.getElementById('noteType').value,text,created_at:new Date().toISOString()};
+  if(sb) {
+    const {error} = await sb.from('japan_notes').insert([note]);
+    if (error) { note.id=Date.now(); notes.unshift(note); renderNotes(); }
+  } else { note.id=Date.now(); notes.unshift(note); renderNotes(); }
+  document.getElementById('noteText').value='';
+  document.getElementById('charCount').textContent='0/300';
+  // Switch to notes tab so they can see it
+  switchTab('notes');
   showToast('💬 Posted!');
 }
 
 function renderNotes() {
-  const feed = document.getElementById('notesFeed');
-  if (!notes.length) { feed.innerHTML=`<div class="empty-state"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote.</p></div>`; return; }
-  feed.innerHTML = notes.map(n => {
-    const isCA = n.couple==='ca';
+  const feed=document.getElementById('notesFeed');
+  if(!notes.length){feed.innerHTML=`<div class="empty-st"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote on a plan.</p></div>`;return;}
+  feed.innerHTML=notes.map(n=>{
+    const isCA=n.couple==='ca';
     return `<div class="note-card">
-      <div class="note-card-top">
-        <span class="note-author-badge ${isCA?'badge-ca':'badge-pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
-        <span class="note-type-tag">${n.type||''}</span>
-        <span class="note-timestamp">${formatTime(n.created_at)}</span>
+      <div class="nc-top2">
+        <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
+        <span class="nc-ttype">${n.type||''}</span>
+        <span class="nc-ts">${fmtTime(n.created_at)}</span>
       </div>
       <div class="note-text">${esc(n.text)}</div>
-      <div class="note-reactions">
-        <button class="reaction-btn" onclick="react(this)">👍</button>
-        <button class="reaction-btn" onclick="react(this)">❤️</button>
-        <button class="reaction-btn" onclick="react(this)">🔥</button>
-        <button class="reaction-btn" onclick="react(this)">✅</button>
+      <div class="react-row">
+        <button class="rbtn" onclick="react(this)">👍</button>
+        <button class="rbtn" onclick="react(this)">❤️</button>
+        <button class="rbtn" onclick="react(this)">🔥</button>
+        <button class="rbtn" onclick="react(this)">✅</button>
       </div>
     </div>`;
   }).join('');
 }
 
 function react(btn) {
-  const c = parseInt(btn.dataset.c||0)+1;
-  btn.dataset.c = c;
-  if (c>1) btn.textContent = btn.textContent.replace(/ \d+$/,'')+' '+c;
-  btn.style.background = 'var(--gold-light)';
+  const c=parseInt(btn.dataset.c||0)+1;
+  btn.dataset.c=c;
+  if(c>1) btn.textContent=btn.textContent.replace(/ \d+$/,'')+' '+c;
+  btn.style.background='var(--gold-light)';
 }
 
-// ═══════════════════════════════════════════
-// SHEET HELPERS
-// ═══════════════════════════════════════════
-function openSheet(id) { document.getElementById(id).classList.add('open'); }
-function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
+// ════════════════════════════════════════
+// FAB
+// ════════════════════════════════════════
+function openFab() {
+  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
+  (map[currentTab]||openDiscSheet)();
+}
 
-// Close on backdrop click
-document.querySelectorAll('.sheet-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target===el) el.classList.remove('open'); });
+// ════════════════════════════════════════
+// SHEETS
+// ════════════════════════════════════════
+function openSheet(id){document.getElementById(id).classList.add('open');}
+function closeSheet(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.sheet-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); });
 });
 
-function openAddSheet() {
-  const sheetMap = { itinerary:'itinSheet', map:'spotSheet', bookings:'bookingSheet', discover:'discoverSheet', notes:null };
-  const sid = sheetMap[currentTab];
-  if (!sid) { switchTab('notes'); return; }
-  if (sid==='itinSheet') resetItinSheet();
-  if (sid==='spotSheet') { editingSpotId=null; document.getElementById('spotSheetTitle').textContent='Add a Spot'; document.getElementById('spotDeleteBtn').style.display='none'; document.getElementById('spotName').value=''; document.getElementById('spotDesc').value=''; document.getElementById('spotMaps').value=''; document.getElementById('spotEmoji').value=''; }
-  if (sid==='bookingSheet') { editingBookingId=null; document.getElementById('bookingSheetTitle').textContent='Add Booking'; document.getElementById('bookingDeleteBtn').style.display='none'; document.getElementById('bookingName').value=''; document.getElementById('bookingSub').value=''; document.getElementById('bookingNotes').value=''; }
-  if (sid==='discoverSheet') { editingDiscoverId=null; document.getElementById('discoverSheetTitle').textContent='Add to Discover'; document.getElementById('discoverDeleteBtn').style.display='none'; document.getElementById('discoverName').value=''; document.getElementById('discoverDesc').value=''; document.getElementById('discoverTags').value=''; document.getElementById('discoverEmoji').value=''; }
-  openSheet(sid);
-}
-
-// ═══════════════════════════════════════════
-// UTILITIES
-// ═══════════════════════════════════════════
-function formatTime(iso) {
-  const d=new Date(iso), now=new Date(), diff=Math.floor((now-d)/60000);
-  if(diff<1) return 'just now';
-  if(diff<60) return diff+'m ago';
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function fmtTime(iso){
+  const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
+  if(diff<1) return 'just now'; if(diff<60) return diff+'m ago';
   if(diff<1440) return Math.floor(diff/60)+'h ago';
   return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
-function esc(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function escapeAttr(str) { return (str||'').replace(/'/g,'&#39;'); }
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2000);
-}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 </script>
 </body>
 </html>
