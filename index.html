@@ -276,6 +276,64 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 /* EMPTY */
 .empty-st{text-align:center;padding:26px 16px;color:var(--stone);}
 .empty-icon{font-size:36px;margin-bottom:8px;}
+
+/* LINE UP STATUS */
+.sq{background:rgba(234,88,12,.12);color:#ea580c;}
+
+/* DISC CARD MAP BUTTON */
+.disc-map-btn{font-size:11px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.disc-map-btn:hover{background:rgba(91,143,168,.2);}
+.disc-card.map-active{border:1.5px solid var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+
+/* TIPS TAB */
+.tips-section{margin:0 12px 18px;}
+.tips-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 0 7px;border-bottom:2px solid var(--stone-light);margin-bottom:10px;}
+.tips-section-title{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:var(--ink);}
+.tips-section-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;}
+.tip-item{background:white;border-radius:12px;padding:11px 13px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
+.tip-item-icon{font-size:20px;flex-shrink:0;padding-top:1px;}
+.tip-item-body{flex:1;}
+.tip-item-title{font-size:14px;font-weight:500;color:var(--ink);}
+.tip-item-detail{font-size:12px;color:var(--stone);margin-top:3px;line-height:1.5;}
+.tip-item-link{font-size:12px;color:var(--sky);margin-top:3px;word-break:break-all;}
+.tip-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.2;flex-shrink:0;}
+.tip-edit-btn:hover{opacity:.8;}
+
+/* PHRASE TABLE */
+.phrase-table{width:100%;border-collapse:collapse;}
+.phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid #f0ece6;}
+.phrase-row:last-child{border-bottom:none;}
+.phrase-en{font-size:13px;color:var(--ink);padding:9px 12px;}
+.phrase-jp{font-size:13px;color:var(--matcha);padding:9px 12px;font-weight:500;}
+
+/* BLOSSOM TABLE */
+.blossom-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.blossom-card{background:white;border-radius:10px;padding:10px 12px;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
+.blossom-city{font-size:13px;font-weight:600;color:var(--ink);}
+.blossom-date{font-size:12px;color:var(--blossom-deep);margin-top:2px;}
+
+/* TIKTOK TAB */
+.tt-grid{display:flex;flex-direction:column;gap:8px;padding:0 12px;}
+.tt-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);cursor:pointer;transition:all .2s;}
+.tt-card:active{transform:scale(.98);}
+.tt-top{display:flex;align-items:stretch;gap:0;}
+.tt-thumb{width:72px;flex-shrink:0;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;}
+.tt-thumb img{width:100%;height:100%;object-fit:cover;}
+.tt-thumb-fallback{font-size:28px;}
+.tt-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);}
+.tt-body{flex:1;padding:10px 12px;}
+.tt-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
+.tt-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center;}
+.tt-cat-chip{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;}
+.tt-city-chip{font-size:10px;color:var(--stone);background:#f0ece6;padding:2px 8px;border-radius:10px;}
+.tt-notes{font-size:12px;color:var(--stone);padding:7px 12px 10px;border-top:1px solid #f0ece6;line-height:1.4;}
+.tt-actions{display:flex;align-items:center;gap:6px;padding:6px 12px 9px;}
+.tt-like-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.35;transition:all .2s;}
+.tt-like-btn.liked{opacity:1;}
+.tt-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;margin-left:auto;}
+.tt-edit-btn:hover{opacity:.8;}
+.tt-open-btn{font-size:11px;font-weight:500;color:white;background:var(--ink);border:none;border-radius:20px;padding:5px 12px;cursor:pointer;font-family:inherit;}
+.tt-section-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
 </style>
 </head>
 <body>
@@ -309,6 +367,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
   <div class="nav-tab" onclick="switchTab('discover')" id="tab-discover">🗺 DISCOVER</div>
   <div class="nav-tab" onclick="switchTab('bookings')" id="tab-bookings">🎫 BOOKINGS</div>
   <div class="nav-tab" onclick="switchTab('transit')" id="tab-transit">🚄 TRANSIT</div>
+  <div class="nav-tab" onclick="switchTab('tips')" id="tab-tips">💡 TIPS</div>
+  <div class="nav-tab" onclick="switchTab('tiktok')" id="tab-tiktok">🎵 TIKTOKS</div>
   <div class="nav-tab" onclick="switchTab('notes')" id="tab-notes">💬 NOTES</div>
 </div>
 
@@ -321,8 +381,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 <div class="tab-content" id="content-discover">
   <!-- Embedded Map -->
   <div class="disc-map-wrap">
-    <iframe src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
-    <a class="disc-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" target="_blank">↗ Open Map</a>
+    <iframe id="discMapFrame" src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
+    <a class="disc-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" target="_blank">↗ Open Full Map</a>
   </div>
   <!-- City filter -->
   <div class="filter-scroll" id="discCityFilters">
@@ -366,6 +426,127 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
   <div class="tip-banner"><div class="tip-icon">💳</div><div class="tip-text"><strong>Suica IC Card</strong> — buy at the airport. Works on all trains, subways, and konbini. Get it on the Smartex app before you leave.</div></div>
   <div class="tip-banner"><div class="tip-icon">🧳</div><div class="tip-text"><strong>Yamato Luggage Delivery</strong> — send bags to next hotel the night before (before 4pm). Never lug suitcases on trains!</div></div>
   <div class="tip-banner"><div class="tip-icon">📶</div><div class="tip-text"><strong>eSIM / Wi-Fi</strong> — get NTT Docomo JW-Auto eSIM or Skyroam pocket Wi-Fi at the airport.</div></div>
+</div>
+
+<!-- ══ TRAVEL TIPS ══ -->
+<div class="tab-content" id="content-tips">
+  <div id="tipsRoot"></div>
+</div>
+
+<!-- ══ TIKTOKS ══ -->
+<div class="tab-content" id="content-tiktok">
+  <div style="padding:13px 14px 5px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">TikTok Saves 🎵</div>
+      <div style="font-size:12px;color:var(--stone);margin-top:2px">Your saved Japan TikToks, sorted by category</div>
+    </div>
+  </div>
+  <div class="filter-scroll" id="ttCatFilter">
+    <div class="fpill active" onclick="filterTT('all',this)">All</div>
+    <div class="fpill" onclick="filterTT('food',this)">🍜 Food</div>
+    <div class="fpill" onclick="filterTT('tips',this)">💡 Tips</div>
+    <div class="fpill" onclick="filterTT('attraction',this)">⛩️ Attractions</div>
+    <div class="fpill" onclick="filterTT('shopping',this)">🛍 Shopping</div>
+    <div class="fpill" onclick="filterTT('vlog',this)">📹 Vlogs</div>
+    <div class="fpill" onclick="filterTT('other',this)">✨ Other</div>
+  </div>
+  <div id="ttRoot"></div>
+</div>
+
+<!-- TIKTOK SHEET -->
+<div class="sheet-overlay" id="ttSheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="ttSheetTitle">Add TikTok</div>
+    <div class="sheet-body">
+      <input type="hidden" id="ttEditId">
+      <div class="form-row">
+        <label class="form-label">TikTok URL</label>
+        <input class="form-input" id="ttUrl" placeholder="https://www.tiktok.com/@user/video/…" oninput="onTTUrlInput()">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Title / Description</label>
+        <input class="form-input" id="ttTitle" placeholder="e.g. Best ramen spots in Tokyo">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Notes</label>
+        <textarea class="form-textarea" id="ttNotes" placeholder="Anything you want to remember about this one…"></textarea>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label class="form-label">Category</label>
+          <select class="form-select" id="ttCat">
+            <option value="food">🍜 Food</option>
+            <option value="tips">💡 Tips</option>
+            <option value="attraction">⛩️ Attractions</option>
+            <option value="shopping">🛍 Shopping</option>
+            <option value="vlog">📹 Vlog</option>
+            <option value="other">✨ Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">City / Area</label>
+          <select class="form-select" id="ttCity">
+            <option value="general">General</option>
+            <option value="tokyo">Tokyo</option>
+            <option value="kyoto">Kyoto</option>
+            <option value="osaka">Osaka</option>
+            <option value="fuji">Mt. Fuji</option>
+          </select>
+        </div>
+      </div>
+      <div id="ttPreviewWrap" style="display:none;margin-bottom:12px">
+        <label class="form-label">Preview</label>
+        <div id="ttPreview" style="background:var(--ink);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center">
+          <div style="width:44px;height:44px;background:#333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🎵</div>
+          <div style="flex:1;min-width:0"><div id="ttPreviewTitle" style="font-size:13px;font-weight:500;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div><div style="font-size:11px;color:var(--stone-light);margin-top:2px">TikTok video</div></div>
+        </div>
+      </div>
+      <button class="form-submit" onclick="saveTT()">Save →</button>
+      <button class="form-delete" id="ttDelBtn" style="display:none" onclick="deleteTT()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('ttSheet')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS SHEET -->
+<div class="sheet-overlay" id="tipsSheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="tipsSheetTitle">Add Tip</div>
+    <div class="sheet-body">
+      <input type="hidden" id="tipEditId">
+      <div class="form-row">
+        <label class="form-label">Title</label>
+        <input class="form-input" id="tipTitle" placeholder="e.g. Don't tip!">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Details</label>
+        <textarea class="form-textarea" id="tipDetail" placeholder="More info, links, etc."></textarea>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label class="form-label">Section</label>
+          <select class="form-select" id="tipSection">
+            <option value="apps">📱 Apps & Services</option>
+            <option value="links">🔗 Helpful Links</option>
+            <option value="transport">🚄 Transportation</option>
+            <option value="etiquette">🙏 Etiquette</option>
+            <option value="misc">✨ Misc Tips</option>
+            <option value="phrases">🗣 Japanese Phrases</option>
+            <option value="blossoms">🌸 Cherry Blossoms</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Emoji</label>
+          <input class="form-input" id="tipEmoji" placeholder="e.g. 💳" maxlength="4">
+        </div>
+      </div>
+      <button class="form-submit" onclick="saveTip()">Save →</button>
+      <button class="form-delete" id="tipDelBtn" style="display:none" onclick="deleteTip()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('tipsSheet')">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ NOTES ══ -->
@@ -512,12 +693,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
             <option value="confirmed">✅ Confirmed</option>
             <option value="pending">⏳ Pending</option>
             <option value="todo">📌 Book Now</option>
+            <option value="lineup">🕐 Line Up</option>
           </select>
         </div>
       </div>
       <div class="form-row">
         <label class="form-label">Notes (confirmation #, address, etc.)</label>
         <textarea class="form-textarea" id="bkNotes" placeholder="Any details…"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Link (optional)</label>
+        <input class="form-input" id="bkLink" placeholder="https://…">
       </div>
       <button class="form-submit" onclick="saveBk()">Save →</button>
       <button class="form-delete" id="bkDelBtn" style="display:none" onclick="deleteBk()">🗑 Delete</button>
@@ -607,6 +793,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
         <input class="form-input" id="discTags" placeholder="e.g. Must-Try, Late Night">
       </div>
       <div class="form-row">
+        <label class="form-label">Link (optional — reservation, website, etc.)</label>
+        <input class="form-input" id="discLink" placeholder="https://…">
+      </div>
+      <div class="form-row">
         <label class="form-label">Emoji <span style="color:var(--stone);font-size:10px;font-weight:400">(auto-set by category, override here)</span></label>
         <input class="form-input" id="discEmoji" placeholder="e.g. 🍜" maxlength="4">
       </div>
@@ -636,6 +826,9 @@ let itinItems   = JSON.parse(localStorage.getItem('jp-itin')     || 'null');
 let discItems   = JSON.parse(localStorage.getItem('jp-disc')     || 'null');
 let bookItems   = JSON.parse(localStorage.getItem('jp-book')     || 'null');
 let transitItems= JSON.parse(localStorage.getItem('jp-transit')  || 'null');
+let tipsItems   = JSON.parse(localStorage.getItem('jp-tips')     || 'null');
+let ttItems     = JSON.parse(localStorage.getItem('jp-tt')       || 'null');
+let ttLikes     = new Set(JSON.parse(localStorage.getItem('jp-ttlikes') || '[]'));
 let votes       = JSON.parse(localStorage.getItem('jp-votes')    || '{}');
 let notes       = [];
 
@@ -712,26 +905,26 @@ const SEED_ITIN = [
 ];
 
 const SEED_DISC = [
-  {id:'d1', city:'tokyo', cat:'ramen', name:'Ichiran Ramen', desc:'Solo booth tonkotsu — customize everything, late night open.', tags:['Must-Try','Late Night'], emoji:'🍜'},
-  {id:'d2', city:'tokyo', cat:'ramen', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku.', tags:['Yuzu','Less Queue'], emoji:'🍜'},
-  {id:'d3', city:'tokyo', cat:'sushi', name:'Tsukiji Outer Market', desc:'Arrive 7AM. Best breakfast sushi on earth. Multiple tiny counters.', tags:['Breakfast','Must-Do'], emoji:'🍣'},
-  {id:'d4', city:'tokyo', cat:'breakfast', name:'Benitsuru Pancake', desc:'Fluffy Japanese soufflé pancakes · 2 min from OMO3.', tags:['Near Hotel','Must-Try'], emoji:'🥞'},
-  {id:'d5', city:'tokyo', cat:'breakfast', name:'Onigiri Gorichan', desc:'Famous onigiri spot — try salmon and tuna mayo.', tags:['Instagram','Quick Bite'], emoji:'🍙'},
-  {id:'d6', city:'tokyo', cat:'shopping', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable.', tags:['Harajuku','Free Entry'], emoji:'🛍'},
-  {id:'d7', city:'tokyo', cat:'shopping', name:'Akihabara', desc:'Electronics, anime, manga, arcades.', tags:['Electronics','Anime'], emoji:'🎮'},
-  {id:'d8', city:'tokyo', cat:'shopping', name:'Nakamise Street', desc:'Snacks + souvenirs right near Senso-ji.', tags:['Souvenirs','Near Senso-ji'], emoji:'🛒'},
-  {id:'d9', city:'tokyo', cat:'experience', name:'TeamLab Planets Toyosu', desc:'Immersive digital art — walking through light and water.', tags:['Must-Book','Unmissable'], emoji:'🎨'},
-  {id:'d10',city:'tokyo', cat:'attraction', name:'Meiji Shrine', desc:'Peaceful forested shrine in the heart of Tokyo.', tags:['Must-Do','Free'], emoji:'⛩️'},
-  {id:'d11',city:'tokyo', cat:'attraction', name:'Shibuya Crossing', desc:'World\'s busiest pedestrian crossing. View from above.', tags:['Iconic','Free'], emoji:'🚦'},
-  {id:'d12',city:'kyoto', cat:'matcha', name:'Uji — Matcha Everything', desc:'Birthplace of Japanese matcha. Tea experience, Byodoin Temple, matcha soft serve.', tags:['Must-Do','Birthday!'], emoji:'🍵'},
-  {id:'d13',city:'kyoto', cat:'coffee', name:'% Arabica Higashiyama', desc:'Best latte in Kyoto. Stunning minimalist café.', tags:['Coffee','Scenic'], emoji:'☕'},
-  {id:'d14',city:'kyoto', cat:'attraction', name:'Fushimi Inari', desc:'Thousand torii gates. Go early to beat crowds. Full hike ~2h.', tags:['Must-Do','Iconic'], emoji:'⛩️'},
-  {id:'d15',city:'kyoto', cat:'attraction', name:'Philosopher\'s Path', desc:'Cherry blossom canal walk — perfect in April.', tags:['Must-Do','Scenic'], emoji:'🌸'},
-  {id:'d16',city:'kyoto', cat:'sushi', name:'Nishiki Market', desc:'"Kyoto\'s Kitchen" — 400 years old, 100+ stalls.', tags:['Must-Do','Lunch'], emoji:'🛒'},
-  {id:'d17',city:'osaka', cat:'street', name:'Dotonbori', desc:'Takoyaki, okonomiyaki, crab, kushikatsu — all in one iconic street.', tags:['Must-Do','Street Food'], emoji:'🦀'},
-  {id:'d18',city:'osaka', cat:'street', name:'Kushikatsu — Daruma', desc:'Fried skewers since 1929. NO double-dipping rule!', tags:['Iconic','Cheap Eats'], emoji:'🍢'},
-  {id:'d19',city:'fuji', cat:'attraction', name:'Chureito Pagoda', desc:'Hike 400 steps for the iconic Fuji + pagoda shot. Go early.', tags:['Iconic View','Hike'], emoji:'🗻'},
-  {id:'d20',city:'fuji', cat:'onsen', name:'Vision Glamping + Onsen', desc:'Glamping at Yamanakako with Fuji views. Onsen included!', tags:['Booked','Onsen'], emoji:'🏕️'},
+  {id:'d1', city:'tokyo', cat:'ramen', name:'Ichiran Ramen', desc:'Solo booth tonkotsu — customize everything, late night open.', tags:['Must-Try','Late Night'], emoji:'🍜', lat:35.6592, lng:139.7006, mapsq:'Ichiran+Ramen+Shinjuku+Tokyo'},
+  {id:'d2', city:'tokyo', cat:'ramen', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku.', tags:['Yuzu','Less Queue'], emoji:'🍜', lat:35.6694, lng:139.7025, mapsq:'Afuri+Ramen+Harajuku+Tokyo'},
+  {id:'d3', city:'tokyo', cat:'sushi', name:'Tsukiji Outer Market', desc:'Arrive 7AM. Best breakfast sushi on earth. Multiple tiny counters.', tags:['Breakfast','Must-Do'], emoji:'🍣', lat:35.6654, lng:139.7706, mapsq:'Tsukiji+Outer+Market+Tokyo'},
+  {id:'d4', city:'tokyo', cat:'breakfast', name:'Benitsuru Pancake', desc:'Fluffy Japanese soufflé pancakes · 2 min from OMO3.', tags:['Near Hotel','Must-Try'], emoji:'🥞', lat:35.7147, lng:139.7950, mapsq:'Benitsuru+Pancake+Asakusa+Tokyo'},
+  {id:'d5', city:'tokyo', cat:'breakfast', name:'Onigiri Gorichan', desc:'Famous onigiri spot — try salmon and tuna mayo.', tags:['Instagram','Quick Bite'], emoji:'🍙', lat:35.7090, lng:139.7745, mapsq:'Onigiri+Gorichan+Ueno+Tokyo'},
+  {id:'d6', city:'tokyo', cat:'shopping', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable.', tags:['Harajuku','Free Entry'], emoji:'🛍', lat:35.6710, lng:139.7025, mapsq:'Takeshita+Street+Harajuku+Tokyo'},
+  {id:'d7', city:'tokyo', cat:'shopping', name:'Akihabara', desc:'Electronics, anime, manga, arcades.', tags:['Electronics','Anime'], emoji:'🎮', lat:35.7022, lng:139.7742, mapsq:'Akihabara+Electric+Town+Tokyo'},
+  {id:'d8', city:'tokyo', cat:'shopping', name:'Nakamise Street', desc:'Snacks + souvenirs right near Senso-ji.', tags:['Souvenirs','Near Senso-ji'], emoji:'🛒', lat:35.7148, lng:139.7967, mapsq:'Nakamise+Shopping+Street+Asakusa'},
+  {id:'d9', city:'tokyo', cat:'experience', name:'TeamLab Planets Toyosu', desc:'Immersive digital art — walking through light and water.', tags:['Must-Book','Unmissable'], emoji:'🎨', lat:35.6467, lng:139.7948, mapsq:'TeamLab+Planets+Toyosu+Tokyo'},
+  {id:'d10',city:'tokyo', cat:'attraction', name:'Meiji Shrine', desc:'Peaceful forested shrine in the heart of Tokyo.', tags:['Must-Do','Free'], emoji:'⛩️', lat:35.6763, lng:139.6993, mapsq:'Meiji+Shrine+Tokyo'},
+  {id:'d11',city:'tokyo', cat:'attraction', name:'Shibuya Crossing', desc:'World\'s busiest pedestrian crossing. View from above.', tags:['Iconic','Free'], emoji:'🚦', lat:35.6595, lng:139.7004, mapsq:'Shibuya+Crossing+Tokyo'},
+  {id:'d12',city:'kyoto', cat:'matcha', name:'Uji — Matcha Everything', desc:'Birthplace of Japanese matcha. Tea experience, Byodoin Temple, matcha soft serve.', tags:['Must-Do','Birthday!'], emoji:'🍵', lat:34.8853, lng:135.8050, mapsq:'Uji+City+Kyoto+matcha'},
+  {id:'d13',city:'kyoto', cat:'coffee', name:'% Arabica Higashiyama', desc:'Best latte in Kyoto. Stunning minimalist café.', tags:['Coffee','Scenic'], emoji:'☕', lat:35.0010, lng:135.7820, mapsq:'Arabica+Higashiyama+Kyoto'},
+  {id:'d14',city:'kyoto', cat:'attraction', name:'Fushimi Inari', desc:'Thousand torii gates. Go early to beat crowds. Full hike ~2h.', tags:['Must-Do','Iconic'], emoji:'⛩️', lat:34.9671, lng:135.7727, mapsq:'Fushimi+Inari+Taisha+Kyoto'},
+  {id:'d15',city:'kyoto', cat:'attraction', name:'Philosopher\'s Path', desc:'Cherry blossom canal walk — perfect in April.', tags:['Must-Do','Scenic'], emoji:'🌸', lat:35.0269, lng:135.7939, mapsq:'Philosopher+Path+Kyoto'},
+  {id:'d16',city:'kyoto', cat:'sushi', name:'Nishiki Market', desc:'"Kyoto\'s Kitchen" — 400 years old, 100+ stalls.', tags:['Must-Do','Lunch'], emoji:'🛒', lat:35.0051, lng:135.7659, mapsq:'Nishiki+Market+Kyoto'},
+  {id:'d17',city:'osaka', cat:'street', name:'Dotonbori', desc:'Takoyaki, okonomiyaki, crab, kushikatsu — all in one iconic street.', tags:['Must-Do','Street Food'], emoji:'🦀', lat:34.6687, lng:135.5013, mapsq:'Dotonbori+Osaka'},
+  {id:'d18',city:'osaka', cat:'street', name:'Kushikatsu — Daruma', desc:'Fried skewers since 1929. NO double-dipping rule!', tags:['Iconic','Cheap Eats'], emoji:'🍢', lat:34.6516, lng:135.5063, mapsq:'Kushikatsu+Daruma+Shinsekai+Osaka'},
+  {id:'d19',city:'fuji', cat:'attraction', name:'Chureito Pagoda', desc:'Hike 400 steps for the iconic Fuji + pagoda shot. Go early.', tags:['Iconic View','Hike'], emoji:'🗻', lat:35.3990, lng:138.7768, mapsq:'Chureito+Pagoda+Fujiyoshida'},
+  {id:'d20',city:'fuji', cat:'onsen', name:'Vision Glamping + Onsen', desc:'Glamping at Yamanakako with Fuji views. Onsen included!', tags:['Booked','Onsen'], emoji:'🏕️', lat:35.4122, lng:138.8661, mapsq:'Vision+Glamping+Yamanakako'},
 ];
 
 const SEED_BOOK = [
@@ -765,6 +958,8 @@ window.onload = () => {
   if (!discItems) { discItems = SEED_DISC; save('disc'); }
   if (!bookItems) { bookItems = SEED_BOOK; save('book'); }
   if (!transitItems) { transitItems = SEED_TRANSIT; save('transit'); }
+  if (!tipsItems) { tipsItems = SEED_TIPS; save('tips'); }
+  if (!ttItems) { ttItems = SEED_TT; save('tt'); }
   populateDaySelect();
   renderAll();
   initSupabase();
@@ -772,7 +967,7 @@ window.onload = () => {
 };
 
 function save(key) {
-  const m = {itin:itinItems,disc:discItems,book:bookItems,transit:transitItems};
+  const m = {itin:itinItems,disc:discItems,book:bookItems,transit:transitItems,tips:tipsItems,tt:ttItems};
   localStorage.setItem('jp-'+key, JSON.stringify(m[key]));
 }
 
@@ -829,7 +1024,7 @@ function switchTab(name) {
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit(); renderNotes(); }
+function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit(); renderTips(); renderTT(); renderNotes(); }
 
 // ════════════════════════════════════════
 // ITINERARY
@@ -1191,12 +1386,14 @@ function renderDisc() {
         <div class="disc-body">
           <div class="disc-name">${d.name}</div>
           <div class="disc-desc">${d.desc||''}</div>
+          ${d.link?`<a href="${d.link}" target="_blank" style="display:inline-block;margin-top:4px;font-size:11px;color:var(--sky);font-weight:500;word-break:break-all">↗ ${d.link.replace(/^https?:\/\//,'').split('/')[0]}</a>`:''}
           <div class="disc-meta">
             ${(d.tags||[]).map((t,i)=>`<span class="disc-badge ${dbcls[i%4]}">${t}</span>`).join('')}
           </div>
         </div>
         <div class="disc-right">
           <span class="disc-city-chip">${d.city}</span>
+          ${d.lat ? `<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>` : ''}
           <button class="disc-edit-btn" onclick="editDisc('${d.id}')">✏️</button>
         </div>
       </div>`;
@@ -1212,7 +1409,7 @@ function openDiscSheet() {
   editDiscId=null;
   document.getElementById('discSheetTitle').textContent='Add to Discover';
   document.getElementById('discDelBtn').style.display='none';
-  ['discName','discDesc','discTags','discEmoji'].forEach(id=>document.getElementById(id).value='');
+  ['discName','discDesc','discTags','discEmoji','discLink'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('discCat').value='ramen';
   autofillEmoji();
   openSheet('discSheet');
@@ -1228,6 +1425,7 @@ function editDisc(id) {
   document.getElementById('discCat').value=d.cat;
   document.getElementById('discTags').value=(d.tags||[]).join(', ');
   document.getElementById('discEmoji').value=d.emoji||'';
+  document.getElementById('discLink').value=d.link||'';
   openSheet('discSheet');
 }
 function autofillEmoji() {
@@ -1244,6 +1442,7 @@ function saveDisc() {
     city:document.getElementById('discCity').value,
     cat, tags:document.getElementById('discTags').value.split(',').map(t=>t.trim()).filter(Boolean),
     emoji:document.getElementById('discEmoji').value||CAT_EMOJI[cat]||'📍',
+    link:document.getElementById('discLink').value.trim(),
   };
   if(editDiscId){const i=discItems.findIndex(x=>x.id===editDiscId);if(i>-1)discItems[i]=d;}
   else discItems.push(d);
@@ -1273,8 +1472,8 @@ function renderBook() {
   root.innerHTML=html;
 }
 function bkCard(b) {
-  const sc={confirmed:'sc',pending:'sp',todo:'st'}[b.status]||'st';
-  const sl={confirmed:'Confirmed ✓',pending:'Pending',todo:'Book Now'}[b.status]||'Book Now';
+  const sc={confirmed:'sc',pending:'sp',todo:'st',lineup:'sq'}[b.status]||'st';
+  const sl={confirmed:'Confirmed ✓',pending:'Pending',todo:'Book Now',lineup:'🕐 Line Up'}[b.status]||'Book Now';
   return `<div class="booking-card">
     <div class="bk-header">
       <div class="bk-icon">${b.icon||'🎟'}</div>
@@ -1282,9 +1481,10 @@ function bkCard(b) {
       <div class="bk-status ${sc}">${sl}</div>
       <button class="bk-edit" onclick="editBk('${b.id}')">✏️</button>
     </div>
-    ${(b.time||b.notes)?`<div class="bk-details">
+    ${(b.time||b.notes||b.link)?`<div class="bk-details">
       ${b.time?`<div class="bk-di"><div class="lbl">Time</div><div class="val">${b.time}</div></div>`:''}
       ${b.notes?`<div class="bk-di" style="grid-column:${b.time?'2':'1/-1'}"><div class="lbl">Notes</div><div class="val">${b.notes}</div></div>`:''}
+      ${b.link?`<div class="bk-di" style="grid-column:1/-1"><div class="lbl">Link</div><div class="val"><a href="${b.link}" target="_blank" style="color:var(--sky);word-break:break-all">${b.link}</a></div></div>`:''}
     </div>`:''}
   </div>`;
 }
@@ -1293,7 +1493,7 @@ function openBkSheet() {
   editBkId=null;
   document.getElementById('bkSheetTitle').textContent='Add Booking';
   document.getElementById('bkDelBtn').style.display='none';
-  ['bkName','bkSub','bkTime','bkNotes'].forEach(id=>document.getElementById(id).value='');
+  ['bkName','bkSub','bkTime','bkNotes','bkLink'].forEach(id=>document.getElementById(id).value='');
   openSheet('bkSheet');
 }
 function editBk(id) {
@@ -1307,11 +1507,12 @@ function editBk(id) {
   document.getElementById('bkTime').value=b.time||'';
   document.getElementById('bkStatus').value=b.status||'todo';
   document.getElementById('bkNotes').value=b.notes||'';
+  document.getElementById('bkLink').value=b.link||'';
   openSheet('bkSheet');
 }
 function saveBk() {
   const name=document.getElementById('bkName').value.trim(); if(!name){showToast('Name required');return;}
-  const b={id:editBkId||'b'+Date.now(),name,sub:document.getElementById('bkSub').value,icon:document.getElementById('bkType').value,time:document.getElementById('bkTime').value,status:document.getElementById('bkStatus').value,notes:document.getElementById('bkNotes').value};
+  const b={id:editBkId||'b'+Date.now(),name,sub:document.getElementById('bkSub').value,icon:document.getElementById('bkType').value,time:document.getElementById('bkTime').value,status:document.getElementById('bkStatus').value,notes:document.getElementById('bkNotes').value,link:document.getElementById('bkLink').value.trim()};
   if(editBkId){const i=bookItems.findIndex(x=>x.id===editBkId);if(i>-1)bookItems[i]=b;}else bookItems.push(b);
   save('book'); renderBook(); closeSheet('bkSheet'); showToast(editBkId?'✏️ Updated!':'🎟 Added!'); editBkId=null;
 }
@@ -1433,7 +1634,7 @@ function react(btn) {
 // FAB
 // ════════════════════════════════════════
 function openFab() {
-  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
+  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,tips:openTipsSheet,tiktok:openTTSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
   (map[currentTab]||openDiscSheet)();
 }
 
@@ -1449,6 +1650,327 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
 // ════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// MAP PAN — clicking a disc card
+// ════════════════════════════════════════
+function panMap(e, id, lat, lng, mapsq) {
+  e.stopPropagation();
+  // Update iframe to centre on coordinates using standard google maps embed
+  const iframe = document.getElementById('discMapFrame');
+  if (iframe) {
+    iframe.src = `https://maps.google.com/maps?q=${mapsq}&output=embed&z=16`;
+  }
+  // Scroll map into view
+  iframe?.closest('.disc-map-wrap')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // Highlight active card
+  document.querySelectorAll('.disc-card').forEach(c=>c.classList.remove('map-active'));
+  const card = e.currentTarget?.closest('.disc-card');
+  if(card) card.classList.add('map-active');
+  showToast('📍 Opening in map…');
+}
+
+// ════════════════════════════════════════
+// SEED TIPS
+// ════════════════════════════════════════
+const SEED_TIPS = [
+  // Apps
+  {id:'tip1', section:'apps', emoji:'🍽', title:'Tabelog', detail:'Better than Google Maps for restaurants — like Yelp for Japan. Use this to find where to eat.'},
+  {id:'tip2', section:'apps', emoji:'📅', title:'Tablecheck', detail:'Restaurant reservations app — use to book popular spots in advance.'},
+  {id:'tip3', section:'apps', emoji:'🌐', title:'Papago', detail:'Better than Google Translate for Japanese. Download before you go.'},
+  {id:'tip4', section:'apps', emoji:'📶', title:'Japan Wi-Fi Autoconnect', detail:'Free wifi hotspot connector — connects to free hotspots automatically around Japan.'},
+  {id:'tip5', section:'apps', emoji:'📶', title:'Softbank Wi-Fi Spot', detail:'Another free wifi hotspot connector. Download both for best coverage.'},
+  {id:'tip6', section:'apps', emoji:'🚕', title:'Go Taxi', detail:'Japan ride-hailing app. Better than trying to hail a cab.'},
+  {id:'tip7', section:'apps', emoji:'🚽', title:'Flush', detail:'Finds nearest public toilet. Trust us, you\'ll need this.'},
+  {id:'tip8', section:'apps', emoji:'🛂', title:'Visit Japan Web', detail:'Once we land, fill this out BEFORE we deboard — immigration questionnaire so we don\'t wait in line at the airport.'},
+  {id:'tip9', section:'apps', emoji:'💳', title:'Wise / EQ Bank Card', detail:'Reloadable Mastercard/Visa. No foreign transaction fees. Can use to take out cash.'},
+  {id:'tip10',section:'apps', emoji:'🎫', title:'Suica (Apple Wallet)', detail:'Reloadable transit card — add to Apple Wallet before you go. Works on all trains, subways, and konbini.'},
+  {id:'tip11',section:'apps', emoji:'🧳', title:'Kuli Kuli', detail:'Luggage delivery service app (see Yamato tip below).'},
+  // Links
+  {id:'tip12',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 1', detail:'https://vm.tiktok.com/things-regret-1'},
+  {id:'tip13',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 2', detail:'Watch on TikTok'},
+  {id:'tip14',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 3', detail:'Watch on TikTok'},
+  {id:'tip15',section:'links', emoji:'📺', title:'Japan Travel Vlog Series', detail:'They had a more chill itinerary and not as much touristy things, which we love'},
+  {id:'tip16',section:'links', emoji:'📺', title:'What to Expect When Arriving in Japan', detail:'Watch before landing'},
+  {id:'tip17',section:'links', emoji:'📺', title:'Yamato Luggage Transport', detail:'How to use — send bags to next hotel night before (before 4pm) for next-day delivery'},
+  // Transport
+  {id:'tip18',section:'transport', emoji:'🕛', title:'Trains stop around midnight', detail:'Trains in Tokyo stop running around midnight. Plan late nights accordingly — last train home!'},
+  {id:'tip19',section:'transport', emoji:'😤', title:'Rush hour is real', detail:'Trains get very busy during rush hour: weekdays 7–9 AM & 5–7 PM. Avoid if you can.'},
+  {id:'tip20',section:'transport', emoji:'🧳', title:'Yamato luggage delivery', detail:'Send bags to next hotel the night before (before 4pm) for next-day delivery. Don\'t lug suitcases on trains!'},
+  {id:'tip21',section:'transport', emoji:'🛬', title:'Express from Narita', detail:'Take express train from NRT airport to hotel since we\'ll have luggage. Buy tickets from Klook and pick up at service desk.'},
+  {id:'tip22',section:'transport', emoji:'📱', title:'Skytree Pass', detail:'Buy transit passes on the Smartex app before leaving home.'},
+  // Etiquette
+  {id:'tip23',section:'etiquette', emoji:'🍱', title:'Don\'t walk and eat', detail:'Eating while walking is considered rude in Japan. Find somewhere to stand or sit.'},
+  {id:'tip24',section:'etiquette', emoji:'💴', title:'Don\'t tip', detail:'Tipping is not customary in Japan and can actually be considered rude.'},
+  {id:'tip25',section:'etiquette', emoji:'🔇', title:'Keep your voice down', detail:'Especially on trains and in quiet areas. Japan is a quiet culture in public.'},
+  {id:'tip26',section:'etiquette', emoji:'☝️', title:'Don\'t point with fingers', detail:'Use your whole hand to gesture instead of pointing with a finger.'},
+  {id:'tip27',section:'etiquette', emoji:'🧾', title:'Pay at the front', detail:'After order is brought out they bring a check. Bring it up to the front to pay — don\'t wait at the table.'},
+  {id:'tip28',section:'etiquette', emoji:'💰', title:'Payment tray', detail:'Put payment method in the little tray they give you at the register.'},
+  // Misc
+  {id:'tip29',section:'misc', emoji:'🪙', title:'Get a coin pouch', detail:'Cards widely accepted, but some places only take cash. Coins add up fast in Japan.'},
+  {id:'tip30',section:'misc', emoji:'🍱', title:'Eat expensive meals at lunch', detail:'Many high-end restaurants offer amazing lunch specials for much less than dinner. Plan accordingly.'},
+  {id:'tip31',section:'misc', emoji:'💴', title:'Exchange $500–$700 cash', detail:'Have cash when arriving. Exchange at the airport or use an ATM (7-Eleven ATMs accept foreign cards).'},
+  {id:'tip32',section:'misc', emoji:'📡', title:'Get an eSIM', detail:'~$35 for 15 days. Get before you leave. NTT Docomo JW-Auto or Airalo Japan.'},
+  {id:'tip33',section:'misc', emoji:'🛂', title:'Bring passport for tax-free shopping', detail:'Spend more than ¥5,500 and get tax free — but they\'ll seal the bag and you can\'t open it until you leave the country.'},
+  {id:'tip34',section:'misc', emoji:'🧻', title:'Bring hand tissues + mini soap', detail:'No paper towels in public bathrooms. Bring a small pack of hand tissues and a mini soap/hand sanitizer.'},
+  // Phrases
+  {id:'tip35',section:'phrases', emoji:'🗣', title:'Yes / Hair', detail:'はい (hai)'},
+  {id:'tip36',section:'phrases', emoji:'🗣', title:'Yes please / Hai, onegaishimasu', detail:'はい、お願いします'},
+  {id:'tip37',section:'phrases', emoji:'🗣', title:'No thank you / Daijoubu desu', detail:'大丈夫です — literally "it\'s fine/okay"'},
+  {id:'tip38',section:'phrases', emoji:'🗣', title:'Thank you / Arigatou gozaimasu', detail:'ありがとうございます'},
+  {id:'tip39',section:'phrases', emoji:'🗣', title:'Excuse me / Sumimasen', detail:'すみません — also used to get a waiter\'s attention'},
+  {id:'tip40',section:'phrases', emoji:'🗣', title:'Sorry / Gomen nasai', detail:'ごめんなさい'},
+  {id:'tip41',section:'phrases', emoji:'🗣', title:'Itadakimasu', detail:'いただきます — said before eating a meal (like "bon appétit" to yourself)'},
+  {id:'tip42',section:'phrases', emoji:'🗣', title:'Oishii! / Tastes so good!', detail:'おいしい！— use freely when food is amazing (it will be)'},
+  {id:'tip43',section:'phrases', emoji:'🗣', title:'Two people (for restaurants)', detail:'Futari desu — ふたりです — hold up two fingers too'},
+  // Blossoms
+  {id:'tip44',section:'blossoms', emoji:'🌸', title:'Tokyo — March 26', detail:'Peak bloom expected around March 26th'},
+  {id:'tip45',section:'blossoms', emoji:'🌸', title:'Kyoto — March 31', detail:'Peak bloom expected around March 31st — perfect timing!'},
+  {id:'tip46',section:'blossoms', emoji:'🌸', title:'Osaka — March 31', detail:'Peak bloom expected around March 31st'},
+  {id:'tip47',section:'blossoms', emoji:'🌸', title:'Nagoya — March 28', detail:'Peak bloom expected around March 28th'},
+];
+
+// ════════════════════════════════════════
+// SEED TIKTOKS
+// ════════════════════════════════════════
+const SEED_TT = [
+  {id:'tt1', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 1', notes:'Great tips about what NOT to do', cat:'tips', city:'general'},
+  {id:'tt2', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 2', notes:'Part 2 of regrets series', cat:'tips', city:'general'},
+  {id:'tt3', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 3', notes:'Part 3 — great info on etiquette', cat:'tips', city:'general'},
+  {id:'tt4', url:'https://www.tiktok.com', title:'Japan Travel Vlog Series', notes:'Chill itinerary vibes — not too touristy, which we love', cat:'vlog', city:'general'},
+  {id:'tt5', url:'https://www.tiktok.com', title:'What to Expect When Arriving at Narita', notes:'Watch before we land!', cat:'tips', city:'tokyo'},
+];
+
+// ════════════════════════════════════════
+// TIPS RENDER + CRUD
+// ════════════════════════════════════════
+const TIP_SECTIONS = [
+  {key:'apps', label:'📱 Apps & Services'},
+  {key:'links', label:'🔗 Helpful Links & Videos'},
+  {key:'transport', label:'🚄 Transportation'},
+  {key:'etiquette', label:'🙏 Etiquette'},
+  {key:'misc', label:'✨ Misc Tips'},
+  {key:'phrases', label:'🗣 Japanese Phrases'},
+  {key:'blossoms', label:'🌸 Cherry Blossoms 2026'},
+];
+
+function renderTips() {
+  const root = document.getElementById('tipsRoot');
+  let html = '';
+  TIP_SECTIONS.forEach(sec => {
+    const items = tipsItems.filter(t=>t.section===sec.key);
+    html += `<div class="tips-section">
+      <div class="tips-section-hdr">
+        <span class="tips-section-title">${sec.label}</span>
+        <button class="tips-section-add" onclick="openTipsSheet('${sec.key}')" title="Add to this section">＋</button>
+      </div>`;
+    if (sec.key === 'phrases') {
+      html += `<div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px var(--shadow)">`;
+      items.forEach(t => {
+        html += `<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer">
+          <div class="phrase-en">${t.title}</div>
+          <div class="phrase-jp">${t.detail}</div>
+        </div>`;
+      });
+      html += `</div>`;
+    } else if (sec.key === 'blossoms') {
+      html += `<div class="blossom-grid">`;
+      items.forEach(t => {
+        html += `<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer">
+          <div class="blossom-city">${t.title.split('—')[0].trim()}</div>
+          <div class="blossom-date">${t.title.split('—')[1]?.trim()||''}</div>
+          ${t.detail?`<div style="font-size:11px;color:var(--stone);margin-top:3px">${t.detail}</div>`:''}
+        </div>`;
+      });
+      html += `</div>`;
+    } else {
+      items.forEach(t => {
+        const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
+        html += `<div class="tip-item">
+          <div class="tip-item-icon">${t.emoji||'💡'}</div>
+          <div class="tip-item-body">
+            <div class="tip-item-title">${t.title}</div>
+            ${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}
+            ${isLink ? `<div class="tip-item-link">${t.detail}</div>` : ''}
+          </div>
+          <button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button>
+        </div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  root.innerHTML = html;
+}
+
+let editTipId=null, tipDefaultSection='misc';
+function openTipsSheet(section) {
+  editTipId=null; tipDefaultSection=section||'misc';
+  document.getElementById('tipsSheetTitle').textContent='Add Tip';
+  document.getElementById('tipDelBtn').style.display='none';
+  document.getElementById('tipTitle').value='';
+  document.getElementById('tipDetail').value='';
+  document.getElementById('tipEmoji').value='';
+  document.getElementById('tipSection').value=tipDefaultSection;
+  openSheet('tipsSheet');
+}
+function editTip(id) {
+  const t=tipsItems.find(x=>x.id===id); if(!t) return;
+  editTipId=id;
+  document.getElementById('tipsSheetTitle').textContent='Edit Tip';
+  document.getElementById('tipDelBtn').style.display='';
+  document.getElementById('tipTitle').value=t.title;
+  document.getElementById('tipDetail').value=t.detail||'';
+  document.getElementById('tipSection').value=t.section;
+  document.getElementById('tipEmoji').value=t.emoji||'';
+  openSheet('tipsSheet');
+}
+function saveTip() {
+  const title=document.getElementById('tipTitle').value.trim(); if(!title){showToast('Title required');return;}
+  const t={id:editTipId||'tip'+Date.now(), title, detail:document.getElementById('tipDetail').value, section:document.getElementById('tipSection').value, emoji:document.getElementById('tipEmoji').value||'💡'};
+  if(editTipId){const i=tipsItems.findIndex(x=>x.id===editTipId);if(i>-1)tipsItems[i]=t;}else tipsItems.push(t);
+  save('tips'); renderTips(); closeSheet('tipsSheet'); showToast(editTipId?'✏️ Updated!':'✅ Added!'); editTipId=null;
+}
+function deleteTip() {
+  if(!editTipId||!confirm('Delete this tip?'))return;
+  tipsItems=tipsItems.filter(t=>t.id!==editTipId);
+  save('tips'); renderTips(); closeSheet('tipsSheet'); showToast('🗑 Deleted'); editTipId=null;
+}
+
+// ════════════════════════════════════════
+// TIKTOK RENDER + CRUD
+// ════════════════════════════════════════
+let ttFilter='all';
+const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
+const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',vlog:'📹 Vlog',other:'✨ Other'};
+
+function filterTT(cat, el) {
+  ttFilter=cat;
+  document.querySelectorAll('#ttCatFilter .fpill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderTT();
+}
+
+function renderTT() {
+  const root=document.getElementById('ttRoot');
+  const filtered = ttFilter==='all' ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
+  if(!filtered.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🎵</div><p>No TikToks saved yet!<br>Tap ＋ to add one.</p></div>`;return;}
+  // Group by cat
+  const cats={};
+  filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
+  let html='';
+  Object.entries(cats).forEach(([cat,items])=>{
+    if(ttFilter==='all') html+=`<div class="tt-section-label">${TT_CAT_LABELS[cat]||cat}</div>`;
+    html+=`<div class="tt-grid">`;
+    items.forEach(t=>{
+      const liked=ttLikes.has(t.id);
+      const colStyle=TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
+      html+=`<div class="tt-card">
+        <div class="tt-top" onclick="openTT('${esc(t.url)}')">
+          <div class="tt-thumb">
+            ${t.thumb?`<img src="${t.thumb}" alt="thumb" onerror="this.style.display='none'">`:''}
+            <div class="tt-play">▶</div>
+          </div>
+          <div class="tt-body">
+            <div class="tt-title">${t.title||'TikTok video'}</div>
+            <div class="tt-meta">
+              <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span>
+              ${t.city&&t.city!=='general'?`<span class="tt-city-chip">${t.city}</span>`:''}
+            </div>
+          </div>
+        </div>
+        ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''}
+        <div class="tt-actions">
+          <button class="tt-like-btn ${liked?'liked':''}" onclick="toggleTTLike('${t.id}',this)">${liked?'❤️':'🤍'}</button>
+          <button class="tt-open-btn" onclick="openTT('${esc(t.url)}')">Open in TikTok ↗</button>
+          <button class="tt-edit-btn" onclick="editTTItem('${t.id}')">✏️</button>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+  });
+  root.innerHTML=html;
+}
+
+function openTT(url) {
+  if(url && url!=='https://www.tiktok.com') window.open(url,'_blank');
+}
+function toggleTTLike(id,btn) {
+  ttLikes.has(id)?ttLikes.delete(id):ttLikes.add(id);
+  btn.textContent=ttLikes.has(id)?'❤️':'🤍';
+  btn.classList.toggle('liked',ttLikes.has(id));
+  localStorage.setItem('jp-ttlikes',JSON.stringify([...ttLikes]));
+}
+
+let editTTId=null;
+function openTTSheet() {
+  editTTId=null;
+  document.getElementById('ttSheetTitle').textContent='Add TikTok';
+  document.getElementById('ttDelBtn').style.display='none';
+  document.getElementById('ttEditId').value='';
+  ['ttUrl','ttTitle','ttNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ttCat').value='food';
+  document.getElementById('ttCity').value='general';
+  document.getElementById('ttPreviewWrap').style.display='none';
+  openSheet('ttSheet');
+}
+function editTTItem(id) {
+  const t=ttItems.find(x=>x.id===id); if(!t) return;
+  editTTId=id;
+  document.getElementById('ttSheetTitle').textContent='Edit TikTok';
+  document.getElementById('ttDelBtn').style.display='';
+  document.getElementById('ttEditId').value=id;
+  document.getElementById('ttUrl').value=t.url||'';
+  document.getElementById('ttTitle').value=t.title||'';
+  document.getElementById('ttNotes').value=t.notes||'';
+  document.getElementById('ttCat').value=t.cat||'food';
+  document.getElementById('ttCity').value=t.city||'general';
+  if(t.title){document.getElementById('ttPreviewWrap').style.display='';document.getElementById('ttPreviewTitle').textContent=t.title;}
+  openSheet('ttSheet');
+}
+async function onTTUrlInput() {
+  const url=document.getElementById('ttUrl').value.trim();
+  if(!url||!url.includes('tiktok')) return;
+  // Auto-fill title from URL if possible via oEmbed (no CORS on mobile, best effort)
+  try {
+    const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
+    if(res.ok) {
+      const data=await res.json();
+      if(data.title&&!document.getElementById('ttTitle').value) document.getElementById('ttTitle').value=data.title;
+      if(data.thumbnail_url) {
+        document.getElementById('ttPreviewWrap').style.display='';
+        document.getElementById('ttPreviewTitle').textContent=data.title||url;
+      }
+    }
+  } catch(e) {
+    // oEmbed might fail due to CORS — just show URL preview
+    document.getElementById('ttPreviewWrap').style.display='';
+    document.getElementById('ttPreviewTitle').textContent=url;
+  }
+}
+function saveTT() {
+  const url=document.getElementById('ttUrl').value.trim();
+  const title=document.getElementById('ttTitle').value.trim()||url;
+  if(!url){showToast('URL required');return;}
+  const t={
+    id:editTTId||'tt'+Date.now(),
+    url, title,
+    notes:document.getElementById('ttNotes').value,
+    cat:document.getElementById('ttCat').value,
+    city:document.getElementById('ttCity').value,
+  };
+  if(editTTId){const i=ttItems.findIndex(x=>x.id===editTTId);if(i>-1)ttItems[i]=t;}else ttItems.push(t);
+  save('tt'); renderTT(); closeSheet('ttSheet'); showToast(editTTId?'✏️ Updated!':'🎵 Saved!'); editTTId=null;
+}
+function deleteTT() {
+  if(!editTTId||!confirm('Delete?'))return;
+  ttItems=ttItems.filter(t=>t.id!==editTTId);
+  save('tt'); renderTT(); closeSheet('ttSheet'); showToast('🗑 Deleted'); editTTId=null;
+}
+
+// Register new sheet close handlers
+document.querySelectorAll('.sheet-overlay').forEach(el=>{
+  if(!el._hasClose) { el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); }); el._hasClose=true; }
+});
+
 function fmtTime(iso){
   const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
   if(diff<1) return 'just now'; if(diff<60) return diff+'m ago';
@@ -1457,6 +1979,7 @@ function fmtTime(iso){
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+
 </script>
 </body>
 </html>
