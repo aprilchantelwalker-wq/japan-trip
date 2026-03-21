@@ -161,9 +161,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .dl-tab-btn.active{background:var(--ink);color:white;}
 
 /* ── DISCOVER + MAP (merged) ── */
-.disc-map-wrap{margin:0 12px 10px;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);height:220px;background:#e8e4df;position:relative;}
+.disc-map-wrap{margin:0 12px 0;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);height:220px;background:#e8e4df;position:relative;transition:height .35s ease;}
 .disc-map-wrap iframe{width:100%;height:100%;border:0;}
+.disc-map-wrap.map-expanded{height:340px;}
 .disc-map-link{position:absolute;bottom:8px;right:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(--ink);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
+.disc-map-expand{position:absolute;bottom:8px;left:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
+
+/* active spot banner */
+.disc-active-banner{display:none;margin:8px 12px 2px;background:var(--ink);color:white;border-radius:12px;padding:9px 14px;align-items:center;gap:10px;animation:si .2s ease;}
+.disc-active-banner.show{display:flex;}
+.dab-icon{font-size:20px;flex-shrink:0;}
+.dab-info{flex:1;}
+.dab-name{font-size:13px;font-weight:500;}
+.dab-city{font-size:11px;color:var(--blossom);margin-top:1px;}
+.dab-gmaps{font-size:11px;color:var(--sky);background:rgba(91,143,168,.2);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;white-space:nowrap;text-decoration:none;}
+.dab-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;}
+
+/* toolbar */
+.disc-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 2px;}
+.disc-count{font-size:11px;color:var(--stone);}
+.view-toggle{display:flex;gap:2px;background:#f0ece6;border-radius:8px;padding:2px;}
+.view-btn{background:none;border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:14px;color:var(--stone);transition:all .15s;}
+.view-btn.active{background:white;color:var(--ink);box-shadow:0 1px 4px var(--shadow);}
 
 .filter-scroll{display:flex;gap:6px;padding:10px 12px 7px;overflow-x:auto;scrollbar-width:none;}
 .filter-scroll::-webkit-scrollbar{display:none;}
@@ -172,9 +191,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 
 .disc-section-label{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);padding:10px 14px 5px;}
 
-/* Discover cards */
-.disc-grid{display:flex;flex-direction:column;gap:6px;padding:0 12px;}
-.disc-card{background:white;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
+/* LIST view */
+.disc-list{display:flex;flex-direction:column;gap:6px;padding:0 12px;}
+.disc-card{background:white;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px var(--shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;}
+.disc-card:active{transform:scale(.98);}
+.disc-card.map-active{border-color:var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+.disc-card.visited{opacity:.5;}
+.disc-card.visited .disc-name{text-decoration:line-through;}
 .disc-icon{font-size:21px;flex-shrink:0;}
 .disc-body{flex:1;}
 .disc-name{font-size:14px;font-weight:500;}
@@ -186,9 +209,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .db-2{background:rgba(232,160,180,.2);color:var(--blossom-deep);}
 .db-3{background:rgba(91,143,168,.12);color:var(--sky);}
 .disc-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+.disc-map-btn{font-size:11px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;}
+.disc-visit-btn{font-size:11px;font-weight:500;border-radius:20px;padding:3px 9px;cursor:pointer;border:none;background:#f0ece6;color:var(--stone);white-space:nowrap;}
+.disc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
 .disc-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.25;}
 .disc-edit-btn:hover{opacity:.8;}
 .disc-city-chip{font-size:10px;background:rgba(107,143,94,.1);color:var(--matcha);padding:2px 8px;border-radius:10px;font-weight:500;}
+
+/* GRID view */
+.disc-grid-view{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px;}
+.disc-grid-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 6px var(--shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;position:relative;}
+.disc-grid-card:active{transform:scale(.97);}
+.disc-grid-card.map-active{border-color:var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+.disc-grid-card.visited{opacity:.45;}
+.disc-grid-card.visited .dgc-name{text-decoration:line-through;}
+.dgc-top{height:70px;display:flex;align-items:center;justify-content:center;font-size:34px;position:relative;}
+.dgc-visited-badge{position:absolute;top:5px;right:7px;font-size:14px;}
+.dgc-body{padding:7px 10px 9px;}
+.dgc-name{font-size:13px;font-weight:500;color:var(--ink);line-height:1.3;}
+.dgc-city{font-size:10px;color:var(--stone);margin-top:2px;}
+.dgc-actions{display:flex;gap:4px;margin-top:6px;}
+.dgc-map-btn{font-size:10px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 0;cursor:pointer;flex:1;text-align:center;}
+.dgc-visit-btn{font-size:10px;font-weight:500;border-radius:20px;padding:3px 0;cursor:pointer;border:none;flex:1;text-align:center;background:#f0ece6;color:var(--stone);}
+.dgc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
 
 /* BOOKINGS */
 .section-label{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
@@ -286,11 +329,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .disc-card.map-active{border:1.5px solid var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
 
 /* TIPS TAB */
-.tips-section{margin:0 12px 18px;}
-.tips-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 0 7px;border-bottom:2px solid var(--stone-light);margin-bottom:10px;}
-.tips-section-title{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:var(--ink);}
-.tips-section-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;}
-.tip-item{background:white;border-radius:12px;padding:11px 13px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
+.tips-section{margin:0 12px 6px;}
+.tips-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .2s;}
+.tips-section-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
+.tips-section-left{display:flex;align-items:center;gap:10px;}
+.tips-section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;color:var(--ink);}
+.tips-section-chevron{font-size:12px;color:var(--stone);transition:transform .25s;display:inline-block;}
+.tips-section-chevron.open{transform:rotate(180deg);}
+.tips-section-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
+.tips-section-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.tips-section-body.open{max-height:2000px;}
+.tips-section-inner{padding:10px 0 4px;}
+.tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f5f2ee;}
+.tip-item:last-child{border-bottom:none;}
 .tip-item-icon{font-size:20px;flex-shrink:0;padding-top:1px;}
 .tip-item-body{flex:1;}
 .tip-item-title{font-size:14px;font-weight:500;color:var(--ink);}
@@ -313,27 +364,70 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .blossom-date{font-size:12px;color:var(--blossom-deep);margin-top:2px;}
 
 /* TIKTOK TAB */
-.tt-grid{display:flex;flex-direction:column;gap:8px;padding:0 12px;}
-.tt-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);cursor:pointer;transition:all .2s;}
-.tt-card:active{transform:scale(.98);}
-.tt-top{display:flex;align-items:stretch;gap:0;}
-.tt-thumb{width:72px;flex-shrink:0;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;}
+.tt-grid{display:flex;flex-direction:column;gap:10px;padding:0 12px;}
+.tt-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);}
+.tt-top{display:flex;align-items:stretch;}
+.tt-thumb{width:72px;flex-shrink:0;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;cursor:pointer;}
 .tt-thumb img{width:100%;height:100%;object-fit:cover;}
-.tt-thumb-fallback{font-size:28px;}
-.tt-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);}
-.tt-body{flex:1;padding:10px 12px;}
+.tt-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);font-size:18px;}
+.tt-body{flex:1;padding:10px 12px;cursor:pointer;}
 .tt-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
 .tt-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center;}
 .tt-cat-chip{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;}
 .tt-city-chip{font-size:10px;color:var(--stone);background:#f0ece6;padding:2px 8px;border-radius:10px;}
-.tt-notes{font-size:12px;color:var(--stone);padding:7px 12px 10px;border-top:1px solid #f0ece6;line-height:1.4;}
-.tt-actions{display:flex;align-items:center;gap:6px;padding:6px 12px 9px;}
-.tt-like-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.35;transition:all .2s;}
-.tt-like-btn.liked{opacity:1;}
-.tt-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;margin-left:auto;}
-.tt-edit-btn:hover{opacity:.8;}
+.tt-notes{font-size:12px;color:var(--stone);padding:7px 12px 0;line-height:1.4;}
+/* embed preview */
+.tt-embed{padding:0 12px 10px;display:none;}
+.tt-embed.show{display:block;}
+.tt-embed iframe{width:100%;border-radius:10px;border:none;}
+.tt-embed-loading{text-align:center;padding:20px;color:var(--stone);font-size:13px;}
+/* actions bar */
+.tt-actions{display:flex;align-items:center;gap:6px;padding:8px 12px;border-top:1px solid #f5f2ee;}
+.tt-like-area{display:flex;align-items:center;gap:6px;}
+.tt-like-btn{background:none;border:none;font-size:17px;cursor:pointer;transition:transform .15s;}
+.tt-like-btn:active{transform:scale(1.3);}
+.tt-who-liked{display:flex;gap:3px;}
+.tt-liker-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.tt-liker-ca{background:rgba(201,109,138,.15);color:var(--ca);}
+.tt-liker-pj{background:rgba(107,143,94,.15);color:var(--pj);}
+.tt-spacer{flex:1;}
+.tt-preview-btn{font-size:11px;color:var(--stone);background:#f0ece6;border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;}
+.tt-preview-btn.active{background:var(--ink);color:white;}
 .tt-open-btn{font-size:11px;font-weight:500;color:white;background:var(--ink);border:none;border-radius:20px;padding:5px 12px;cursor:pointer;font-family:inherit;}
+.tt-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;}
+.tt-edit-btn:hover{opacity:.8;}
+/* comments */
+.tt-comments{border-top:1px solid #f5f2ee;}
+.tt-comment{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid #f9f6f2;}
+.tt-comment:last-child{border-bottom:none;}
+.tt-comment-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;flex-shrink:0;height:fit-content;margin-top:1px;}
+.tt-comment-text{font-size:13px;color:var(--ink);flex:1;line-height:1.4;}
+.tt-comment-del{background:none;border:none;font-size:12px;cursor:pointer;opacity:.2;flex-shrink:0;}
+.tt-comment-del:hover{opacity:.8;}
+.tt-comment-time{font-size:10px;color:var(--stone-light);margin-top:2px;}
+.tt-comment-form{display:flex;gap:6px;padding:8px 12px 10px;border-top:1px solid #f5f2ee;}
+.tt-comment-input{flex:1;border:1.5px solid var(--stone-light);border-radius:20px;padding:6px 12px;font-size:13px;font-family:inherit;outline:none;background:white;}
+.tt-comment-input:focus{border-color:var(--blossom-deep);}
+.tt-comment-send{background:var(--ink);color:white;border:none;border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0;}
 .tt-section-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
+
+/* NOTIFICATION BELL */
+.notif-bell{background:none;border:none;color:var(--parchment);font-size:18px;cursor:pointer;position:relative;padding:2px;}
+.notif-badge{position:absolute;top:-2px;right:-2px;background:var(--blossom-deep);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;}
+.notif-badge.show{display:flex;}
+.notif-panel{position:fixed;top:55px;left:0;right:0;max-width:430px;margin:0 auto;background:var(--ink);z-index:150;transform:translateY(-110%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-height:60vh;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.notif-panel.open{transform:translateY(0);}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);}
+.notif-title{font-size:13px;font-weight:600;color:var(--parchment);letter-spacing:.04em;}
+.notif-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0;}
+.notif-item{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .15s;}
+.notif-item:hover{background:rgba(255,255,255,.04);}
+.notif-item.unread{background:rgba(232,160,180,.08);}
+.notif-icon{font-size:18px;flex-shrink:0;}
+.notif-body{flex:1;}
+.notif-text{font-size:13px;color:var(--parchment);line-height:1.4;}
+.notif-time{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
+.notif-empty{padding:20px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px;}
 </style>
 </head>
 <body>
@@ -357,8 +451,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
   </div>
   <div class="hdr-right">
     <div class="live-dot" id="liveDot"></div>
+    <button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
+      🔔
+      <span class="notif-badge" id="notifBadge">0</span>
+    </button>
     <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
   </div>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-header">
+    <span class="notif-title">🔔 Activity</span>
+    <button class="notif-close" onclick="toggleNotifPanel()">✕</button>
+  </div>
+  <div id="notifList"><div class="notif-empty">No new activity yet</div></div>
 </div>
 
 <!-- NAV -->
@@ -380,9 +487,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 <!-- ══ DISCOVER + MAP ══ -->
 <div class="tab-content" id="content-discover">
   <!-- Embedded Map -->
-  <div class="disc-map-wrap">
+  <div class="disc-map-wrap" id="discMapWrap">
     <iframe id="discMapFrame" src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
-    <a class="disc-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" target="_blank">↗ Open Full Map</a>
+    <button class="disc-map-expand" onclick="toggleMapExpand()" id="mapExpandBtn">⤢ Expand</button>
+    <a class="disc-map-link" href="https://www.google.com/maps/d/u/0/edit?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" target="_blank">↗ Full Map</a>
+  </div>
+
+  <!-- Active spot banner -->
+  <div class="disc-active-banner" id="discActiveBanner">
+    <div class="dab-icon" id="dabIcon">📍</div>
+    <div class="dab-info">
+      <div class="dab-name" id="dabName">—</div>
+      <div class="dab-city" id="dabCity">—</div>
+    </div>
+    <a class="dab-gmaps" id="dabGmaps" href="#" target="_blank">↗ Google Maps</a>
+    <button class="dab-close" onclick="clearActiveSpot()">✕</button>
   </div>
   <!-- City filter -->
   <div class="filter-scroll" id="discCityFilters">
@@ -405,6 +524,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
     <div class="fpill" onclick="filterDisc('cat','experience',this)">🎨 Experience</div>
     <div class="fpill" onclick="filterDisc('cat','attraction',this)">⛩️ Attraction</div>
     <div class="fpill" onclick="filterDisc('cat','onsen',this)">♨️ Onsen</div>
+  </div>
+  <div class="disc-toolbar">
+    <span class="disc-count" id="discCount">0 spots</span>
+    <div class="view-toggle">
+      <button class="view-btn active" id="viewBtnList" onclick="setDiscView('list')" title="List view">☰</button>
+      <button class="view-btn" id="viewBtnGrid" onclick="setDiscView('grid')" title="Grid view">⊞</button>
+    </div>
   </div>
   <div id="discRoot"></div>
 </div>
@@ -447,6 +573,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
     <div class="fpill" onclick="filterTT('tips',this)">💡 Tips</div>
     <div class="fpill" onclick="filterTT('attraction',this)">⛩️ Attractions</div>
     <div class="fpill" onclick="filterTT('shopping',this)">🛍 Shopping</div>
+    <div class="fpill" onclick="filterTT('content',this)">🎬 Content</div>
     <div class="fpill" onclick="filterTT('vlog',this)">📹 Vlogs</div>
     <div class="fpill" onclick="filterTT('other',this)">✨ Other</div>
   </div>
@@ -480,6 +607,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
             <option value="tips">💡 Tips</option>
             <option value="attraction">⛩️ Attractions</option>
             <option value="shopping">🛍 Shopping</option>
+            <option value="content">🎬 Content</option>
             <option value="vlog">📹 Vlog</option>
             <option value="other">✨ Other</option>
           </select>
@@ -963,6 +1091,7 @@ window.onload = () => {
   populateDaySelect();
   renderAll();
   initSupabase();
+  updateNotifBadge();
   if (!currentCouple) showPicker(); else applyCouple(currentCouple);
 };
 
@@ -974,7 +1103,7 @@ function save(key) {
 function initSupabase() {
   try {
     sb = supabase.createClient(SB_URL, SB_KEY);
-    loadNotes(); subscribeNotes();
+    loadNotes(); subscribeNotes(); subscribeActivity();
     document.getElementById('liveDot').style.background = '#4ade80';
   } catch(e) { console.error(e); }
 }
@@ -1357,7 +1486,16 @@ function populateDaySelect() {
 // ════════════════════════════════════════
 // DISCOVER + MAP
 // ════════════════════════════════════════
-let discCityFilter='all', discCatFilter='all';
+let discCityFilter='all', discCatFilter='all', discView='list';
+let visitedSpots = new Set(JSON.parse(localStorage.getItem('jp-visited') || '[]'));
+let activeSpotId = null;
+
+function setDiscView(v) {
+  discView = v;
+  document.getElementById('viewBtnList').classList.toggle('active', v==='list');
+  document.getElementById('viewBtnGrid').classList.toggle('active', v==='grid');
+  renderDisc();
+}
 
 function filterDisc(type, val, el) {
   if (type==='city') { discCityFilter=val; document.querySelectorAll('#discCityFilters .fpill').forEach(p=>p.classList.remove('active')); }
@@ -1366,41 +1504,137 @@ function filterDisc(type, val, el) {
   renderDisc();
 }
 
+function toggleVisited(id, e) {
+  e.stopPropagation();
+  visitedSpots.has(id) ? visitedSpots.delete(id) : visitedSpots.add(id);
+  localStorage.setItem('jp-visited', JSON.stringify([...visitedSpots]));
+  renderDisc();
+  showToast(visitedSpots.has(id) ? '✅ Marked visited!' : '↩ Unmarked');
+}
+
+function clearActiveSpot() {
+  activeSpotId = null;
+  document.getElementById('discActiveBanner').classList.remove('show');
+  document.querySelectorAll('.disc-card,.disc-grid-card').forEach(c=>c.classList.remove('map-active'));
+}
+
+function toggleMapExpand() {
+  const wrap = document.getElementById('discMapWrap');
+  const btn = document.getElementById('mapExpandBtn');
+  const expanded = wrap.classList.toggle('map-expanded');
+  btn.textContent = expanded ? '⤡ Collapse' : '⤢ Expand';
+}
+
 function renderDisc() {
-  const root=document.getElementById('discRoot');
-  let items=discItems;
-  if (discCityFilter!=='all') items=items.filter(d=>d.city===discCityFilter);
-  if (discCatFilter!=='all') items=items.filter(d=>d.cat===discCatFilter);
+  const root = document.getElementById('discRoot');
+  let items = discItems;
+  if (discCityFilter!=='all') items = items.filter(d=>d.city===discCityFilter);
+  if (discCatFilter!=='all') items = items.filter(d=>d.cat===discCatFilter);
+
+  // update count
+  const countEl = document.getElementById('discCount');
+  if (countEl) countEl.textContent = `${items.length} spot${items.length!==1?'s':''}`;
+
   if (!items.length) { root.innerHTML=`<div class="empty-st"><div class="empty-icon">🗺</div><p>Nothing here yet — add some spots!</p></div>`; return; }
-  // Group by cat
-  const cats={};
-  items.forEach(d=>{ if(!cats[d.cat]) cats[d.cat]=[]; cats[d.cat].push(d); });
+
   const catLabels={matcha:'🍵 Matcha',coffee:'☕ Coffee',ramen:'🍜 Ramen & Noodles',sushi:'🍣 Sushi & Seafood',street:'🦀 Street Food',breakfast:'🥞 Breakfast & Snacks',shopping:'🛍 Shopping',experience:'🎨 Experiences',attraction:'⛩️ Attractions',onsen:'♨️ Onsen'};
   const dbcls=['db-0','db-1','db-2','db-3'];
-  let html='';
-  Object.entries(cats).forEach(([cat,its])=>{
-    html+=`<div class="disc-section-label">${catLabels[cat]||cat}</div><div class="disc-grid">`;
-    its.forEach(d=>{
-      html+=`<div class="disc-card">
-        <div class="disc-icon">${d.emoji||CAT_EMOJI[d.cat]||'📍'}</div>
-        <div class="disc-body">
-          <div class="disc-name">${d.name}</div>
-          <div class="disc-desc">${d.desc||''}</div>
-          ${d.link?`<a href="${d.link}" target="_blank" style="display:inline-block;margin-top:4px;font-size:11px;color:var(--sky);font-weight:500;word-break:break-all">↗ ${d.link.replace(/^https?:\/\//,'').split('/')[0]}</a>`:''}
-          <div class="disc-meta">
-            ${(d.tags||[]).map((t,i)=>`<span class="disc-badge ${dbcls[i%4]}">${t}</span>`).join('')}
+
+  // Group by cat
+  const cats = {};
+  items.forEach(d=>{ if(!cats[d.cat]) cats[d.cat]=[]; cats[d.cat].push(d); });
+
+  let html = '';
+  Object.entries(cats).forEach(([cat, its]) => {
+    html += `<div class="disc-section-label">${catLabels[cat]||cat}</div>`;
+    if (discView === 'grid') {
+      html += `<div class="disc-grid-view">`;
+      its.forEach(d => {
+        const vis = visitedSpots.has(d.id);
+        const active = activeSpotId===d.id;
+        const bgColor = {matcha:'rgba(107,143,94,.1)',coffee:'rgba(201,151,58,.08)',ramen:'rgba(232,160,180,.12)',sushi:'rgba(91,143,168,.1)',street:'rgba(192,57,43,.08)',breakfast:'rgba(201,151,58,.08)',shopping:'rgba(201,109,138,.08)',experience:'rgba(167,139,250,.1)',attraction:'rgba(26,21,18,.04)',onsen:'rgba(167,139,250,.1)'}[d.cat]||'#f5f2ee';
+        html += `<div class="disc-grid-card ${vis?'visited':''} ${active?'map-active':''}" onclick="spotCardClick('${d.id}')">
+          <div class="dgc-top" style="background:${bgColor}">
+            ${d.emoji||CAT_EMOJI[d.cat]||'📍'}
+            ${vis?`<span class="dgc-visited-badge">✅</span>`:''}
           </div>
-        </div>
-        <div class="disc-right">
-          <span class="disc-city-chip">${d.city}</span>
-          ${d.lat ? `<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>` : ''}
-          <button class="disc-edit-btn" onclick="editDisc('${d.id}')">✏️</button>
-        </div>
-      </div>`;
-    });
-    html+='</div>';
+          <div class="dgc-body">
+            <div class="dgc-name">${d.name}</div>
+            <div class="dgc-city">${d.city}</div>
+            <div class="dgc-actions">
+              ${d.lat?`<button class="dgc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
+              <button class="dgc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅ Visited':'Mark done'}</button>
+            </div>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    } else {
+      // LIST view
+      html += `<div class="disc-list">`;
+      its.forEach(d => {
+        const vis = visitedSpots.has(d.id);
+        const active = activeSpotId===d.id;
+        html += `<div class="disc-card ${vis?'visited':''} ${active?'map-active':''}" onclick="spotCardClick('${d.id}')">
+          <div class="disc-icon">${d.emoji||CAT_EMOJI[d.cat]||'📍'}</div>
+          <div class="disc-body">
+            <div class="disc-name">${d.name}</div>
+            <div class="disc-desc">${d.desc||''}</div>
+            ${d.link?`<a href="${d.link}" target="_blank" onclick="event.stopPropagation()" style="display:inline-block;margin-top:4px;font-size:11px;color:var(--sky);font-weight:500">↗ ${d.link.replace(/^https?:\/\//,'').split('/')[0]}</a>`:''}
+            <div class="disc-meta">
+              ${(d.tags||[]).map((t,i)=>`<span class="disc-badge ${dbcls[i%4]}">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="disc-right">
+            <span class="disc-city-chip">${d.city}</span>
+            ${d.lat?`<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
+            <button class="disc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅':'Mark done'}</button>
+            <button class="disc-edit-btn" onclick="event.stopPropagation();editDisc('${d.id}')">✏️</button>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
   });
-  root.innerHTML=html;
+  root.innerHTML = html;
+}
+
+function spotCardClick(id) {
+  const d = discItems.find(x=>x.id===id);
+  if (!d) return;
+  activeSpotId = id;
+  // update banner
+  const banner = document.getElementById('discActiveBanner');
+  document.getElementById('dabIcon').textContent = d.emoji||CAT_EMOJI[d.cat]||'📍';
+  document.getElementById('dabName').textContent = d.name;
+  document.getElementById('dabCity').textContent = d.city.charAt(0).toUpperCase()+d.city.slice(1);
+  const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(d.name+' '+d.city)}`;
+  document.getElementById('dabGmaps').href = gmapsUrl;
+  banner.classList.add('show');
+  // highlight card
+  document.querySelectorAll('.disc-card,.disc-grid-card').forEach(c=>c.classList.remove('map-active'));
+  // pan map if coords available
+  if (d.lat) panMap({stopPropagation:()=>{}}, id, d.lat, d.lng, d.mapsq||'');
+}
+
+function panMap(e, id, lat, lng, mapsq) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const iframe = document.getElementById('discMapFrame');
+  if (iframe) {
+    iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(mapsq||'')}&output=embed&z=16`;
+  }
+  document.getElementById('discMapWrap')?.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // highlight active card
+  setTimeout(() => {
+    document.querySelectorAll('.disc-card,.disc-grid-card').forEach(c=>c.classList.remove('map-active'));
+    document.querySelectorAll(`[onclick*="${id}"], [id*="${id}"]`).forEach(c=>{
+      const card = c.closest('.disc-card,.disc-grid-card');
+      if (card) card.classList.add('map-active');
+    });
+    // also highlight via re-render state
+    activeSpotId = id;
+  }, 50);
+  showToast('📍 Showing on map');
 }
 
 // DISC CRUD
@@ -1531,8 +1765,11 @@ function renderTransit() {
   root.innerHTML=transitItems.map(t=>{
     const sts=t.status==='confirmed'?'shin-ok':'shin-book';
     const stl=t.status==='confirmed'?'✓ Confirmed':'📌 Book Now';
+    const statusEl = t.status==='confirmed'
+      ? `<div class="shin-status ${sts}">${stl}</div>`
+      : `<a class="shin-status ${sts}" href="https://www.klook.com/en-US/activity/25308-jr-pass-japan/" target="_blank" style="text-decoration:none;cursor:pointer" title="Book on Klook">📌 Book on Klook ↗</a>`;
     return `<div class="shin-card">
-      <div class="shin-status ${sts}">${stl}</div>
+      ${statusEl}
       <div class="shin-type">${t.trainName||'Shinkansen'}</div>
       <div class="shin-route"><div class="shin-city">${t.from}</div><div class="shin-arrow">→</div><div class="shin-city">${t.to}</div></div>
       <div class="shin-grid">
@@ -1591,12 +1828,13 @@ async function postNote() {
   const text=document.getElementById('noteText').value.trim(); if(!text) return;
   const note={couple:document.getElementById('noteCouple').value,type:document.getElementById('noteType').value,text,created_at:new Date().toISOString()};
   if(sb) {
-    const {error} = await sb.from('japan_notes').insert([note]);
-    if (error) { note.id=Date.now(); notes.unshift(note); renderNotes(); }
+    const {data, error} = await sb.from('japan_notes').insert([note]).select();
+    if (!error && data) note.id = data[0].id;
+    else if (error) { note.id=Date.now(); notes.unshift(note); renderNotes(); }
   } else { note.id=Date.now(); notes.unshift(note); renderNotes(); }
   document.getElementById('noteText').value='';
   document.getElementById('charCount').textContent='0/300';
-  // Switch to notes tab so they can see it
+  logActivity(note.couple, 'posted a note', `📝 ${note.couple==='ca'?'Connor & April':'Pat & Julia'}: "${text.slice(0,50)}"`, 'notes', String(note.id));
   switchTab('notes');
   showToast('💬 Posted!');
 }
@@ -1606,28 +1844,71 @@ function renderNotes() {
   if(!notes.length){feed.innerHTML=`<div class="empty-st"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote on a plan.</p></div>`;return;}
   feed.innerHTML=notes.map(n=>{
     const isCA=n.couple==='ca';
+    const isMine = n.couple===currentCouple;
     return `<div class="note-card">
       <div class="nc-top2">
         <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
         <span class="nc-ttype">${n.type||''}</span>
         <span class="nc-ts">${fmtTime(n.created_at)}</span>
+        ${isMine?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:13px;cursor:pointer;opacity:.25;margin-left:4px" title="Delete">🗑</button>`:''}
       </div>
       <div class="note-text">${esc(n.text)}</div>
       <div class="react-row">
-        <button class="rbtn" onclick="react(this)">👍</button>
-        <button class="rbtn" onclick="react(this)">❤️</button>
-        <button class="rbtn" onclick="react(this)">🔥</button>
-        <button class="rbtn" onclick="react(this)">✅</button>
+        <button class="rbtn" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)">👍</button>
+        <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
+        <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
+        <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
       </div>
     </div>`;
   }).join('');
+  // re-apply saved reactions
+  applyNoteReactions();
 }
 
-function react(btn) {
-  const c=parseInt(btn.dataset.c||0)+1;
-  btn.dataset.c=c;
-  if(c>1) btn.textContent=btn.textContent.replace(/ \d+$/,'')+' '+c;
-  btn.style.background='var(--gold-light)';
+let noteReacts = JSON.parse(localStorage.getItem('jp-notereacts') || '{}');
+// { noteId: { emoji: [coupleIds] } }
+
+function reactNote(btn) {
+  if (!currentCouple) { showToast('Pick your couple first'); return; }
+  const noteId = btn.dataset.id;
+  const emoji = btn.dataset.emoji;
+  if (!noteId || !emoji) return;
+  if (!noteReacts[noteId]) noteReacts[noteId] = {};
+  if (!noteReacts[noteId][emoji]) noteReacts[noteId][emoji] = [];
+  const arr = noteReacts[noteId][emoji];
+  const idx = arr.indexOf(currentCouple);
+  if (idx > -1) {
+    arr.splice(idx, 1); // toggle off
+  } else {
+    arr.push(currentCouple);
+  }
+  localStorage.setItem('jp-notereacts', JSON.stringify(noteReacts));
+  applyNoteReactions();
+}
+
+function applyNoteReactions() {
+  Object.entries(noteReacts).forEach(([noteId, emojis]) => {
+    Object.entries(emojis).forEach(([emoji, couples]) => {
+      const btns = document.querySelectorAll(`.rbtn[data-id="${noteId}"][data-emoji="${emoji}"]`);
+      btns.forEach(btn => {
+        const count = couples.length;
+        const isMine = currentCouple && couples.includes(currentCouple);
+        btn.textContent = count > 0 ? `${emoji} ${count}` : emoji;
+        btn.style.background = isMine ? 'var(--gold-light)' : '';
+        btn.style.fontWeight = isMine ? '600' : '';
+      });
+    });
+  });
+}
+
+async function deleteNote(id) {
+  if (!confirm('Delete this note?')) return;
+  if (sb) {
+    await sb.from('japan_notes').delete().eq('id', id);
+  }
+  notes = notes.filter(n => String(n.id) !== String(id));
+  renderNotes();
+  showToast('🗑 Deleted');
 }
 
 // ════════════════════════════════════════
@@ -1650,24 +1931,7 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
 // ════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════
-// ════════════════════════════════════════
-// MAP PAN — clicking a disc card
-// ════════════════════════════════════════
-function panMap(e, id, lat, lng, mapsq) {
-  e.stopPropagation();
-  // Update iframe to centre on coordinates using standard google maps embed
-  const iframe = document.getElementById('discMapFrame');
-  if (iframe) {
-    iframe.src = `https://maps.google.com/maps?q=${mapsq}&output=embed&z=16`;
-  }
-  // Scroll map into view
-  iframe?.closest('.disc-map-wrap')?.scrollIntoView({behavior:'smooth', block:'nearest'});
-  // Highlight active card
-  document.querySelectorAll('.disc-card').forEach(c=>c.classList.remove('map-active'));
-  const card = e.currentTarget?.closest('.disc-card');
-  if(card) card.classList.add('map-active');
-  showToast('📍 Opening in map…');
-}
+// panMap is defined in renderDisc section above
 
 // ════════════════════════════════════════
 // SEED TIPS
@@ -1753,18 +2017,44 @@ const TIP_SECTIONS = [
   {key:'blossoms', label:'🌸 Cherry Blossoms 2026'},
 ];
 
+// track which sections are open (default: first two open)
+let tipsOpen = JSON.parse(localStorage.getItem('jp-tips-open') || '{"apps":true,"links":true}');
+
+function toggleTipsSection(key) {
+  tipsOpen[key] = !tipsOpen[key];
+  localStorage.setItem('jp-tips-open', JSON.stringify(tipsOpen));
+  // toggle classes directly without full re-render for smoothness
+  const hdr = document.getElementById('tips-hdr-'+key);
+  const body = document.getElementById('tips-body-'+key);
+  const chev = document.getElementById('tips-chev-'+key);
+  if (!hdr || !body) return;
+  const isOpen = tipsOpen[key];
+  hdr.classList.toggle('open', isOpen);
+  body.classList.toggle('open', isOpen);
+  if (chev) chev.classList.toggle('open', isOpen);
+}
+
 function renderTips() {
   const root = document.getElementById('tipsRoot');
-  let html = '';
+  let html = '<div style="padding:8px 0 4px"></div>';
   TIP_SECTIONS.forEach(sec => {
     const items = tipsItems.filter(t=>t.section===sec.key);
+    const isOpen = !!tipsOpen[sec.key];
+    const count = items.length;
     html += `<div class="tips-section">
-      <div class="tips-section-hdr">
-        <span class="tips-section-title">${sec.label}</span>
-        <button class="tips-section-add" onclick="openTipsSheet('${sec.key}')" title="Add to this section">＋</button>
-      </div>`;
+      <div class="tips-section-hdr ${isOpen?'open':''}" id="tips-hdr-${sec.key}" onclick="toggleTipsSection('${sec.key}')">
+        <div class="tips-section-left">
+          <span class="tips-section-chevron ${isOpen?'open':''}" id="tips-chev-${sec.key}">▼</span>
+          <span class="tips-section-title">${sec.label}</span>
+          <span style="font-size:11px;color:var(--stone);font-weight:400">${count}</span>
+        </div>
+        <button class="tips-section-add" onclick="event.stopPropagation();openTipsSheet('${sec.key}')" title="Add">＋</button>
+      </div>
+      <div class="tips-section-body ${isOpen?'open':''}" id="tips-body-${sec.key}">
+        <div class="tips-section-inner">`;
+
     if (sec.key === 'phrases') {
-      html += `<div style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px var(--shadow)">`;
+      html += `<div>`;
       items.forEach(t => {
         html += `<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer">
           <div class="phrase-en">${t.title}</div>
@@ -1773,7 +2063,7 @@ function renderTips() {
       });
       html += `</div>`;
     } else if (sec.key === 'blossoms') {
-      html += `<div class="blossom-grid">`;
+      html += `<div class="blossom-grid" style="padding:4px 12px 8px">`;
       items.forEach(t => {
         html += `<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer">
           <div class="blossom-city">${t.title.split('—')[0].trim()}</div>
@@ -1783,6 +2073,9 @@ function renderTips() {
       });
       html += `</div>`;
     } else {
+      if (!items.length) {
+        html += `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
+      }
       items.forEach(t => {
         const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
         html += `<div class="tip-item">
@@ -1790,13 +2083,13 @@ function renderTips() {
           <div class="tip-item-body">
             <div class="tip-item-title">${t.title}</div>
             ${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}
-            ${isLink ? `<div class="tip-item-link">${t.detail}</div>` : ''}
+            ${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}
           </div>
           <button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button>
         </div>`;
       });
     }
-    html += `</div>`;
+    html += `</div></div></div>`;
   });
   root.innerHTML = html;
 }
@@ -1839,8 +2132,13 @@ function deleteTip() {
 // TIKTOK RENDER + CRUD
 // ════════════════════════════════════════
 let ttFilter='all';
-const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
-const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',vlog:'📹 Vlog',other:'✨ Other'};
+const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',content:'background:rgba(167,139,250,.15);color:#7c3aed',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
+const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',content:'🎬 Content',vlog:'📹 Vlog',other:'✨ Other'};
+
+// tt reactions stored locally + synced to supabase
+let ttReactions = JSON.parse(localStorage.getItem('jp-ttreact') || '{}');
+// { ttId: { likes: ['ca','pj'], comments: [{couple,text,ts}] } }
+let ttPreviews = {}; // { ttId: bool } — which are expanded
 
 function filterTT(cat, el) {
   ttFilter=cat;
@@ -1853,7 +2151,6 @@ function renderTT() {
   const root=document.getElementById('ttRoot');
   const filtered = ttFilter==='all' ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
   if(!filtered.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🎵</div><p>No TikToks saved yet!<br>Tap ＋ to add one.</p></div>`;return;}
-  // Group by cat
   const cats={};
   filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
   let html='';
@@ -1861,15 +2158,20 @@ function renderTT() {
     if(ttFilter==='all') html+=`<div class="tt-section-label">${TT_CAT_LABELS[cat]||cat}</div>`;
     html+=`<div class="tt-grid">`;
     items.forEach(t=>{
-      const liked=ttLikes.has(t.id);
+      const rx = ttReactions[t.id]||{likes:[],comments:[]};
+      const likes = rx.likes||[];
+      const comments = rx.comments||[];
+      const myLike = currentCouple && likes.includes(currentCouple);
       const colStyle=TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
-      html+=`<div class="tt-card">
-        <div class="tt-top" onclick="openTT('${esc(t.url)}')">
-          <div class="tt-thumb">
-            ${t.thumb?`<img src="${t.thumb}" alt="thumb" onerror="this.style.display='none'">`:''}
+      const previewOpen = !!ttPreviews[t.id];
+      const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
+      html+=`<div class="tt-card" id="ttcard-${t.id}">
+        <div class="tt-top">
+          <div class="tt-thumb" onclick="openTT('${esc(t.url)}')">
+            ${t.thumb?`<img src="${t.thumb}" alt="">`:'<span style="font-size:28px">🎵</span>'}
             <div class="tt-play">▶</div>
           </div>
-          <div class="tt-body">
+          <div class="tt-body" onclick="openTT('${esc(t.url)}')">
             <div class="tt-title">${t.title||'TikTok video'}</div>
             <div class="tt-meta">
               <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span>
@@ -1878,26 +2180,157 @@ function renderTT() {
           </div>
         </div>
         ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''}
+        <!-- embed preview -->
+        <div class="tt-embed ${previewOpen?'show':''}" id="ttembed-${t.id}">
+          ${previewOpen?`<div class="tt-embed-loading">Loading preview…</div>`:''}
+        </div>
+        <!-- actions -->
         <div class="tt-actions">
-          <button class="tt-like-btn ${liked?'liked':''}" onclick="toggleTTLike('${t.id}',this)">${liked?'❤️':'🤍'}</button>
-          <button class="tt-open-btn" onclick="openTT('${esc(t.url)}')">Open in TikTok ↗</button>
+          <div class="tt-like-area">
+            <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')" title="${myLike?'Unlike':'Like'}">${myLike?'❤️':'🤍'}</button>
+            <div class="tt-who-liked">${whoLikedHtml}</div>
+          </div>
+          <div class="tt-spacer"></div>
+          <button class="tt-preview-btn ${previewOpen?'active':''}" onclick="toggleTTPreview('${t.id}','${esc(t.url)}')">${previewOpen?'▲ Hide':'▼ Preview'}</button>
+          <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">Open ↗</a>
           <button class="tt-edit-btn" onclick="editTTItem('${t.id}')">✏️</button>
+        </div>
+        <!-- comments -->
+        <div class="tt-comments" id="ttcomments-${t.id}">
+          ${comments.map(c=>`
+            <div class="tt-comment">
+              <span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span>
+              <div style="flex:1">
+                <div class="tt-comment-text">${esc(c.text)}</div>
+                <div class="tt-comment-time">${fmtTime(c.ts)}</div>
+              </div>
+              ${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:''}
+            </div>`).join('')}
+          <div class="tt-comment-form">
+            <input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')">
+            <button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button>
+          </div>
         </div>
       </div>`;
     });
     html+=`</div>`;
   });
   root.innerHTML=html;
+  // load any open previews
+  Object.keys(ttPreviews).forEach(id => { if(ttPreviews[id]) loadTTEmbed(id, ttItems.find(t=>t.id===id)?.url||''); });
 }
 
-function openTT(url) {
-  if(url && url!=='https://www.tiktok.com') window.open(url,'_blank');
+async function toggleTTPreview(id, url) {
+  ttPreviews[id] = !ttPreviews[id];
+  const embedEl = document.getElementById('ttembed-'+id);
+  const btn = document.querySelector(`#ttcard-${id} .tt-preview-btn`);
+  if (!embedEl) return;
+  if (ttPreviews[id]) {
+    embedEl.classList.add('show');
+    if (btn) { btn.textContent='▲ Hide'; btn.classList.add('active'); }
+    embedEl.innerHTML = `<div class="tt-embed-loading">Loading preview…</div>`;
+    await loadTTEmbed(id, url);
+  } else {
+    embedEl.classList.remove('show');
+    embedEl.innerHTML='';
+    if (btn) { btn.textContent='▼ Preview'; btn.classList.remove('active'); }
+  }
 }
-function toggleTTLike(id,btn) {
-  ttLikes.has(id)?ttLikes.delete(id):ttLikes.add(id);
-  btn.textContent=ttLikes.has(id)?'❤️':'🤍';
-  btn.classList.toggle('liked',ttLikes.has(id));
-  localStorage.setItem('jp-ttlikes',JSON.stringify([...ttLikes]));
+
+async function loadTTEmbed(id, url) {
+  if (!url || !url.includes('tiktok.com')) return;
+  const embedEl = document.getElementById('ttembed-'+id);
+  if (!embedEl) return;
+  try {
+    const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
+    if (res.ok) {
+      const data = await res.json();
+      // inject the oEmbed HTML (contains the iframe/script)
+      embedEl.innerHTML = `<div style="padding:0 0 8px">${data.html||''}</div>`;
+      // TikTok oEmbed includes a script — re-execute it
+      const scripts = embedEl.querySelectorAll('script');
+      scripts.forEach(s => {
+        const ns = document.createElement('script');
+        if (s.src) ns.src = s.src; else ns.textContent = s.textContent;
+        ns.async = true;
+        s.parentNode.replaceChild(ns, s);
+      });
+    } else {
+      embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px;color:var(--stone);font-size:13px">Preview unavailable — <a href="${url}" target="_blank" style="color:var(--sky)">open on TikTok ↗</a></div>`;
+    }
+  } catch(e) {
+    embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px;color:var(--stone);font-size:13px">Preview unavailable — <a href="${url}" target="_blank" style="color:var(--sky)">open on TikTok ↗</a></div>`;
+  }
+}
+
+function saveTTReactions() {
+  localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
+}
+
+function toggleTTLike(id) {
+  if (!currentCouple) { showToast('Pick your couple first'); return; }
+  if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
+  const likes = ttReactions[id].likes;
+  const idx = likes.indexOf(currentCouple);
+  if (idx > -1) {
+    likes.splice(idx, 1);
+    showToast('💔 Unliked');
+  } else {
+    likes.push(currentCouple);
+    showToast('❤️ Liked!');
+    logActivity(currentCouple, 'liked a TikTok', `❤️ ${currentCouple==='ca'?'Connor & April':'Pat & Julia'} liked a TikTok`, 'tiktok', id);
+  }
+  saveTTReactions();
+  // update just the like area without full re-render
+  const card = document.getElementById('ttcard-'+id);
+  if (card) {
+    const rx = ttReactions[id];
+    const myLike = rx.likes.includes(currentCouple);
+    const likeBtn = card.querySelector('.tt-like-btn');
+    const whoDiv = card.querySelector('.tt-who-liked');
+    if (likeBtn) likeBtn.textContent = myLike ? '❤️' : '🤍';
+    if (whoDiv) whoDiv.innerHTML = rx.likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
+  }
+}
+
+function postTTComment(id) {
+  if (!currentCouple) { showToast('Pick your couple first'); return; }
+  const input = document.getElementById('ttci-'+id);
+  const text = input?.value.trim();
+  if (!text) return;
+  if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
+  const comment = {couple: currentCouple, text, ts: new Date().toISOString()};
+  ttReactions[id].comments.push(comment);
+  saveTTReactions();
+  input.value = '';
+  logActivity(currentCouple, 'commented on a TikTok', `💬 ${currentCouple==='ca'?'Connor & April':'Pat & Julia'}: "${text.slice(0,40)}"`, 'tiktok', id);
+  // re-render just the comments section
+  const commentsEl = document.getElementById('ttcomments-'+id);
+  if (commentsEl) {
+    const comments = ttReactions[id].comments;
+    commentsEl.innerHTML = comments.map(c=>`
+      <div class="tt-comment">
+        <span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span>
+        <div style="flex:1">
+          <div class="tt-comment-text">${esc(c.text)}</div>
+          <div class="tt-comment-time">${fmtTime(c.ts)}</div>
+        </div>
+        ${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${id}','${c.ts}')">✕</button>`:''}
+      </div>`).join('')+`
+      <div class="tt-comment-form">
+        <input class="tt-comment-input" id="ttci-${id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${id}')">
+        <button class="tt-comment-send" onclick="postTTComment('${id}')">Send</button>
+      </div>`;
+  }
+  showToast('💬 Comment posted!');
+}
+
+function deleteTTComment(ttId, ts) {
+  if (!ttReactions[ttId]) return;
+  ttReactions[ttId].comments = ttReactions[ttId].comments.filter(c=>c.ts!==ts);
+  saveTTReactions();
+  renderTT();
+  showToast('🗑 Deleted');
 }
 
 let editTTId=null;
@@ -1971,6 +2404,95 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
   if(!el._hasClose) { el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); }); el._hasClose=true; }
 });
 
+// ════════════════════════════════════════
+// NOTIFICATIONS
+// ════════════════════════════════════════
+let activityLog = JSON.parse(localStorage.getItem('jp-activity') || '[]');
+let notifSeen = parseInt(localStorage.getItem('jp-notifseen') || '0');
+let notifPanelOpen = false;
+
+function logActivity(couple, action, label, tab, refId) {
+  const entry = { couple, action, label, tab, refId, ts: new Date().toISOString(), id: Date.now() };
+  activityLog.unshift(entry);
+  if (activityLog.length > 50) activityLog = activityLog.slice(0, 50);
+  localStorage.setItem('jp-activity', JSON.stringify(activityLog));
+  // sync to supabase if available
+  if (sb) sb.from('japan_activity').insert([{couple, action, label, tab, ref_id: refId, created_at: entry.ts}]).then(()=>{});
+  updateNotifBadge();
+}
+
+function subscribeActivity() {
+  if (!sb) return;
+  sb.channel('activity-v1').on('postgres_changes', {event:'INSERT', schema:'public', table:'japan_activity'}, p => {
+    const n = p.new;
+    // only notify if it's from the other couple
+    if (n.couple === currentCouple) return;
+    const entry = {id: n.id, couple:n.couple, action:n.action, label:n.label, tab:n.tab, refId:n.ref_id, ts:n.created_at};
+    activityLog.unshift(entry);
+    localStorage.setItem('jp-activity', JSON.stringify(activityLog.slice(0,50)));
+    updateNotifBadge();
+    if (notifPanelOpen) renderNotifPanel();
+  }).subscribe();
+}
+
+function updateNotifBadge() {
+  const unseen = activityLog.filter(e => new Date(e.ts).getTime() > notifSeen).length;
+  const badge = document.getElementById('notifBadge');
+  if (!badge) return;
+  if (unseen > 0) {
+    badge.textContent = unseen > 9 ? '9+' : unseen;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function toggleNotifPanel() {
+  notifPanelOpen = !notifPanelOpen;
+  document.getElementById('notifPanel').classList.toggle('open', notifPanelOpen);
+  if (notifPanelOpen) {
+    renderNotifPanel();
+    // mark all as seen
+    notifSeen = Date.now();
+    localStorage.setItem('jp-notifseen', notifSeen);
+    updateNotifBadge();
+  }
+}
+
+function renderNotifPanel() {
+  const list = document.getElementById('notifList');
+  if (!activityLog.length) { list.innerHTML = `<div class="notif-empty">No activity yet</div>`; return; }
+  list.innerHTML = activityLog.slice(0, 20).map(e => {
+    const isOther = e.couple !== currentCouple;
+    return `<div class="notif-item ${isOther?'unread':''}" onclick="notifTap('${e.tab}','${e.refId||''}')">
+      <div class="notif-icon">${e.label?.split(' ')[0]||'📢'}</div>
+      <div class="notif-body">
+        <div class="notif-text">${e.label||e.action}</div>
+        <div class="notif-time">${fmtTime(e.ts)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function notifTap(tab, refId) {
+  toggleNotifPanel();
+  if (tab) switchTab(tab);
+  // scroll to item if possible
+  if (refId) {
+    setTimeout(() => {
+      const el = document.getElementById('ttcard-'+refId) || document.getElementById('ic-'+refId);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 300);
+  }
+}
+
+function openTT(url) {
+  if(url && url!=='https://www.tiktok.com') window.open(url,'_blank');
+}
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
 function fmtTime(iso){
   const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
   if(diff<1) return 'just now'; if(diff<60) return diff+'m ago';
