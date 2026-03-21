@@ -9,84 +9,42 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  /* 7-Eleven palette: red, green, orange on white */
-  --ink:#c8102e;           /* 7-Eleven red */
-  --ink-light:#a00e26;
+  --ink:#c8102e; --ink-light:#a00e26;
   --parchment:#ffffff;
-  --blossom:#f7941d;       /* 7-Eleven orange */
-  --blossom-deep:#e07a00;
-  --matcha:#007a3d;        /* 7-Eleven green */
-  --matcha-light:#4db87a;
-  --gold:#f7941d;
-  --gold-light:#fde8c0;
-  --stone:#666666;
-  --stone-light:#dddddd;
-  --red-torii:#c8102e;
-  --sky:#007a3d;
+  --blossom:#f7941d; --blossom-deep:#e07a00;
+  --matcha:#007a3d; --matcha-light:#4db87a;
+  --gold:#f7941d; --gold-light:#fde8c0;
+  --stone:#666666; --stone-light:#dddddd;
+  --red-torii:#c8102e; --sky:#007a3d;
   --shadow:rgba(200,16,46,0.10); --shadow-deep:rgba(200,16,46,0.20);
   --ca:#c8102e; --pj:#007a3d; --tog:#f7941d;
-  /* 7-Eleven stripe pattern variables */
-  --stripe-red:#c8102e;
-  --stripe-green:#007a3d;
-  --stripe-orange:#f7941d;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
 
-/* HEADER — 7-Eleven style with colour stripe */
-.app-header{
-  background:white;
-  padding:0;
-  position:sticky;top:0;z-index:100;
-  display:flex;flex-direction:column;
-  box-shadow:0 2px 8px rgba(0,0,0,.12);
-}
-.app-header-stripe{
-  height:6px;
-  background:linear-gradient(to right,
-    var(--stripe-red) 0%, var(--stripe-red) 33%,
-    var(--stripe-orange) 33%, var(--stripe-orange) 66%,
-    var(--stripe-green) 66%, var(--stripe-green) 100%);
-}
-.app-header-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px 10px;
-}
-.app-header h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:26px;font-weight:400;
-  color:var(--stripe-red);
-  letter-spacing:.04em;
-  line-height:1;
-}
-.app-header h1 span.seven{color:var(--stripe-green);}
-.app-header h1 span.eleven{color:var(--stripe-red);}
-.app-header .sub{font-size:10px;color:var(--stone);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;}
+/* HEADER */
+.app-header{background:white;padding:0;position:sticky;top:0;z-index:100;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.12);}.app-header-stripe{height:6px;background:linear-gradient(to right,#c8102e 0%,#c8102e 33%,#f7941d 33%,#f7941d 66%,#007a3d 66%,#007a3d 100%);}.app-header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
+.app-header h1{font-family:'Bebas Neue',sans-serif;font-size:26px;font-weight:400;color:#c8102e;letter-spacing:.04em;line-height:1;}
+.app-header .sub{font-size:10px;color:var(--stone);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
-.couple-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(--ca);letter-spacing:.03em;}
+.couple-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(--ca);letter-spacing:.02em;}
 .couple-badge.pj{background:var(--pj);}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
 
-/* NAV — red background with orange active indicator */
-.nav-tabs{background:var(--stripe-red);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:3px solid var(--stripe-orange);position:sticky;top:62px;z-index:99;}
+/* NAV */
+.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:sticky;top:62px;z-index:99;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;}
-.nav-tab.active{color:white;border-bottom-color:var(--stripe-orange);}
+.nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.nav-tab.active{color:white;border-bottom-color:#f7941d;}
 
 /* TAB */
 .tab-content{display:none;padding-bottom:90px;}
 .tab-content.active{display:block;}
 
 /* CITY */
-
-/* TAB */
-.tab-content{display:none;padding-bottom:90px;}
-.tab-content.active{display:block;}
-
-/* CITY */
-.city-header{display:flex;align-items:center;gap:10px;padding:13px 14px 7px;margin-top:3px;}
-.city-name{font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;}
+.city-header{display:flex;align-items:center;gap:10px;padding:11px 14px 8px;margin-top:3px;background:white;border-left:5px solid #f7941d;margin:3px 12px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.city-name{font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400;letter-spacing:.04em;}
 .city-kanji{font-family:'Shippori Mincho',serif;font-size:13px;color:var(--stone);}
 .city-dates{margin-left:auto;font-size:11px;color:var(--blossom-deep);font-weight:500;background:rgba(232,160,180,.15);padding:3px 10px;border-radius:20px;}
 .city-divider{height:4px;background:linear-gradient(to right,var(--stone-light),transparent);margin:2px 0 5px;opacity:.2;}
@@ -113,7 +71,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
 
 /* ITIN CARD */
-.itin-card{margin:0 12px 7px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
+.itin-card{margin:0 12px 7px;background:white;border-radius:2px;border-left:3px solid #c8102e;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
 .itin-card:active{cursor:grabbing;}
 .itin-card.tentative{border-style:dashed;border-color:var(--stone-light);background:#fcfaf7;}
 .itin-card.idea{border-style:dashed;border-color:var(--gold);background:#fffdf7;}
@@ -171,8 +129,8 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .vote-comment::placeholder{color:var(--stone-light);}
 
 /* FAB */
-.fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:var(--blossom-deep);color:white;border-radius:50%;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(201,109,138,.45);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.fab:hover{transform:scale(1.08);}
+.fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:#c8102e;color:white;border-radius:4px;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(201,109,138,.45);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.fab:hover{transform:scale(1.06);}
 .fab:active{transform:scale(.95);}
 
 /* SHEET */
@@ -246,7 +204,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .fpill{flex:none;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--stone-light);color:var(--stone);background:white;transition:all .2s;}
 .fpill.active{background:var(--ink);color:white;border-color:var(--ink);}
 
-.disc-section-label{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);padding:10px 14px 5px;}
+.disc-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c8102e;padding:10px 14px 5px;}
 
 /* LIST view */
 .disc-list{display:flex;flex-direction:column;gap:6px;padding:0 12px;}
@@ -292,124 +250,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 /* ── UNIVERSAL COLLAPSIBLE SECTIONS ── */
 .coll-section{margin:0 12px 6px;}
-.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:0;cursor:pointer;box-shadow:0 1px 4px var(--shadow);border-left:4px solid var(--stripe-red);border-top:1px solid #eee;border-right:1px solid #eee;border-bottom:1px solid #eee;transition:border-radius .15s;user-select:none;}
-.coll-hdr.open{border-bottom:2px solid var(--stripe-orange);}
-.coll-hdr-left{display:flex;align-items:center;gap:8px;flex:1;}
-.coll-hdr-title{font-size:12px;font-weight:700;color:#1a1a1a;letter-spacing:.04em;text-transform:uppercase;}
-.coll-hdr-count{font-size:11px;color:var(--stone);font-weight:400;}
-.coll-chev{font-size:11px;color:var(--stone);transition:transform .22s;flex-shrink:0;}
-.coll-chev.open{transform:rotate(180deg);}
-.coll-add-btn{background:none;border:none;color:var(--stripe-red);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
-.coll-body{background:white;border-radius:0;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 6px rgba(0,0,0,.08);border:1px solid #eee;border-top:none;margin-bottom:8px;}
-.coll-body.open{max-height:3000px;}
-.coll-inner{padding:8px 0 4px;}
-.coll-inner .booking-card{margin:0;border-radius:0;box-shadow:none;border:none;border-bottom:1px solid #f0f0f0;}
-.coll-inner .booking-card:last-child{border-bottom:none;}
-.coll-inner .shin-card{margin:8px 12px;}
-.coll-inner .tip-banner{margin:6px 12px;}
-
-/* city header — 7-Eleven bold stripe */
-.city-header{display:flex;align-items:center;gap:10px;padding:12px 14px 7px;margin-top:3px;border-left:5px solid var(--stripe-orange);margin-left:12px;margin-right:12px;background:white;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.city-name{font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400;color:#1a1a1a;letter-spacing:.04em;}
-.city-kanji{font-size:13px;color:var(--stone);}
-.city-dates{margin-left:auto;font-size:11px;color:var(--stripe-red);font-weight:600;background:rgba(200,16,46,.08);padding:3px 10px;border-radius:2px;}
-
-/* day header */
-.day-header-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 3px;cursor:pointer;user-select:none;border-left:3px solid var(--stripe-green);margin:4px 12px 0;}
-.day-header-row .dl{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:.06em;}
-
-/* itin card — sharper corners */
-.itin-card{margin:0 12px 7px;background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-red);transition:box-shadow .2s;cursor:grab;}
-.itin-card.tentative{border-left-color:var(--stripe-orange);background:#fffdf9;}
-.itin-card.idea{border-left-color:#ccc;background:#fafafa;}
-
-/* booking card */
-.booking-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);margin-bottom:7px;border:1px solid #e8e8e8;}
-.bk-header{padding:10px 12px;display:flex;align-items:center;gap:8px;border-left:3px solid var(--stripe-green);}
-
-/* disc card */
-.disc-card{background:white;border-radius:2px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-orange);cursor:pointer;transition:all .18s;}
-
-/* disc grid card */
-.disc-grid-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-top:3px solid var(--stripe-red);cursor:pointer;transition:all .18s;position:relative;}
-
-/* tips section */
-.tips-section{margin:0 12px 6px;}
-.tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f0f0f0;cursor:default;}
-
-/* note card */
-.note-card{background:white;border-radius:2px;padding:12px;margin-bottom:8px;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-left:3px solid var(--stripe-red);}
-
-/* tt card */
-.tt-card{background:white;border-radius:2px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.08);border:1px solid #e8e8e8;border-top:3px solid var(--stripe-red);}
-
-/* FAB — 7-Eleven red */
-.fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:var(--stripe-red);color:white;border-radius:4px;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(200,16,46,.4);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;}
-.fab:hover{transform:scale(1.06);}
-
-/* section label */
-.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stripe-red);padding:12px 14px 5px;}
-.disc-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stripe-red);padding:10px 14px 5px;}
-
-/* status badges */
-.sc{background:rgba(0,122,61,.12);color:var(--stripe-green);}
-.sp{background:rgba(247,148,29,.15);color:var(--stripe-orange);}
-.st{background:rgba(200,16,46,.1);color:var(--stripe-red);}
-.sq{background:rgba(247,148,29,.12);color:var(--stripe-orange);}
-
-/* filter pills */
-.fpill{flex:none;padding:6px 12px;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #ddd;color:var(--stone);background:white;transition:all .2s;letter-spacing:.02em;}
-.fpill.active{background:var(--stripe-red);color:white;border-color:var(--stripe-red);}
-
-/* picker */
-.picker-card{background:white;border-radius:4px;padding:28px 22px;width:100%;max-width:340px;text-align:center;border-top:6px solid var(--stripe-red);}
-.picker-btn{border-radius:4px;}
-
-/* shinkansen dark card stays — just tweak border */
-.shin-card{border-left:4px solid var(--stripe-orange);}
-
-/* tag colours adjusted */
-.tag-booked{background:rgba(200,16,46,.1);color:var(--stripe-red);}
-.tag-must{background:rgba(247,148,29,.12);color:var(--stripe-orange);}
-.tag-flex{background:rgba(0,122,61,.1);color:var(--stripe-green);}
-
-/* progress bar */
-.bp-fill{background:linear-gradient(to right,var(--stripe-orange),var(--stripe-red));}
-
-/* view toggle */
-.view-btn.active{background:var(--stripe-red);color:white;box-shadow:none;}
-
-/* collapse btns */
-.itin-collapse-btns button:hover{background:var(--stripe-red);color:white;border-color:var(--stripe-red);}
-
-/* who stripe on itin cards */
-.ws-together{background:var(--stripe-orange);}
-.ws-ca{background:var(--stripe-red);}
-.ws-pj{background:var(--stripe-green);}
-
-/* dot colours */
-.dot-food{background:var(--stripe-green);}
-.dot-activity{background:var(--stripe-red);}
-.dot-hotel{background:var(--stripe-orange);}
-.dot-shopping{background:var(--stripe-red);}
-
-/* itin toolbar who filter */
-.iwf-btn.active{background:var(--stripe-red);color:white;border-color:var(--stripe-red);border-radius:2px;}
-
-/* toast */
-.toast{background:var(--stripe-red);border-radius:4px;}
-
-/* coll add btn colour */
-.coll-add-btn{color:var(--stripe-red);}
-.day-add-btn{color:var(--stripe-red);}
-
-/* notif bell badge */
-.notif-badge{background:var(--stripe-green);}
-.notif-bell{color:var(--stripe-red);}
-
-/* ── BOOKINGS ── */
-.coll-section{margin:0 12px 6px;}
-.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
+.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:0;border-left:4px solid #c8102e;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
 .coll-hdr:active{box-shadow:0 1px 3px var(--shadow);}
 .coll-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
 .coll-hdr-left{display:flex;align-items:center;gap:8px;flex:1;}
@@ -418,7 +259,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .coll-chev{font-size:11px;color:var(--stone);transition:transform .22s;flex-shrink:0;}
 .coll-chev.open{transform:rotate(180deg);}
 .coll-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
-.coll-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.coll-body{background:white;border-radius:0;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
 .coll-body.open{max-height:3000px;}
 .coll-inner{padding:8px 0 4px;}
 /* items inside coll sections lose their own card shadow */
@@ -490,7 +331,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 /* PICKER */
 .picker-ov{position:fixed;inset:0;background:rgba(26,21,18,.88);z-index:300;display:none;align-items:center;justify-content:center;padding:22px;}
 .picker-ov.show{display:flex;}
-.picker-card{background:var(--parchment);border-radius:20px;padding:26px 22px;width:100%;max-width:340px;text-align:center;}
+.picker-card{background:white;border-radius:4px;border-top:5px solid #c8102e;padding:26px 22px;width:100%;max-width:340px;text-align:center;}
 .picker-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;margin-bottom:9px;color:white;transition:all .2s;}
 .picker-btn:last-child{margin-bottom:0;}
 
@@ -507,7 +348,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .tip-text strong{color:var(--matcha);}
 
 /* TOAST */
-.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:white;padding:8px 16px;border-radius:20px;font-size:13px;z-index:400;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-size:13px;z-index:400;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* EMPTY */
@@ -613,19 +454,55 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .notif-bell{background:none;border:none;color:var(--parchment);font-size:18px;cursor:pointer;position:relative;padding:2px;}
 .notif-badge{position:absolute;top:-2px;right:-2px;background:var(--blossom-deep);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;}
 .notif-badge.show{display:flex;}
-.notif-panel{position:fixed;top:50px;right:8px;width:300px;max-width:calc(100vw - 16px);background:var(--ink);border-radius:14px;z-index:150;transform:scale(.9) translateY(-10px);transform-origin:top right;opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.32,.72,0,1);max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);}
+.notif-panel{position:fixed;top:50px;right:8px;width:310px;max-width:calc(100vw - 16px);background:var(--ink);border-radius:14px;z-index:150;transform:scale(.9) translateY(-10px);transform-origin:top right;opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.32,.72,0,1);max-height:72vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);}
 .notif-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-.notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:var(--ink);z-index:1;}
 .notif-title{font-size:13px;font-weight:600;color:var(--parchment);letter-spacing:.04em;}
 .notif-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0;}
-.notif-item{display:flex;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .15s;}
+.notif-item{display:flex;gap:10px;padding:10px 14px 10px 16px;border-bottom:1px solid rgba(255,255,255,.06);transition:background .15s;align-items:flex-start;}
 .notif-item:hover{background:rgba(255,255,255,.04);}
-.notif-item.unread{background:rgba(232,160,180,.08);}
-.notif-icon{font-size:18px;flex-shrink:0;}
+.notif-item.unread{background:rgba(232,160,180,.06);border-left:2px solid var(--blossom-deep);}
+.notif-item-clickable{flex:1;cursor:pointer;display:flex;gap:10px;align-items:flex-start;}
+.notif-icon{font-size:17px;flex-shrink:0;padding-top:1px;}
 .notif-body{flex:1;}
 .notif-text{font-size:13px;color:var(--parchment);line-height:1.4;}
 .notif-time{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
+.notif-dismiss{background:none;border:none;color:rgba(255,255,255,.25);font-size:14px;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;transition:color .15s;}
+.notif-dismiss:hover{color:rgba(255,255,255,.7);}
 .notif-empty{padding:20px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px;}
+
+/* WISHLIST TAB */
+.wl-section{margin:0 12px 8px;}
+.wl-store-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);user-select:none;}
+.wl-store-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
+.wl-store-left{display:flex;align-items:center;gap:8px;}
+.wl-store-emoji{font-size:20px;}
+.wl-store-name{font-size:14px;font-weight:600;color:var(--ink);}
+.wl-store-count{font-size:11px;color:var(--stone);}
+.wl-store-chev{font-size:11px;color:var(--stone);transition:transform .22s;}
+.wl-store-chev.open{transform:rotate(180deg);}
+.wl-store-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
+.wl-store-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.wl-store-body.open{max-height:2000px;}
+.wl-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f5f2ee;}
+.wl-item:last-child{border-bottom:none;}
+.wl-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--stone-light);background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.wl-check.done{background:var(--matcha);border-color:var(--matcha);}
+.wl-check.done::after{content:'✓';font-size:11px;color:white;font-weight:700;}
+.wl-item-body{flex:1;}
+.wl-item-name{font-size:14px;color:var(--ink);transition:all .2s;}
+.wl-item-name.done{text-decoration:line-through;color:var(--stone);}
+.wl-item-detail{font-size:12px;color:var(--stone);margin-top:1px;}
+.wl-item-who{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:auto;flex-shrink:0;}
+.wl-item-who.ca{background:rgba(201,109,138,.12);color:var(--ca);}
+.wl-item-who.pj{background:rgba(107,143,94,.12);color:var(--pj);}
+.wl-item-who.all{background:rgba(91,143,168,.12);color:var(--tog);}
+.wl-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;flex-shrink:0;}
+.wl-edit-btn:hover{opacity:.8;}
+.wl-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 4px;}
+.wl-progress{font-size:11px;color:var(--stone);}
+.wl-progress-bar{height:4px;background:#f0ece6;border-radius:2px;margin:4px 14px 8px;overflow:hidden;}
+.wl-progress-fill{height:100%;background:linear-gradient(to right,var(--matcha-light),var(--matcha));border-radius:2px;transition:width .4s ease;}
 </style>
 </head>
 <body>
@@ -645,18 +522,18 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 <div class="app-header">
   <div class="app-header-stripe"></div>
   <div class="app-header-inner">
-    <div>
-      <h1><span class="seven">7</span>-<span class="eleven">JAPAN</span> 2026</h1>
-      <div class="sub">Connor & April · Pat & Julia</div>
-    </div>
-    <div class="hdr-right">
-      <div class="live-dot" id="liveDot"></div>
-      <button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
-        🔔
-        <span class="notif-badge" id="notifBadge">0</span>
-      </button>
-      <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
-    </div>
+  <div>
+    <h1>7-JAPAN 2026</h1>
+    <div class="sub">Connor & April · Pat & Julia</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-dot" id="liveDot"></div>
+    <button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
+      🔔
+      <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+    <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
+  </div>
   </div>
 </div>
 
@@ -678,6 +555,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   <div class="nav-tab" onclick="switchTab('tips')" id="tab-tips">💡 TIPS</div>
   <div class="nav-tab" onclick="switchTab('tiktok')" id="tab-tiktok">🎵 TIKTOKS</div>
   <div class="nav-tab" onclick="switchTab('notes')" id="tab-notes">💬 NOTES</div>
+  <div class="nav-tab" onclick="switchTab('wishlist')" id="tab-wishlist">🛍 WISHLIST</div>
 </div>
 
 <!-- ══ ITINERARY ══ -->
@@ -722,8 +600,11 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
     <div class="fpill active" onclick="filterDisc('city','all',this)">All Cities</div>
     <div class="fpill" onclick="filterDisc('city','tokyo',this)">Tokyo</div>
     <div class="fpill" onclick="filterDisc('city','kyoto',this)">Kyoto</div>
+    <div class="fpill" onclick="filterDisc('city','uji',this)">Uji</div>
     <div class="fpill" onclick="filterDisc('city','osaka',this)">Osaka</div>
+    <div class="fpill" onclick="filterDisc('city','hakone',this)">Hakone</div>
     <div class="fpill" onclick="filterDisc('city','fuji',this)">Mt. Fuji</div>
+    <div class="fpill" onclick="filterDisc('city','hiroshima',this)">Hiroshima</div>
     <div id="customCityPills"></div>
     <button class="fpill" onclick="openAddCitySheet()" style="border-style:dashed;color:var(--blossom-deep);border-color:var(--blossom-deep)">＋ City</button>
   </div>
@@ -914,6 +795,75 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
     </div>
   </div>
   <div class="notes-feed" id="notesFeed"><div class="empty-st"><div class="empty-icon">💬</div><p>Loading notes…</p></div></div>
+</div>
+
+<!-- ══ WISHLIST ══ -->
+<div class="tab-content" id="content-wishlist">
+  <div style="padding:13px 14px 5px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Shopping Wishlist 🛍</div>
+      <div style="font-size:12px;color:var(--stone);margin-top:2px">What we want to buy — tap ✓ when you get it</div>
+    </div>
+    <button onclick="openWLSheet()" style="background:var(--blossom-deep);color:white;border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">＋ Add</button>
+  </div>
+  <div id="wlProgress" style="display:none">
+    <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
+    <div class="wl-progress-bar"><div class="wl-progress-fill" id="wlProgressFill"></div></div>
+  </div>
+  <div id="wishlistRoot"></div>
+</div>
+
+<!-- WISHLIST SHEET -->
+<div class="sheet-overlay" id="wlSheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="wlSheetTitle">Add to Wishlist</div>
+    <div class="sheet-body">
+      <input type="hidden" id="wlEditId">
+      <div class="form-row">
+        <label class="form-label">Item</label>
+        <input class="form-input" id="wlName" placeholder="e.g. Hello Kitty plushie">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Notes (size, colour, price limit…)</label>
+        <input class="form-input" id="wlDetail" placeholder="e.g. medium size, under ¥3000">
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label class="form-label">Store</label>
+          <select class="form-select" id="wlStore">
+            <option value="Don Quijote 🦆">Don Quijote 🦆</option>
+            <option value="Muji 🗒">Muji 🗒</option>
+            <option value="Uniqlo 👕">Uniqlo 👕</option>
+            <option value="Daiso 💴">Daiso 💴</option>
+            <option value="Loft 🛋">Loft 🛋</option>
+            <option value="Tokyu Hands 🛠">Tokyu Hands 🛠</option>
+            <option value="7-Eleven 🏪">7-Eleven 🏪</option>
+            <option value="Lawson 🏪">Lawson 🏪</option>
+            <option value="Onitsuka Tiger 👟">Onitsuka Tiger 👟</option>
+            <option value="Vintage / Thrift 👗">Vintage / Thrift 👗</option>
+            <option value="General 🛍">General 🛍</option>
+            <option value="custom">✏️ Custom store…</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Who's buying?</label>
+          <select class="form-select" id="wlWho">
+            <option value="ca">Connor & April</option>
+            <option value="pj">Pat & Julia</option>
+            <option value="all">Everyone</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" id="wlCustomStoreRow" style="display:none">
+        <label class="form-label">Custom Store Name</label>
+        <input class="form-input" id="wlCustomStore" placeholder="e.g. Beams Harajuku">
+      </div>
+      <button class="form-submit" onclick="saveWL()">Save →</button>
+      <button class="form-delete" id="wlDelBtn" style="display:none" onclick="deleteWL()">🗑 Delete</button>
+      <button class="form-cancel" onclick="closeSheet('wlSheet')">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- CITY SHEET -->
@@ -1133,8 +1083,13 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
         <div>
           <label class="form-label">City</label>
           <select class="form-select" id="discCity">
-            <option value="tokyo">Tokyo</option><option value="kyoto">Kyoto</option>
-            <option value="osaka">Osaka</option><option value="fuji">Mt. Fuji</option>
+            <option value="tokyo">Tokyo</option>
+            <option value="kyoto">Kyoto</option>
+            <option value="uji">Uji</option>
+            <option value="osaka">Osaka</option>
+            <option value="hakone">Hakone</option>
+            <option value="fuji">Mt. Fuji</option>
+            <option value="hiroshima">Hiroshima</option>
           </select>        </div>
         <div>
           <label class="form-label">Category</label>
@@ -1269,26 +1224,108 @@ const SEED_ITIN = [
 ];
 
 const SEED_DISC = [
-  {id:'d1', city:'tokyo', cat:'ramen', name:'Ichiran Ramen', desc:'Solo booth tonkotsu — customize everything, late night open.', tags:['Must-Try','Late Night'], emoji:'🍜', lat:35.6592, lng:139.7006, mapsq:'Ichiran+Ramen+Shinjuku+Tokyo'},
-  {id:'d2', city:'tokyo', cat:'ramen', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku.', tags:['Yuzu','Less Queue'], emoji:'🍜', lat:35.6694, lng:139.7025, mapsq:'Afuri+Ramen+Harajuku+Tokyo'},
-  {id:'d3', city:'tokyo', cat:'sushi', name:'Tsukiji Outer Market', desc:'Arrive 7AM. Best breakfast sushi on earth. Multiple tiny counters.', tags:['Breakfast','Must-Do'], emoji:'🍣', lat:35.6654, lng:139.7706, mapsq:'Tsukiji+Outer+Market+Tokyo'},
-  {id:'d4', city:'tokyo', cat:'breakfast', name:'Benitsuru Pancake', desc:'Fluffy Japanese soufflé pancakes · 2 min from OMO3.', tags:['Near Hotel','Must-Try'], emoji:'🥞', lat:35.7147, lng:139.7950, mapsq:'Benitsuru+Pancake+Asakusa+Tokyo'},
-  {id:'d5', city:'tokyo', cat:'breakfast', name:'Onigiri Gorichan', desc:'Famous onigiri spot — try salmon and tuna mayo.', tags:['Instagram','Quick Bite'], emoji:'🍙', lat:35.7090, lng:139.7745, mapsq:'Onigiri+Gorichan+Ueno+Tokyo'},
-  {id:'d6', city:'tokyo', cat:'shopping', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable.', tags:['Harajuku','Free Entry'], emoji:'🛍', lat:35.6710, lng:139.7025, mapsq:'Takeshita+Street+Harajuku+Tokyo'},
-  {id:'d7', city:'tokyo', cat:'shopping', name:'Akihabara', desc:'Electronics, anime, manga, arcades.', tags:['Electronics','Anime'], emoji:'🎮', lat:35.7022, lng:139.7742, mapsq:'Akihabara+Electric+Town+Tokyo'},
-  {id:'d8', city:'tokyo', cat:'shopping', name:'Nakamise Street', desc:'Snacks + souvenirs right near Senso-ji.', tags:['Souvenirs','Near Senso-ji'], emoji:'🛒', lat:35.7148, lng:139.7967, mapsq:'Nakamise+Shopping+Street+Asakusa'},
-  {id:'d9', city:'tokyo', cat:'experience', name:'TeamLab Planets Toyosu', desc:'Immersive digital art — walking through light and water.', tags:['Must-Book','Unmissable'], emoji:'🎨', lat:35.6467, lng:139.7948, mapsq:'TeamLab+Planets+Toyosu+Tokyo'},
-  {id:'d10',city:'tokyo', cat:'attraction', name:'Meiji Shrine', desc:'Peaceful forested shrine in the heart of Tokyo.', tags:['Must-Do','Free'], emoji:'⛩️', lat:35.6763, lng:139.6993, mapsq:'Meiji+Shrine+Tokyo'},
-  {id:'d11',city:'tokyo', cat:'attraction', name:'Shibuya Crossing', desc:'World\'s busiest pedestrian crossing. View from above.', tags:['Iconic','Free'], emoji:'🚦', lat:35.6595, lng:139.7004, mapsq:'Shibuya+Crossing+Tokyo'},
-  {id:'d12',city:'kyoto', cat:'matcha', name:'Uji — Matcha Everything', desc:'Birthplace of Japanese matcha. Tea experience, Byodoin Temple, matcha soft serve.', tags:['Must-Do','Birthday!'], emoji:'🍵', lat:34.8853, lng:135.8050, mapsq:'Uji+City+Kyoto+matcha'},
-  {id:'d13',city:'kyoto', cat:'coffee', name:'% Arabica Higashiyama', desc:'Best latte in Kyoto. Stunning minimalist café.', tags:['Coffee','Scenic'], emoji:'☕', lat:35.0010, lng:135.7820, mapsq:'Arabica+Higashiyama+Kyoto'},
-  {id:'d14',city:'kyoto', cat:'attraction', name:'Fushimi Inari', desc:'Thousand torii gates. Go early to beat crowds. Full hike ~2h.', tags:['Must-Do','Iconic'], emoji:'⛩️', lat:34.9671, lng:135.7727, mapsq:'Fushimi+Inari+Taisha+Kyoto'},
-  {id:'d15',city:'kyoto', cat:'attraction', name:'Philosopher\'s Path', desc:'Cherry blossom canal walk — perfect in April.', tags:['Must-Do','Scenic'], emoji:'🌸', lat:35.0269, lng:135.7939, mapsq:'Philosopher+Path+Kyoto'},
-  {id:'d16',city:'kyoto', cat:'sushi', name:'Nishiki Market', desc:'"Kyoto\'s Kitchen" — 400 years old, 100+ stalls.', tags:['Must-Do','Lunch'], emoji:'🛒', lat:35.0051, lng:135.7659, mapsq:'Nishiki+Market+Kyoto'},
-  {id:'d17',city:'osaka', cat:'street', name:'Dotonbori', desc:'Takoyaki, okonomiyaki, crab, kushikatsu — all in one iconic street.', tags:['Must-Do','Street Food'], emoji:'🦀', lat:34.6687, lng:135.5013, mapsq:'Dotonbori+Osaka'},
-  {id:'d18',city:'osaka', cat:'street', name:'Kushikatsu — Daruma', desc:'Fried skewers since 1929. NO double-dipping rule!', tags:['Iconic','Cheap Eats'], emoji:'🍢', lat:34.6516, lng:135.5063, mapsq:'Kushikatsu+Daruma+Shinsekai+Osaka'},
-  {id:'d19',city:'fuji', cat:'attraction', name:'Chureito Pagoda', desc:'Hike 400 steps for the iconic Fuji + pagoda shot. Go early.', tags:['Iconic View','Hike'], emoji:'🗻', lat:35.3990, lng:138.7768, mapsq:'Chureito+Pagoda+Fujiyoshida'},
-  {id:'d20',city:'fuji', cat:'onsen', name:'Vision Glamping + Onsen', desc:'Glamping at Yamanakako with Fuji views. Onsen included!', tags:['Booked','Onsen'], emoji:'🏕️', lat:35.4122, lng:138.8661, mapsq:'Vision+Glamping+Yamanakako'},
+  {id:'d1',city:'kyoto',cat:'attraction',name:'Fushimi Inari Taisha',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.9676945,lng:135.7791876,mapsq:'Fushimi+Inari+Taisha'},
+  {id:'d2',city:'tokyo',cat:'attraction',name:'Sensō-ji',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.7147651,lng:139.7966553,mapsq:'Sensō-ji'},
+  {id:'d3',city:'tokyo',cat:'attraction',name:'Omoide Yokocho Memory Lane',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.6929614,lng:139.6995724,mapsq:'Omoide+Yokocho+Memory+Lane'},
+  {id:'d4',city:'tokyo',cat:'attraction',name:'SHIBUYA CROSSING S VIEW',desc:'MAG\'S PARK',tags:["Must-See"],emoji:'⛩️',lat:35.6596637,lng:139.7007942,mapsq:'SHIBUYA+CROSSING+S+VIEW'},
+  {id:'d5',city:'tokyo',cat:'attraction',name:'Meiji Jingu',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.6763976,lng:139.6993259,mapsq:'Meiji+Jingu'},
+  {id:'d6',city:'tokyo',cat:'attraction',name:'Yasukuni-jinja Shrine',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.694136,lng:139.743849,mapsq:'Yasukuni-jinja+Shrine'},
+  {id:'d7',city:'tokyo',cat:'attraction',name:'Meguro River Cherry Blossoms Promenade',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.6358785,lng:139.7085549,mapsq:'Meguro+River+Cherry+Blossoms+Promenade'},
+  {id:'d8',city:'kyoto',cat:'attraction',name:'Kiyomizu-dera',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.9946662,lng:135.784661,mapsq:'Kiyomizu-dera'},
+  {id:'d9',city:'kyoto',cat:'attraction',name:'Philosopher\'s Path (Tetsugaku no Michi)',desc:'-cherry blossoms!!<br>1. Silver Pavillion<br>2. Honenin temple<br>3. Eikando temple<br>4. Sanmon Gat',tags:["Must-See"],emoji:'⛩️',lat:35.0266194,lng:135.795457,mapsq:'Philosophers+Path+(Tetsugaku+no+Michi)'},
+  {id:'d10',city:'kyoto',cat:'attraction',name:'Arashiyama Bamboo Forest',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.0168187,lng:135.6713013,mapsq:'Arashiyama+Bamboo+Forest'},
+  {id:'d11',city:'kyoto',cat:'attraction',name:'Sannenzaka',desc:'-night vibe, romantic/lowkey<br>-traditional shops<br>-preserved streets',tags:["Must-See"],emoji:'⛩️',lat:34.9966644,lng:135.781008,mapsq:'Sannenzaka'},
+  {id:'d12',city:'kyoto',cat:'attraction',name:'Hōkan-ji Temple (Yasaka Pagoda)',desc:'SUNRISE!!! 6AM',tags:["Must-See"],emoji:'⛩️',lat:34.998558,lng:135.7792358,mapsq:'Hōkan-ji+Temple+(Yasaka+Pagoda)'},
+  {id:'d13',city:'uji',cat:'attraction',name:'Byōdo-in Temple',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.8892908,lng:135.8076783,mapsq:'Byōdo-in+Temple'},
+  {id:'d14',city:'kyoto',cat:'attraction',name:'Togetsukyō Bridge',desc:'lookout',tags:["Must-See"],emoji:'⛩️',lat:35.0128769,lng:135.6777748,mapsq:'Togetsukyō+Bridge'},
+  {id:'d15',city:'osaka',cat:'attraction',name:'Osaka Castle',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.6872571,lng:135.5258546,mapsq:'Osaka+Castle'},
+  {id:'d16',city:'osaka',cat:'attraction',name:'Katsuoji [temple]',desc:'-collect 6 different stamps along the way that will form a final picture',tags:["Must-See"],emoji:'⛩️',lat:34.8657752,lng:135.491087,mapsq:'Katsuoji+[temple]'},
+  {id:'d17',city:'tokyo',cat:'attraction',name:'Tokyo Skytree',desc:'-anime theme<br>-this or shibuya sky',tags:["Must-See"],emoji:'⛩️',lat:35.7100627,lng:139.8107004,mapsq:'Tokyo+Skytree'},
+  {id:'d18',city:'kyoto',cat:'attraction',name:'Yasaka Shrine [gion district]',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.0036559,lng:135.7785534,mapsq:'Yasaka+Shrine+[gion+district]'},
+  {id:'d19',city:'kyoto',cat:'attraction',name:'Kinkaku-ji',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.03937,lng:135.7292431,mapsq:'Kinkaku-ji'},
+  {id:'d20',city:'osaka',cat:'attraction',name:'Tōdai-ji',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.6889851,lng:135.8398158,mapsq:'Tōdai-ji'},
+  {id:'d21',city:'osaka',cat:'attraction',name:'Umeda Sky Building',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.7052872,lng:135.4896527,mapsq:'Umeda+Sky+Building'},
+  {id:'d22',city:'hiroshima',cat:'attraction',name:'Miyajima',desc:'floating tori',tags:["Must-See"],emoji:'⛩️',lat:34.7863204,lng:135.5759199,mapsq:'Miyajima'},
+  {id:'d23',city:'fuji',cat:'attraction',name:'LAWSON Kawaguchiko Station',desc:'iconic photo',tags:["Must-See"],emoji:'📷',lat:35.4986175,lng:138.7671672,mapsq:'LAWSON+Kawaguchiko+Station'},
+  {id:'d24',city:'osaka',cat:'attraction',name:'Shitennō-ji',desc:'',tags:["Must-See"],emoji:'⛩️',lat:34.6544581,lng:135.5165239,mapsq:'Shitennō-ji'},
+  {id:'d25',city:'tokyo',cat:'attraction',name:'Mag\'s Park Rooftop Shibuya Crossing',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.6596547,lng:139.7008219,mapsq:'Mags+Park+Rooftop+Shibuya+Crossing'},
+  {id:'d26',city:'kyoto',cat:'experience',name:'SAMURAI NINJA MUSEUM Kyoto',desc:'',tags:["Must-Book"],emoji:'🎨',lat:35.0072167,lng:135.7635673,mapsq:'SAMURAI+NINJA+MUSEUM+Kyoto'},
+  {id:'d27',city:'kyoto',cat:'hotel',name:'Shijo Kawaramachi Onsen Sora Niwa Terrace Kyoto',desc:'',tags:["Stay"],emoji:'🏨',lat:35.0025776,lng:135.769592,mapsq:'Shijo+Kawaramachi+Onsen+Sora+Niwa+Terrace+Kyoto'},
+  {id:'d28',city:'tokyo',cat:'hotel',name:'OMO3 Asakusa by Hoshino Resorts',desc:'',tags:["Stay"],emoji:'🏨',lat:35.7138264,lng:139.7983176,mapsq:'OMO3+Asakusa+by+Hoshino+Resorts'},
+  {id:'d29',city:'fuji',cat:'hotel',name:'Fuji Kawaguchiko Onsen Hotel Konansou',desc:'',tags:["Stay"],emoji:'🏨',lat:35.5036357,lng:138.7684111,mapsq:'Fuji+Kawaguchiko+Onsen+Hotel+Konansou'},
+  {id:'d30',city:'tokyo',cat:'experience',name:'teamLab Borderless: MORI Building DIGITAL ART MUSEUM',desc:'klook',tags:["Must-Book"],emoji:'🎨',lat:35.6620689,lng:139.7432671,mapsq:'teamLab+Borderless:+MORI+Building+DIGITAL+ART+MUSEUM'},
+  {id:'d31',city:'fuji',cat:'experience',name:'Fuji Classic',desc:'',tags:["Must-Book"],emoji:'⛳️',lat:35.4083939,lng:138.6450345,mapsq:'Fuji+Classic'},
+  {id:'d32',city:'tokyo',cat:'experience',name:'Shibuya Sky',desc:'',tags:["Must-Book"],emoji:'🎨',lat:35.6586719,lng:139.7019848,mapsq:'Shibuya+Sky'},
+  {id:'d33',city:'tokyo',cat:'shopping',name:'Takeshita Street',desc:'-cotton candy<br>-gacha machines',tags:[],emoji:'🛍',lat:35.6715615,lng:139.7032035,mapsq:'Takeshita+Street'},
+  {id:'d34',city:'tokyo',cat:'attraction',name:'Omote-Sando Station',desc:'-boujee shopping street',tags:["Must-See"],emoji:'🌿',lat:35.6652511,lng:139.7120921,mapsq:'Omote-Sando+Station'},
+  {id:'d35',city:'tokyo',cat:'matcha',name:'Sakurai Japanese Tea Experience',desc:'',tags:["🍵"],emoji:'🍵',lat:35.663573,lng:139.71176,mapsq:'Sakurai+Japanese+Tea+Experience'},
+  {id:'d36',city:'uji',cat:'matcha',name:'Tea and Uji Community Center, Chazuna',desc:'matcha grinding workshop / klook',tags:["🍵"],emoji:'🍵',lat:34.8965108,lng:135.8056185,mapsq:'Tea+and+Uji+Community+Center,+Chazuna'},
+  {id:'d37',city:'osaka',cat:'street',name:'Dotonbori',desc:'-arcades<br>-famous glico running man',tags:["Street Food"],emoji:'🦀',lat:34.6686471,lng:135.5030983,mapsq:'Dotonbori'},
+  {id:'d38',city:'osaka',cat:'experience',name:'Shinsekai',desc:'-old school games and retro vibes',tags:["Must-Book"],emoji:'🎨',lat:34.6516013,lng:135.5059562,mapsq:'Shinsekai'},
+  {id:'d39',city:'osaka',cat:'experience',name:'THE SUMO HALL HIRAKUZA OSAKA',desc:'klook discount: FEASTONITKLOOK',tags:["Must-Book"],emoji:'🎨',lat:34.6612587,lng:135.5023598,mapsq:'THE+SUMO+HALL+HIRAKUZA+OSAKA'},
+  {id:'d40',city:'osaka',cat:'experience',name:'Universal Studios Japan',desc:'',tags:["Must-Book"],emoji:'🎮',lat:34.6656768,lng:135.4323185,mapsq:'Universal+Studios+Japan'},
+  {id:'d41',city:'hakone',cat:'experience',name:'Hakone Ropeway Ōwakudani Station',desc:'sulfur valley + black eggs',tags:["Must-Book"],emoji:'🎨',lat:35.2444656,lng:139.0198459,mapsq:'Hakone+Ropeway+Ōwakudani+Station'},
+  {id:'d42',city:'osaka',cat:'attraction',name:'Deer Park',desc:'',tags:["Must-See"],emoji:'🦌',lat:34.6810292,lng:135.8430668,mapsq:'Deer+Park'},
+  {id:'d43',city:'kyoto',cat:'experience',name:'Hozugawa River Boat Ride (Hozugawa Kudari)',desc:'',tags:["Must-Book"],emoji:'🚣',lat:35.017202,lng:135.5868593,mapsq:'Hozugawa+River+Boat+Ride+(Hozugawa+Kudari)'},
+  {id:'d44',city:'tokyo',cat:'attraction',name:'Kakunodate Historical Village – Aoyagi Residence',desc:'samurai',tags:["Must-See"],emoji:'🏯',lat:39.6005177,lng:140.5617895,mapsq:'Kakunodate+Historical+Village+–+Aoyagi+Residence'},
+  {id:'d45',city:'kyoto',cat:'experience',name:'SAMURAI NINJA MUSEUM Kyoto',desc:'',tags:["Must-Book"],emoji:'🎨',lat:35.0072167,lng:135.7635673,mapsq:'SAMURAI+NINJA+MUSEUM+Kyoto'},
+  {id:'d46',city:'kyoto',cat:'experience',name:'glänta Kyoto Sanjo Kawaramachi',desc:'Custom Rings!',tags:["Must-Book"],emoji:'🎨',lat:35.0088163,lng:135.7701627,mapsq:'glänta+Kyoto+Sanjo+Kawaramachi'},
+  {id:'d47',city:'tokyo',cat:'shopping',name:'HAY TOKYO',desc:'',tags:[],emoji:'🛍',lat:35.6673795,lng:139.7069057,mapsq:'HAY+TOKYO'},
+  {id:'d48',city:'tokyo',cat:'shopping',name:'RAGTAG',desc:'',tags:[],emoji:'🛍',lat:35.6657568,lng:139.7052181,mapsq:'RAGTAG'},
+  {id:'d49',city:'tokyo',cat:'shopping',name:'RAGTAG Shibuya Store',desc:'-3rd floor<br>-2nd hand',tags:[],emoji:'🛍',lat:35.6631243,lng:139.6999259,mapsq:'RAGTAG+Shibuya+Store'},
+  {id:'d50',city:'tokyo',cat:'shopping',name:'Cat Street',desc:'',tags:[],emoji:'🛍',lat:35.6708691,lng:139.7089385,mapsq:'Cat+Street'},
+  {id:'d51',city:'tokyo',cat:'shopping',name:'AMORE Vintage AOYAMA',desc:'-chanel 2nd hand',tags:[],emoji:'🛍',lat:35.665805,lng:139.7100254,mapsq:'AMORE+Vintage+AOYAMA'},
+  {id:'d52',city:'tokyo',cat:'shopping',name:'Onitsuka Tiger [lowkey]',desc:'',tags:[],emoji:'🛍',lat:35.66133,lng:139.7297119,mapsq:'Onitsuka+Tiger+[lowkey]'},
+  {id:'d53',city:'tokyo',cat:'shopping',name:'Onitsuka Tiger Orange Concept Store',desc:'',tags:[],emoji:'🛍',lat:35.6710059,lng:139.761777,mapsq:'Onitsuka+Tiger+Orange+Concept+Store'},
+  {id:'d54',city:'tokyo',cat:'shopping',name:'Onitsuka Tiger Ikebukuro PARCO Store',desc:'',tags:[],emoji:'🛍',lat:35.730519,lng:139.7121147,mapsq:'Onitsuka+Tiger+Ikebukuro+PARCO+Store'},
+  {id:'d55',city:'uji',cat:'shopping',name:'Asahiyaki shop & gallery',desc:'pottery store',tags:[],emoji:'🛍',lat:34.8908339,lng:135.8095056,mapsq:'Asahiyaki+shop+&+gallery'},
+  {id:'d56',city:'osaka',cat:'shopping',name:'Shinsaibashisuji',desc:'',tags:[],emoji:'🛍',lat:34.6724248,lng:135.5010362,mapsq:'Shinsaibashisuji'},
+  {id:'d57',city:'osaka',cat:'shopping',name:'Object Osaka store',desc:'custom souvenir',tags:[],emoji:'🛍',lat:34.6708959,lng:135.4992031,mapsq:'Object+Osaka+store'},
+  {id:'d58',city:'tokyo',cat:'shopping',name:'MEGA Don Quijote',desc:'',tags:[],emoji:'🛍',lat:35.6603873,lng:139.6978172,mapsq:'MEGA+Don+Quijote'},
+  {id:'d59',city:'tokyo',cat:'shopping',name:'the Divot STORE ⛳️',desc:'',tags:[],emoji:'🛍',lat:35.6767088,lng:139.712296,mapsq:'the+Divot+STORE+⛳️'},
+  {id:'d60',city:'tokyo',cat:'shopping',name:'BEAMS SHINMARUNOUCHI',desc:'',tags:[],emoji:'🛍',lat:35.6825434,lng:139.7642869,mapsq:'BEAMS+SHINMARUNOUCHI'},
+  {id:'d61',city:'tokyo',cat:'shopping',name:'BEAMS Harajuku',desc:'',tags:[],emoji:'🛍',lat:35.6711722,lng:139.7076413,mapsq:'BEAMS+Harajuku'},
+  {id:'d62',city:'tokyo',cat:'coffee',name:'KOFFEE MAMEYA',desc:'',tags:["☕"],emoji:'☕',lat:35.668368,lng:139.710888,mapsq:'KOFFEE+MAMEYA'},
+  {id:'d63',city:'kyoto',cat:'coffee',name:'swimpond coffee',desc:'-cheese toast<br>-cheesecake',tags:["☕"],emoji:'☕',lat:35.0234151,lng:135.7926254,mapsq:'swimpond+coffee'},
+  {id:'d64',city:'uji',cat:'matcha',name:'Tsuen Main Branch',desc:'oldest teahouse in the world',tags:["🍵"],emoji:'🍵',lat:34.89329,lng:135.8072759,mapsq:'Tsuen+Main+Branch'},
+  {id:'d65',city:'uji',cat:'attraction',name:'Byodo-in Omotesando',desc:'matcha shopping street/treats etc',tags:["Must-See"],emoji:'⛩️',lat:34.891707,lng:135.806012,mapsq:'Byodo-in+Omotesando'},
+  {id:'d66',city:'uji',cat:'matcha',name:'Marukyu Koyamaen Main Plant',desc:'where to buy the best matcha - 9am<br>matcha ice cream',tags:["🍵"],emoji:'🍵',lat:34.8956191,lng:135.7854588,mapsq:'Marukyu+Koyamaen+Main+Plant'},
+  {id:'d67',city:'uji',cat:'matcha',name:'Yamamasa Koyamaen',desc:'tea store',tags:["🍵"],emoji:'🍵',lat:34.896013,lng:135.7847114,mapsq:'Yamamasa+Koyamaen'},
+  {id:'d68',city:'uji',cat:'matcha',name:'Nakamura Tokichi Honten (Main Store)',desc:'9am. 5 tin limit',tags:["🍵"],emoji:'🍵',lat:34.8895072,lng:135.8017988,mapsq:'Nakamura+Tokichi+Honten+(Main+Store)'},
+  {id:'d69',city:'fuji',cat:'attraction',name:'Nagano',desc:'-cherry blossom peak april 5/6',tags:["Must-See"],emoji:'🌸',lat:36.6485258,lng:138.1950371,mapsq:'Nagano'},
+  {id:'d70',city:'tokyo',cat:'attraction',name:'Shinjuku Gyoen National Garden',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.7517485,lng:139.6416952,mapsq:'Shinjuku+Gyoen+National+Garden'},
+  {id:'d71',city:'tokyo',cat:'attraction',name:'Yoyogi Park',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.6700649,lng:139.6949656,mapsq:'Yoyogi+Park'},
+  {id:'d72',city:'tokyo',cat:'attraction',name:'HANA·BIYORI [less crowded]',desc:'',tags:["Must-See"],emoji:'🌸',lat:35.628535,lng:139.5182977,mapsq:'HANA·BIYORI+[less+crowded]'},
+  {id:'d73',city:'hakone',cat:'attraction',name:'Matsudayama Herb Garden',desc:'',tags:["Must-See"],emoji:'🌸',lat:35.3515296,lng:139.1376646,mapsq:'Matsudayama+Herb+Garden'},
+  {id:'d74',city:'tokyo',cat:'attraction',name:'Ueno Park',desc:'',tags:["Must-See"],emoji:'⛩️',lat:35.7147557,lng:139.7734312,mapsq:'Ueno+Park'},
+  {id:'d75',city:'tokyo',cat:'breakfast',name:'Benitsuru Pancake',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Morning"],emoji:'🥞',lat:35.7119914,lng:139.7918882,mapsq:'Benitsuru+Pancake'},
+  {id:'d76',city:'tokyo',cat:'food',name:'Berabou',desc:'description: -specialize in: niboshi ramen<br>-also popular: soupless mazesoba<br>Ichiran Ramen – ht',tags:[],emoji:'🍽',lat:35.699059,lng:139.7435674,mapsq:'Berabou'},
+  {id:'d77',city:'kyoto',cat:'breakfast',name:'Ao Onigiri',desc:'description: -to-go rice balls & miso soup > phil path<br>Ichiran Ramen – https://ichiran.com:',tags:["Morning"],emoji:'🥞',lat:35.0234766,lng:135.793355,mapsq:'Ao+Onigiri'},
+  {id:'d78',city:'kyoto',cat:'food',name:'Monk',desc:'description: -2 mo advance<br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.0231576,lng:135.795749,mapsq:'Monk'},
+  {id:'d79',city:'osaka',cat:'food',name:'MooKEN',desc:'description: -1hr wait<br>-mini custard cream puffs<br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:34.6726828,lng:135.5016161,mapsq:'MooKEN'},
+  {id:'d80',city:'osaka',cat:'street',name:'Takoyaki Wanaka Dotonbori',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:34.6687742,lng:135.5027298,mapsq:'Takoyaki+Wanaka+Dotonbori'},
+  {id:'d81',city:'osaka',cat:'street',name:'Okonomiyaki Sakaba O',desc:'description: savory pancakes<br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:34.6680616,lng:135.5007881,mapsq:'Okonomiyaki+Sakaba+O'},
+  {id:'d82',city:'tokyo',cat:'food',name:'The Front Room Deli Restaurant Marunouchi',desc:'description: -brunch - japanese milk bread french toast<br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.6812689,lng:139.7638917,mapsq:'The+Front+Room+Deli+Restaurant+Marunouchi'},
+  {id:'d83',city:'tokyo',cat:'sushi',name:'Fish Market Tsukiji Outer Market',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Sushi"],emoji:'🍣',lat:35.6647703,lng:139.7702515,mapsq:'Fish+Market+Tsukiji+Outer+Market'},
+  {id:'d84',city:'tokyo',cat:'food',name:'Menchirashi',desc:'description: - famous carbonara udon/ closed tuesdays<br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.6665054,lng:139.7050824,mapsq:'Menchirashi'},
+  {id:'d85',city:'kyoto',cat:'street',name:'Nishiki Market',desc:'description: food, snacks, kyoto specialties<br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:35.0050258,lng:135.764723,mapsq:'Nishiki+Market'},
+  {id:'d86',city:'osaka',cat:'street',name:'Kuromon Market',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:34.6653529,lng:135.5062406,mapsq:'Kuromon+Market'},
+  {id:'d87',city:'tokyo',cat:'food',name:'Waunn',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.7141321,lng:139.7979885,mapsq:'Waunn'},
+  {id:'d88',city:'osaka',cat:'food',name:'Japanese Omakase Restaurant YOSAKURA',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:34.6732312,lng:135.5054735,mapsq:'Japanese+Omakase+Restaurant+YOSAKURA'},
+  {id:'d89',city:'osaka',cat:'street',name:'Wagyu IDATEN',desc:'description: WAGYU BOX!<br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:34.6677597,lng:135.5010546,mapsq:'Wagyu+IDATEN'},
+  {id:'d90',city:'kyoto',cat:'street',name:'curry & tempura koisus',desc:'description: HOUSE MADE COCA COLA AND HOUSE CURRY<br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:35.0002619,lng:135.7711588,mapsq:'curry+&+tempura+koisus'},
+  {id:'d91',city:'tokyo',cat:'street',name:'ROBATA sachi',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:35.6933463,lng:139.6980802,mapsq:'ROBATA+sachi'},
+  {id:'d92',city:'kyoto',cat:'street',name:'Hikiniku to Come (BURGER ON RICE)',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Street Food"],emoji:'🦀',lat:35.0050975,lng:135.7745747,mapsq:'Hikiniku+to+Come+(BURGER+ON+RICE)'},
+  {id:'d93',city:'tokyo',cat:'food',name:'Mo-Mo-Paradise Asakusa Kaminarimon',desc:'description: Cook your own meat/ broth<br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.7107834,lng:139.794986,mapsq:'Mo-Mo-Paradise+Asakusa+Kaminarimon'},
+  {id:'d94',city:'tokyo',cat:'food',name:'Isshin Daikanyama',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.6471899,lng:139.7017788,mapsq:'Isshin+Daikanyama'},
+  {id:'d95',city:'tokyo',cat:'ramen',name:'Katsudon-ya Zuicho',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Ramen"],emoji:'🍜',lat:35.662703,lng:139.6953601,mapsq:'Katsudon-ya+Zuicho'},
+  {id:'d96',city:'tokyo',cat:'food',name:'Grigio',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.6499107,lng:139.7043102,mapsq:'Grigio'},
+  {id:'d97',city:'tokyo',cat:'food',name:'MARU',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.6426759,lng:139.6987894,mapsq:'MARU'},
+  {id:'d98',city:'tokyo',cat:'sushi',name:'Kura Sushi Shibuya Ekimae',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Sushi"],emoji:'🍣',lat:35.6598242,lng:139.6995535,mapsq:'Kura+Sushi+Shibuya+Ekimae'},
+  {id:'d99',city:'tokyo',cat:'sushi',name:'Kura Sushi Nishishinjuku',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Sushi"],emoji:'🍣',lat:35.6944776,lng:139.6990748,mapsq:'Kura+Sushi+Nishishinjuku'},
+  {id:'d100',city:'tokyo',cat:'sushi',name:'Kura Sushi Global Flagship Store Asakusa',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Sushi"],emoji:'🍣',lat:35.7128864,lng:139.7929709,mapsq:'Kura+Sushi+Global+Flagship+Store+Asakusa'},
+  {id:'d101',city:'tokyo',cat:'sushi',name:'Conveyor Kaiten Sushi Ginza Onodera HONTEN',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:["Sushi"],emoji:'🍣',lat:35.6658133,lng:139.7100441,mapsq:'Conveyor+Kaiten+Sushi+Ginza+Onodera+HONTEN'},
+  {id:'d102',city:'tokyo',cat:'food',name:'pizza marumo',desc:'description: <br>Ichiran Ramen – https://ichiran.com:',tags:[],emoji:'🍽',lat:35.645293,lng:139.7085094,mapsq:'pizza+marumo'},
 ];
 
 const SEED_BOOK = [
@@ -1318,12 +1355,17 @@ const SEED_TRANSIT = [
 // INIT
 // ════════════════════════════════════════
 window.onload = () => {
+  // Version bump — clear old disc cache if it's the old seed
+  const discVer = localStorage.getItem('jp-disc-ver');
+  if (discVer !== '2') { localStorage.removeItem('jp-disc'); localStorage.setItem('jp-disc-ver','2'); }
+
   if (!itinItems) { itinItems = SEED_ITIN; save('itin'); }
   if (!discItems) { discItems = SEED_DISC; save('disc'); }
   if (!bookItems) { bookItems = SEED_BOOK; save('book'); }
   if (!transitItems) { transitItems = SEED_TRANSIT; save('transit'); }
   if (!tipsItems) { tipsItems = SEED_TIPS; save('tips'); }
   if (!ttItems) { ttItems = SEED_TT; save('tt'); }
+  if (!wlItems) { wlItems = SEED_WL; saveWLData(); }
   populateDaySelect();
   renderAll();
   renderCustomCityPills();
@@ -1393,7 +1435,7 @@ function switchTab(name) {
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit(); renderTips(); renderTT(); renderNotes(); }
+function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit(); renderTips(); renderTT(); renderNotes(); renderWL(); }
 
 // ════════════════════════════════════════
 // ITINERARY
@@ -1802,7 +1844,9 @@ let customCities = JSON.parse(localStorage.getItem('jp-cities') || '[]');
 
 const BASE_CITIES = [
   {key:'tokyo', label:'Tokyo'}, {key:'kyoto', label:'Kyoto'},
-  {key:'osaka', label:'Osaka'}, {key:'fuji', label:'Mt. Fuji'},
+  {key:'uji', label:'Uji'}, {key:'osaka', label:'Osaka'},
+  {key:'hakone', label:'Hakone'}, {key:'fuji', label:'Mt. Fuji'},
+  {key:'hiroshima', label:'Hiroshima'},
 ];
 
 function allCities() { return [...BASE_CITIES, ...customCities]; }
@@ -2308,7 +2352,7 @@ async function deleteNote(id) {
 // FAB
 // ════════════════════════════════════════
 function openFab() {
-  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,tips:openTipsSheet,tiktok:openTTSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
+  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,tips:openTipsSheet,tiktok:openTTSheet,wishlist:openWLSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
   (map[currentTab]||openDiscSheet)();
 }
 
@@ -2831,8 +2875,15 @@ function subscribeActivity() {
   }).subscribe();
 }
 
+let dismissedNotifs = new Set(JSON.parse(localStorage.getItem('jp-notif-dismissed') || '[]'));
+
 function updateNotifBadge() {
-  const unseen = activityLog.filter(e => new Date(e.ts).getTime() > notifSeen).length;
+  // Only count items from the OTHER couple that haven't been dismissed
+  const unseen = activityLog.filter(e => {
+    if (e.couple === currentCouple) return false; // your own actions never badge
+    if (dismissedNotifs.has(String(e.id))) return false; // dismissed
+    return new Date(e.ts).getTime() > notifSeen;
+  }).length;
   const badge = document.getElementById('notifBadge');
   if (!badge) return;
   if (unseen > 0) {
@@ -2843,12 +2894,29 @@ function updateNotifBadge() {
   }
 }
 
+function dismissNotif(id, e) {
+  e.stopPropagation();
+  dismissedNotifs.add(String(id));
+  localStorage.setItem('jp-notif-dismissed', JSON.stringify([...dismissedNotifs]));
+  // remove from DOM immediately
+  const el = document.getElementById('nitem-'+id);
+  if (el) el.style.cssText = 'height:0;overflow:hidden;padding:0;opacity:0;transition:all .2s';
+  setTimeout(() => { if (el) el.remove(); checkNotifEmpty(); }, 220);
+  updateNotifBadge();
+}
+
+function checkNotifEmpty() {
+  const list = document.getElementById('notifList');
+  if (list && !list.querySelector('.notif-item')) {
+    list.innerHTML = `<div class="notif-empty">All caught up! ✓</div>`;
+  }
+}
+
 function toggleNotifPanel() {
   notifPanelOpen = !notifPanelOpen;
   document.getElementById('notifPanel').classList.toggle('open', notifPanelOpen);
   if (notifPanelOpen) {
     renderNotifPanel();
-    // mark all as seen
     notifSeen = Date.now();
     localStorage.setItem('jp-notifseen', notifSeen);
     updateNotifBadge();
@@ -2857,15 +2925,20 @@ function toggleNotifPanel() {
 
 function renderNotifPanel() {
   const list = document.getElementById('notifList');
-  if (!activityLog.length) { list.innerHTML = `<div class="notif-empty">No activity yet</div>`; return; }
-  list.innerHTML = activityLog.slice(0, 20).map(e => {
+  const visible = activityLog.filter(e => !dismissedNotifs.has(String(e.id))).slice(0, 30);
+  if (!visible.length) { list.innerHTML = `<div class="notif-empty">No activity yet</div>`; return; }
+  list.innerHTML = visible.map(e => {
     const isOther = e.couple !== currentCouple;
-    return `<div class="notif-item ${isOther?'unread':''}" onclick="notifTap('${e.tab}','${e.refId||''}')">
-      <div class="notif-icon">${e.label?.split(' ')[0]||'📢'}</div>
-      <div class="notif-body">
-        <div class="notif-text">${e.label||e.action}</div>
-        <div class="notif-time">${fmtTime(e.ts)}</div>
+    const isNew = isOther && new Date(e.ts).getTime() > notifSeen;
+    return `<div class="notif-item ${isNew?'unread':''}" id="nitem-${e.id}">
+      <div class="notif-item-clickable" onclick="notifTap('${e.tab||''}','${e.refId||''}')">
+        <div class="notif-icon">${e.label?.split(' ')[0]||'📢'}</div>
+        <div class="notif-body">
+          <div class="notif-text">${e.label||e.action}</div>
+          <div class="notif-time">${isOther?'<span style="color:rgba(232,160,180,.7)">'+( e.couple==='ca'?'Connor & April':'Pat & Julia')+'</span> · ':''} ${fmtTime(e.ts)}</div>
+        </div>
       </div>
+      <button class="notif-dismiss" onclick="dismissNotif('${e.id}',event)" title="Dismiss">✕</button>
     </div>`;
   }).join('');
 }
@@ -2889,6 +2962,194 @@ function openTT(url) {
 // ════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// WISHLIST
+// ════════════════════════════════════════
+let wlItems = JSON.parse(localStorage.getItem('jp-wl') || 'null');
+
+const SEED_WL = [
+  {id:'w1', store:'Don Quijote 🦆', name:'Check snacks aisle', detail:'Pocky, KitKat flavours, regional chips', who:'all', done:false},
+  {id:'w2', store:'Don Quijote 🦆', name:'Skincare / beauty products', detail:'Japanese drugstore finds', who:'ca', done:false},
+  {id:'w3', store:'Muji 🗒', name:'Travel pouches + stationery', detail:'', who:'all', done:false},
+  {id:'w4', store:'Onitsuka Tiger 👟', name:'Onitsuka Tiger shoes', detail:'Check lowkey store + orange concept store', who:'ca', done:false},
+  {id:'w5', store:'7-Eleven 🏪', name:'7-Eleven exclusive snacks', detail:'Egg salad sandwich, steamed buns, matcha anything', who:'all', done:false},
+  {id:'w6', store:'Vintage / Thrift 👗', name:'Vintage finds in Harajuku', detail:'Cat Street + RAGTAG + AMORE', who:'ca', done:false},
+];
+
+// Store open/closed state per couple
+function wlStoreKey(store) { return 'wl-store-' + store.replace(/[^a-zA-Z0-9]/g,'_'); }
+function isWLStoreOpen(store) { return isOpen(wlStoreKey(store)); }
+function toggleWLStore(store) {
+  const key = wlStoreKey(store);
+  const k = 'jp-collapse-' + (currentCouple||'default');
+  const prefs = getCollapsePrefs();
+  prefs[key] = !prefs[key];
+  localStorage.setItem(k, JSON.stringify(prefs));
+  const body = document.getElementById('wlbody-' + CSS.escape(store));
+  const chev = document.getElementById('wlchev-' + CSS.escape(store));
+  const hdr  = document.getElementById('wlhdr-'  + CSS.escape(store));
+  if (body) body.classList.toggle('open', prefs[key]);
+  if (chev) chev.classList.toggle('open', prefs[key]);
+  if (hdr)  hdr.classList.toggle('open', prefs[key]);
+}
+
+function renderWL() {
+  if (!wlItems) { wlItems = SEED_WL; saveWLData(); }
+  const root = document.getElementById('wishlistRoot');
+
+  // Group by store
+  const stores = {};
+  wlItems.forEach(w => {
+    if (!stores[w.store]) stores[w.store] = [];
+    stores[w.store].push(w);
+  });
+
+  const total = wlItems.length;
+  const done = wlItems.filter(w=>w.done).length;
+  const pct = total ? Math.round(done/total*100) : 0;
+
+  const progEl = document.getElementById('wlProgress');
+  const progText = document.getElementById('wlProgressText');
+  const progFill = document.getElementById('wlProgressFill');
+  if (progEl) progEl.style.display = total ? '' : 'none';
+  if (progText) progText.textContent = `${done} of ${total} items got ✓`;
+  if (progFill) progFill.style.width = pct + '%';
+
+  if (!Object.keys(stores).length) {
+    root.innerHTML = `<div class="empty-st"><div class="empty-icon">🛍</div><p>Nothing on the wishlist yet!<br>Tap ＋ to add something.</p></div>`;
+    return;
+  }
+
+  const storeKeys = Object.keys(stores);
+  root.innerHTML = storeKeys.map(store => {
+    const items = stores[store];
+    const doneCount = items.filter(i=>i.done).length;
+    const open = isWLStoreOpen(store);
+    const safeId = store.replace(/[^a-zA-Z0-9]/g,'_');
+
+    const itemsHtml = items.map(w => {
+      const whoClass = {ca:'ca',pj:'pj',all:'all'}[w.who]||'all';
+      const whoLabel = {ca:'C&A',pj:'P&J',all:'👫'}[w.who]||'👫';
+      return `<div class="wl-item">
+        <div class="wl-check ${w.done?'done':''}" onclick="toggleWLDone('${w.id}')"></div>
+        <div class="wl-item-body">
+          <div class="wl-item-name ${w.done?'done':''}">${w.name}</div>
+          ${w.detail?`<div class="wl-item-detail">${w.detail}</div>`:''}
+        </div>
+        <span class="wl-item-who ${whoClass}">${whoLabel}</span>
+        <button class="wl-edit-btn" onclick="editWL('${w.id}')">✏️</button>
+      </div>`;
+    }).join('');
+
+    return `<div class="wl-section">
+      <div class="wl-store-hdr ${open?'open':''}" id="wlhdr-${safeId}" onclick="toggleWLStore('${store.replace(/'/g,"\\'")}')">
+        <div class="wl-store-left">
+          <span class="wl-store-emoji">${store.split(' ').pop()}</span>
+          <span class="wl-store-name">${store.replace(/[🦆🗒👕💴🛋🛠🏪👟👗🛍]/g,'').trim()}</span>
+          <span class="wl-store-count">${doneCount}/${items.length}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button class="wl-store-add" onclick="event.stopPropagation();openWLSheetForStore('${store.replace(/'/g,"\\'")}')">＋</button>
+          <span class="wl-store-chev ${open?'open':''}" id="wlchev-${safeId}">▼</span>
+        </div>
+      </div>
+      <div class="wl-store-body ${open?'open':''}" id="wlbody-${safeId}">
+        ${itemsHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWLDone(id) {
+  const item = wlItems.find(w=>w.id===id);
+  if (!item) return;
+  item.done = !item.done;
+  saveWLData();
+  renderWL();
+  showToast(item.done ? '✅ Got it!' : '↩ Unmarked');
+}
+
+function saveWLData() {
+  localStorage.setItem('jp-wl', JSON.stringify(wlItems));
+}
+
+let editWLId = null;
+function openWLSheet() {
+  editWLId = null;
+  document.getElementById('wlSheetTitle').textContent = 'Add to Wishlist';
+  document.getElementById('wlDelBtn').style.display = 'none';
+  document.getElementById('wlEditId').value = '';
+  document.getElementById('wlName').value = '';
+  document.getElementById('wlDetail').value = '';
+  document.getElementById('wlStore').value = 'Don Quijote 🦆';
+  document.getElementById('wlWho').value = currentCouple || 'all';
+  document.getElementById('wlCustomStoreRow').style.display = 'none';
+  openSheet('wlSheet');
+}
+
+function openWLSheetForStore(store) {
+  openWLSheet();
+  const sel = document.getElementById('wlStore');
+  // check if it's one of the preset options
+  const opt = [...sel.options].find(o => o.value === store);
+  if (opt) sel.value = store;
+  else {
+    sel.value = 'custom';
+    document.getElementById('wlCustomStoreRow').style.display = '';
+    document.getElementById('wlCustomStore').value = store;
+  }
+}
+
+function editWL(id) {
+  const w = wlItems.find(x=>x.id===id);
+  if (!w) return;
+  editWLId = id;
+  document.getElementById('wlSheetTitle').textContent = 'Edit Item';
+  document.getElementById('wlDelBtn').style.display = '';
+  document.getElementById('wlEditId').value = id;
+  document.getElementById('wlName').value = w.name;
+  document.getElementById('wlDetail').value = w.detail||'';
+  const sel = document.getElementById('wlStore');
+  const opt = [...sel.options].find(o=>o.value===w.store);
+  if (opt) { sel.value = w.store; document.getElementById('wlCustomStoreRow').style.display='none'; }
+  else { sel.value='custom'; document.getElementById('wlCustomStoreRow').style.display=''; document.getElementById('wlCustomStore').value=w.store; }
+  document.getElementById('wlWho').value = w.who||'all';
+  openSheet('wlSheet');
+}
+
+// show/hide custom store field
+document.addEventListener('change', e => {
+  if (e.target.id==='wlStore') {
+    document.getElementById('wlCustomStoreRow').style.display = e.target.value==='custom' ? '' : 'none';
+  }
+});
+
+function saveWL() {
+  const name = document.getElementById('wlName').value.trim();
+  if (!name) { showToast('Enter an item name'); return; }
+  let store = document.getElementById('wlStore').value;
+  if (store === 'custom') store = document.getElementById('wlCustomStore').value.trim() || 'General 🛍';
+  const w = {
+    id: editWLId || 'w'+Date.now(),
+    store, name,
+    detail: document.getElementById('wlDetail').value,
+    who: document.getElementById('wlWho').value,
+    done: editWLId ? (wlItems.find(x=>x.id===editWLId)?.done||false) : false,
+  };
+  if (editWLId) { const i=wlItems.findIndex(x=>x.id===editWLId); if(i>-1) wlItems[i]=w; }
+  else wlItems.push(w);
+  saveWLData(); renderWL(); closeSheet('wlSheet');
+  showToast(editWLId ? '✏️ Updated!' : '🛍 Added!');
+  editWLId = null;
+}
+
+function deleteWL() {
+  if (!editWLId || !confirm('Remove this item?')) return;
+  wlItems = wlItems.filter(w=>w.id!==editWLId);
+  saveWLData(); renderWL(); closeSheet('wlSheet');
+  showToast('🗑 Removed'); editWLId=null;
+}
+
 // ════════════════════════════════════════
 // TIPS DRAG REORDER
 // ════════════════════════════════════════
