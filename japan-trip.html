@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Japan 2025 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --ink: #1a1512;
+    --ink-light: #3d342c;
+    --parchment: #faf7f2;
+    --warm-white: #fff9f4;
+    --blossom: #e8a0b4;
+    --blossom-deep: #c96d8a;
+    --matcha: #6b8f5e;
+    --matcha-light: #a3bc99;
+    --gold: #c9973a;
+    --gold-light: #f0d9a8;
+    --stone: #8c8075;
+    --stone-light: #d4cdc5;
+    --red-torii: #c0392b;
+    --sky: #5b8fa8;
+    --sky-light: #b8d4e3;
+    --shadow: rgba(26,21,18,0.12);
+    --shadow-deep: rgba(26,21,18,0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .app-header {
+    background: var(--ink);
+    padding: 18px 20px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .app-header .title-block h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--parchment);
+    letter-spacing: 0.02em;
+  }
+  .app-header .title-block .subtitle {
+    font-size: 11px;
+    color: var(--blossom);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .couple-badge {
+    background: var(--blossom-deep);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+  }
+  .couple-badge.couple-b { background: var(--matcha); }
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+
+  /* SETUP BANNER */
+  .setup-banner {
+    background: linear-gradient(135deg, var(--gold-light), #fef3c7);
+    border-bottom: 1px solid var(--gold);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--ink-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .setup-banner strong { color: var(--gold); }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--ink);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 2px solid var(--ink-light);
+    position: sticky;
+    top: 60px;
+    z-index: 99;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex: none;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--stone);
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-tab.active { color: var(--blossom); border-bottom-color: var(--blossom); }
+  .nav-tab .tab-icon { font-size: 14px; }
+
+  /* CONTENT */
+  .tab-content { display: none; padding-bottom: 80px; }
+  .tab-content.active { display: block; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone);
+    padding: 16px 16px 8px;
+  }
+
+  /* CITY HEADER */
+  .city-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px 10px;
+    margin-top: 4px;
+  }
+  .city-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .city-kanji {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    color: var(--stone);
+    letter-spacing: 0.05em;
+  }
+  .city-dates {
+    font-size: 11px;
+    color: var(--blossom-deep);
+    font-weight: 500;
+    margin-left: auto;
+    background: rgba(232,160,180,0.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* DAY CARD */
+  .day-block {
+    margin: 0 12px 12px;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .day-header {
+    background: var(--ink);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .day-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--parchment);
+    letter-spacing: 0.03em;
+  }
+  .day-date {
+    font-size: 11px;
+    color: var(--blossom);
+  }
+  .day-body { padding: 0; }
+
+  /* TIME SLOTS */
+  .time-slot {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 14px;
+    gap: 12px;
+    border-bottom: 1px solid #f0ece6;
+    position: relative;
+  }
+  .time-slot:last-child { border-bottom: none; }
+  .slot-time {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--stone);
+    min-width: 54px;
+    padding-top: 2px;
+    letter-spacing: 0.03em;
+  }
+  .slot-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--stone-light);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .slot-dot.breakfast { background: var(--gold); }
+  .slot-dot.lunch { background: var(--matcha); }
+  .slot-dot.dinner { background: var(--blossom-deep); }
+  .slot-dot.activity { background: var(--sky); }
+  .slot-dot.booked { background: var(--red-torii); }
+  .slot-body { flex: 1; }
+  .slot-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .slot-detail {
+    font-size: 12px;
+    color: var(--stone);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .slot-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+  .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .tag-booked { background: rgba(192,57,43,0.1); color: var(--red-torii); }
+  .tag-must { background: rgba(201,151,58,0.12); color: var(--gold); }
+  .tag-flex { background: rgba(107,143,94,0.12); color: var(--matcha); }
+  .tag-couple { background: rgba(232,160,180,0.2); color: var(--blossom-deep); }
+
+  /* DECIDE BUTTON */
+  .decide-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px dashed var(--stone-light);
+    padding: 8px 14px;
+    width: calc(100% - 28px);
+    margin: 6px 14px 10px;
+    border-radius: 8px;
+    color: var(--stone);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .decide-btn:hover { border-color: var(--blossom); color: var(--blossom-deep); background: rgba(232,160,180,0.05); }
+
+  /* VOTES */
+  .vote-row {
+    display: flex;
+    gap: 6px;
+    padding: 6px 14px 10px;
+    flex-wrap: wrap;
+  }
+  .vote-chip {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--stone-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: var(--ink);
+  }
+  .vote-chip:hover { border-color: var(--blossom); }
+  .vote-chip.voted-yes { background: rgba(107,143,94,0.15); border-color: var(--matcha); color: var(--matcha); }
+  .vote-chip.voted-no { background: rgba(140,128,117,0.1); border-color: var(--stone); color: var(--stone); }
+
+  /* MAP TAB */
+  .map-categories {
+    display: flex;
+    gap: 8px;
+    padding: 14px 12px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .map-categories::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    flex: none;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--stone-light);
+    color: var(--stone);
+    background: white;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .cat-pill.active, .cat-pill:hover { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .map-embed-wrapper {
+    margin: 0 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.08);
+    background: var(--stone-light);
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .map-placeholder {
+    text-align: center;
+    color: var(--stone);
+    padding: 20px;
+  }
+  .map-placeholder .map-icon { font-size: 36px; margin-bottom: 8px; }
+  .map-placeholder p { font-size: 13px; line-height: 1.5; }
+  .map-placeholder a { color: var(--blossom-deep); text-decoration: underline; }
+
+  /* SPOT CARDS */
+  .spots-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 12px;
+  }
+  .spot-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 6px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .spot-card:hover { transform: translateY(-1px); box-shadow: 0 4px 14px var(--shadow-deep); }
+  .spot-emoji { font-size: 24px; width: 40px; text-align: center; flex-shrink: 0; }
+  .spot-info { flex: 1; }
+  .spot-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .spot-meta { font-size: 12px; color: var(--stone); margin-top: 2px; }
+  .spot-city { font-size: 10px; background: rgba(107,143,94,0.12); color: var(--matcha); padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+  .spot-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .heart-btn { background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.4; transition: all 0.2s; }
+  .heart-btn.liked { opacity: 1; }
+  .heart-btn:hover { transform: scale(1.2); opacity: 1; }
+  .open-maps {
+    font-size: 10px;
+    color: var(--sky);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* BOOKINGS TAB */
+  .booking-section {
+    margin: 0 12px 16px;
+  }
+  .booking-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px var(--shadow);
+    margin-bottom: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .booking-header {
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .booking-icon { font-size: 20px; }
+  .booking-title { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .booking-sub { font-size: 12px; color: var(--stone); margin-top: 1px; }
+  .booking-status {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .status-confirmed { background: rgba(107,143,94,0.15); color: var(--matcha); }
+  .status-pending { background: rgba(201,151,58,0.15); color: var(--gold); }
+  .status-todo { background: rgba(192,57,43,0.1); color: var(--red-torii); }
+  .booking-details {
+    border-top: 1px solid #f0ece6;
+    padding: 10px 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .booking-detail-item .label { font-size: 10px; color: var(--stone); text-transform: uppercase; letter-spacing: 0.08em; }
+  .booking-detail-item .value { font-size: 13px; color: var(--ink); font-weight: 500; margin-top: 1px; }
+
+  /* SHINKANSEN */
+  .shinkansen-card {
+    background: linear-gradient(135deg, #1a1512, #2d2520);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 0 12px 12px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .shinkansen-card::before {
+    content: '新幹線';
+    position: absolute;
+    right: -10px; top: -10px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 60px;
+    color: rgba(255,255,255,0.05);
+    pointer-events: none;
+  }
+  .shinkansen-route {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .sh-city { font-family: 'Shippori Mincho', serif; font-size: 16px; font-weight: 700; color: var(--parchment); }
+  .sh-arrow { color: var(--blossom); font-size: 16px; flex: 1; text-align: center; }
+  .sh-train-name { font-size: 11px; color: var(--blossom); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .sh-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .sh-detail .label { font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; }
+  .sh-detail .value { font-size: 13px; color: white; font-weight: 500; margin-top: 2px; }
+  .sh-status { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .sh-status.confirmed { background: rgba(107,143,94,0.3); color: #86efac; border: 1px solid rgba(107,143,94,0.4); }
+  .sh-status.book-now { background: rgba(201,151,58,0.3); color: #fcd34d; border: 1px solid rgba(201,151,58,0.4); }
+
+  /* DISCOVER TAB */
+  .discover-city-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 12px 12px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .discover-city-tabs::-webkit-scrollbar { display: none; }
+  .d-city-tab {
+    flex: none;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: white;
+    border: 1.5px solid var(--stone-light);
+    color: var(--stone);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .d-city-tab.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .discover-category {
+    padding: 4px 12px 6px;
+  }
+  .discover-cat-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--stone);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 0 6px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+  }
+  .discover-cat-label span { font-size: 16px; }
+
+  .discover-item {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    box-shadow: 0 1px 6px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .discover-item-icon { font-size: 22px; padding-top: 1px; }
+  .discover-item-body { flex: 1; }
+  .discover-item-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .discover-item-desc { font-size: 12px; color: var(--stone); margin-top: 3px; line-height: 1.4; }
+  .discover-item-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+  .discover-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .badge-matcha { background: rgba(107,143,94,0.12); color: var(--matcha); }
+  .badge-gold { background: rgba(201,151,58,0.12); color: var(--gold); }
+  .badge-blush { background: rgba(232,160,180,0.2); color: var(--blossom-deep); }
+  .badge-sky { background: rgba(91,143,168,0.12); color: var(--sky); }
+
+  /* NOTES TAB */
+  .notes-header {
+    padding: 16px 16px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .notes-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .notes-subtitle { font-size: 12px; color: var(--stone); margin-top: 2px; }
+
+  .note-composer {
+    margin: 0 12px 12px;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .note-composer-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px 8px;
+    border-bottom: 1px solid #f0ece6;
+  }
+  .composer-couple-select {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--blossom-deep);
+    color: white;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .composer-type-select {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #f0ece6;
+    color: var(--ink);
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .note-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    resize: none;
+    min-height: 70px;
+    background: transparent;
+    line-height: 1.5;
+  }
+  .note-textarea::placeholder { color: var(--stone-light); }
+  .note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px 14px 12px;
+    gap: 8px;
+  }
+  .note-char-count { font-size: 11px; color: var(--stone); }
+  .note-submit {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .note-submit:hover { background: var(--ink-light); }
+  .note-submit:active { transform: scale(0.97); }
+
+  /* NOTE CARDS */
+  .notes-feed { padding: 0 12px; }
+  .note-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+  .note-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .note-author-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-couple-a { background: rgba(201,109,138,0.15); color: var(--blossom-deep); }
+  .badge-couple-b { background: rgba(107,143,94,0.15); color: var(--matcha); }
+  .note-type-tag { font-size: 10px; color: var(--stone); letter-spacing: 0.05em; }
+  .note-timestamp { font-size: 10px; color: var(--stone-light); margin-left: auto; }
+  .note-text { font-size: 14px; color: var(--ink); line-height: 1.6; }
+  .note-reactions { display: flex; gap: 6px; margin-top: 10px; }
+  .reaction-btn {
+    background: #f5f2ee;
+    border: none;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reaction-btn:hover { background: var(--stone-light); }
+
+  /* SETUP MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-sheet {
+    background: var(--parchment);
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .modal-overlay.open .modal-sheet { transform: translateY(0); }
+  .modal-handle { width: 40px; height: 4px; background: var(--stone-light); border-radius: 2px; margin: 0 auto 16px; }
+  .modal-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .modal-desc { font-size: 13px; color: var(--stone); line-height: 1.5; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 12px; font-weight: 500; color: var(--ink); letter-spacing: 0.03em; margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--stone-light);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--blossom-deep); }
+  .form-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 6px;
+    transition: all 0.2s;
+  }
+  .form-btn:hover { background: var(--ink-light); }
+
+  /* FLOATING ACTION */
+  .fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 52px; height: 52px;
+    background: var(--blossom-deep);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(201,109,138,0.4);
+    transition: all 0.2s;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fab:hover { transform: scale(1.08); }
+  .fab:active { transform: scale(0.95); }
+
+  /* DIVIDER */
+  .city-divider {
+    height: 6px;
+    background: linear-gradient(to right, var(--stone-light), transparent);
+    margin: 4px 0 8px;
+    opacity: 0.3;
+  }
+
+  /* TIPS BANNER */
+  .tips-banner {
+    margin: 8px 12px;
+    background: linear-gradient(135deg, rgba(107,143,94,0.1), rgba(107,143,94,0.05));
+    border: 1px solid rgba(107,143,94,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tips-banner-icon { font-size: 18px; }
+  .tips-banner-text { font-size: 13px; color: var(--ink-light); line-height: 1.5; }
+  .tips-banner-text strong { color: var(--matcha); }
+
+  /* PROGRESS BAR */
+  .booking-progress {
+    margin: 0 12px 12px;
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .progress-label { font-size: 12px; color: var(--stone); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: #f0ece6; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(to right, var(--matcha-light), var(--matcha)); border-radius: 3px; transition: width 0.5s ease; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--stone);
+  }
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+  <div class="title-block">
+    <h1>Japan 2025 🌸</h1>
+    <div class="subtitle">Connor & You · Pat & Julia</div>
+  </div>
+  <div class="header-right">
+    <div class="live-dot" id="liveDot" title="Offline — configure Supabase to go live"></div>
+    <div class="couple-badge" id="coupleBadge" onclick="openSetup()">You & Connor</div>
+  </div>
+</div>
+
+<!-- SETUP BANNER -->
+<div class="setup-banner" onclick="openSetup()">
+  ⚙️ <span><strong>Connect Supabase</strong> for real-time sync between both couples</span> →
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="switchTab('itinerary')" id="tab-itinerary">
+    <span class="tab-icon">📅</span> ITINERARY
+  </div>
+  <div class="nav-tab" onclick="switchTab('map')" id="tab-map">
+    <span class="tab-icon">🗺</span> MAP
+  </div>
+  <div class="nav-tab" onclick="switchTab('bookings')" id="tab-bookings">
+    <span class="tab-icon">🎫</span> BOOKINGS
+  </div>
+  <div class="nav-tab" onclick="switchTab('discover')" id="tab-discover">
+    <span class="tab-icon">🍜</span> DISCOVER
+  </div>
+  <div class="nav-tab" onclick="switchTab('notes')" id="tab-notes">
+    <span class="tab-icon">💬</span> NOTES
+  </div>
+</div>
+
+<!-- ===================== ITINERARY ===================== -->
+<div class="tab-content active" id="content-itinerary">
+
+  <!-- KYOTO -->
+  <div class="city-header">
+    <div>
+      <div class="city-name">Kyoto</div>
+      <div class="city-kanji">京都</div>
+    </div>
+    <div class="city-dates">May 10–13</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Day 1 — Arrival</div>
+      <div class="day-date">Saturday, May 10</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">Afternoon</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Arrive Kyoto Station 🚄</div>
+          <div class="slot-detail">Shinkansen from Tokyo • Check in hotel first</div>
+          <div class="slot-tags"><span class="tag tag-booked">Booked</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Evening</div>
+        <div class="slot-dot dinner"></div>
+        <div class="slot-body">
+          <div class="slot-title">Dinner — Pontocho Alley</div>
+          <div class="slot-detail">Explore the lantern-lit narrow alley, pick a restaurant together</div>
+          <div class="slot-tags"><span class="tag tag-flex">Flexible</span><span class="tag tag-couple">Couples Pick</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vote-row" id="vote-day1">
+      <span class="vote-chip" onclick="vote(this, 'Pontocho', 'yes')">✅ Yes to Pontocho</span>
+      <span class="vote-chip" onclick="vote(this, 'Pontocho', 'maybe')">🤔 Maybe</span>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Day 2 — Temples</div>
+      <div class="day-date">Sunday, May 11</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">Morning</div>
+        <div class="slot-dot breakfast"></div>
+        <div class="slot-body">
+          <div class="slot-title">Breakfast + Matcha at Ippodo</div>
+          <div class="slot-detail">Famous matcha house near Kyoto Imperial Palace</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">9:00 AM</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Fushimi Inari — Thousand Torii Gates</div>
+          <div class="slot-detail">Go early to beat crowds. Full hike ~2h, partial ~45 min</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Afternoon</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Arashiyama Bamboo Grove + Tenryu-ji</div>
+          <div class="slot-detail">Bamboo forest → garden → Togetsukyo bridge</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Evening</div>
+        <div class="slot-dot dinner"></div>
+        <div class="slot-body">
+          <div class="slot-title">Kaiseki Dinner — TBD</div>
+          <div class="slot-detail">Traditional multi-course Japanese dinner</div>
+          <div class="slot-tags"><span class="tag tag-couple">Couples Vote</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="decide-btn" onclick="openNotes()">+ Add idea for this day</button>
+  </div>
+
+  <div class="city-divider"></div>
+
+  <!-- OSAKA -->
+  <div class="city-header">
+    <div>
+      <div class="city-name">Osaka</div>
+      <div class="city-kanji">大阪</div>
+    </div>
+    <div class="city-dates">May 13–15</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Day 4 — Food City</div>
+      <div class="day-date">Tuesday, May 13</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">Morning</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Osaka Castle</div>
+          <div class="slot-detail">Museum inside • Cherry blossoms in the park if timing is right</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Afternoon</div>
+        <div class="slot-dot lunch"></div>
+        <div class="slot-body">
+          <div class="slot-title">Dotonbori Food Walk 🦀</div>
+          <div class="slot-detail">Takoyaki, okonomiyaki, crab, kushikatsu — all in one street</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span><span class="tag tag-couple">Group Activity</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Evening</div>
+        <div class="slot-dot dinner"></div>
+        <div class="slot-body">
+          <div class="slot-title">Namba / Shinsekai</div>
+          <div class="slot-detail">Explore Shinsekai neighbourhood, kushikatsu bars</div>
+          <div class="slot-tags"><span class="tag tag-flex">Flexible</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="decide-btn" onclick="openNotes()">+ Add idea for this day</button>
+  </div>
+
+  <div class="city-divider"></div>
+
+  <!-- TOKYO -->
+  <div class="city-header">
+    <div>
+      <div class="city-name">Tokyo</div>
+      <div class="city-kanji">東京</div>
+    </div>
+    <div class="city-dates">May 15–20</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Day 6 — Tokyo Arrival</div>
+      <div class="day-date">Thursday, May 15</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">Morning</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Shinkansen Osaka → Tokyo</div>
+          <div class="slot-detail">Nozomi ~2h 30m • Seats: Car 3, Row 12 A/B/C/D</div>
+          <div class="slot-tags"><span class="tag tag-booked">Booked ✓</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Afternoon</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Shibuya Crossing + Harajuku</div>
+          <div class="slot-detail">Takeshita Street, Omotesando, maybe Meiji Shrine</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Evening</div>
+        <div class="slot-dot dinner"></div>
+        <div class="slot-body">
+          <div class="slot-title">Ramen Dinner — Ichiran or Fuunji</div>
+          <div class="slot-detail">Solo booth ramen experience, or tsukemen at Fuunji Shinjuku</div>
+          <div class="slot-tags"><span class="tag tag-couple">Couples Vote</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vote-row">
+      <span class="vote-chip" onclick="vote(this, 'Ichiran', 'yes')">🍜 Ichiran</span>
+      <span class="vote-chip" onclick="vote(this, 'Fuunji', 'yes')">🍜 Fuunji</span>
+      <span class="vote-chip" onclick="vote(this, 'ramen-other', 'maybe')">🤷 Let's decide there</span>
+    </div>
+  </div>
+
+  <div class="city-divider"></div>
+
+  <!-- MT FUJI -->
+  <div class="city-header">
+    <div>
+      <div class="city-name">Mt. Fuji</div>
+      <div class="city-kanji">富士山</div>
+    </div>
+    <div class="city-dates">May 20–21</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-label">Day 11 — Fuji Day Trip</div>
+      <div class="day-date">Tuesday, May 20</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">Morning</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Bus Tokyo → Kawaguchiko</div>
+          <div class="slot-detail">~2h from Shinjuku. Chureito Pagoda views</div>
+          <div class="slot-tags"><span class="tag tag-must">Must-Do</span></div>
+        </div>
+      </div>
+      <div class="time-slot">
+        <div class="slot-time">Afternoon</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Lake Kawaguchiko + Fuji Views</div>
+          <div class="slot-detail">Rental bikes around the lake • weather dependent</div>
+          <div class="slot-tags"><span class="tag tag-flex">Flexible</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="decide-btn" onclick="openNotes()">+ Add idea for this day</button>
+  </div>
+
+  <div class="city-divider"></div>
+
+  <!-- HIKONE -->
+  <div class="city-header">
+    <div>
+      <div class="city-name">Hikone <span style="font-size:13px;color:var(--stone)">(Maybe!)</span></div>
+      <div class="city-kanji">彦根</div>
+    </div>
+    <div class="city-dates">TBD</div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header" style="background: var(--stone);">
+      <div class="day-label">Potential Day Trip</div>
+      <div class="day-date">Between cities</div>
+    </div>
+    <div class="day-body">
+      <div class="time-slot">
+        <div class="slot-time">All Day</div>
+        <div class="slot-dot activity"></div>
+        <div class="slot-body">
+          <div class="slot-title">Hikone Castle</div>
+          <div class="slot-detail">One of Japan's few original castles. 15 min from Kyoto by Shinkansen</div>
+          <div class="slot-tags"><span class="tag tag-flex">Undecided</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="vote-row">
+      <span class="vote-chip" onclick="vote(this, 'Hikone', 'yes')">✅ Let's go</span>
+      <span class="vote-chip" onclick="vote(this, 'Hikone', 'no')">❌ Skip it</span>
+      <span class="vote-chip" onclick="vote(this, 'Hikone', 'maybe')">🤔 Decide later</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== MAP ===================== -->
+<div class="tab-content" id="content-map">
+
+  <div class="map-categories">
+    <div class="cat-pill active" onclick="filterMap('all', this)">🗾 All</div>
+    <div class="cat-pill" onclick="filterMap('temple', this)">⛩️ Temples</div>
+    <div class="cat-pill" onclick="filterMap('food', this)">🍜 Food</div>
+    <div class="cat-pill" onclick="filterMap('matcha', this)">🍵 Matcha</div>
+    <div class="cat-pill" onclick="filterMap('coffee', this)">☕ Coffee</div>
+    <div class="cat-pill" onclick="filterMap('shopping', this)">🛍 Shopping</div>
+    <div class="cat-pill" onclick="filterMap('hotel', this)">🏨 Hotels</div>
+  </div>
+
+  <div class="map-embed-wrapper">
+    <div class="map-placeholder">
+      <div class="map-icon">🗺️</div>
+      <p>Paste your Google Maps embed URL in the setup, or <a href="#" onclick="openSetup(); return false;">connect your custom map</a> here.<br><br>Your saved spots will appear below.</p>
+    </div>
+  </div>
+
+  <div class="section-label">SAVED SPOTS</div>
+  <div class="spots-grid" id="spotsGrid">
+    <!-- Spots rendered by JS -->
+  </div>
+
+</div>
+
+<!-- ===================== BOOKINGS ===================== -->
+<div class="tab-content" id="content-bookings">
+
+  <div class="booking-progress">
+    <div class="progress-label">
+      <span>Booking Progress</span>
+      <span id="progressPercent">5 of 12 confirmed</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width: 42%"></div></div>
+  </div>
+
+  <div class="section-label">🚄 SHINKANSEN PASSES</div>
+
+  <div class="shinkansen-card">
+    <div class="sh-status confirmed">✓ CONFIRMED</div>
+    <div class="sh-train-name">Nozomi · Tokaido Line</div>
+    <div class="shinkansen-route">
+      <div class="sh-city">Osaka</div>
+      <div class="sh-arrow">→</div>
+      <div class="sh-city">Tokyo</div>
+    </div>
+    <div class="sh-details">
+      <div class="sh-detail"><div class="label">DATE</div><div class="value">May 15</div></div>
+      <div class="sh-detail"><div class="label">DEPARTS</div><div class="value">09:33</div></div>
+      <div class="sh-detail"><div class="label">SEATS</div><div class="value">Car 3 A–D</div></div>
+    </div>
+  </div>
+
+  <div class="shinkansen-card">
+    <div class="sh-status book-now">BOOK NOW</div>
+    <div class="sh-train-name">Hikari · Tokaido Line</div>
+    <div class="shinkansen-route">
+      <div class="sh-city">Tokyo</div>
+      <div class="sh-arrow">→</div>
+      <div class="sh-city">Kyoto</div>
+    </div>
+    <div class="sh-details">
+      <div class="sh-detail"><div class="label">DATE</div><div class="value">TBD</div></div>
+      <div class="sh-detail"><div class="label">DURATION</div><div class="value">~2h 15m</div></div>
+      <div class="sh-detail"><div class="label">SEATS</div><div class="value">—</div></div>
+    </div>
+  </div>
+
+  <div class="tips-banner">
+    <div class="tips-banner-icon">🎫</div>
+    <div class="tips-banner-text">Buy a <strong>JR Pass</strong> before you leave — unlimited Shinkansen rides. 14-day pass covers all your routes.</div>
+  </div>
+
+  <div class="section-label">🏨 HOTELS</div>
+  <div class="booking-section">
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🏯</div>
+        <div>
+          <div class="booking-title">Hotel Mume, Kyoto</div>
+          <div class="booking-sub">May 10–13 · 3 nights · 2 rooms</div>
+        </div>
+        <div class="booking-status status-confirmed">Confirmed</div>
+      </div>
+      <div class="booking-details">
+        <div class="booking-detail-item"><div class="label">Check-in</div><div class="value">May 10, 3PM</div></div>
+        <div class="booking-detail-item"><div class="label">Confirmation</div><div class="value">#KY-29401</div></div>
+        <div class="booking-detail-item"><div class="label">Address</div><div class="value">Shimogyo-ku</div></div>
+        <div class="booking-detail-item"><div class="label">Breakfast</div><div class="value">Included</div></div>
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🏙️</div>
+        <div>
+          <div class="booking-title">Cross Hotel Osaka</div>
+          <div class="booking-sub">May 13–15 · 2 nights · 2 rooms</div>
+        </div>
+        <div class="booking-status status-confirmed">Confirmed</div>
+      </div>
+      <div class="booking-details">
+        <div class="booking-detail-item"><div class="label">Check-in</div><div class="value">May 13, 3PM</div></div>
+        <div class="booking-detail-item"><div class="label">Confirmation</div><div class="value">#OS-81244</div></div>
+        <div class="booking-detail-item"><div class="label">Area</div><div class="value">Namba</div></div>
+        <div class="booking-detail-item"><div class="label">Breakfast</div><div class="value">Not included</div></div>
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🗼</div>
+        <div>
+          <div class="booking-title">The Royal Park Tokyo</div>
+          <div class="booking-sub">May 15–20 · 5 nights · 2 rooms</div>
+        </div>
+        <div class="booking-status status-pending">Pending</div>
+      </div>
+      <div class="booking-details">
+        <div class="booking-detail-item"><div class="label">Check-in</div><div class="value">May 15</div></div>
+        <div class="booking-detail-item"><div class="label">Confirmation</div><div class="value">Awaiting</div></div>
+        <div class="booking-detail-item"><div class="label">Area</div><div class="value">Nihonbashi</div></div>
+        <div class="booking-detail-item"><div class="label">Notes</div><div class="value">Need to call</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">🎟 ACTIVITIES TO BOOK</div>
+  <div class="booking-section">
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🍣</div>
+        <div>
+          <div class="booking-title">Tsukiji Outer Market Tour</div>
+          <div class="booking-sub">Tokyo · Morning food walk</div>
+        </div>
+        <div class="booking-status status-todo">Book Now</div>
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🍵</div>
+        <div>
+          <div class="booking-title">Tea Ceremony, Kyoto</div>
+          <div class="booking-sub">En Kyoto · 1 hr experience</div>
+        </div>
+        <div class="booking-status status-todo">Book Now</div>
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🗻</div>
+        <div>
+          <div class="booking-title">Mt. Fuji Bus — Shinjuku</div>
+          <div class="booking-sub">Willer Express · 2h trip</div>
+        </div>
+        <div class="booking-status status-todo">Book Now</div>
+      </div>
+    </div>
+
+    <div class="booking-card">
+      <div class="booking-header">
+        <div class="booking-icon">🥋</div>
+        <div>
+          <div class="booking-title">Sumo Tournament (if in season)</div>
+          <div class="booking-sub">Ryogoku Kokugikan, Tokyo</div>
+        </div>
+        <div class="booking-status status-todo">Check Dates</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===================== DISCOVER ===================== -->
+<div class="tab-content" id="content-discover">
+
+  <div class="discover-city-tabs">
+    <div class="d-city-tab active" onclick="filterDiscover('all', this)">All Cities</div>
+    <div class="d-city-tab" onclick="filterDiscover('kyoto', this)">Kyoto</div>
+    <div class="d-city-tab" onclick="filterDiscover('osaka', this)">Osaka</div>
+    <div class="d-city-tab" onclick="filterDiscover('tokyo', this)">Tokyo</div>
+    <div class="d-city-tab" onclick="filterDiscover('fuji', this)">Fuji Area</div>
+  </div>
+
+  <div id="discoverList">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+
+<!-- ===================== NOTES ===================== -->
+<div class="tab-content" id="content-notes">
+  <div class="notes-header">
+    <div>
+      <div class="notes-title">Couples Notes 💬</div>
+      <div class="notes-subtitle">Real-time board for both couples</div>
+    </div>
+  </div>
+
+  <div class="note-composer">
+    <div class="note-composer-top">
+      <select class="composer-couple-select" id="noteCouple">
+        <option value="couple-a">You & Connor</option>
+        <option value="couple-b">Pat & Julia</option>
+      </select>
+      <select class="composer-type-select" id="noteType">
+        <option value="💡 Idea">💡 Idea</option>
+        <option value="🗳 Vote">🗳 Vote</option>
+        <option value="📝 Note">📝 Note</option>
+        <option value="⚠️ Reminder">⚠️ Reminder</option>
+        <option value="❤️ Loved It">❤️ Loved It</option>
+        <option value="👎 Skip">👎 Skip</option>
+      </select>
+    </div>
+    <textarea class="note-textarea" id="noteText" placeholder="Drop an idea, vote on a plan, or share something you loved…" maxlength="300" oninput="updateCharCount()"></textarea>
+    <div class="note-footer">
+      <span class="note-char-count" id="charCount">0/300</span>
+      <button class="note-submit" onclick="postNote()">Post →</button>
+    </div>
+  </div>
+
+  <div class="notes-feed" id="notesFeed">
+    <!-- Notes rendered by JS -->
+  </div>
+</div>
+
+<!-- SETUP MODAL -->
+<div class="modal-overlay" id="setupModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Connect & Customize 🔧</div>
+    <div class="modal-desc">Add your Supabase details for real-time sync between both couples, and paste in your Google Maps embed link.</div>
+
+    <div class="form-group">
+      <label class="form-label">Supabase Project URL</label>
+      <input class="form-input" id="setupUrl" placeholder="https://xxxx.supabase.co" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Supabase Anon Key</label>
+      <input class="form-input" id="setupKey" placeholder="eyJhbGciOiJIUzI1NiIs..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Google Maps Embed URL</label>
+      <input class="form-input" id="setupMapUrl" placeholder="https://www.google.com/maps/d/embed?mid=..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Which couple are you?</label>
+      <select class="form-input" id="setupCouple">
+        <option value="couple-a">You & Connor</option>
+        <option value="couple-b">Pat & Julia</option>
+      </select>
+    </div>
+    <button class="form-btn" onclick="saveSetup()">Save & Connect →</button>
+    <button class="form-btn" style="background:transparent;color:var(--stone);margin-top:8px;" onclick="closeSetup()">Cancel</button>
+  </div>
+</div>
+
+<script>
+// ============================
+// STATE & CONFIG
+// ============================
+let config = JSON.parse(localStorage.getItem('japan-config') || '{}');
+let supabaseClient = null;
+let notes = [];
+let votes = {};
+
+const SPOTS = [
+  { name: 'Fushimi Inari', city: 'Kyoto', cat: 'temple', emoji: '⛩️', desc: 'Thousand torii gates, stunning at sunrise', maps: 'https://maps.google.com/?q=Fushimi+Inari' },
+  { name: 'Kinkaku-ji', city: 'Kyoto', cat: 'temple', emoji: '🏯', desc: 'Golden Pavilion — absolute must-see', maps: 'https://maps.google.com/?q=Kinkakuji' },
+  { name: 'Arashiyama Bamboo', city: 'Kyoto', cat: 'temple', emoji: '🎋', desc: 'Bamboo grove + Tenryu-ji garden', maps: 'https://maps.google.com/?q=Arashiyama+Bamboo' },
+  { name: 'Ippodo Tea', city: 'Kyoto', cat: 'matcha', emoji: '🍵', desc: 'Best matcha in Kyoto, proper tea house', maps: 'https://maps.google.com/?q=Ippodo+Tea+Kyoto' },
+  { name: '% Arabica', city: 'Kyoto', cat: 'coffee', emoji: '☕', desc: 'Beautiful minimalist coffee, Higashiyama', maps: 'https://maps.google.com/?q=%25+Arabica+Kyoto' },
+  { name: 'Dotonbori', city: 'Osaka', cat: 'food', emoji: '🦀', desc: 'Iconic street food strip — takoyaki, okonomiyaki', maps: 'https://maps.google.com/?q=Dotonbori' },
+  { name: 'Ichiran Ramen', city: 'Tokyo', cat: 'food', emoji: '🍜', desc: 'Solo-booth tonkotsu ramen, unforgettable', maps: 'https://maps.google.com/?q=Ichiran+Ramen+Tokyo' },
+  { name: 'Shibuya Crossing', city: 'Tokyo', cat: 'temple', emoji: '🚦', desc: "World's busiest pedestrian crossing", maps: 'https://maps.google.com/?q=Shibuya+Crossing' },
+  { name: 'Tsukiji Outer Market', city: 'Tokyo', cat: 'food', emoji: '🍣', desc: 'Best sushi breakfast on earth', maps: 'https://maps.google.com/?q=Tsukiji+Market' },
+  { name: 'Blue Bottle Coffee', city: 'Tokyo', cat: 'coffee', emoji: '☕', desc: 'Pour-over coffee, Kiyosumi flagship', maps: 'https://maps.google.com/?q=Blue+Bottle+Kiyosumi' },
+  { name: 'Takeshita Street', city: 'Tokyo', cat: 'shopping', emoji: '🛍', desc: 'Wild Harajuku fashion street', maps: 'https://maps.google.com/?q=Takeshita+Street+Harajuku' },
+  { name: 'Chureito Pagoda', city: 'Fuji Area', cat: 'temple', emoji: '🗻', desc: 'Iconic Fuji + pagoda viewpoint', maps: 'https://maps.google.com/?q=Chureito+Pagoda' },
+];
+
+const DISCOVER_DATA = [
+  {
+    city: 'kyoto', cat: 'Matcha & Tea', catIcon: '🍵',
+    items: [
+      { icon:'🍵', name:'Ippodo Tea', desc:'260-year-old matcha house. Get the koicha (thick matcha). Near the Imperial Palace.', badges:['Must-Do','Kyoto Classic'] },
+      { icon:'🌿', name:'Nakamura Tokichi', desc:'Famous matcha desserts — parfaits, soft serve, mochi. Lines form early.', badges:['Dessert','Very Popular'] },
+      { icon:'☕', name:'% Arabica Higashiyama', desc:'Stunning minimalist cafe with a view. Best latte in Kyoto. Instagrammable.', badges:['Coffee','Scenic'] },
+    ]
+  },
+  {
+    city: 'osaka', cat: 'Street Food', catIcon: '🦀',
+    items: [
+      { icon:'🐙', name:'Takoyaki — Wanaka', desc:'Best takoyaki in Dotonbori. Crispy outside, gooey inside. Try the original.', badges:['Street Food','Queue Worth It'] },
+      { icon:'🥚', name:'Okonomiyaki — Fukutaro', desc:'Osaka-style okonomiyaki (pancake). Order the special with everything.', badges:['Local Favourite'] },
+      { icon:'🍢', name:'Kushikatsu — Daruma', desc:'Fried skewers dipped in sauce. Shinsekai original since 1929. No double-dipping!', badges:['Iconic','Cheap Eats'] },
+    ]
+  },
+  {
+    city: 'tokyo', cat: 'Ramen', catIcon: '🍜',
+    items: [
+      { icon:'🍜', name:'Ichiran', desc:'Solo booth tonkotsu ramen. Customize every element. Late-night open.', badges:['Must-Try','Late Night'] },
+      { icon:'🍜', name:'Fuunji (Shinjuku)', desc:'Tsukemen (dipping ramen) master. Always a line but always worth it.', badges:['Tsukemen','Local Fave'] },
+      { icon:'🍜', name:'Afuri Ramen', desc:'Light yuzu-shio ramen. Elegant and delicate. Harajuku / Roppongi locations.', badges:['Yuzu','Less Queue'] },
+    ]
+  },
+  {
+    city: 'tokyo', cat: 'Sushi', catIcon: '🍣',
+    items: [
+      { icon:'🍣', name:'Tsukiji Outer Market', desc:'Arrive 7AM for breakfast sushi. Multiple tiny counters, insanely fresh.', badges:['Breakfast','Must-Do'] },
+      { icon:'🍣', name:'Sushi Saito (book ahead)', desc:'Legendary omakase. Impossible to book but worth trying months ahead.', badges:['Omakase','Special Occasion'] },
+      { icon:'🍣', name:'Uobei Shibuya', desc:'Fun conveyor belt sushi with touch-screen ordering. Cheap and great.', badges:['Conveyor Belt','Budget Friendly'] },
+    ]
+  },
+  {
+    city: 'tokyo', cat: 'Shopping', catIcon: '🛍',
+    items: [
+      { icon:'🛍', name:'Takeshita Street', desc:'Harajuku fashion street — wild, cheap, unforgettable. Go on a weekend.', badges:['Harajuku','Free Entry'] },
+      { icon:'📚', name:'Shimokitazawa', desc:'Vintage shops, indie cafes, record stores. Coolest neighbourhood in Tokyo.', badges:['Vintage','Off-Beat'] },
+      { icon:'🎮', name:'Akihabara', desc:'Electronics, anime, manga, arcades. The most uniquely Japanese shopping experience.', badges:['Electronics','Anime'] },
+    ]
+  },
+  {
+    city: 'kyoto', cat: 'Restaurants', catIcon: '🍽',
+    items: [
+      { icon:'🍱', name:'Nishiki Market', desc:"Kyoto's Kitchen — 400 years old, 100+ stalls. Try pickles, skewers, tofu.", badges:['Market','Lunch'] },
+      { icon:'🍣', name:'Musashi Sushi', desc:'Standing sushi bar near Nishiki. Incredible value, locals eat here.', badges:['Budget','Local Spot'] },
+    ]
+  },
+  {
+    city: 'fuji', cat: 'Fuji Area', catIcon: '🗻',
+    items: [
+      { icon:'🗻', name:'Chureito Pagoda', desc:'Hike 400 steps up for the iconic pagoda + Fuji shot. Go early morning.', badges:['Iconic View','Hike'] },
+      { icon:'🚲', name:'Lake Kawaguchiko', desc:'Rent bikes and cycle the lake with Fuji views. ~1h loop.', badges:['Active','Scenic'] },
+    ]
+  },
+];
+
+// ============================
+// INIT
+// ============================
+window.onload = function() {
+  if (config.supabaseUrl && config.supabaseKey) {
+    initSupabase();
+  }
+  if (config.couple) {
+    const badge = document.getElementById('coupleBadge');
+    badge.textContent = config.couple === 'couple-a' ? 'You & Connor' : 'Pat & Julia';
+    badge.className = 'couple-badge' + (config.couple === 'couple-b' ? ' couple-b' : '');
+    document.getElementById('noteCouple').value = config.couple;
+  }
+  renderSpots('all');
+  renderDiscover('all');
+  loadLocalNotes();
+
+  // pre-fill setup form
+  if (config.supabaseUrl) document.getElementById('setupUrl').value = config.supabaseUrl;
+  if (config.supabaseKey) document.getElementById('setupKey').value = config.supabaseKey;
+  if (config.mapUrl) {
+    document.getElementById('setupMapUrl').value = config.mapUrl;
+    renderMap(config.mapUrl);
+  }
+  if (config.couple) document.getElementById('setupCouple').value = config.couple;
+};
+
+// ============================
+// SUPABASE
+// ============================
+function initSupabase() {
+  try {
+    supabaseClient = supabase.createClient(config.supabaseUrl, config.supabaseKey);
+    loadNotesFromSupabase();
+    subscribeToNotes();
+    document.getElementById('liveDot').style.background = '#4ade80';
+    document.querySelector('.setup-banner').style.display = 'none';
+  } catch(e) {
+    console.error('Supabase init failed:', e);
+  }
+}
+
+async function loadNotesFromSupabase() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
+    .from('japan_notes')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(50);
+  if (data) {
+    notes = data;
+    renderNotes();
+  }
+}
+
+function subscribeToNotes() {
+  if (!supabaseClient) return;
+  supabaseClient
+    .channel('japan_notes')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'japan_notes' }, (payload) => {
+      if (payload.eventType === 'INSERT') {
+        notes.unshift(payload.new);
+        renderNotes();
+      }
+    })
+    .subscribe();
+}
+
+async function postNoteToSupabase(note) {
+  if (!supabaseClient) return false;
+  const { error } = await supabaseClient.from('japan_notes').insert([note]);
+  return !error;
+}
+
+// ============================
+// LOCAL NOTES (fallback)
+// ============================
+function loadLocalNotes() {
+  const stored = localStorage.getItem('japan-notes');
+  if (stored && notes.length === 0) {
+    notes = JSON.parse(stored);
+  }
+  // Default sample notes
+  if (notes.length === 0) {
+    notes = [
+      { id: 1, couple: 'couple-b', type: '💡 Idea', text: 'What if we do a day trip to Nara between Kyoto and Osaka? The deer park is supposed to be amazing!', created_at: new Date(Date.now()-3600000).toISOString() },
+      { id: 2, couple: 'couple-a', type: '🗳 Vote', text: 'Voting YES to Nara! Saw great photos. Also should we do the tea ceremony on Day 2 or Day 3?', created_at: new Date(Date.now()-1800000).toISOString() },
+      { id: 3, couple: 'couple-b', type: '⚠️ Reminder', text: 'Remember to download the Suica card app before we go — makes transit so much easier. Also IC Card works everywhere.', created_at: new Date(Date.now()-900000).toISOString() },
+    ];
+  }
+  renderNotes();
+}
+
+function saveLocalNotes() {
+  localStorage.setItem('japan-notes', JSON.stringify(notes.slice(0,50)));
+}
+
+// ============================
+// TABS
+// ============================
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('content-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ============================
+// SPOTS / MAP
+// ============================
+let likedSpots = new Set(JSON.parse(localStorage.getItem('liked-spots') || '[]'));
+let currentMapFilter = 'all';
+
+function renderSpots(filter) {
+  currentMapFilter = filter;
+  const grid = document.getElementById('spotsGrid');
+  const filtered = filter === 'all' ? SPOTS : SPOTS.filter(s => s.cat === filter);
+  grid.innerHTML = filtered.map((s, i) => `
+    <div class="spot-card">
+      <div class="spot-emoji">${s.emoji}</div>
+      <div class="spot-info">
+        <div class="spot-name">${s.name}</div>
+        <div class="spot-meta">${s.desc}</div>
+        <div style="margin-top:5px;"><span class="spot-city">${s.city}</span></div>
+      </div>
+      <div class="spot-right">
+        <button class="heart-btn ${likedSpots.has(s.name)?'liked':''}" onclick="toggleLike('${s.name}', this)">
+          ${likedSpots.has(s.name)?'❤️':'🤍'}
+        </button>
+        <a class="open-maps" href="${s.maps}" target="_blank">↗ Maps</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleLike(name, btn) {
+  if (likedSpots.has(name)) {
+    likedSpots.delete(name);
+    btn.textContent = '🤍';
+    btn.classList.remove('liked');
+  } else {
+    likedSpots.add(name);
+    btn.textContent = '❤️';
+    btn.classList.add('liked');
+  }
+  localStorage.setItem('liked-spots', JSON.stringify([...likedSpots]));
+}
+
+function filterMap(cat, el) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderSpots(cat);
+}
+
+function renderMap(url) {
+  if (!url) return;
+  const wrapper = document.querySelector('.map-embed-wrapper');
+  wrapper.innerHTML = `<iframe src="${url}" width="100%" height="260" style="border:0;" allowfullscreen></iframe>`;
+}
+
+// ============================
+// DISCOVER
+// ============================
+let discoverCity = 'all';
+
+function renderDiscover(city) {
+  discoverCity = city;
+  const list = document.getElementById('discoverList');
+  const filtered = city === 'all' ? DISCOVER_DATA : DISCOVER_DATA.filter(d => d.city === city);
+
+  list.innerHTML = filtered.map(cat => `
+    <div class="discover-category">
+      <div class="discover-cat-label"><span>${cat.catIcon}</span>${cat.cat}</div>
+      ${cat.items.map(item => `
+        <div class="discover-item">
+          <div class="discover-item-icon">${item.icon}</div>
+          <div class="discover-item-body">
+            <div class="discover-item-name">${item.name}</div>
+            <div class="discover-item-desc">${item.desc}</div>
+            <div class="discover-item-meta">
+              ${item.badges.map((b,i) => `<span class="discover-badge ${['badge-matcha','badge-gold','badge-blush','badge-sky'][i%4]}">${b}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function filterDiscover(city, el) {
+  document.querySelectorAll('.d-city-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderDiscover(city);
+}
+
+// ============================
+// NOTES
+// ============================
+function updateCharCount() {
+  const txt = document.getElementById('noteText').value;
+  document.getElementById('charCount').textContent = txt.length + '/300';
+}
+
+async function postNote() {
+  const text = document.getElementById('noteText').value.trim();
+  if (!text) return;
+
+  const note = {
+    id: Date.now(),
+    couple: document.getElementById('noteCouple').value,
+    type: document.getElementById('noteType').value,
+    text: text,
+    created_at: new Date().toISOString()
+  };
+
+  // Try Supabase, fall back to local
+  const saved = await postNoteToSupabase(note);
+  if (!saved) {
+    notes.unshift(note);
+    saveLocalNotes();
+    renderNotes();
+  }
+
+  document.getElementById('noteText').value = '';
+  document.getElementById('charCount').textContent = '0/300';
+  switchTab('notes');
+}
+
+function renderNotes() {
+  const feed = document.getElementById('notesFeed');
+  if (notes.length === 0) {
+    feed.innerHTML = `<div class="empty-state"><div class="empty-icon">💬</div><p>No notes yet! Post an idea, vote on a plan, or share something you loved.</p></div>`;
+    return;
+  }
+  feed.innerHTML = notes.map(n => {
+    const isA = n.couple === 'couple-a';
+    const time = formatTime(n.created_at);
+    return `
+      <div class="note-card">
+        <div class="note-card-top">
+          <span class="note-author-badge ${isA?'badge-couple-a':'badge-couple-b'}">${isA?'You & Connor':'Pat & Julia'}</span>
+          <span class="note-type-tag">${n.type}</span>
+          <span class="note-timestamp">${time}</span>
+        </div>
+        <div class="note-text">${escapeHtml(n.text)}</div>
+        <div class="note-reactions">
+          <button class="reaction-btn" onclick="reactNote(this)">👍</button>
+          <button class="reaction-btn" onclick="reactNote(this)">❤️</button>
+          <button class="reaction-btn" onclick="reactNote(this)">🔥</button>
+          <button class="reaction-btn" onclick="reactNote(this)">✅</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function reactNote(btn) {
+  const count = parseInt(btn.dataset.count || 0) + 1;
+  btn.dataset.count = count;
+  if (count > 1) btn.textContent = btn.textContent.replace(/ \d+$/, '') + ' ' + count;
+  btn.style.background = 'var(--gold-light)';
+}
+
+function formatTime(iso) {
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 60000);
+  if (diff < 1) return 'just now';
+  if (diff < 60) return diff + 'm ago';
+  if (diff < 1440) return Math.floor(diff/60) + 'h ago';
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================
+// VOTES
+// ============================
+function vote(chip, topic, choice) {
+  const row = chip.closest('.vote-row');
+  row.querySelectorAll('.vote-chip').forEach(c => {
+    c.classList.remove('voted-yes','voted-no');
+  });
+  chip.classList.add(choice === 'yes' || choice === 'maybe' ? 'voted-yes' : 'voted-no');
+  votes[topic] = choice;
+  localStorage.setItem('japan-votes', JSON.stringify(votes));
+}
+
+// ============================
+// SETUP MODAL
+// ============================
+function openSetup() {
+  document.getElementById('setupModal').classList.add('open');
+}
+
+function closeSetup() {
+  document.getElementById('setupModal').classList.remove('open');
+}
+
+function saveSetup() {
+  config.supabaseUrl = document.getElementById('setupUrl').value.trim();
+  config.supabaseKey = document.getElementById('setupKey').value.trim();
+  config.mapUrl = document.getElementById('setupMapUrl').value.trim();
+  config.couple = document.getElementById('setupCouple').value;
+
+  localStorage.setItem('japan-config', JSON.stringify(config));
+
+  if (config.supabaseUrl && config.supabaseKey) {
+    initSupabase();
+  }
+  if (config.mapUrl) {
+    renderMap(config.mapUrl);
+  }
+
+  const badge = document.getElementById('coupleBadge');
+  badge.textContent = config.couple === 'couple-a' ? 'You & Connor' : 'Pat & Julia';
+  badge.className = 'couple-badge' + (config.couple === 'couple-b' ? ' couple-b' : '');
+  document.getElementById('noteCouple').value = config.couple;
+
+  closeSetup();
+}
+
+// Close modal clicking outside
+document.getElementById('setupModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSetup();
+});
+
+function openNotes() {
+  switchTab('notes');
+  document.getElementById('noteText').focus();
+}
+
+// Load votes
+votes = JSON.parse(localStorage.getItem('japan-votes') || '{}');
+</script>
+</body>
+</html>
