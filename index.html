@@ -49,11 +49,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .city-dates{margin-left:auto;font-size:11px;color:var(--blossom-deep);font-weight:500;background:rgba(232,160,180,.15);padding:3px 10px;border-radius:20px;}
 .city-divider{height:4px;background:linear-gradient(to right,var(--stone-light),transparent);margin:2px 0 5px;opacity:.2;}
 
-/* DAY ROW */
-.day-label-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px 3px;}
-.day-label-row .dl{font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:var(--ink-light);}
-.day-label-row .day-btns{display:flex;gap:4px;}
-.day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:19px;cursor:pointer;padding:0 2px;line-height:1;}
+/* ITINERARY TOOLBAR */
+.itin-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px;gap:8px;}
+.itin-who-filter{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none;}
+.itin-who-filter::-webkit-scrollbar{display:none;}
+.iwf-btn{flex:none;font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:1.5px solid var(--stone-light);background:white;color:var(--stone);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+.iwf-btn.active{background:var(--ink);color:white;border-color:var(--ink);}
+.itin-collapse-btns{display:flex;gap:2px;flex-shrink:0;}
+.itin-collapse-btns button{background:none;border:1.5px solid var(--stone-light);border-radius:7px;padding:4px 7px;font-size:14px;cursor:pointer;color:var(--stone);transition:all .15s;}
+.itin-collapse-btns button:hover{background:var(--ink);color:white;border-color:var(--ink);}
+
+/* DAY COLLAPSE */
+.day-header-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 3px;cursor:pointer;user-select:none;}
+.day-header-row:hover .dl{color:var(--ink);}
+.day-header-row .dl{font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:var(--ink-light);transition:color .15s;}
+.day-header-row .day-right{display:flex;align-items:center;gap:6px;}
+.day-chev{font-size:11px;color:var(--stone);transition:transform .22s;}
+.day-chev.open{transform:rotate(180deg);}
+.day-drop-zone{overflow:hidden;max-height:0;transition:max-height .28s cubic-bezier(.4,0,.2,1);}
+.day-drop-zone.open{max-height:4000px;}
+.day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
 
 /* ITIN CARD */
 .itin-card{margin:0 12px 7px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
@@ -360,8 +375,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .tips-section-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
 .tips-section-body.open{max-height:2000px;}
 .tips-section-inner{padding:10px 0 4px;}
-.tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f5f2ee;}
+.tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f5f2ee;cursor:default;}
 .tip-item:last-child{border-bottom:none;}
+.tip-item.dragging{opacity:.4;background:#faf8f5;}
+.tip-item.drag-over-tip{box-shadow:inset 0 2px 0 var(--blossom-deep);}
+.tip-drag-handle{font-size:14px;color:var(--stone-light);cursor:grab;flex-shrink:0;padding-top:2px;touch-action:none;user-select:none;}
+.tip-drag-handle:active{cursor:grabbing;}
 .tip-item-icon{font-size:20px;flex-shrink:0;padding-top:1px;}
 .tip-item-body{flex:1;}
 .tip-item-title{font-size:14px;font-weight:500;color:var(--ink);}
@@ -435,8 +454,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 .notif-bell{background:none;border:none;color:var(--parchment);font-size:18px;cursor:pointer;position:relative;padding:2px;}
 .notif-badge{position:absolute;top:-2px;right:-2px;background:var(--blossom-deep);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;}
 .notif-badge.show{display:flex;}
-.notif-panel{position:fixed;top:55px;left:0;right:0;max-width:430px;margin:0 auto;background:var(--ink);z-index:150;transform:translateY(-110%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-height:60vh;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.3);}
-.notif-panel.open{transform:translateY(0);}
+.notif-panel{position:fixed;top:50px;right:8px;width:300px;max-width:calc(100vw - 16px);background:var(--ink);border-radius:14px;z-index:150;transform:scale(.9) translateY(-10px);transform-origin:top right;opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.32,.72,0,1);max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);}
+.notif-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
 .notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);}
 .notif-title{font-size:13px;font-weight:600;color:var(--parchment);letter-spacing:.04em;}
 .notif-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0;}
@@ -501,6 +520,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
 
 <!-- ══ ITINERARY ══ -->
 <div class="tab-content active" id="content-itinerary">
+  <!-- Toolbar -->
+  <div class="itin-toolbar">
+    <div class="itin-who-filter">
+      <button class="iwf-btn active" id="iwf-all"   onclick="setItinWho('all',this)">All</button>
+      <button class="iwf-btn"        id="iwf-together" onclick="setItinWho('together',this)">🤝 Together</button>
+      <button class="iwf-btn"        id="iwf-ca"    onclick="setItinWho('ca',this)">💑 C&A</button>
+      <button class="iwf-btn"        id="iwf-pj"    onclick="setItinWho('pj',this)">💑 P&J</button>
+    </div>
+    <div class="itin-collapse-btns">
+      <button onclick="itinCollapseAll(true)"  title="Collapse all days">⊟</button>
+      <button onclick="itinCollapseAll(false)" title="Expand all days">⊞</button>
+    </div>
+  </div>
   <div id="itinRoot"></div>
 </div>
 
@@ -582,6 +614,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
       <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">TikTok Saves 🎵</div>
       <div style="font-size:12px;color:var(--stone);margin-top:2px">Your saved Japan TikToks, sorted by category</div>
     </div>
+    <button onclick="openTTSheet()" style="background:var(--blossom-deep);color:white;border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">＋ Add</button>
   </div>
   <div class="filter-scroll" id="ttCatFilter">
     <div class="fpill active" onclick="filterTT('all',this)">All</div>
@@ -828,8 +861,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--parchment);color:var(--in
           </select>
         </div>
         <div>
-          <label class="form-label">Time</label>
-          <input class="form-input" id="bkTime" placeholder="e.g. 9:00 AM">
+          <label class="form-label">Check-In Time</label>
+          <input class="form-input" id="bkTime" placeholder="e.g. 3:00 PM">
         </div>
         <div>
           <label class="form-label">Status</label>
@@ -1152,7 +1185,7 @@ function applyCouple(c) {
   document.getElementById('noteCouple').value = c;
   updateCoupleSelect();
   // re-render all sections so collapse prefs apply for this couple
-  renderBook(); renderTransit(); renderTips(); renderTT(); renderDisc();
+  renderItin(); renderBook(); renderTransit(); renderTips(); renderTT(); renderDisc();
 }
 function updateCoupleSelect() {
   const v = document.getElementById('noteCouple').value;
@@ -1178,6 +1211,36 @@ function renderAll() { renderItin(); renderDisc(); renderBook(); renderTransit()
 // ════════════════════════════════════════
 let dragSrc = null, dragDay = null;
 
+let itinWhoFilter = 'all';
+
+function setItinWho(who, el) {
+  itinWhoFilter = who;
+  document.querySelectorAll('.iwf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderItin();
+}
+
+function itinDayKey(day) {
+  // sanitise day string to a safe localStorage key
+  return 'itin-day-' + day.replace(/[^a-zA-Z0-9]/g,'_');
+}
+
+function isDayOpen(day) {
+  return isOpen(itinDayKey(day)); // defaults to true (open)
+}
+
+function toggleDay(day) {
+  toggleSection(itinDayKey(day));
+}
+
+function itinCollapseAll(collapse) {
+  const k = 'jp-collapse-' + (currentCouple||'default');
+  const prefs = getCollapsePrefs();
+  DAYS.forEach(d => { prefs[itinDayKey(d)] = !collapse; });
+  localStorage.setItem(k, JSON.stringify(prefs));
+  renderItin();
+}
+
 function renderItin() {
   const root = document.getElementById('itinRoot');
   const byDay = {};
@@ -1186,21 +1249,61 @@ function renderItin() {
 
   let lastCity='', html='';
   DAYS.forEach(day => {
+    // filter items by who
+    let dayItems = byDay[day]||[];
+    if (itinWhoFilter !== 'all') {
+      dayItems = dayItems.filter(i => i.who === itinWhoFilter || i.who === 'together');
+    }
+    // skip days with no items AND nothing new will be added (still show if there are real items)
     if (!byDay[day] && !itinItems.find(i=>i.day===day)) return;
-    const dayKey = day.split('—')[0].trim();
-    const city = CITY_MAP[dayKey]||'';
+
+    const dayKey2 = day.split('—')[0].trim();
+    const city = CITY_MAP[dayKey2]||'';
     if (city && city!==lastCity) {
       if (lastCity) html += `<div class="city-divider"></div>`;
       html += `<div class="city-header"><div><div class="city-name">${city}</div><div class="city-kanji">${CITY_KANJI[city]||''}</div></div><div class="city-dates">${CITY_DATES[city]||''}</div></div>`;
       lastCity = city;
     }
-    html += `<div class="day-label-row"><span class="dl">${day}</span><div class="day-btns"><button class="day-add-btn" onclick="openItinSheet('${esc(day)}')" title="Add to this day">＋</button></div></div>`;
-    html += `<div class="day-drop-zone" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
-    (byDay[day]||[]).forEach(item => { html += renderItinCard(item); });
+
+    const open = isDayOpen(day);
+    const itemCount = dayItems.length;
+    const confirmedCount = dayItems.filter(i=>i.status==='confirmed').length;
+    const countLabel = itemCount ? `${itemCount} item${itemCount!==1?'s':''}${confirmedCount?` · ${confirmedCount} ✅`:''}` : '';
+
+    html += `<div class="day-header-row" onclick="toggleDay('${esc(day)}')">
+      <div style="display:flex;align-items:center;gap:7px">
+        <span class="day-chev ${open?'open':''}" id="dchev-${esc(itinDayKey(day))}">▼</span>
+        <span class="dl">${day}</span>
+        ${countLabel ? `<span style="font-size:10px;color:var(--stone);font-weight:400">${countLabel}</span>` : ''}
+      </div>
+      <div class="day-right">
+        <button class="day-add-btn" onclick="event.stopPropagation();openItinSheet('${esc(day)}')" title="Add to this day">＋</button>
+      </div>
+    </div>`;
+
+    html += `<div class="day-drop-zone ${open?'open':''}" id="${esc(itinDayKey(day))}" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
+    if (dayItems.length) {
+      dayItems.forEach(item => { html += renderItinCard(item); });
+    } else {
+      html += `<div style="padding:10px 14px 8px;font-size:12px;color:var(--stone)">No items${itinWhoFilter!=='all'?' for this filter':''}. Tap ＋ to add.</div>`;
+    }
     html += `</div>`;
   });
   root.innerHTML = html;
   initDrag();
+}
+
+function toggleDay(day) {
+  const key = itinDayKey(day);
+  // use the generic toggleSection but also update the day-drop-zone id directly
+  const k = 'jp-collapse-' + (currentCouple||'default');
+  const prefs = getCollapsePrefs();
+  prefs[key] = !prefs[key];
+  localStorage.setItem(k, JSON.stringify(prefs));
+  const zone = document.getElementById(key);
+  const chev = document.getElementById('dchev-'+key);
+  if (zone) zone.classList.toggle('open', prefs[key]);
+  if (chev) chev.classList.toggle('open', prefs[key]);
 }
 
 function dotCls(cat) {
@@ -1785,7 +1888,7 @@ function renderTransit() {
         const sts=t.status==='confirmed'?'shin-ok':'shin-book';
         const statusEl = t.status==='confirmed'
           ? `<div class="shin-status ${sts}">✓ Confirmed</div>`
-          : `<a class="shin-status ${sts}" href="https://www.klook.com/en-US/activity/25308-jr-pass-japan/" target="_blank" style="text-decoration:none;cursor:pointer">📌 Book on Klook ↗</a>`;
+          : `<a class="shin-status ${sts}" href="https://www.klook.com/en-US/transport/?target_product_id=32" target="_blank" style="text-decoration:none;cursor:pointer">📌 Book on Klook ↗</a>`;
         return `<div class="shin-card">
           ${statusEl}
           <div class="shin-type">${t.trainName||'Shinkansen'}</div>
@@ -2127,7 +2230,10 @@ function renderTips() {
     } else {
       innerHtml = items.length ? items.map(t=>{
         const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
-        return `<div class="tip-item"><div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
+        return `<div class="tip-item" draggable="true" data-tip-id="${t.id}" data-tip-sec="${t.section}"
+          ondragstart="tipDragStart(event,'${t.id}')" ondragover="tipDragOver(event)" ondragleave="tipDragLeave(event)" ondrop="tipDrop(event,'${t.id}')">
+          <span class="tip-drag-handle" title="Drag to reorder">⠿</span>
+          <div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
       }).join('') : `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
     }
     html += collSection('tips-'+sec.key, sec.label, items.length||null, `openTipsSheet('${sec.key}')`, innerHtml);
@@ -2520,6 +2626,38 @@ function openTT(url) {
 // ════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// TIPS DRAG REORDER
+// ════════════════════════════════════════
+let tipDragId = null;
+
+function tipDragStart(e, id) {
+  tipDragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => document.querySelector(`[data-tip-id="${id}"]`)?.classList.add('dragging'), 0);
+}
+function tipDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over-tip');
+}
+function tipDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over-tip');
+}
+function tipDrop(e, targetId) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over-tip');
+  if (!tipDragId || tipDragId === targetId) return;
+  const srcIdx = tipsItems.findIndex(t => t.id === tipDragId);
+  const tgtIdx = tipsItems.findIndex(t => t.id === targetId);
+  if (srcIdx < 0 || tgtIdx < 0) return;
+  const [moved] = tipsItems.splice(srcIdx, 1);
+  tipsItems.splice(tgtIdx, 0, moved);
+  save('tips');
+  renderTips();
+  tipDragId = null;
+}
+
 function fmtTime(iso){
   const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
   if(diff<1) return 'just now'; if(diff<60) return diff+'m ago';
