@@ -333,6 +333,21 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .rbtn:hover{background:var(--stone-light);}
 
 /* PICKER */
+/* PASSWORD GATE */
+.pw-gate{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;}
+.pw-card{background:var(--parchment);border-radius:20px;padding:32px 24px 28px;width:100%;max-width:340px;text-align:center;}
+.pw-logo{font-size:36px;margin-bottom:8px;}
+.pw-title{font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.pw-sub{font-size:13px;color:var(--stone);margin-bottom:24px;}
+.pw-input{width:100%;border:1.5px solid var(--stone-light);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;background:white;color:var(--ink);text-align:center;letter-spacing:.08em;transition:border-color .2s;box-sizing:border-box;}
+.pw-input:focus{border-color:var(--blossom-deep);}
+.pw-input.error{border-color:#e53e3e;animation:shake .3s ease;}
+.pw-btn{width:100%;margin-top:12px;background:var(--ink);color:white;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.pw-btn:hover{opacity:.85;}
+.pw-error{color:#e53e3e;font-size:12px;margin-top:8px;min-height:16px;}
+.pw-hint{font-size:11px;color:var(--stone-light);margin-top:16px;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
 .picker-ov{position:fixed;inset:0;background:rgba(26,21,18,.88);z-index:300;display:none;align-items:center;justify-content:center;padding:22px;}
 .picker-ov.show{display:flex;}
 .picker-card{background:white;border-radius:4px;border-top:5px solid #c8102e;padding:26px 22px;width:100%;max-width:340px;text-align:center;}
@@ -510,6 +525,20 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </style>
 </head>
 <body>
+
+<!-- PASSWORD GATE -->
+<div class="pw-gate" id="pwGate">
+  <div class="pw-card">
+    <div class="pw-logo">🌸</div>
+    <div class="pw-title">Japan 2026</div>
+    <div class="pw-sub">Enter your group password to continue</div>
+    <input class="pw-input" id="pwInput" type="password" placeholder="Password"
+      onkeydown="if(event.key==='Enter')checkPassword()">
+    <button class="pw-btn" onclick="checkPassword()">Enter →</button>
+    <div class="pw-error" id="pwError"></div>
+    <div class="pw-hint">Ask Connor, April, Pat or Julia for the password</div>
+  </div>
+</div>
 
 <!-- COUPLE PICKER -->
 <div class="picker-ov" id="pickerOv">
@@ -1139,7 +1168,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 const SB_URL = 'https://xaddapgmmlbxlzhsqwqm.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhZGRhcGdtbWxieGx6aHNxd3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjE3NDgsImV4cCI6MjA4OTY5Nzc0OH0.XbRBp23Kn6bh9WTjpkLxqBI22Q6_ioZkERXaeXhcqWE';
 let sb = null;
-let currentCouple = localStorage.getItem('japan-couple') || null;
+let currentCouple = null; // set in initApp() after auth check
 let currentTab = 'itinerary';
 
 // ════════════════════════════════════════
@@ -1359,6 +1388,13 @@ const SEED_TRANSIT = [
 // INIT
 // ════════════════════════════════════════
 window.onload = () => {
+  if (!checkAuth()) return; // show password gate, wait for correct entry
+  initApp();
+};
+
+function initApp() {
+  currentCouple = localStorage.getItem('japan-couple') || null;
+
   // Version bump — clear old disc cache if it's the old seed
   const discVer = localStorage.getItem('jp-disc-ver');
   if (discVer !== '2') { localStorage.removeItem('jp-disc'); localStorage.setItem('jp-disc-ver','2'); }
@@ -1384,7 +1420,7 @@ window.onload = () => {
     if (sel) sel.value = currentCouple;
     updateCoupleSelect();
   }
-};
+}
 
 function save(key) {
   const m = {itin:itinItems,disc:discItems,book:bookItems,transit:transitItems,tips:tipsItems,tt:ttItems};
@@ -1476,7 +1512,7 @@ function toggleDay(day) {
 }
 
 function itinCollapseAll(collapse) {
-  const k = 'jp-collapse-' + (currentCouple||'default');
+  const k = 'jp-collapse-' + getDeviceId();
   const prefs = getCollapsePrefs();
   DAYS.forEach(d => { prefs[itinDayKey(d)] = !collapse; });
   localStorage.setItem(k, JSON.stringify(prefs));
@@ -1538,7 +1574,7 @@ function renderItin() {
 function toggleDay(day) {
   const key = itinDayKey(day);
   // use the generic toggleSection but also update the day-drop-zone id directly
-  const k = 'jp-collapse-' + (currentCouple||'default');
+  const k = 'jp-collapse-' + getDeviceId();
   const prefs = getCollapsePrefs();
   prefs[key] = !prefs[key];
   localStorage.setItem(k, JSON.stringify(prefs));
@@ -2468,13 +2504,67 @@ const TIP_SECTIONS = [
 ];
 
 // ════════════════════════════════════════
-// COLLAPSIBLE SECTION ENGINE
-// Per-couple preferences stored in localStorage
-// key format: jp-collapse-{couple}  → { sectionKey: bool }
+// PASSWORD AUTH
+// ════════════════════════════════════════
+const PASSWORDS = {
+  'novabean':   'ca',   // Connor & April
+  'themurphys': 'pj',   // Pat & Julia
+};
+
+function checkAuth() {
+  const saved = localStorage.getItem('jp-auth');
+  if (saved && PASSWORDS[saved]) {
+    // already authenticated — hide gate and apply couple
+    document.getElementById('pwGate').style.display = 'none';
+    // set couple from password if not already set
+    if (!localStorage.getItem('japan-couple')) {
+      localStorage.setItem('japan-couple', PASSWORDS[saved]);
+    }
+    return true;
+  }
+  // show gate, hide app content until logged in
+  document.getElementById('pwGate').style.display = 'flex';
+  return false;
+}
+
+function checkPassword() {
+  const input = document.getElementById('pwInput');
+  const val = input.value.trim().toLowerCase();
+  const errorEl = document.getElementById('pwError');
+
+  if (PASSWORDS[val]) {
+    // ✅ correct — save auth and couple
+    localStorage.setItem('jp-auth', val);
+    const couple = PASSWORDS[val];
+    if (!localStorage.getItem('japan-couple')) {
+      localStorage.setItem('japan-couple', couple);
+    }
+    document.getElementById('pwGate').style.display = 'none';
+    // finish app init
+    initApp();
+  } else {
+    // ❌ wrong
+    errorEl.textContent = 'Incorrect password — ask Connor, April, Pat or Julia!';
+    input.classList.add('error');
+    input.value = '';
+    setTimeout(() => { input.classList.remove('error'); errorEl.textContent = ''; }, 2000);
+  }
+}
+
+
+// Per-DEVICE preferences stored in localStorage
+// key format: jp-collapse-device  → { sectionKey: bool }
 // ════════════════════════════════════════
 
+// Generate a stable device ID once
+function getDeviceId() {
+  let id = localStorage.getItem('jp-device-id');
+  if (!id) { id = 'dev-' + Math.random().toString(36).slice(2,10); localStorage.setItem('jp-device-id', id); }
+  return id;
+}
+
 function getCollapsePrefs() {
-  const key = 'jp-collapse-' + (currentCouple||'default');
+  const key = 'jp-collapse-' + getDeviceId();
   return JSON.parse(localStorage.getItem(key) || 'null') || getDefaultCollapsePrefs();
 }
 
@@ -2502,7 +2592,7 @@ function isOpen(key) {
 }
 
 function toggleSection(key, noRender) {
-  const k = 'jp-collapse-' + (currentCouple||'default');
+  const k = 'jp-collapse-' + getDeviceId();
   const prefs = getCollapsePrefs();
   prefs[key] = !prefs[key];
   localStorage.setItem(k, JSON.stringify(prefs));
@@ -3109,6 +3199,14 @@ function renderWL() {
   const sub = document.getElementById('wlSubtitle');
   if (sub) sub.textContent = `${person?.emoji||''} ${person?.name||''}'s private list`;
 
+  // Show identity banner
+  const banner = document.getElementById('wlIdentityBanner');
+  const bEmoji = document.getElementById('wlIdentityEmoji');
+  const bName = document.getElementById('wlIdentityName');
+  if (banner) banner.style.display = 'flex';
+  if (bEmoji) bEmoji.textContent = person?.emoji||'🛍';
+  if (bName) bName.textContent = `${person?.name||''}'s Wishlist`;
+
   const items = getMyWL();
   const root = document.getElementById('wishlistRoot');
 
@@ -3131,6 +3229,11 @@ function renderWL() {
 
   const stores = {};
   items.forEach(w => { if(!stores[w.store]) stores[w.store]=[]; stores[w.store].push(w); });
+  // populate lookup map
+  Object.keys(stores).forEach(store => {
+    const safeId = ('wl-'+currentWLPerson+'-'+store.replace(/[^a-zA-Z0-9]/g,'_')).replace(/[^a-zA-Z0-9_]/g,'_');
+    _wlStoreMap[safeId] = store;
+  });
 
   root.innerHTML = Object.keys(stores).map(store => {
     const storeItems = stores[store];
@@ -3161,7 +3264,7 @@ function renderWL() {
           <span class="wl-store-name">${store.replace(/[🦆🗒👕💴🛋🛠🏪👟👗🛍✏️]/gu,'').trim()}</span>
           <span class="wl-store-count">${doneCount}/${storeItems.length}</span>
         </div>
-        <button class="wl-store-add" onclick="event.stopPropagation();openWLSheetForStore('${store.replace(/'/g,"\'")}')" >＋</button>
+        <button class="wl-store-add" data-wlstore="${safeId}" onclick="event.stopPropagation();wlAddForStore(this)">＋</button>
       </div>
       <div class="wl-store-body ${open?'open':''}" id="wlbody-${safeId}">
         ${itemsHtml}
@@ -3170,8 +3273,18 @@ function renderWL() {
   }).join('');
 }
 
+// map safeId → real store name so wlAddForStore can look it up
+const _wlStoreMap = {};
+
+function wlAddForStore(btn) {
+  const safeId = btn.dataset.wlstore;
+  const store = _wlStoreMap[safeId];
+  if (store) openWLSheetForStore(store);
+  else openWLSheet();
+}
+
 function toggleWLStoreNew(key, safeId) {
-  const k = 'jp-collapse-' + (currentCouple||'default');
+  const k = 'jp-collapse-' + getDeviceId();
   const prefs = getCollapsePrefs();
   prefs[key] = !prefs[key];
   localStorage.setItem(k, JSON.stringify(prefs));
