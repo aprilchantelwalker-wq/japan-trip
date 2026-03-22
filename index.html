@@ -24,20 +24,20 @@
   --ca:#c8102e; --pj:#007a3d; --tog:#f7941d;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;padding-top:100px;}
 
 /* HEADER */
-.app-header{background:white;padding:0;position:relative;z-index:1;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.12);}.app-header-stripe{height:6px;background:linear-gradient(to right,#c8102e 0%,#c8102e 33%,#f7941d 33%,#f7941d 66%,#007a3d 66%,#007a3d 100%);}.app-header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
+.app-header{background:white;padding:0;position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;z-index:100;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.12);}.app-header-stripe{height:6px;background:linear-gradient(to right,#c8102e 0%,#c8102e 33%,#f7941d 33%,#f7941d 66%,#007a3d 66%,#007a3d 100%);}.app-header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
 .app-header h1{font-family:'Bebas Neue',sans-serif;font-size:26px;font-weight:400;color:#c8102e;letter-spacing:.04em;line-height:1;}
 .app-header .sub{font-size:10px;color:var(--stone);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
 .couple-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(--ca);letter-spacing:.02em;}
 .couple-badge.pj{background:var(--pj);}
-.live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;display:none;}
+.live-dot{display:none!important;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
 
 /* NAV */
-.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:sticky;top:0;z-index:99;-webkit-overflow-scrolling:touch;}
+.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:fixed;top:62px;left:0;right:0;max-width:430px;margin:0 auto;z-index:99;-webkit-overflow-scrolling:touch;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
 .nav-tab.active{color:white;border-bottom-color:#f7941d;}
@@ -600,8 +600,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   </div>
 </div>
 
-<!-- STICKY HEADER + NAV WRAPPER -->
-<div style="position:sticky;top:0;z-index:100;">
+<!-- FIXED HEADER + NAV -->
 <!-- HEADER -->
 <div class="app-header">
   <div class="app-header-stripe"></div>
@@ -641,7 +640,6 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   <div class="nav-tab" onclick="switchTab('notes')" id="tab-notes">💬 NOTES</div>
   <div class="nav-tab" onclick="switchTab('wishlist')" id="tab-wishlist">🛍 WISHLIST</div>
 </div>
-</div><!-- end sticky wrapper -->
 
 <!-- ══ ITINERARY ══ -->
 <div class="tab-content active" id="content-itinerary">
@@ -1603,6 +1601,7 @@ function initApp() {
   populateDaySelect();
   renderAll();           // fast render from localStorage/seed
   initBanners();
+  fixNavPosition();
   renderCustomCityPills();
   updateDiscCitySelects();
   initSupabase();        // Supabase loads fresh data → re-renders automatically
@@ -4032,6 +4031,17 @@ function tipDrop(e, targetId) {
 const BANNER_DISMISSED = new Set(JSON.parse(localStorage.getItem('jp-banners-dismissed') || '[]'));
 const BANNER_COLLAPSED = new Set(JSON.parse(localStorage.getItem('jp-banners-collapsed') || '[]'));
 
+
+// Fix nav position based on actual header height
+function fixNavPosition() {
+  const hdr = document.querySelector('.app-header');
+  const nav = document.querySelector('.nav-tabs');
+  if (hdr && nav) {
+    const h = hdr.offsetHeight;
+    nav.style.top = h + 'px';
+    document.body.style.paddingTop = (h + nav.offsetHeight) + 'px';
+  }
+}
 function initBanners() {
   BANNER_DISMISSED.forEach(id => {
     const el = document.getElementById('banner-'+id);
