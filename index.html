@@ -1243,22 +1243,22 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
           <label class="form-label">Date</label>
           <select class="form-select" id="bkDate">
             <option value="">— pick a day —</option>
-            <option value="Mar 27">Mar 27 (Day 0)</option>
-            <option value="Mar 28">Mar 28 (Day 1)</option>
-            <option value="Mar 29">Mar 29 (Day 2)</option>
-            <option value="Mar 30">Mar 30 (Day 3)</option>
-            <option value="Mar 31">Mar 31 (Day 4)</option>
-            <option value="Apr 1">Apr 1 (Day 5 🎂)</option>
-            <option value="Apr 2">Apr 2 (Day 6)</option>
-            <option value="Apr 3">Apr 3 (Day 7)</option>
-            <option value="Apr 4">Apr 4 (Day 8)</option>
-            <option value="Apr 5">Apr 5 (Day 9)</option>
-            <option value="Apr 6">Apr 6 (Day 10)</option>
-            <option value="Apr 7">Apr 7 (Day 11)</option>
-            <option value="Apr 8">Apr 8 (Day 12)</option>
-            <option value="Apr 9">Apr 9 (Day 13)</option>
-            <option value="Apr 10">Apr 10 (Day 14)</option>
-            <option value="Apr 11">Apr 11 (Day 15)</option>
+            <option value="Mar 27">Mar 27 (Day 0 — Depart Canada ✈️)</option>
+            <option value="Mar 28">Mar 28 (Arrival — Land 🛬)</option>
+            <option value="Mar 29">Mar 29 (Day 1)</option>
+            <option value="Mar 30">Mar 30 (Day 2)</option>
+            <option value="Mar 31">Mar 31 (Day 2)</option>
+            <option value="Apr 1">Apr 1 (Day 4 🎂)</option>
+            <option value="Apr 2">Apr 2 (Day 5)</option>
+            <option value="Apr 3">Apr 3 (Day 5)</option>
+            <option value="Apr 4">Apr 4 (Day 6)</option>
+            <option value="Apr 5">Apr 5 (Day 7)</option>
+            <option value="Apr 6">Apr 6 (Day 8)</option>
+            <option value="Apr 7">Apr 7 (Day 9)</option>
+            <option value="Apr 8">Apr 8 (Day 10)</option>
+            <option value="Apr 9">Apr 9 (Day 11)</option>
+            <option value="Apr 10">Apr 10 (Day 12)</option>
+            <option value="Apr 11">Apr 11 (Day 13)</option>
           </select>
         </div>
         <div>
@@ -1422,21 +1422,22 @@ let notes       = [];
 // SEED DATA
 // ════════════════════════════════════════
 const DAYS = [
-  'Day 0 — Mar 27','Day 1 — Mar 28','Day 2 — Mar 29','Day 3 — Mar 30',
-  'Day 4 — Mar 31','Day 5 — Apr 1 🎂','Day 6 — Apr 2','Day 7 — Apr 3',
-  'Day 8 — Apr 4','Day 9 — Apr 5','Day 10 — Apr 6',
-  'Day 11 — Apr 7','Day 12 — Apr 8',
-  'Day 13 — Apr 9','Day 14 — Apr 10','Day 15 — Apr 11',
+  'Travel — Mar 27 ✈️','Arrival — Mar 28','Day 1 — Mar 29','Day 2 — Mar 30',
+  'Day 3 — Mar 31','Day 4 — Apr 1 🎂','Day 5 — Apr 2','Day 6 — Apr 3',
+  'Day 7 — Apr 4','Day 8 — Apr 5','Day 9 — Apr 6',
+  'Day 10 — Apr 7','Day 11 — Apr 8',
+  'Day 12 — Apr 9','Day 13 — Apr 10','Day 14 — Apr 11',
 ];
 const CITY_MAP = {
-  'Day 0':'Tokyo','Day 1':'Tokyo','Day 2':'Tokyo','Day 3':'Tokyo',
-  'Day 4':'Hakone → Kyoto','Day 5':'Kyoto','Day 6':'Kyoto','Day 7':'Kyoto',
-  'Day 8':'Osaka','Day 9':'Osaka','Day 10':'Osaka',
-  'Day 11':'Mt. Fuji','Day 12':'Mt. Fuji',
-  'Day 13':'Tokyo','Day 14':'Tokyo','Day 15':'Tokyo',
+  'Day 0':'In Transit','Arrival':'Tokyo',
+  'Day 1':'Tokyo','Day 2':'Tokyo','Day 3':'Tokyo',
+  'Day 3':'Hakone → Kyoto','Day 4':'Kyoto','Day 5':'Kyoto','Day 6':'Kyoto',
+  'Day 7':'Osaka','Day 8':'Osaka','Day 9':'Osaka',
+  'Day 10':'Mt. Fuji','Day 11':'Mt. Fuji',
+  'Day 12':'Tokyo','Day 13':'Tokyo','Day 14':'Tokyo',
 };
-const CITY_KANJI={'Tokyo':'東京','Hakone → Kyoto':'箱根 → 京都','Kyoto':'京都','Osaka':'大阪','Mt. Fuji':'富士山'};
-const CITY_DATES={'Tokyo':'Mar 27–31 · Apr 9–11','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9'};
+const CITY_KANJI={'Tokyo':'東京','Hakone → Kyoto':'箱根 → 京都','Kyoto':'京都','Osaka':'大阪','Mt. Fuji':'富士山','In Transit':'✈️'};
+const CITY_DATES={'Tokyo':'Mar 29–31 · Apr 9–11','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9','In Transit':'Mar 27–28 (travel)'};
 
 const CAT_EMOJI = {
   matcha:'🍵',coffee:'☕',ramen:'🍜',sushi:'🍣',street:'🦀',breakfast:'🥞',
@@ -1444,50 +1445,51 @@ const CAT_EMOJI = {
 };
 
 const SEED_ITIN = [
-  {id:'s1',  day:'Day 0 — Mar 27', time:'All Day',   name:'Meet in YYC → Fly to Narita ✈️',           detail:'C&A: YYZ→YYC→NRT · P&J: YHZ→YYC→NRT · Land 4:30PM', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s2',  day:'Day 0 — Mar 27', time:'Evening',   name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku', cat:'hotel', who:'together', status:'confirmed', order:1},
-  {id:'s3',  day:'Day 0 — Mar 27', time:'Evening',   name:'Find food & drinks near hotel',              detail:'Ichiryu or wander Asakusa', cat:'food', who:'together', status:'tentative', order:2},
-  {id:'s4',  day:'Day 1 — Mar 28', time:'Morning',   name:'Benitsuru Pancake 🥞',                       detail:'Famous fluffy pancakes · 2 min from OMO3', cat:'food', who:'together', status:'confirmed', order:0},
-  {id:'s5',  day:'Day 1 — Mar 28', time:'Morning',   name:'Senso-ji Temple & Kaminarimon Gate ⛩️',      detail:'Most iconic temple in Tokyo · book ahead ~$30 CAD', cat:'activity', who:'together', status:'confirmed', order:1},
-  {id:'s6',  day:'Day 1 — Mar 28', time:'Afternoon', name:'Chopstick Making Class 🥢',                  detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed', order:2},
-  {id:'s7',  day:'Day 1 — Mar 28', time:'Afternoon', name:'Nakamise Street — snacks + souvenirs',       detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative', order:3},
-  {id:'s8',  day:'Day 1 — Mar 28', time:'Evening',   name:'Explore Asakusa / find dinner',              detail:'Ameyoko Market area', cat:'explore', who:'together', status:'idea', order:4},
-  {id:'s9',  day:'Day 2 — Mar 29', time:'Morning',   name:'Meiji Shrine 🌿',                            detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed', order:0},
-  {id:'s10', day:'Day 2 — Mar 29', time:'Midday',    name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'explore', who:'together', status:'confirmed', order:1},
-  {id:'s11', day:'Day 2 — Mar 29', time:'Afternoon', name:'Shibuya Crossing 🚦',                        detail:'View from above at Starbucks or Mag\'s Park', cat:'activity', who:'together', status:'confirmed', order:2},
-  {id:'s12', day:'Day 2 — Mar 29', time:'Evening',   name:'Shinjuku → Memory Lane 🍻',                  detail:'Omoide Yokocho — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed', order:3},
-  {id:'s13', day:'Day 3 — Mar 30', time:'Morning',   name:'Tsukiji Outer Market 🍣',                    detail:'Best breakfast sushi on earth · arrive early', cat:'food', who:'together', status:'confirmed', order:0},
-  {id:'s14', day:'Day 3 — Mar 30', time:'Midday',    name:'Akihabara 🎮',                               detail:'Electronics, anime, arcades, manga', cat:'shopping', who:'together', status:'tentative', order:1},
-  {id:'s15', day:'Day 3 — Mar 30', time:'Afternoon', name:'TeamLab Planets Toyosu 🎨',                  detail:'Immersive digital art · must book in advance!', cat:'activity', who:'together', status:'confirmed', order:2},
-  {id:'s16', day:'Day 3 — Mar 30', time:'Evening',   name:'Ichiran Ramen 🍜',                           detail:'Solo booth tonkotsu ramen · late night open', cat:'food', who:'together', status:'tentative', order:3},
-  {id:'s17', day:'Day 4 — Mar 31', time:'Morning',   name:'Check out Tokyo → transit to Hakone',        detail:'Stop in Hakone on way to Kyoto', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s18', day:'Day 4 — Mar 31', time:'Afternoon', name:'Tenzan Onsen ♨️ (tattoo friendly!)',         detail:'250-0312 Kanagawa, Ashigarashimo District', cat:'onsen', who:'together', status:'confirmed', order:1},
-  {id:'s19', day:'Day 4 — Mar 31', time:'Evening',   name:'Transit to Kyoto → Hotel Amanek',            detail:'~2h 48m · 2616 Azuchicho, Shimogyo-ku', cat:'transport', who:'together', status:'confirmed', order:2},
-  {id:'s20', day:'Day 5 — Apr 1 🎂', time:'Morning', name:'April\'s Birthday! 🎂 Nishiki Market',       detail:'"Kyoto\'s Kitchen" · 400 years old, 100+ stalls', cat:'food', who:'together', status:'confirmed', order:0},
-  {id:'s21', day:'Day 5 — Apr 1 🎂', time:'Midday',  name:'Uji Day Trip — Matcha!! 🍵',                 detail:'By train · matcha tea experience · Byodoin Temple · SHOP TILL I DROP', cat:'activity', who:'together', status:'confirmed', order:1},
-  {id:'s22', day:'Day 5 — Apr 1 🎂', time:'Evening', name:'Birthday dinner 🥂',                         detail:'TBD — somewhere special!', cat:'food', who:'together', status:'idea', order:2},
-  {id:'s23', day:'Day 6 — Apr 2', time:'Morning',    name:'Fushimi Inari Shrine ⛩️',                    detail:'Thousand torii gates · go early · full hike ~2h', cat:'activity', who:'together', status:'confirmed', order:0},
-  {id:'s24', day:'Day 6 — Apr 2', time:'Afternoon',  name:'Philosopher\'s Path 🌸',                     detail:'Cherry blossom canal walk · perfect in April!', cat:'activity', who:'together', status:'confirmed', order:1},
-  {id:'s25', day:'Day 6 — Apr 2', time:'Afternoon',  name:'% Arabica Higashiyama ☕',                   detail:'Best latte in Kyoto · stunning minimalist café', cat:'food', who:'together', status:'confirmed', order:2},
-  {id:'s26', day:'Day 6 — Apr 2', time:'Evening',    name:'Gion District — Pontocho Alley dinner',      detail:'Wander Gion, maybe spot a geisha', cat:'food', who:'together', status:'tentative', order:3},
-  {id:'s27', day:'Day 7 — Apr 3', time:'All Day',    name:'Free day in Kyoto — explore!',               detail:'Arashiyama, Kinkaku-ji, extra temple time', cat:'explore', who:'together', status:'idea', order:0},
-  {id:'s28', day:'Day 8 — Apr 4', time:'Morning',    name:'Check out Kyoto → Citadines Namba Osaka',    detail:'53-5-25 Nippombashi, Naniwa-ku · drop bags, explore', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s29', day:'Day 8 — Apr 4', time:'Midday',     name:'Dotonbori Food Walk 🦀',                     detail:'Takoyaki, okonomiyaki, crab, kushikatsu', cat:'food', who:'together', status:'confirmed', order:1},
-  {id:'s30', day:'Day 8 — Apr 4', time:'Afternoon',  name:'Super Nintendo World 🎮',                    detail:'Universal Studios Japan · less busy weekday', cat:'activity', who:'together', status:'idea', order:2},
-  {id:'s31', day:'Day 9 — Apr 5', time:'All Day',    name:'Hiroshima Day Trip',                         detail:'Peace Memorial Park, Miyajima Island 🦌', cat:'activity', who:'pj', status:'tentative', order:0},
-  {id:'s32', day:'Day 9 — Apr 5', time:'All Day',    name:'Free day in Osaka',                          detail:'Shinsekai, Kuromon Market, Nakanoshima', cat:'explore', who:'ca', status:'tentative', order:1},
-  {id:'s33', day:'Day 10 — Apr 6', time:'All Day',   name:'Final Osaka day — explore!',                 detail:'Anything you haven\'t done yet · pack up', cat:'explore', who:'together', status:'idea', order:0},
-  {id:'s34', day:'Day 11 — Apr 7', time:'Morning',   name:'Transit Osaka → Kawaguchiko',                detail:'Send bags via Yamato! Don\'t lug suitcases on trains', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s35', day:'Day 11 — Apr 7', time:'Afternoon', name:'Chureito Pagoda + Fuji Views 🗻',            detail:'Hike 400 steps · go early for best photos', cat:'activity', who:'together', status:'confirmed', order:1},
-  {id:'s36', day:'Day 11 — Apr 7', time:'Afternoon', name:'Boys: Golf ⛳ / Girls: Fuji trails 🥾',      detail:'Split up! Boys golf at Mt. Fuji course · Girls hike + explore', cat:'activity', who:'together', status:'tentative', order:2},
-  {id:'s37', day:'Day 11 — Apr 7', time:'Evening',   name:'Vision Glamping + ONSEN 🏕️',                detail:'vision-glamping.yamanakako · onsen included!', cat:'onsen', who:'together', status:'confirmed', order:3},
-  {id:'s38', day:'Day 13 — Apr 9', time:'Morning',   name:'Drive back → Tosei 98 Cocone Ueno',          detail:'Final Tokyo hotel · Ueno Park area', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s39', day:'Day 13 — Apr 9', time:'Afternoon', name:'Imperial Palace East Gardens 🌸',            detail:'Closed Mon/Sun — plan accordingly!', cat:'activity', who:'together', status:'tentative', order:1},
-  {id:'s40', day:'Day 13 — Apr 9', time:'Evening',   name:'Nabezo Shabu Shabu 🍲',                      detail:'All-you-can-eat hot pot · great for the group', cat:'food', who:'together', status:'tentative', order:2},
-  {id:'s41', day:'Day 14 — Apr 10', time:'Morning',  name:'Onigiri Gorichan 🍙',                        detail:'Famous onigiri spot · worth the Instagram', cat:'food', who:'together', status:'tentative', order:0},
-  {id:'s42', day:'Day 14 — Apr 10', time:'All Day',  name:'Last souvenir shopping + chill',             detail:'Send bags to Narita via Yamato before 4pm!', cat:'shopping', who:'together', status:'tentative', order:1},
-  {id:'s43', day:'Day 14 — Apr 10', time:'Evening',  name:'Last dinner together 🥂',                    detail:'TBD — make it special!', cat:'food', who:'together', status:'idea', order:2},
-  {id:'s44', day:'Day 15 — Apr 11', time:'Morning',  name:'Transit to Narita → Fly home ✈️ 🥲',         detail:'NRT → Home', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s1',  day:'Travel — Mar 27 ✈️', time:'All Day',   name:'Meet in YYC → Fly to Narita ✈️',           detail:'C&A: YYZ→YYC→NRT · P&J: YHZ→YYC→NRT · Land 4:30PM', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s2',  day:'Travel — Mar 27 ✈️', time:'Evening',   name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku', cat:'hotel', who:'together', status:'confirmed', order:1},
+  {id:'s3',  day:'Travel — Mar 27 ✈️', time:'Evening',   name:'Find food & drinks near hotel',              detail:'Ichiryu or wander Asakusa', cat:'food', who:'together', status:'tentative', order:2},
+  {id:'s4',  day:'Arrival — Mar 28', time:'Morning',   name:'Benitsuru Pancake 🥞',                       detail:'Famous fluffy pancakes · 2 min from OMO3', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s5',  day:'Arrival — Mar 28', time:'Morning',   name:'Senso-ji Temple & Kaminarimon Gate ⛩️',      detail:'Most iconic temple in Tokyo · book ahead ~$30 CAD', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s6',  day:'Arrival — Mar 28', time:'Afternoon', name:'Chopstick Making Class 🥢',                  detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s7',  day:'Arrival — Mar 28', time:'Afternoon', name:'Nakamise Street — snacks + souvenirs',       detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative', order:3},
+  {id:'s8',  day:'Arrival — Mar 28', time:'Evening',   name:'Explore Asakusa / find dinner',              detail:'Ameyoko Market area', cat:'explore', who:'together', status:'idea', order:4},
+  {id:'s9',  day:'Day 1 — Mar 29', time:'Morning',   name:'Meiji Shrine 🌿',                            detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed', order:0},
+  {id:'s10', day:'Day 1 — Mar 29', time:'Midday',    name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'explore', who:'together', status:'confirmed', order:1},
+  {id:'s11', day:'Day 1 — Mar 29', time:'Afternoon', name:'Shibuya Crossing 🚦',                        detail:'View from above at Starbucks or Mag\'s Park', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s12', day:'Day 1 — Mar 29', time:'Evening',   name:'Shinjuku → Memory Lane 🍻',                  detail:'Omoide Yokocho — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed', order:3},
+  {id:'s13', day:'Day 2 — Mar 30', time:'Morning',   name:'Tsukiji Outer Market 🍣',                    detail:'Best breakfast sushi on earth · arrive early', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s14', day:'Day 2 — Mar 30', time:'Midday',    name:'Akihabara 🎮',                               detail:'Electronics, anime, arcades, manga', cat:'shopping', who:'together', status:'tentative', order:1},
+  {id:'s15', day:'Day 2 — Mar 30', time:'Afternoon', name:'TeamLab Planets Toyosu 🎨',                  detail:'Immersive digital art · must book in advance!', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s16', day:'Day 2 — Mar 30', time:'Evening',   name:'Ichiran Ramen 🍜',                           detail:'Solo booth tonkotsu ramen · late night open', cat:'food', who:'together', status:'tentative', order:3},
+  {id:'s17', day:'Day 3 — Mar 31', time:'Morning',   name:'Check out Tokyo → transit to Hakone',        detail:'Stop in Hakone on way to Kyoto', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s18', day:'Day 3 — Mar 31', time:'Afternoon', name:'Tenzan Onsen ♨️ (tattoo friendly!)',         detail:'250-0312 Kanagawa, Ashigarashimo District', cat:'onsen', who:'together', status:'confirmed', order:1},
+  {id:'s19', day:'Day 3 — Mar 31', time:'Evening',   name:'Transit to Kyoto → Hotel Amanek',            detail:'~2h 48m · 2616 Azuchicho, Shimogyo-ku', cat:'transport', who:'together', status:'confirmed', order:2},
+  {id:'s20', day:'Day 4 — Apr 1 🎂', time:'Morning', name:'April\'s Birthday! 🎂 Nishiki Market',       detail:'"Kyoto\'s Kitchen" · 400 years old, 100+ stalls', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s21', day:'Day 4 — Apr 1 🎂', time:'Midday',  name:'Uji Day Trip — Matcha!! 🍵',                 detail:'By train · matcha tea experience · Byodoin Temple · SHOP TILL I DROP', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s22', day:'Day 4 — Apr 1 🎂', time:'Evening', name:'Birthday dinner 🥂',                         detail:'TBD — somewhere special!', cat:'food', who:'together', status:'idea', order:2},
+  {id:'s23', day:'Day 5 — Apr 2', time:'Morning',    name:'Fushimi Inari Shrine ⛩️',                    detail:'Thousand torii gates · go early · full hike ~2h', cat:'activity', who:'together', status:'confirmed', order:0},
+  {id:'s24', day:'Day 5 — Apr 2', time:'Afternoon',  name:'Philosopher\'s Path 🌸',                     detail:'Cherry blossom canal walk · perfect in April!', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s25', day:'Day 5 — Apr 2', time:'Afternoon',  name:'% Arabica Higashiyama ☕',                   detail:'Best latte in Kyoto · stunning minimalist café', cat:'food', who:'together', status:'confirmed', order:2},
+  {id:'s26', day:'Day 5 — Apr 2', time:'Evening',    name:'Gion District — Pontocho Alley dinner',      detail:'Wander Gion, maybe spot a geisha', cat:'food', who:'together', status:'tentative', order:3},
+  {id:'s27', day:'Day 6 — Apr 3', time:'All Day',    name:'Free day in Kyoto — explore!',               detail:'Arashiyama, Kinkaku-ji, extra temple time', cat:'explore', who:'together', status:'idea', order:0},
+  {id:'s28', day:'Day 7 — Apr 4', time:'Morning',    name:'Check out Kyoto → Citadines Namba Osaka',    detail:'53-5-25 Nippombashi, Naniwa-ku · drop bags, explore', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s29', day:'Day 7 — Apr 4', time:'Midday',     name:'Dotonbori Food Walk 🦀',                     detail:'Takoyaki, okonomiyaki, crab, kushikatsu', cat:'food', who:'together', status:'confirmed', order:1},
+  {id:'s30', day:'Day 7 — Apr 4', time:'Afternoon',  name:'Super Nintendo World 🎮',                    detail:'Universal Studios Japan · less busy weekday', cat:'activity', who:'together', status:'idea', order:2},
+  {id:'s31', day:'Day 8 — Apr 5', time:'All Day',    name:'Hiroshima Day Trip',                         detail:'Peace Memorial Park, Miyajima Island 🦌', cat:'activity', who:'pj', status:'tentative', order:0},
+  {id:'s32', day:'Day 8 — Apr 5', time:'All Day',    name:'Free day in Osaka',                          detail:'Shinsekai, Kuromon Market, Nakanoshima', cat:'explore', who:'ca', status:'tentative', order:1},
+  {id:'s33', day:'Day 9 — Apr 6', time:'All Day',   name:'Final Osaka day — explore!',                 detail:'Anything you haven\'t done yet · pack up', cat:'explore', who:'together', status:'idea', order:0},
+  {id:'s34', day:'Day 10 — Apr 7', time:'Morning',   name:'Transit Osaka → Kawaguchiko',                detail:'Send bags via Yamato! Don\'t lug suitcases on trains', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s35', day:'Day 10 — Apr 7', time:'Afternoon', name:'Chureito Pagoda + Fuji Views 🗻',            detail:'Hike 400 steps · go early for best photos', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s36', day:'Day 10 — Apr 7', time:'Afternoon', name:'Boys: Golf ⛳ / Girls: Fuji trails 🥾',      detail:'Split up! Boys golf at Mt. Fuji course · Girls hike + explore', cat:'activity', who:'together', status:'tentative', order:2},
+  {id:'s37', day:'Day 10 — Apr 7', time:'Evening',   name:'Vision Glamping + ONSEN 🏕️',                detail:'vision-glamping.yamanakako · onsen included!', cat:'onsen', who:'together', status:'confirmed', order:3},
+  {id:'s37b',day:'Day 11 — Apr 8', time:'All Day',  name:'Vision Glamping Yamanakako 🏕️', detail:'Lake Yamanako · Mt Fuji views · check out by 11AM', cat:'hotel', who:'together', status:'confirmed', order:0},
+  {id:'s38', day:'Day 12 — Apr 9', time:'Morning',   name:'Drive back → Tosei 98 Cocone Ueno',          detail:'Final Tokyo hotel · Ueno Park area', cat:'transport', who:'together', status:'confirmed', order:0},
+  {id:'s39', day:'Day 12 — Apr 9', time:'Afternoon', name:'Imperial Palace East Gardens 🌸',            detail:'Closed Mon/Sun — plan accordingly!', cat:'activity', who:'together', status:'tentative', order:1},
+  {id:'s40', day:'Day 12 — Apr 9', time:'Evening',   name:'Nabezo Shabu Shabu 🍲',                      detail:'All-you-can-eat hot pot · great for the group', cat:'food', who:'together', status:'tentative', order:2},
+  {id:'s41', day:'Day 13 — Apr 10', time:'Morning',  name:'Onigiri Gorichan 🍙',                        detail:'Famous onigiri spot · worth the Instagram', cat:'food', who:'together', status:'tentative', order:0},
+  {id:'s42', day:'Day 13 — Apr 10', time:'All Day',  name:'Last souvenir shopping + chill',             detail:'Send bags to Narita via Yamato before 4pm!', cat:'shopping', who:'together', status:'tentative', order:1},
+  {id:'s43', day:'Day 13 — Apr 10', time:'Evening',  name:'Last dinner together 🥂',                    detail:'TBD — make it special!', cat:'food', who:'together', status:'idea', order:2},
+  {id:'s44', day:'Day 14 — Apr 11', time:'Morning',  name:'Transit to Narita → Fly home ✈️ 🥲',         detail:'NRT → Home', cat:'transport', who:'together', status:'confirmed', order:0},
 ];
 
 const SEED_DISC = [
@@ -1596,9 +1598,9 @@ const SEED_DISC = [
 ];
 
 const SEED_BOOK = [
-  {id:'b1', name:'Connor & April — YYZ→NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
-  {id:'b2', name:'Pat & Julia — YHZ→NRT', sub:'Mar 27 · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
-  {id:'b3', name:'OMO3 Asakusa by Hoshino Resorts', sub:'Tokyo · Mar 27–31 · 4 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'1-15-5 Hanakawado, Taito-ku'},
+  {id:'b1', name:'Connor & April — YYZ→NRT', sub:'Mar 27 → Mar 28 JST · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
+  {id:'b2', name:'Pat & Julia — YHZ→NRT', sub:'Mar 27 → Mar 28 JST · via Calgary (YYC)', icon:'✈️', time:'Land 4:30PM', status:'confirmed', notes:'Return Apr 11'},
+  {id:'b3', name:'OMO3 Asakusa by Hoshino Resorts', sub:'Tokyo · Mar 28–31 · 3 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'1-15-5 Hanakawado, Taito-ku'},
   {id:'b4', name:'Hotel Amanek Kyoto Kawaramachi Gojo', sub:'Kyoto · Mar 31–Apr 4 · 4 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'2616 Azuchicho, Shimogyo-ku'},
   {id:'b5', name:'Citadines Namba Osaka', sub:'Osaka · Apr 4–7 · 3 nights', icon:'🏨', time:'Check-in from 3PM', status:'confirmed', notes:'53-5-25 Nippombashi, Naniwa-ku'},
   {id:'b6', name:'Vision Glamping — Yamanakako', sub:'Mt. Fuji · Apr 7–9 · 2 nights', icon:'🏕️', time:'TBD', status:'todo', notes:'vision-glamping.yamanakako/en · Onsen included!'},
@@ -1929,7 +1931,7 @@ function renderSmartHeader() {
     const dayKey   = 'Day ' + dayNum;
     const city     = CITY_MAP[dayKey] || '';
     const kanji    = CITY_KANJI[city] || '';
-    const tripDays = 16;
+    const tripDays = 15;
     const pct      = Math.min(100, Math.round((dayNum / tripDays) * 100));
     const dayLabel = DAYS.find(d => d.startsWith(dayKey + ' ')) || dayKey;
     const daysLeft = Math.ceil((TRIP_END - now) / msDay);
@@ -2311,7 +2313,7 @@ function openItinSheet(day) {
 
 // Map discover city slug → best matching itinerary day
 const CITY_DAY_MAP = {
-  tokyo:     'Day 1 — Mar 28',
+  tokyo:     'Day 1 — Mar 29',
   kyoto:     'Day 5 — Apr 1 🎂',
   uji:       'Day 5 — Apr 1 🎂',
   osaka:     'Day 8 — Apr 4',
@@ -2884,12 +2886,12 @@ function syncItinTimePicker() {
 // Map booking date string to itinerary day string
 function bkDateToItinDay(dateStr) {
   const map = {
-    'Mar 27':'Day 0 — Mar 27','Mar 28':'Day 1 — Mar 28','Mar 29':'Day 2 — Mar 29',
-    'Mar 30':'Day 3 — Mar 30','Mar 31':'Day 4 — Mar 31','Apr 1':'Day 5 — Apr 1 🎂',
-    'Apr 2':'Day 6 — Apr 2','Apr 3':'Day 7 — Apr 3','Apr 4':'Day 8 — Apr 4',
-    'Apr 5':'Day 9 — Apr 5','Apr 6':'Day 10 — Apr 6','Apr 7':'Day 11 — Apr 7',
-    'Apr 8':'Day 12 — Apr 8','Apr 9':'Day 13 — Apr 9','Apr 10':'Day 14 — Apr 10',
-    'Apr 11':'Day 15 — Apr 11',
+    'Mar 27':'Day 0 — Mar 27 ✈️','Mar 28':'Arrival — Mar 28','Mar 29':'Day 1 — Mar 29',
+    'Mar 30':'Day 2 — Mar 30','Mar 31':'Day 3 — Mar 31','Apr 1':'Day 4 — Apr 1 🎂',
+    'Apr 2':'Day 5 — Apr 2','Apr 3':'Day 6 — Apr 3','Apr 4':'Day 7 — Apr 4',
+    'Apr 5':'Day 8 — Apr 5','Apr 6':'Day 9 — Apr 6','Apr 7':'Day 10 — Apr 7',
+    'Apr 8':'Day 11 — Apr 8','Apr 9':'Day 12 — Apr 9','Apr 10':'Day 13 — Apr 10',
+    'Apr 11':'Day 14 — Apr 11',
   };
   return map[dateStr] || null;
 }
