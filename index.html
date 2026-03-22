@@ -2430,9 +2430,20 @@ function saveItin() {
   const status = document.querySelector('.status-opt.sel')?.dataset.status||'tentative';
   const day = document.getElementById('itinDay').value;
   const dayItems = itinItems.filter(i=>i.day===day);
+  // Resolve time from text field or clock picker
+  let itinTimeVal = document.getElementById('itinTime').value.trim();
+  if (!itinTimeVal) {
+    const tp = document.getElementById('itinTimePicker').value;
+    if (tp) {
+      const [h, m] = tp.split(':').map(Number);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12  = h % 12 || 12;
+      itinTimeVal = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+    }
+  }
   const item = {
     id: editItinId||'u'+Date.now(),
-    day, time:document.getElementById('itinTime').value,
+    day, time: itinTimeVal,
     name, detail, cat:document.getElementById('itinCat').value,
     cost:document.getElementById('itinCost').value,
     who, status,
@@ -2911,13 +2922,26 @@ function saveBk() {
   const name = document.getElementById('bkName').value.trim();
   if (!name) { showToast('Name required'); return; }
   const prevStatus = editBkId ? (bookItems.find(x=>x.id===editBkId)||{}).status : null;
+
+  // Resolve time — prefer text field, fall back to converting clock picker
+  let timeVal = document.getElementById('bkTime').value.trim();
+  if (!timeVal) {
+    const tp = document.getElementById('bkTimePicker').value;
+    if (tp) {
+      const [h, m] = tp.split(':').map(Number);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12  = h % 12 || 12;
+      timeVal = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+    }
+  }
+
   const b = {
     id: editBkId||'b'+Date.now(),
     name,
     sub:    document.getElementById('bkSub').value,
     icon:   document.getElementById('bkType').value,
     date:   document.getElementById('bkDate')?.value || '',
-    time:   document.getElementById('bkTime').value,
+    time:   timeVal,
     status: document.getElementById('bkStatus').value,
     notes:  document.getElementById('bkNotes').value,
     link:   document.getElementById('bkLink').value.trim()
