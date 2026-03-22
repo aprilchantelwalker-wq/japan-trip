@@ -858,30 +858,13 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ WISHLIST ══ -->
 <div class="tab-content" id="content-wishlist">
-  <div id="wlPersonPickerWrap"></div>
-  <div id="wlMainWrap" style="display:none">
-    <div style="padding:11px 14px 4px;display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Shopping Wishlist 🛍</div>
-        <div id="wlSubtitle" style="font-size:12px;color:var(--stone);margin-top:1px"></div>
-      </div>
-    </div>
-    <!-- Identity banner -->
-    <div id="wlIdentityBanner" style="display:none;margin:0 12px 10px;background:var(--ink);border-radius:12px;padding:11px 14px;flex-direction:row;align-items:center;gap:10px">
-      <span id="wlIdentityEmoji" style="font-size:24px"></span>
-      <div style="flex:1">
-        <div id="wlIdentityName" style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:white"></div>
-        <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:1px">Private — only visible to you on this device</div>
-      </div>
-      <button onclick="showWLPersonPicker()" style="background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:11px;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:inherit">Switch</button>
-    </div>
-    <div id="wlProgress" style="display:none">
-      <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
-      <div class="wl-progress-bar"><div class="wl-progress-fill" id="wlProgressFill"></div></div>
-    </div>
-    <div id="wlSuggestionsWrap"></div>
-    <div id="wishlistRoot"></div>
+  <div id="wlHeader"></div>
+  <div id="wlProgress" style="display:none">
+    <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
+    <div class="wl-progress-bar"><div class="wl-progress-fill" id="wlProgressFill"></div></div>
   </div>
+  <div id="wlSuggestionsWrap"></div>
+  <div id="wishlistRoot"></div>
 </div>
 
 <!-- WISHLIST SHEET -->
@@ -3148,215 +3131,192 @@ function openTT(url) {
 // ════════════════════════════════════════
 
 // ════════════════════════════════════════
-// WISHLIST — PER-PERSON
+// WISHLIST — 4 INDIVIDUAL LISTS, VISIBLE PER COUPLE
 // ════════════════════════════════════════
+// Keys: jp-wl-connor, jp-wl-april, jp-wl-patrick, jp-wl-julia
+// C&A see Connor & April only. P&J see Patrick & Julia only.
+// Shared suggestions go couple-to-couple.
 
-const WL_PEOPLE = [
-  {id:'connor', name:'Connor', emoji:'🧢', couple:'ca'},
-  {id:'april',  name:'April',  emoji:'🌸', couple:'ca'},
-  {id:'pat',    name:'Patrick', emoji:'🏌️', couple:'pj'},
-  {id:'julia',  name:'Julia',  emoji:'👗', couple:'pj'},
-];
+const WL_MEMBERS = {
+  ca: [{id:'april',   name:'April',   emoji:'🌸'}, {id:'connor',  name:'Connor',  emoji:'🧢'}],
+  pj: [{id:'julia',   name:'Julia',   emoji:'👗'}, {id:'patrick', name:'Patrick', emoji:'🏌️'}],
+};
 
-let currentWLPerson = localStorage.getItem('jp-wl-person') || null;
+let wlActivePerson = localStorage.getItem('jp-wl-active') || null;
 let wlShared = JSON.parse(localStorage.getItem('jp-wl-shared') || '[]');
 
-function getMyWL()        { return currentWLPerson ? JSON.parse(localStorage.getItem('jp-wl-'+currentWLPerson)||'[]') : []; }
-function saveMyWL(items)  { if (currentWLPerson) localStorage.setItem('jp-wl-'+currentWLPerson, JSON.stringify(items)); }
-function saveShared()     { localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared)); }
-function myPersonObj()    { return WL_PEOPLE.find(p=>p.id===currentWLPerson)||null; }
-function saveWLData()     { saveMyWL(getMyWL()); }
+function getWLMembers()         { return WL_MEMBERS[currentCouple||'ca'] || WL_MEMBERS.ca; }
+function getWL(person)          { return JSON.parse(localStorage.getItem('jp-wl-' + person) || '[]'); }
+function saveWLFor(person, arr) { localStorage.setItem('jp-wl-' + person, JSON.stringify(arr)); }
+function saveShared()           { localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared)); }
+function saveWLData()           { /* compat stub */ }
 
-// ── renderWL entry point ──
+function getActiveWLPerson() {
+  const members = getWLMembers();
+  if (!wlActivePerson || !members.find(m => m.id === wlActivePerson)) {
+    wlActivePerson = members[0].id;
+    localStorage.setItem('jp-wl-active', wlActivePerson);
+  }
+  return wlActivePerson;
+}
+
+function setWLPerson(personId) {
+  wlActivePerson = personId;
+  localStorage.setItem('jp-wl-active', personId);
+  renderWL();
+}
+
 function renderWL() {
-  const pickerWrap = document.getElementById('wlPersonPickerWrap');
-  const mainWrap   = document.getElementById('wlMainWrap');
-  if (!pickerWrap || !mainWrap) return;
+  const root     = document.getElementById('wishlistRoot');
+  const headerEl = document.getElementById('wlHeader');
+  if (!root) return;
 
-  if (!currentWLPerson) {
-    // show person picker, hide main
-    mainWrap.style.display = 'none';
-    pickerWrap.innerHTML = buildPersonPickerHTML();
-    return;
+  const person    = getActiveWLPerson();
+  const members   = getWLMembers();
+  const personObj = members.find(m => m.id === person) || members[0];
+  const accentColor = (currentCouple || 'ca') === 'ca' ? '#c8102e' : '#007a3d';
+
+  if (headerEl) {
+    headerEl.innerHTML =
+      '<div style="padding:12px 14px 6px">'
+      + '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;letter-spacing:.03em;color:#1a1a1a;margin-bottom:8px">'
+      + personObj.emoji + ' ' + personObj.name + '\'s Wishlist'
+      + '</div>'
+      + '<div style="display:flex;gap:6px">'
+      + members.map(m => {
+          const active = m.id === person;
+          return '<button onclick="setWLPerson(\'' + m.id + '\')" style="flex:1;padding:9px 8px;border-radius:10px;border:2px solid '
+            + (active ? accentColor : '#ddd') + ';background:' + (active ? 'rgba(200,16,46,.05)' : 'white') + ';color:'
+            + (active ? accentColor : '#888') + ';font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s">'
+            + m.emoji + ' ' + m.name
+            + '</button>';
+        }).join('')
+      + '</div></div>';
   }
 
-  // hide picker, show main
-  pickerWrap.innerHTML = '';
-  mainWrap.style.display = '';
-
-  // identity banner
-  const person = myPersonObj();
-  const banner  = document.getElementById('wlIdentityBanner');
-  const bEmoji  = document.getElementById('wlIdentityEmoji');
-  const bName   = document.getElementById('wlIdentityName');
-  const sub     = document.getElementById('wlSubtitle');
-  if (banner) banner.style.display = 'flex';
-  if (bEmoji) bEmoji.textContent = person?.emoji || '🛍';
-  if (bName)  bName.textContent  = (person?.name || '') + "'s Wishlist";
-  if (sub)    sub.textContent    = (person?.emoji||'') + ' ' + (person?.name||'') + "'s private list";
-
-  const items = getMyWL();
+  const items = getWL(person);
   const total = items.length;
-  const done  = items.filter(w=>w.done).length;
-  const pct   = total ? Math.round(done/total*100) : 0;
+  const done  = items.filter(w => w.done).length;
+  const pct   = total ? Math.round(done / total * 100) : 0;
   const progEl   = document.getElementById('wlProgress');
   const progText = document.getElementById('wlProgressText');
   const progFill = document.getElementById('wlProgressFill');
-  if (progEl)   progEl.style.display   = total ? '' : 'none';
-  if (progText) progText.textContent   = done + ' of ' + total + ' picked up';
-  if (progFill) progFill.style.width   = pct + '%';
+  if (progEl)   progEl.style.display = total ? '' : 'none';
+  if (progText) progText.textContent = done + ' of ' + total + ' picked up';
+  if (progFill) progFill.style.width = pct + '%';
 
-  // suggestions
   renderWLSuggestions();
 
-  // items
-  const root = document.getElementById('wishlistRoot');
-  if (!root) return;
   if (!items.length) {
-    root.innerHTML = '<div class="empty-st"><div class="empty-icon">🛍</div><p>Your list is empty!<br>Tap ＋ to add something.</p></div>';
+    root.innerHTML = '<div class="empty-st"><div class="empty-icon">🛍</div><p>' + personObj.name + '\'s list is empty!<br>Tap + to add something.</p></div>';
     return;
   }
 
-  // group by store
   const stores = {};
-  items.forEach(w => { if (!stores[w.store]) stores[w.store]=[]; stores[w.store].push(w); });
-  // build safeId map so add-buttons can look up the store name
+  items.forEach(w => { if (!stores[w.store]) stores[w.store] = []; stores[w.store].push(w); });
   Object.keys(stores).forEach(store => {
-    const sid = ('wl-'+currentWLPerson+'-'+store).replace(/[^a-zA-Z0-9_]/g,'_');
+    const sid = ('wl-' + person + '-' + store).replace(/[^a-zA-Z0-9_]/g, '_');
     _wlStoreMap[sid] = store;
   });
 
   root.innerHTML = Object.keys(stores).map(store => {
     const storeItems = stores[store];
-    const doneCount  = storeItems.filter(i=>i.done).length;
-    const sid        = ('wl-'+currentWLPerson+'-'+store).replace(/[^a-zA-Z0-9_]/g,'_');
-    const colKey     = 'wl-'+sid;
+    const doneCount  = storeItems.filter(i => i.done).length;
+    const sid        = ('wl-' + person + '-' + store).replace(/[^a-zA-Z0-9_]/g, '_');
+    const colKey     = 'wl-' + sid;
     const open       = isOpen(colKey);
-    // strip emoji from display name
-    const displayName = store.replace(/[\u{1F300}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,'').trim();
-    const storeEmoji  = (store.match(/[\u{1F300}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu)||['🛍']).slice(-1)[0];
+    const dispName   = store.replace(/\p{Emoji}/gu, '').trim();
+    const emojiMatch = store.match(/\p{Emoji}/u);
+    const storeEmoji = emojiMatch ? emojiMatch[0] : '🛍';
 
-    const rows = storeItems.map(w => {
-      return '<div class="wl-item">'
-        + '<div class="wl-check ' + (w.done?'done':'') + '" onclick="toggleWLDone(\'' + w.id + '\')"></div>'
-        + '<div class="wl-item-body">'
-        + '<div class="wl-item-name ' + (w.done?'done':'') + '">' + w.name + '</div>'
-        + (w.detail ? '<div class="wl-item-detail">' + w.detail + '</div>' : '')
-        + '</div>'
-        + (w.shared ? '<span class="wl-shared-badge">💌 shared</span>' : '')
-        + '<button class="wl-share-btn ' + (w.shared?'shared':'') + '" onclick="toggleWLShare(\'' + w.id + '\')">' + (w.shared?'📢':'📤') + '</button>'
-        + '<button class="wl-edit-btn" onclick="editWL(\'' + w.id + '\')">✏️</button>'
-        + '</div>';
-    }).join('');
+    const rows = storeItems.map(w =>
+      '<div class="wl-item">'
+      + '<div class="wl-check ' + (w.done ? 'done' : '') + '" onclick="toggleWLDone(\'' + w.id + '\')"></div>'
+      + '<div class="wl-item-body">'
+      + '<div class="wl-item-name ' + (w.done ? 'done' : '') + '">' + w.name + '</div>'
+      + (w.detail ? '<div class="wl-item-detail">' + w.detail + '</div>' : '')
+      + '</div>'
+      + (w.shared ? '<span class="wl-shared-badge">💌 shared</span>' : '')
+      + '<button class="wl-share-btn ' + (w.shared ? 'shared' : '') + '" onclick="toggleWLShare(\'' + w.id + '\')">' + (w.shared ? '📢' : '📤') + '</button>'
+      + '<button class="wl-edit-btn" onclick="editWL(\'' + w.id + '\')">✏️</button>'
+      + '</div>'
+    ).join('');
 
     return '<div class="wl-section">'
-      + '<div class="wl-store-hdr ' + (open?'open':'') + '" id="wlhdr-'+sid+'" onclick="toggleWLStoreNew(\''+colKey+'\',\''+sid+'\')">'
+      + '<div class="wl-store-hdr ' + (open ? 'open' : '') + '" id="wlhdr-' + sid + '" onclick="toggleWLStoreNew(\'' + colKey + '\',\'' + sid + '\')">'
       + '<div class="wl-store-left">'
-      + '<span class="wl-store-chev ' + (open?'open':'') + '" id="wlchev-'+sid+'">▼</span>'
+      + '<span class="wl-store-chev ' + (open ? 'open' : '') + '" id="wlchev-' + sid + '">▼</span>'
       + '<span class="wl-store-emoji">' + storeEmoji + '</span>'
-      + '<span class="wl-store-name">' + displayName + '</span>'
+      + '<span class="wl-store-name">' + dispName + '</span>'
       + '<span class="wl-store-count">' + doneCount + '/' + storeItems.length + '</span>'
       + '</div>'
-      + '<button class="wl-store-add" data-wlstore="'+sid+'" onclick="event.stopPropagation();wlAddForStore(this)">＋</button>'
+      + '<button class="wl-store-add" data-wlstore="' + sid + '" onclick="event.stopPropagation();wlAddForStore(this)">＋</button>'
       + '</div>'
-      + '<div class="wl-store-body ' + (open?'open':'') + '" id="wlbody-'+sid+'">'
+      + '<div class="wl-store-body ' + (open ? 'open' : '') + '" id="wlbody-' + sid + '">'
       + rows
       + '</div></div>';
   }).join('');
 }
 
-function buildPersonPickerHTML() {
-  return '<div class="wl-person-picker">'
-    + '<div style="font-family:\'Shippori Mincho\',serif;font-size:17px;font-weight:700;text-align:center;margin-bottom:6px">Whose wishlist? 🛍</div>'
-    + '<p>Your list is private. You can share items as suggestions for others.</p>'
-    + '<div class="wl-person-grid">'
-    + WL_PEOPLE.map(p =>
-        '<button class="wl-person-btn" onclick="pickWLPerson(\'' + p.id + '\')">'
-        + '<span class="pb-emoji">' + p.emoji + '</span>'
-        + '<span class="pb-name">' + p.name + '</span>'
-        + '<span class="pb-couple">' + (p.couple==='ca'?'Connor & April':'Pat & Julia') + '</span>'
-        + '</button>'
+function renderWLSuggestions() {
+  const wrap = document.getElementById('wlSuggestionsWrap');
+  if (!wrap) return;
+  const myCouple    = currentCouple || 'ca';
+  const otherCouple = myCouple === 'ca' ? 'pj' : 'ca';
+  const otherLabel  = otherCouple === 'ca' ? 'Connor & April' : 'Patrick & Julia';
+  const visible     = wlShared.filter(s => s.fromCouple === otherCouple && !(s.dismissed || []).includes(myCouple));
+  if (!visible.length) { wrap.innerHTML = ''; return; }
+  const key  = 'wl-suggestions';
+  const open = isOpen(key);
+  wrap.innerHTML =
+    '<div style="padding:8px 14px 3px;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleSection(\'' + key + '\')">'
+    + '<span style="font-size:11px;color:var(--stone);transition:transform .22s;' + (open ? '' : 'transform:rotate(-90deg)') + '" id="cchev-' + key + '">▼</span>'
+    + '<span style="font-size:12px;font-weight:600;color:var(--blossom-deep)">💌 Suggestions from ' + otherLabel + '</span>'
+    + '<span style="font-size:11px;color:var(--stone)">' + visible.length + '</span>'
+    + '</div>'
+    + '<div class="coll-body ' + (open ? 'open' : '') + '" id="cbody-' + key + '" style="margin:0 12px 8px;border-radius:12px;border:1.5px solid rgba(201,109,138,.2);box-shadow:none">'
+    + '<div class="coll-inner" style="padding:4px 0">'
+    + visible.map(s =>
+        '<div class="wl-suggest-card" style="margin:6px 10px">'
+        + '<div class="wl-suggest-header"><span style="font-size:18px">🛍</span><div style="flex:1">'
+        + '<div class="wl-suggest-from">💌 ' + otherLabel + ' suggests</div>'
+        + '<div class="wl-suggest-item-name">' + s.item.name + '</div>'
+        + (s.item.detail ? '<div class="wl-suggest-detail">' + s.item.detail + '</div>' : '')
+        + '<span class="wl-suggest-store">' + (s.item.store || 'General') + '</span>'
+        + '</div></div>'
+        + '<div class="wl-suggest-actions">'
+        + '<button class="wl-suggest-add" onclick="addSuggestionToMyList(\'' + s.id + '\')">+ Add to my list</button>'
+        + '<button class="wl-suggest-dismiss" onclick="dismissSuggestion(\'' + s.id + '\')">Not for us</button>'
+        + '</div></div>'
       ).join('')
     + '</div></div>';
 }
 
-function showWLPersonPicker() {
-  currentWLPerson = null;
-  // don't clear localStorage — just reset view
-  const banner = document.getElementById('wlIdentityBanner');
-  if (banner) banner.style.display = 'none';
-  renderWL();
-}
-
-function pickWLPerson(personId) {
-  currentWLPerson = personId;
-  localStorage.setItem('jp-wl-person', personId);
-  renderWL();
-}
-
-// ── Suggestions ──
-function renderWLSuggestions() {
-  const wrap = document.getElementById('wlSuggestionsWrap');
-  if (!wrap || !currentWLPerson) return;
-  const mine = wlShared.filter(s => s.fromPerson !== currentWLPerson && !(s.dismissed||[]).includes(currentWLPerson));
-  if (!mine.length) { wrap.innerHTML = ''; return; }
-  const key  = 'wl-suggestions';
-  const open = isOpen(key);
-  wrap.innerHTML = '<div style="padding:10px 14px 3px;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleSection(\'' + key + '\')">'
-    + '<span style="font-size:11px;color:var(--stone);transition:transform .22s;' + (open?'':'transform:rotate(-90deg)') + '" id="cchev-'+key+'">▼</span>'
-    + '<span style="font-size:12px;font-weight:600;color:var(--blossom-deep)">💌 Suggestions for you</span>'
-    + '<span style="font-size:11px;color:var(--stone)">' + mine.length + '</span>'
-    + '</div>'
-    + '<div class="coll-body ' + (open?'open':'') + '" id="cbody-'+key+'" style="margin:0 12px 8px;border-radius:12px;border:1.5px solid rgba(201,109,138,.2);box-shadow:none">'
-    + '<div class="coll-inner" style="padding:4px 0">'
-    + mine.map(s => {
-        const fromP = WL_PEOPLE.find(p=>p.id===s.fromPerson);
-        return '<div class="wl-suggest-card" style="margin:6px 10px">'
-          + '<div class="wl-suggest-header"><span style="font-size:18px">🛍</span><div style="flex:1">'
-          + '<div class="wl-suggest-from">💌 from ' + (fromP?fromP.name:s.fromPerson) + '</div>'
-          + '<div class="wl-suggest-item-name">' + s.item.name + '</div>'
-          + (s.item.detail ? '<div class="wl-suggest-detail">' + s.item.detail + '</div>' : '')
-          + '<span class="wl-suggest-store">' + (s.item.store||'General') + '</span>'
-          + '</div></div>'
-          + '<div class="wl-suggest-actions">'
-          + '<button class="wl-suggest-add" onclick="addSuggestionToMyList(\'' + s.id + '\')">＋ Add to my list</button>'
-          + '<button class="wl-suggest-dismiss" onclick="dismissSuggestion(\'' + s.id + '\')">Not for me</button>'
-          + '</div></div>';
-      }).join('')
-    + '</div></div>';
-}
-
-function addSuggestionToMyList(suggestId) {
-  const s = wlShared.find(x=>x.id===suggestId);
-  if (!s || !currentWLPerson) return;
-  const items = getMyWL();
-  items.push({...s.item, id:'w'+Date.now(), done:false, shared:false});
-  saveMyWL(items);
+function addSuggestionToMyList(sid) {
+  const s = wlShared.find(x => x.id === sid);
+  if (!s) return;
+  const person = getActiveWLPerson();
+  const items  = getWL(person);
+  items.push({...s.item, id: 'w' + Date.now(), done: false, shared: false});
+  saveWLFor(person, items);
   if (!s.dismissed) s.dismissed = [];
-  s.dismissed.push(currentWLPerson);
-  saveShared();
-  renderWL();
-  showToast('🛍 Added to your list!');
+  s.dismissed.push(currentCouple || 'ca');
+  saveShared(); renderWL(); showToast('🛍 Added!');
 }
 
-function dismissSuggestion(suggestId) {
-  const s = wlShared.find(x=>x.id===suggestId);
+function dismissSuggestion(sid) {
+  const s = wlShared.find(x => x.id === sid);
   if (!s) return;
   if (!s.dismissed) s.dismissed = [];
-  s.dismissed.push(currentWLPerson);
-  saveShared();
-  renderWLSuggestions();
-  showToast('👋 Dismissed');
+  s.dismissed.push(currentCouple || 'ca');
+  saveShared(); renderWLSuggestions(); showToast('👋 Dismissed');
 }
 
-// ── Store collapse ──
 const _wlStoreMap = {};
 
 function wlAddForStore(btn) {
-  const sid   = btn.dataset.wlstore;
-  const store = _wlStoreMap[sid];
-  if (store) openWLSheetForStore(store);
-  else openWLSheet();
+  const store = _wlStoreMap[btn.dataset.wlstore];
+  if (store) openWLSheetForStore(store); else openWLSheet();
 }
 
 function toggleWLStoreNew(colKey, sid) {
@@ -3364,52 +3324,51 @@ function toggleWLStoreNew(colKey, sid) {
   const prefs = getCollapsePrefs();
   prefs[colKey] = !prefs[colKey];
   localStorage.setItem(k, JSON.stringify(prefs));
-  document.getElementById('wlbody-'+sid)?.classList.toggle('open', prefs[colKey]);
-  document.getElementById('wlchev-'+sid)?.classList.toggle('open', prefs[colKey]);
-  document.getElementById('wlhdr-' +sid)?.classList.toggle('open', prefs[colKey]);
+  document.getElementById('wlbody-' + sid)?.classList.toggle('open', prefs[colKey]);
+  document.getElementById('wlchev-' + sid)?.classList.toggle('open', prefs[colKey]);
+  document.getElementById('wlhdr-'  + sid)?.classList.toggle('open', prefs[colKey]);
 }
 
 function toggleWLDone(id) {
-  const items = getMyWL();
-  const item  = items.find(w=>w.id===id);
+  const person = getActiveWLPerson();
+  const items  = getWL(person);
+  const item   = items.find(w => w.id === id);
   if (!item) return;
   item.done = !item.done;
-  saveMyWL(items);
+  saveWLFor(person, items);
   renderWL();
   showToast(item.done ? '✅ Got it!' : '↩ Unmarked');
 }
 
 function toggleWLShare(id) {
-  const items = getMyWL();
-  const item  = items.find(w=>w.id===id);
+  const person = getActiveWLPerson();
+  const items  = getWL(person);
+  const item   = items.find(w => w.id === id);
   if (!item) return;
   item.shared = !item.shared;
+  const myCouple = currentCouple || 'ca';
   if (item.shared) {
-    wlShared = wlShared.filter(s=>s.id!==id);
-    wlShared.push({id, fromPerson:currentWLPerson, item:{...item}, dismissed:[]});
+    wlShared = wlShared.filter(s => s.id !== id);
+    wlShared.push({id, fromCouple: myCouple, fromPerson: person, item: {...item}, dismissed: []});
     saveShared();
     showToast('📢 Shared as suggestion!');
-    logActivity(currentCouple||'ca','shared a wishlist item','💌 ' + (myPersonObj()?.name||'') + ': "' + item.name + '"', 'wishlist', id);
   } else {
-    wlShared = wlShared.filter(s=>s.id!==id);
+    wlShared = wlShared.filter(s => s.id !== id);
     saveShared();
-    showToast('🔒 Back to private');
+    showToast('🔒 Unshared');
   }
-  saveMyWL(items);
+  saveWLFor(person, items);
   renderWL();
 }
 
-// ── Sheet ──
 let editWLId = null;
 
 function openWLSheet() {
-  if (!currentWLPerson) {
-    // show a simple picker overlay instead of silently doing nothing
-    openWLPersonPickerSheet();
-    return;
-  }
+  const person    = getActiveWLPerson();
+  const members   = getWLMembers();
+  const personObj = members.find(m => m.id === person) || members[0];
   editWLId = null;
-  document.getElementById('wlSheetTitle').textContent = 'Add to My List';
+  document.getElementById('wlSheetTitle').textContent = 'Add to ' + personObj.name + "'s List";
   document.getElementById('wlDelBtn').style.display   = 'none';
   document.getElementById('wlEditId').value  = '';
   document.getElementById('wlName').value    = '';
@@ -3421,104 +3380,86 @@ function openWLSheet() {
   openSheet('wlSheet');
 }
 
-function openWLPersonPickerSheet() {
-  // Reuse the wlSheet but replace its content temporarily
-  document.getElementById('wlSheetTitle').textContent = 'Whose list? 🛍';
-  document.getElementById('wlDelBtn').style.display = 'none';
-  // replace body with person picker
-  const body = document.querySelector('#wlSheet .sheet-body');
-  if (body) {
-    body.innerHTML = '<div class="wl-person-grid" style="margin-top:8px">'
-      + WL_PEOPLE.map(p =>
-          `<button class="wl-person-btn" onclick="pickWLPersonFromSheet('${p.id}')">`
-          + `<span class="pb-emoji">${p.emoji}</span>`
-          + `<span class="pb-name">${p.name}</span>`
-          + `<span class="pb-couple">${p.couple==='ca'?'Connor & April':'Pat & Julia'}</span>`
-          + `</button>`
-        ).join('')
-      + '</div>'
-      + '<button class="form-cancel" onclick="closeSheet(\'wlSheet\')" style="margin-top:12px">Cancel</button>';
-  }
-  openSheet('wlSheet');
-}
-
-function pickWLPersonFromSheet(personId) {
-  pickWLPerson(personId);
-  closeSheet('wlSheet');
-  // now open the actual add sheet
-  setTimeout(() => openWLSheet(), 120);
-}
-
 function openWLSheetForStore(store) {
   openWLSheet();
-  if (!currentWLPerson) return;
   const sel = document.getElementById('wlStore');
-  const opt = [...sel.options].find(o=>o.value===store);
-  if (opt) { sel.value = store; document.getElementById('wlCustomStoreRow').style.display='none'; }
-  else     { sel.value='custom'; document.getElementById('wlCustomStoreRow').style.display=''; document.getElementById('wlCustomStore').value=store; }
+  const opt = [...sel.options].find(o => o.value === store);
+  if (opt) { sel.value = store; document.getElementById('wlCustomStoreRow').style.display = 'none'; }
+  else     { sel.value = 'custom'; document.getElementById('wlCustomStoreRow').style.display = ''; document.getElementById('wlCustomStore').value = store; }
 }
 
 function editWL(id) {
-  const items = getMyWL();
-  const w     = items.find(x=>x.id===id);
+  const person    = getActiveWLPerson();
+  const items     = getWL(person);
+  const w         = items.find(x => x.id === id);
   if (!w) return;
   editWLId = id;
-  document.getElementById('wlSheetTitle').textContent = 'Edit Item';
+  const members   = getWLMembers();
+  const personObj = members.find(m => m.id === person) || members[0];
+  document.getElementById('wlSheetTitle').textContent = 'Edit — ' + personObj.name + "'s List";
   document.getElementById('wlDelBtn').style.display   = '';
   document.getElementById('wlEditId').value  = id;
   document.getElementById('wlName').value    = w.name;
-  document.getElementById('wlDetail').value  = w.detail||'';
+  document.getElementById('wlDetail').value  = w.detail || '';
   const sel = document.getElementById('wlStore');
-  const opt = [...sel.options].find(o=>o.value===w.store);
-  if (opt) { sel.value=w.store; document.getElementById('wlCustomStoreRow').style.display='none'; }
-  else     { sel.value='custom'; document.getElementById('wlCustomStoreRow').style.display=''; document.getElementById('wlCustomStore').value=w.store; }
+  const opt = [...sel.options].find(o => o.value === w.store);
+  if (opt) { sel.value = w.store; document.getElementById('wlCustomStoreRow').style.display = 'none'; }
+  else     { sel.value = 'custom'; document.getElementById('wlCustomStoreRow').style.display = ''; document.getElementById('wlCustomStore').value = w.store; }
   const cb = document.getElementById('wlShared');
-  if (cb) { cb.checked=!!w.shared; updateWLSharedSlider(); }
+  if (cb) { cb.checked = !!w.shared; updateWLSharedSlider(); }
   openSheet('wlSheet');
 }
 
 document.addEventListener('change', e => {
-  if (e.target.id==='wlStore')  document.getElementById('wlCustomStoreRow').style.display = e.target.value==='custom' ? '' : 'none';
-  if (e.target.id==='wlShared') updateWLSharedSlider();
+  if (e.target.id === 'wlStore')  document.getElementById('wlCustomStoreRow').style.display = e.target.value === 'custom' ? '' : 'none';
+  if (e.target.id === 'wlShared') updateWLSharedSlider();
 });
 
 function updateWLSharedSlider() {
   const cb     = document.getElementById('wlShared');
   const slider = document.getElementById('wlSharedSlider');
   const label  = document.getElementById('wlSharedLabel');
-  if (!cb||!slider) return;
+  if (!cb || !slider) return;
   slider.style.background = cb.checked ? 'var(--matcha)' : '#ddd';
-  slider.innerHTML = '<span style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:'+(cb.checked?'21':'3')+'px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></span>';
-  if (label) label.textContent = cb.checked ? 'On — others will see this as a suggestion' : 'Off — only visible to you';
+  slider.innerHTML = '<span style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:' + (cb.checked ? '21' : '3') + 'px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></span>';
+  if (label) label.textContent = cb.checked ? 'On — other couple will see this as a suggestion' : 'Off — only visible to your couple';
 }
 
 function saveWL() {
   const name = document.getElementById('wlName').value.trim();
   if (!name) { showToast('Enter an item name'); return; }
   let store = document.getElementById('wlStore').value;
-  if (store==='custom') store = document.getElementById('wlCustomStore').value.trim() || 'General 🛍';
+  if (store === 'custom') store = document.getElementById('wlCustomStore').value.trim() || 'General 🛍';
   const isShared = document.getElementById('wlShared')?.checked || false;
-  const items    = getMyWL();
-  const existing = editWLId ? items.find(x=>x.id===editWLId) : null;
-  const w = { id:editWLId||'w'+Date.now(), store, name, detail:document.getElementById('wlDetail').value, done:existing?.done||false, shared:isShared };
-  if (editWLId) { const i=items.findIndex(x=>x.id===editWLId); if(i>-1) items[i]=w; } else items.push(w);
-  saveMyWL(items);
-  if (isShared) { wlShared=wlShared.filter(s=>s.id!==w.id); wlShared.push({id:w.id,fromPerson:currentWLPerson,item:{...w},dismissed:[]}); saveShared(); }
-  else          { wlShared=wlShared.filter(s=>s.id!==w.id); saveShared(); }
+  const person   = getActiveWLPerson();
+  const items    = getWL(person);
+  const existing = editWLId ? items.find(x => x.id === editWLId) : null;
+  const w = { id: editWLId || 'w' + Date.now(), store, name, detail: document.getElementById('wlDetail').value, done: existing?.done || false, shared: isShared };
+  if (editWLId) { const i = items.findIndex(x => x.id === editWLId); if (i > -1) items[i] = w; } else items.push(w);
+  saveWLFor(person, items);
+  if (isShared) {
+    wlShared = wlShared.filter(s => s.id !== w.id);
+    wlShared.push({id: w.id, fromCouple: currentCouple || 'ca', fromPerson: person, item: {...w}, dismissed: []});
+    saveShared();
+  } else {
+    wlShared = wlShared.filter(s => s.id !== w.id);
+    saveShared();
+  }
   renderWL(); closeSheet('wlSheet');
   showToast(editWLId ? '✏️ Updated!' : '🛍 Added!');
   editWLId = null;
 }
 
 function deleteWL() {
-  if (!editWLId||!confirm('Remove this item?')) return;
-  saveMyWL(getMyWL().filter(w=>w.id!==editWLId));
-  wlShared = wlShared.filter(s=>s.id!==editWLId);
+  if (!editWLId || !confirm('Remove this item?')) return;
+  const person = getActiveWLPerson();
+  saveWLFor(person, getWL(person).filter(w => w.id !== editWLId));
+  wlShared = wlShared.filter(s => s.id !== editWLId);
   saveShared(); renderWL(); closeSheet('wlSheet');
-  showToast('🗑 Removed'); editWLId=null;
+  showToast('🗑 Removed'); editWLId = null;
 }
 
-// ════════════════════════════════════════
+
 // TIPS DRAG REORDER
 // ════════════════════════════════════════
 let tipDragId = null;
