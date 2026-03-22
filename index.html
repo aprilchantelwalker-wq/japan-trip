@@ -2951,12 +2951,20 @@ function saveBk() {
   save('book'); renderBook(); closeSheet('bkSheet');
   showToast(editBkId ? '✏️ Updated!' : '🎟 Added!');
 
-  // Auto-add to itinerary if newly confirmed and has a date
-  if (b.status === 'confirmed' && prevStatus !== 'confirmed' && b.date) {
+  // Sync to itinerary if confirmed and has a date
+  if (b.status === 'confirmed' && b.date) {
     const itinDay = bkDateToItinDay(b.date);
     if (itinDay) {
-      const exists = itinItems.some(i => i.name === b.name && i.day === itinDay);
-      if (!exists) {
+      const existingIdx = itinItems.findIndex(i => i.id === 'bk-' + b.id || (i.name === b.name && i.day === itinDay));
+      if (existingIdx > -1) {
+        // Update time and detail on existing item
+        itinItems[existingIdx].time   = b.time || itinItems[existingIdx].time;
+        itinItems[existingIdx].detail = [b.sub, b.notes].filter(Boolean).join(' · ') || itinItems[existingIdx].detail;
+        itinItems[existingIdx].day    = itinDay;
+        save('itin'); renderItin();
+        showToast('📅 Itinerary updated!');
+      } else if (prevStatus !== 'confirmed') {
+        // Newly confirmed — add fresh
         const newItem = {
           id: 'bk-' + b.id,
           day: itinDay,
