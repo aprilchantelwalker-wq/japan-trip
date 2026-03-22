@@ -2881,8 +2881,11 @@ function renderNotes() {
   const myDeviceId = getDeviceId();
   feed.innerHTML=notes.map(n=>{
     const isCA = n.couple==='ca';
-    // Only show delete if posted from this device (device_id match) OR same couple with no device_id (legacy)
-    const canDelete = n.device_id ? n.device_id === myDeviceId : n.couple === currentCouple;
+    // Delete allowed if: same couple currently logged in
+    // Device ID check is kept as secondary for legacy notes without couple field
+    const canDelete = n.couple
+      ? n.couple === currentCouple
+      : n.device_id === myDeviceId;
     return `<div class="note-card">
       <div class="nc-top2">
         <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
@@ -3357,25 +3360,40 @@ async function loadTTEmbed(id, url) {
   if (!url || !url.includes('tiktok.com')) return;
   const embedEl = document.getElementById('ttembed-'+id);
   if (!embedEl) return;
-  try {
-    const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
-    if (res.ok) {
-      const data = await res.json();
-      // inject the oEmbed HTML (contains the iframe/script)
-      embedEl.innerHTML = `<div style="padding:0 0 8px">${data.html||''}</div>`;
-      // TikTok oEmbed includes a script — re-execute it
-      const scripts = embedEl.querySelectorAll('script');
-      scripts.forEach(s => {
-        const ns = document.createElement('script');
-        if (s.src) ns.src = s.src; else ns.textContent = s.textContent;
-        ns.async = true;
-        s.parentNode.replaceChild(ns, s);
-      });
-    } else {
-      embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px;color:var(--stone);font-size:13px">Preview unavailable — <a href="${url}" target="_blank" style="color:var(--sky)">open on TikTok ↗</a></div>`;
-    }
-  } catch(e) {
-    embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px;color:var(--stone);font-size:13px">Preview unavailable — <a href="${url}" target="_blank" style="color:var(--sky)">open on TikTok ↗</a></div>`;
+
+  // Extract video ID from URL
+  // Handles: https://www.tiktok.com/@user/video/1234567890
+  //          https://vm.tiktok.com/XXXXXX/ (short links need redirect — show open button)
+  const videoIdMatch = url.match(/video\/(\d+)/);
+
+  if (!videoIdMatch) {
+    // Short link or unrecognised format — can't embed, show open button
+    embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px">
+      <div style="font-size:13px;color:var(--stone);margin-bottom:8px">Short links can't be previewed inline.</div>
+      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none">Open in TikTok ↗</a>
+    </div>`;
+    return;
+  }
+
+  const videoId = videoIdMatch[1];
+
+  // Use TikTok's standard blockquote embed — works without any API call
+  embedEl.innerHTML = `<div style="padding:4px 8px 8px">
+    <blockquote class="tiktok-embed" cite="${url}" data-video-id="${videoId}" style="max-width:100%;min-width:200px;">
+      <section></section>
+    </blockquote>
+  </div>`;
+
+  // Load TikTok's embed script if not already loaded
+  if (!document.getElementById('tiktok-embed-script')) {
+    const s = document.createElement('script');
+    s.id = 'tiktok-embed-script';
+    s.src = 'https://www.tiktok.com/embed.js';
+    s.async = true;
+    document.body.appendChild(s);
+  } else {
+    // Script already loaded — trigger re-render
+    if (window.tiktokEmbed) window.tiktokEmbed.lib?.scan?.();
   }
 }
 
@@ -3476,24 +3494,19 @@ function editTTItem(id) {
   openSheet('ttSheet');
 }
 async function onTTUrlInput() {
-  const url=document.getElementById('ttUrl').value.trim();
-  if(!url||!url.includes('tiktok')) return;
-  // Auto-fill title from URL if possible via oEmbed (no CORS on mobile, best effort)
-  try {
-    const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
-    if(res.ok) {
-      const data=await res.json();
-      if(data.title&&!document.getElementById('ttTitle').value) document.getElementById('ttTitle').value=data.title;
-      if(data.thumbnail_url) {
-        document.getElementById('ttPreviewWrap').style.display='';
-        document.getElementById('ttPreviewTitle').textContent=data.title||url;
-      }
-    }
-  } catch(e) {
-    // oEmbed might fail due to CORS — just show URL preview
-    document.getElementById('ttPreviewWrap').style.display='';
-    document.getElementById('ttPreviewTitle').textContent=url;
+  const url = document.getElementById('ttUrl').value.trim();
+  if (!url || !url.includes('tiktok')) return;
+
+  // Extract a readable title from the URL without any API call
+  // e.g. https://www.tiktok.com/@username/video/123 → "TikTok by @username"
+  const userMatch = url.match(/@([^/?]+)/);
+  const autoTitle = userMatch ? `TikTok by @${userMatch[1]}` : 'TikTok video';
+
+  if (!document.getElementById('ttTitle').value) {
+    document.getElementById('ttTitle').value = autoTitle;
   }
+  document.getElementById('ttPreviewWrap').style.display = '';
+  document.getElementById('ttPreviewTitle').textContent = document.getElementById('ttTitle').value || autoTitle;
 }
 function saveTT() {
   const url=document.getElementById('ttUrl').value.trim();
