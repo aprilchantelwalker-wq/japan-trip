@@ -372,18 +372,18 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 /* PICKER */
 /* PASSWORD GATE */
-.pw-gate{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;}
-.pw-card{background:var(--parchment);border-radius:20px;padding:32px 24px 28px;width:100%;max-width:340px;text-align:center;}
-.pw-logo{font-size:36px;margin-bottom:8px;}
-.pw-title{font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:4px;}
-.pw-sub{font-size:13px;color:var(--stone);margin-bottom:24px;}
+
+
+
+
+
 .pw-input{width:100%;border:1.5px solid var(--stone-light);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;background:white;color:var(--ink);text-align:center;letter-spacing:.08em;transition:border-color .2s;box-sizing:border-box;}
 .pw-input:focus{border-color:var(--blossom-deep);}
 .pw-input.error{border-color:#e53e3e;animation:shake .3s ease;}
 .pw-btn{width:100%;margin-top:12px;background:var(--ink);color:white;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;}
 .pw-btn:hover{opacity:.85;}
 .pw-error{color:#e53e3e;font-size:12px;margin-top:8px;min-height:16px;}
-.pw-hint{font-size:11px;color:var(--stone-light);margin-top:16px;}
+
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 .picker-ov{position:fixed;inset:0;background:rgba(26,21,18,.88);z-index:300;display:none;align-items:center;justify-content:center;padding:22px;}
@@ -574,36 +574,25 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 <body>
 
 <!-- PASSWORD GATE -->
-<div class="pw-gate" id="pwGate">
-  <div class="pw-card">
-    <div class="pw-logo">🌸</div>
-    <div class="pw-title">Japan 2026</div>
-    <div class="pw-sub">Enter your group password to continue</div>
-    <input class="pw-input" id="pwInput" type="password" placeholder="Password"
-      onkeydown="if(event.key==='Enter')checkPassword()">
-    <button class="pw-btn" onclick="checkPassword()">Enter →</button>
-    <div class="pw-error" id="pwError"></div>
-    <div class="pw-hint">Ask Connor, April, Pat or Julia for the password</div>
-  </div>
-</div>
+
 
 <!-- COUPLE PICKER -->
 <div class="picker-ov" id="pickerOv">
   <div class="picker-card">
-    <div style="font-size:28px;margin-bottom:8px">🔐</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.03em;margin-bottom:3px" id="pickerTitle">Switch Couple</div>
-    <div style="font-size:12px;color:var(--stone);margin-bottom:18px" id="pickerSub">Enter the password for the couple you want to switch to</div>
+    <div style="font-size:32px;margin-bottom:8px">🌸</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.03em;margin-bottom:3px" id="pickerTitle">Japan 2026</div>
+    <div style="font-size:12px;color:var(--stone);margin-bottom:18px" id="pickerSub">Who are you?</div>
     <!-- Step 1: choose which couple -->
     <div id="pickerStep1">
       <button class="picker-btn" style="background:var(--ca)" onclick="pickerChooseCouple('ca')">💑 Connor & April</button>
       <button class="picker-btn" style="background:var(--pj)" onclick="pickerChooseCouple('pj')">💑 Patrick & Julia</button>
-      <button style="width:100%;background:none;border:none;color:var(--stone);font-size:13px;cursor:pointer;margin-top:6px;font-family:inherit;padding:6px" onclick="closePicker()">Cancel</button>
+      <button id="pickerCancelBtn" style="width:100%;background:none;border:none;color:var(--stone);font-size:13px;cursor:pointer;margin-top:6px;font-family:inherit;padding:6px;display:none" onclick="closePicker()">Cancel</button>
     </div>
     <!-- Step 2: enter password -->
     <div id="pickerStep2" style="display:none">
       <input class="pw-input" id="pickerPwInput" type="password" placeholder="Password"
         onkeydown="if(event.key==='Enter')pickerCheckPassword()">
-      <button class="pw-btn" onclick="pickerCheckPassword()" style="margin-top:10px">Switch →</button>
+      <button class="pw-btn" onclick="pickerCheckPassword()" style="margin-top:10px">Continue →</button>
       <div class="pw-error" id="pickerPwError"></div>
       <button style="width:100%;background:none;border:none;color:var(--stone);font-size:13px;cursor:pointer;margin-top:8px;font-family:inherit;padding:6px" onclick="pickerBack()">← Back</button>
     </div>
@@ -626,6 +615,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
       <span class="notif-badge" id="notifBadge">0</span>
     </button>
     <div class="couple-badge" id="coupleBadge" onclick="showPicker()">Connor & April</div>
+    <button onclick="signOut()" title="Sign out" style="background:none;border:none;font-size:14px;cursor:pointer;opacity:.35;padding:2px 4px;margin-left:2px" >🚪</button>
   </div>
   </div>
 </div>
@@ -1624,7 +1614,6 @@ const SEED_TRANSIT = [
 // INIT
 // ════════════════════════════════════════
 window.onload = () => {
-  if (!checkAuth()) return; // show password gate, wait for correct entry
   initApp();
 };
 
@@ -1844,14 +1833,25 @@ function subscribeNotes() {
 // ════════════════════════════════════════
 let pickerTargetCouple = null;
 
+function signOut() {
+  if (!confirm('Switch couple? You\'ll need to enter the other couple\'s password.')) return;
+  localStorage.removeItem('japan-couple');
+  location.reload();
+}
+
 function showPicker() {
   // Reset to step 1
   document.getElementById('pickerStep1').style.display = '';
   document.getElementById('pickerStep2').style.display = 'none';
-  document.getElementById('pickerTitle').textContent = 'Switch Couple';
-  document.getElementById('pickerSub').textContent = 'Enter the password for the couple you want to switch to';
   document.getElementById('pickerPwError').textContent = '';
   pickerTargetCouple = null;
+  // Show welcome copy if first login, switch copy if already logged in
+  const isFirstLogin = !currentCouple;
+  document.getElementById('pickerTitle').textContent = isFirstLogin ? 'Japan 2026' : 'Switch Couple';
+  document.getElementById('pickerSub').textContent = isFirstLogin ? 'Who are you?' : 'Enter the password for the couple you want to switch to';
+  // Only show cancel if already logged in
+  const cancelBtn = document.getElementById('pickerCancelBtn');
+  if (cancelBtn) cancelBtn.style.display = isFirstLogin ? 'none' : 'block';
   document.getElementById('pickerOv').classList.add('show');
 }
 
