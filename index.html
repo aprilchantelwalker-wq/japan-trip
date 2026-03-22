@@ -754,6 +754,17 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
     <div class="fpill" onclick="filterDisc('cat','attraction',this)">⛩️ Attraction</div>
     <div class="fpill" onclick="filterDisc('cat','onsen',this)">♨️ Onsen</div>
   </div>
+  <!-- Search bar -->
+  <div style="padding:8px 12px 0">
+    <div style="position:relative">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none">🔍</span>
+      <input id="discSearchInput" type="search" placeholder="Search spots…"
+        oninput="setDiscSearch(this.value)"
+        style="width:100%;box-sizing:border-box;padding:9px 36px 9px 36px;border:1.5px solid #e8e4de;border-radius:20px;font-size:14px;font-family:inherit;background:white;outline:none;-webkit-appearance:none"
+        onfocus="this.style.borderColor='#c8102e'" onblur="this.style.borderColor='#e8e4de'">
+      <button id="discSearchClear" onclick="clearDiscSearch()" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:16px;cursor:pointer;color:#999;padding:2px 4px">✕</button>
+    </div>
+  </div>
   <div class="disc-toolbar">
     <span class="disc-count" id="discCount">0 spots</span>
     <div class="view-toggle">
@@ -2422,7 +2433,23 @@ function populateDaySelect() {
 // ════════════════════════════════════════
 // DISCOVER + MAP
 // ════════════════════════════════════════
-let discCityFilter='all', discCatFilter='all', discView='list';
+let discCityFilter='all', discCatFilter='all', discView='list', discSearchQuery='';
+
+function setDiscSearch(val) {
+  discSearchQuery = val.trim();
+  const clear = document.getElementById('discSearchClear');
+  if (clear) clear.style.display = discSearchQuery ? 'block' : 'none';
+  renderDisc();
+}
+
+function clearDiscSearch() {
+  discSearchQuery = '';
+  const input = document.getElementById('discSearchInput');
+  if (input) input.value = '';
+  const clear = document.getElementById('discSearchClear');
+  if (clear) clear.style.display = 'none';
+  renderDisc();
+}
 let customCities = JSON.parse(localStorage.getItem('jp-cities') || '[]');
 // { key: string (lowercase slug), label: string, emoji: string }
 
@@ -2544,12 +2571,23 @@ function renderDisc() {
   let items = discItems;
   if (discCityFilter!=='all') items = items.filter(d=>d.city===discCityFilter);
   if (discCatFilter!=='all') items = items.filter(d=>d.cat===discCatFilter);
+  // search filter
+  if (discSearchQuery) {
+    const q = discSearchQuery.toLowerCase();
+    items = items.filter(d =>
+      (d.name||'').toLowerCase().includes(q) ||
+      (d.desc||'').toLowerCase().includes(q) ||
+      (d.city||'').toLowerCase().includes(q) ||
+      (d.cat||'').toLowerCase().includes(q) ||
+      (d.tags||[]).some(t=>t.toLowerCase().includes(q))
+    );
+  }
 
   // update count
   const countEl = document.getElementById('discCount');
   if (countEl) countEl.textContent = `${items.length} spot${items.length!==1?'s':''}`;
 
-  if (!items.length) { root.innerHTML=`<div class="empty-st"><div class="empty-icon">🗺</div><p>Nothing here yet — add some spots!</p></div>`; return; }
+  if (!items.length) { root.innerHTML=`<div class="empty-st"><div class="empty-icon">🔍</div><p>${discSearchQuery?`No spots matching "<b>${discSearchQuery}</b>"` : 'Nothing here yet — add some spots!'}</p></div>`; return; }
 
   const catLabels={matcha:'🍵 Matcha',coffee:'☕ Coffee',ramen:'🍜 Ramen & Noodles',sushi:'🍣 Sushi & Seafood',street:'🦀 Street Food',breakfast:'🥞 Breakfast & Snacks',shopping:'🛍 Shopping',experience:'🎨 Experiences',attraction:'⛩️ Attractions',onsen:'♨️ Onsen'};
   const dbcls=['db-0','db-1','db-2','db-3'];
