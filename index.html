@@ -1165,7 +1165,11 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
         </div>
         <div>
           <label class="form-label">Time</label>
-          <input class="form-input" id="itinTime" placeholder="e.g. 10:00 AM">
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="time" class="form-input" id="itinTimePicker" style="flex:1" onchange="syncItinTime()">
+            <span style="color:var(--stone);font-size:11px">or</span>
+            <input class="form-input" id="itinTime" placeholder="Morning / 10:00 AM" style="flex:2" oninput="syncItinTimePicker()">
+          </div>
         </div>
       </div>
       <div class="form-row-2">
@@ -1236,8 +1240,26 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
           </select>
         </div>
         <div>
-          <label class="form-label">Check-In Time</label>
-          <input class="form-input" id="bkTime" placeholder="e.g. 3:00 PM">
+          <label class="form-label">Date</label>
+          <select class="form-select" id="bkDate">
+            <option value="">— pick a day —</option>
+            <option value="Mar 27">Mar 27 (Day 0)</option>
+            <option value="Mar 28">Mar 28 (Day 1)</option>
+            <option value="Mar 29">Mar 29 (Day 2)</option>
+            <option value="Mar 30">Mar 30 (Day 3)</option>
+            <option value="Mar 31">Mar 31 (Day 4)</option>
+            <option value="Apr 1">Apr 1 (Day 5 🎂)</option>
+            <option value="Apr 2">Apr 2 (Day 6)</option>
+            <option value="Apr 3">Apr 3 (Day 7)</option>
+            <option value="Apr 4">Apr 4 (Day 8)</option>
+            <option value="Apr 5">Apr 5 (Day 9)</option>
+            <option value="Apr 6">Apr 6 (Day 10)</option>
+            <option value="Apr 7">Apr 7 (Day 11)</option>
+            <option value="Apr 8">Apr 8 (Day 12)</option>
+            <option value="Apr 9">Apr 9 (Day 13)</option>
+            <option value="Apr 10">Apr 10 (Day 14)</option>
+            <option value="Apr 11">Apr 11 (Day 15)</option>
+          </select>
         </div>
         <div>
           <label class="form-label">Status</label>
@@ -1247,6 +1269,14 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
             <option value="todo">📌 Book Now</option>
             <option value="lineup">🕐 Line Up</option>
           </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Time</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="time" class="form-input" id="bkTimePicker" style="flex:1" onchange="syncBkTime()">
+          <span style="color:var(--stone);font-size:12px">or</span>
+          <input class="form-input" id="bkTime" placeholder="e.g. 3:00 PM · All Day" style="flex:2" oninput="syncBkTimePicker()">
         </div>
       </div>
       <div class="form-row">
@@ -1406,7 +1436,7 @@ const CITY_MAP = {
   'Day 13':'Tokyo','Day 14':'Tokyo','Day 15':'Tokyo',
 };
 const CITY_KANJI={'Tokyo':'東京','Hakone → Kyoto':'箱根 → 京都','Kyoto':'京都','Osaka':'大阪','Mt. Fuji':'富士山'};
-const CITY_DATES={'Tokyo':'Mar 27–31 & Apr 9–11','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9'};
+const CITY_DATES={'Tokyo':'Mar 27–31 · Apr 9–11','Hakone → Kyoto':'Mar 31','Kyoto':'Mar 31–Apr 4','Osaka':'Apr 4–7','Mt. Fuji':'Apr 7–9'};
 
 const CAT_EMOJI = {
   matcha:'🍵',coffee:'☕',ramen:'🍜',sushi:'🍣',street:'🦀',breakfast:'🥞',
@@ -2269,6 +2299,7 @@ function openItinSheet(day) {
   document.getElementById('itinName').value='';
   document.getElementById('itinDetail').value='';
   document.getElementById('itinTime').value='';
+  document.getElementById('itinTimePicker').value='';
   document.getElementById('itinCost').value='';
   document.getElementById('itinCat').value='activity';
   if (day) document.getElementById('itinDay').value=day;
@@ -2334,6 +2365,8 @@ function editItin(id) {
   document.getElementById('itinEditId').value=id;
   document.getElementById('itinDay').value=item.day;
   document.getElementById('itinTime').value=item.time||'';
+  document.getElementById('itinTimePicker').value='';
+  if (item.time) syncItinTimePicker();
   document.getElementById('itinCost').value=item.cost||'';
   document.getElementById('itinCat').value=item.cat||'activity';
   switchItinMode('new');
@@ -2750,9 +2783,11 @@ function deleteDisc() {
 // ════════════════════════════════════════
 function renderBook() {
   const root=document.getElementById('bookingsRoot');
-  const flights=bookItems.filter(b=>b.icon==='✈️');
-  const hotels=bookItems.filter(b=>b.icon==='🏨'||b.icon==='🏕️');
-  const acts=bookItems.filter(b=>!['✈️','🏨','🏕️'].includes(b.icon));
+  const STATUS_ORDER = {confirmed:0, pending:1, todo:2, lineup:3};
+  const sortBk = arr => [...arr].sort((a,b) => (STATUS_ORDER[a.status]??2) - (STATUS_ORDER[b.status]??2));
+  const flights=sortBk(bookItems.filter(b=>b.icon==='✈️'));
+  const hotels=sortBk(bookItems.filter(b=>b.icon==='🏨'||b.icon==='🏕️'));
+  const acts=sortBk(bookItems.filter(b=>!['✈️','🏨','🏕️'].includes(b.icon)));
   let html='';
   if(flights.length) html+=collSection('bk-flights','✈️ Flights',flights.length,'openBkSheet()',flights.map(bkCard).join(''));
   if(hotels.length) html+=collSection('bk-hotels','🏨 Hotels & Stays',hotels.length,'openBkSheet()',hotels.map(bkCard).join(''));
@@ -2782,6 +2817,9 @@ function openBkSheet() {
   document.getElementById('bkSheetTitle').textContent='Add Booking';
   document.getElementById('bkDelBtn').style.display='none';
   ['bkName','bkSub','bkTime','bkNotes','bkLink'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('bkDate').value='';
+  document.getElementById('bkTimePicker').value='';
+  document.getElementById('bkStatus').value='todo';
   openSheet('bkSheet');
 }
 function editBk(id) {
@@ -2792,17 +2830,119 @@ function editBk(id) {
   document.getElementById('bkName').value=b.name;
   document.getElementById('bkSub').value=b.sub||'';
   document.getElementById('bkType').value=b.icon||'🎟';
+  document.getElementById('bkDate').value=b.date||'';
   document.getElementById('bkTime').value=b.time||'';
+  document.getElementById('bkTimePicker').value='';
+  if (b.time) syncBkTimePicker();
   document.getElementById('bkStatus').value=b.status||'todo';
   document.getElementById('bkNotes').value=b.notes||'';
   document.getElementById('bkLink').value=b.link||'';
   openSheet('bkSheet');
 }
+// Time sync helpers — keep time picker and text field in sync
+function syncBkTime() {
+  const tp = document.getElementById('bkTimePicker');
+  const tf = document.getElementById('bkTime');
+  if (!tp || !tf || !tp.value) return;
+  const [h, m] = tp.value.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12  = h % 12 || 12;
+  tf.value   = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+function syncBkTimePicker() {
+  const tp = document.getElementById('bkTimePicker');
+  const tf = document.getElementById('bkTime');
+  if (!tp || !tf) return;
+  const match = tf.value.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return;
+  let h = parseInt(match[1]); const m = match[2]; const ap = match[3].toUpperCase();
+  if (ap === 'PM' && h !== 12) h += 12;
+  if (ap === 'AM' && h === 12) h = 0;
+  tp.value = `${String(h).padStart(2,'0')}:${m}`;
+}
+function syncItinTime() {
+  const tp = document.getElementById('itinTimePicker');
+  const tf = document.getElementById('itinTime');
+  if (!tp || !tf || !tp.value) return;
+  const [h, m] = tp.value.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12  = h % 12 || 12;
+  tf.value   = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+function syncItinTimePicker() {
+  const tp = document.getElementById('itinTimePicker');
+  const tf = document.getElementById('itinTime');
+  if (!tp || !tf) return;
+  const match = tf.value.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return;
+  let h = parseInt(match[1]); const m = match[2]; const ap = match[3].toUpperCase();
+  if (ap === 'PM' && h !== 12) h += 12;
+  if (ap === 'AM' && h === 12) h = 0;
+  tp.value = `${String(h).padStart(2,'0')}:${m}`;
+}
+
+// Map booking date string to itinerary day string
+function bkDateToItinDay(dateStr) {
+  const map = {
+    'Mar 27':'Day 0 — Mar 27','Mar 28':'Day 1 — Mar 28','Mar 29':'Day 2 — Mar 29',
+    'Mar 30':'Day 3 — Mar 30','Mar 31':'Day 4 — Mar 31','Apr 1':'Day 5 — Apr 1 🎂',
+    'Apr 2':'Day 6 — Apr 2','Apr 3':'Day 7 — Apr 3','Apr 4':'Day 8 — Apr 4',
+    'Apr 5':'Day 9 — Apr 5','Apr 6':'Day 10 — Apr 6','Apr 7':'Day 11 — Apr 7',
+    'Apr 8':'Day 12 — Apr 8','Apr 9':'Day 13 — Apr 9','Apr 10':'Day 14 — Apr 10',
+    'Apr 11':'Day 15 — Apr 11',
+  };
+  return map[dateStr] || null;
+}
+
+// Map booking icon to itinerary category
+function bkIconToCat(icon) {
+  return {'✈️':'transport','🏨':'hotel','🎟':'activity','🚄':'transport','🏕️':'hotel','🎨':'activity','🍣':'food'}[icon]||'activity';
+}
+
 function saveBk() {
-  const name=document.getElementById('bkName').value.trim(); if(!name){showToast('Name required');return;}
-  const b={id:editBkId||'b'+Date.now(),name,sub:document.getElementById('bkSub').value,icon:document.getElementById('bkType').value,time:document.getElementById('bkTime').value,status:document.getElementById('bkStatus').value,notes:document.getElementById('bkNotes').value,link:document.getElementById('bkLink').value.trim()};
-  if(editBkId){const i=bookItems.findIndex(x=>x.id===editBkId);if(i>-1)bookItems[i]=b;}else bookItems.push(b);
-  save('book'); renderBook(); closeSheet('bkSheet'); showToast(editBkId?'✏️ Updated!':'🎟 Added!'); editBkId=null;
+  const name = document.getElementById('bkName').value.trim();
+  if (!name) { showToast('Name required'); return; }
+  const prevStatus = editBkId ? (bookItems.find(x=>x.id===editBkId)||{}).status : null;
+  const b = {
+    id: editBkId||'b'+Date.now(),
+    name,
+    sub:    document.getElementById('bkSub').value,
+    icon:   document.getElementById('bkType').value,
+    date:   document.getElementById('bkDate')?.value || '',
+    time:   document.getElementById('bkTime').value,
+    status: document.getElementById('bkStatus').value,
+    notes:  document.getElementById('bkNotes').value,
+    link:   document.getElementById('bkLink').value.trim()
+  };
+  if (editBkId) { const i=bookItems.findIndex(x=>x.id===editBkId); if(i>-1) bookItems[i]=b; }
+  else bookItems.push(b);
+  save('book'); renderBook(); closeSheet('bkSheet');
+  showToast(editBkId ? '✏️ Updated!' : '🎟 Added!');
+
+  // Auto-add to itinerary if newly confirmed and has a date
+  if (b.status === 'confirmed' && prevStatus !== 'confirmed' && b.date) {
+    const itinDay = bkDateToItinDay(b.date);
+    if (itinDay) {
+      const exists = itinItems.some(i => i.name === b.name && i.day === itinDay);
+      if (!exists) {
+        const newItem = {
+          id: 'bk-' + b.id,
+          day: itinDay,
+          time: b.time || '',
+          name: b.name,
+          detail: [b.sub, b.notes].filter(Boolean).join(' · '),
+          cat: bkIconToCat(b.icon),
+          who: 'together',
+          status: 'confirmed',
+          order: 99,
+        };
+        itinItems.push(newItem);
+        save('itin'); renderItin();
+        showToast('📅 Added to itinerary on ' + b.date + '!');
+      }
+    }
+  }
+  editBkId = null;
 }
 function deleteBk() {
   if(!editBkId||!confirm('Delete?'))return;
