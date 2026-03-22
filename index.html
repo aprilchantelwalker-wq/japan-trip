@@ -454,38 +454,33 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .blossom-date{font-size:12px;color:var(--blossom-deep);margin-top:2px;}
 
 /* TIKTOK TAB */
-.tt-grid{display:flex;flex-direction:column;gap:10px;padding:0 12px;}
-.tt-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);}
-.tt-top{display:flex;align-items:stretch;}
-.tt-thumb{width:72px;flex-shrink:0;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;cursor:pointer;}
-.tt-thumb img{width:100%;height:100%;object-fit:cover;}
-.tt-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);font-size:18px;}
-.tt-body{flex:1;padding:10px 12px;cursor:pointer;}
-.tt-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
-.tt-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center;}
-.tt-cat-chip{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;}
-.tt-city-chip{font-size:10px;color:var(--stone);background:#f0ece6;padding:2px 8px;border-radius:10px;}
-.tt-notes{font-size:12px;color:var(--stone);padding:7px 12px 0;line-height:1.4;}
-/* embed preview */
-.tt-embed{padding:0 12px 10px;display:none;}
-.tt-embed.show{display:block;}
-.tt-embed iframe{width:100%;border-radius:10px;border:none;}
-.tt-embed-loading{text-align:center;padding:20px;color:var(--stone);font-size:13px;}
-/* actions bar */
-.tt-actions{display:flex;align-items:center;gap:6px;padding:8px 12px;border-top:1px solid #f5f2ee;}
-.tt-like-area{display:flex;align-items:center;gap:6px;}
-.tt-like-btn{background:none;border:none;font-size:17px;cursor:pointer;transition:transform .15s;}
+/* TikTok 2-col grid */
+.tt-2grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:6px 12px 4px;}
+.tt-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.05);display:flex;flex-direction:column;}
+.tt-card-icon{font-size:28px;width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;}
+.tt-card-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.tt-card-play span{background:rgba(0,0,0,.55);color:white;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.03em;}
+.tt-card-body{padding:7px 9px 4px;flex:1;cursor:pointer;}
+.tt-title{font-size:12px;font-weight:500;color:var(--ink);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tt-meta{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;align-items:center;}
+.tt-cat-chip{font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;}
+.tt-city-chip{font-size:9px;color:var(--stone);background:#f0ece6;padding:2px 6px;border-radius:8px;}
+.tt-notes{font-size:11px;color:var(--stone);padding:0 9px 6px;line-height:1.4;}
+.tt-card-actions{display:flex;align-items:center;padding:5px 8px 7px;gap:4px;border-top:1px solid #f5f2ee;margin-top:auto;}
+.tt-like-btn{background:none;border:none;font-size:15px;cursor:pointer;transition:transform .15s;padding:0;}
 .tt-like-btn:active{transform:scale(1.3);}
-.tt-who-liked{display:flex;gap:3px;}
-.tt-liker-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.tt-who-liked{display:flex;gap:2px;}
+.tt-liker-badge{font-size:9px;font-weight:600;padding:1px 5px;border-radius:20px;}
 .tt-liker-ca{background:rgba(201,109,138,.15);color:var(--ca);}
 .tt-liker-pj{background:rgba(107,143,94,.15);color:var(--pj);}
 .tt-spacer{flex:1;}
-.tt-preview-btn{font-size:11px;color:var(--stone);background:#f0ece6;border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;}
-.tt-preview-btn.active{background:var(--ink);color:white;}
-.tt-open-btn{font-size:11px;font-weight:500;color:white;background:var(--ink);border:none;border-radius:20px;padding:5px 12px;cursor:pointer;font-family:inherit;}
-.tt-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;}
+.tt-open-btn{font-size:10px;font-weight:600;color:white;background:#c8102e;border:none;border-radius:20px;padding:4px 9px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;white-space:nowrap;}
+.tt-comment-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.35;padding:0;}
+.tt-edit-btn{background:none;border:none;font-size:12px;cursor:pointer;opacity:.2;padding:0;}
 .tt-edit-btn:hover{opacity:.8;}
+/* comment drawer — spans full width */
+.tt-comments{border-top:1px solid #f5f2ee;display:none;}
+.tt-comments.open{display:block;}
 /* comments */
 .tt-comments{border-top:1px solid #f5f2ee;}
 .tt-comment{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid #f9f6f2;}
@@ -916,13 +911,6 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
             <option value="osaka">Osaka</option>
             <option value="fuji">Mt. Fuji</option>
           </select>
-        </div>
-      </div>
-      <div id="ttPreviewWrap" style="display:none;margin-bottom:12px">
-        <label class="form-label">Preview</label>
-        <div id="ttPreview" style="background:var(--ink);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center">
-          <div style="width:44px;height:44px;background:#333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🎵</div>
-          <div style="flex:1;min-width:0"><div id="ttPreviewTitle" style="font-size:13px;font-weight:500;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div><div style="font-size:11px;color:var(--stone-light);margin-top:2px">TikTok video</div></div>
         </div>
       </div>
       <button class="form-submit" onclick="saveTT()">Save →</button>
@@ -3250,7 +3238,7 @@ const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attrac
 // tt reactions stored locally + synced to supabase
 let ttReactions = JSON.parse(localStorage.getItem('jp-ttreact') || '{}');
 // { ttId: { likes: ['ca','pj'], comments: [{couple,text,ts}] } }
-let ttPreviews = {}; // { ttId: bool } — which are expanded
+// ttPreviews removed — no embed preview
 
 function filterTT(cat, el) {
   ttFilter=cat;
@@ -3283,41 +3271,38 @@ function renderTT() {
   filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
   let html='';
   Object.entries(cats).forEach(([cat,items])=>{
-    const cardsHtml = `<div class="tt-grid" style="padding:8px 12px 4px">` + items.map(t=>{
+    const cardsHtml = `<div class="tt-2grid">` + items.map(t=>{
       const rx = ttReactions[t.id]||{likes:[],comments:[]};
       const likes = rx.likes||[];
       const comments = rx.comments||[];
       const myLike = currentCouple && likes.includes(currentCouple);
-      const colStyle=TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
-      const previewOpen = !!ttPreviews[t.id];
+      const colStyle = TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
       const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
-      return `<div class="tt-card" id="ttcard-${t.id}" style="margin-bottom:8px">
-        <div class="tt-top">
-          <div class="tt-thumb" onclick="openTT('${esc(t.url)}')">
-            ${t.thumb?`<img src="${t.thumb}" alt="">`:'<span style="font-size:28px">🎵</span>'}
-            <div class="tt-play">▶</div>
-          </div>
-          <div class="tt-body" onclick="openTT('${esc(t.url)}')">
-            <div class="tt-title">${t.title||'TikTok video'}</div>
-            <div class="tt-meta">
-              <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span>
-              ${t.city&&t.city!=='general'?`<span class="tt-city-chip">${t.city}</span>`:''}
-            </div>
+      const catEmoji = {food:'🍜',tips:'💡',attraction:'⛩️',shopping:'🛍',content:'🎬',vlog:'📹',other:'✨'}[t.cat]||'🎵';
+      const bgColor = {'food':'#fff0f0','tips':'#fffbe6','attraction':'#f0f4ff','shopping':'#fff0f8','content':'#f0fff4','vlog':'#f5f0ff','other':'#f5f5f5'}[t.cat]||'#f5f5f5';
+      const commentsOpen = !!ttCommentsOpen?.[t.id];
+      return `<div class="tt-card" id="ttcard-${t.id}">
+        <div class="tt-card-icon" style="background:${bgColor}" onclick="openTT('${esc(t.url)}')">
+          <span>${catEmoji}</span>
+          <div class="tt-card-play"><span>▶ TikTok</span></div>
+        </div>
+        <div class="tt-card-body" onclick="openTT('${esc(t.url)}')">
+          <div class="tt-title">${t.title||'TikTok video'}</div>
+          <div class="tt-meta">
+            <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span>
+            ${t.city&&t.city!=='general'?`<span class="tt-city-chip">${t.city}</span>`:''}
           </div>
         </div>
         ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''}
-        <div class="tt-embed ${previewOpen?'show':''}" id="ttembed-${t.id}">${previewOpen?`<div class="tt-embed-loading">Loading preview…</div>`:''}</div>
-        <div class="tt-actions">
-          <div class="tt-like-area">
-            <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')" title="${myLike?'Unlike':'Like'}">${myLike?'❤️':'🤍'}</button>
-            <div class="tt-who-liked">${whoLikedHtml}</div>
-          </div>
+        <div class="tt-card-actions">
+          <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')">${myLike?'❤️':'🤍'}</button>
+          <div class="tt-who-liked">${whoLikedHtml}</div>
           <div class="tt-spacer"></div>
-          <button class="tt-preview-btn ${previewOpen?'active':''}" onclick="toggleTTPreview('${t.id}','${esc(t.url)}')">${previewOpen?'▲ Hide':'▼ Preview'}</button>
-          <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">Open ↗</a>
-          <button class="tt-edit-btn" onclick="editTTItem('${t.id}')">✏️</button>
+          <button class="tt-comment-btn" onclick="toggleTTComments('${t.id}')" title="Comments">💬${comments.length?`<span style="font-size:10px;color:var(--stone)">${comments.length}</span>`:''}</button>
+          <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">↗</a>
+          <button class="tt-edit-btn" onclick="event.stopPropagation();editTTItem('${t.id}')">✏️</button>
         </div>
-        <div class="tt-comments" id="ttcomments-${t.id}">
+        <div class="tt-comments ${commentsOpen?'open':''}" id="ttcomments-${t.id}">
           ${comments.map(c=>`<div class="tt-comment"><span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span><div style="flex:1"><div class="tt-comment-text">${esc(c.text)}</div><div class="tt-comment-time">${fmtTime(c.ts)}</div></div>${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:''}</div>`).join('')}
           <div class="tt-comment-form"><input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')"><button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button></div>
         </div>
@@ -3331,88 +3316,25 @@ function renderTT() {
   });
   root.innerHTML=html;
   // load any open previews
-  Object.keys(ttPreviews).forEach(id => { if(ttPreviews[id]) loadTTEmbed(id, ttItems.find(t=>t.id===id)?.url||''); });
+  // embed previews removed
 }
 
-async function toggleTTPreview(id, url) {
-  ttPreviews[id] = !ttPreviews[id];
-  const embedEl = document.getElementById('ttembed-'+id);
-  const btn = document.querySelector(`#ttcard-${id} .tt-preview-btn`);
-  if (!embedEl) return;
-  if (ttPreviews[id]) {
-    embedEl.classList.add('show');
-    if (btn) { btn.textContent='▲ Hide'; btn.classList.add('active'); }
-    embedEl.innerHTML = `<div class="tt-embed-loading">Loading preview…</div>`;
-    await loadTTEmbed(id, url);
-  } else {
-    embedEl.classList.remove('show');
-    embedEl.innerHTML='';
-    if (btn) { btn.textContent='▼ Preview'; btn.classList.remove('active'); }
-  }
-}
-
-async function resolveVideoId(url) {
-  // Already a full URL with video ID
-  const direct = url.match(/video\/(\d+)/);
-  if (direct) return direct[1];
-
-  // Try multiple proxy strategies to resolve the short link
-  const proxies = [
-    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-    `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  ];
-
-  for (const proxyUrl of proxies) {
-    try {
-      const res = await fetch(proxyUrl);
-      const text = proxyUrl.includes('allorigins') ? (await res.json()).contents : await res.text();
-      // Look for video ID in the response HTML
-      const match = text.match(/\/video\/(\d{15,20})/);
-      if (match) return match[1];
-      // Also try og:url or canonical
-      const og = text.match(/property="og:url" content="[^"]*\/video\/(\d+)"/);
-      if (og) return og[1];
-    } catch(e) { continue; }
-  }
-  return null;
-}
-
-async function loadTTEmbed(id, url) {
-  if (!url || !url.includes('tiktok.com')) return;
-  const embedEl = document.getElementById('ttembed-'+id);
-  if (!embedEl) return;
-
-  embedEl.innerHTML = `<div class="tt-embed-loading">Loading preview…</div>`;
-
-  const videoId = await resolveVideoId(url);
-
-  if (!videoId) {
-    // All resolution failed — just show open button
-    embedEl.innerHTML = `<div style="text-align:center;padding:16px 12px">
-      <div style="font-size:13px;color:var(--stone);margin-bottom:10px">Preview not available for this link</div>
-      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none">▶ Open in TikTok</a>
-    </div>`;
-    return;
-  }
-
-  // TikTok's direct iframe embed — plays inline, no redirect
-  embedEl.innerHTML = `
-    <div style="position:relative;padding-bottom:177%;height:0;overflow:hidden;border-radius:12px;background:#000;margin:4px 8px 8px">
-      <iframe
-        src="https://www.tiktok.com/embed/v2/${videoId}"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-        allowfullscreen
-        allow="autoplay;encrypted-media"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
-      </iframe>
-    </div>
-    <div style="text-align:right;padding:0 10px 8px">
-      <a href="${url}" target="_blank" style="font-size:11px;color:var(--stone);text-decoration:none">↗ Open in TikTok</a>
-    </div>`;
-}
 
 function saveTTReactions() {
   localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
+}
+
+let ttCommentsOpen = {};
+function toggleTTComments(id) {
+  ttCommentsOpen[id] = !ttCommentsOpen[id];
+  const el = document.getElementById('ttcomments-'+id);
+  if (el) {
+    el.classList.toggle('open', ttCommentsOpen[id]);
+    if (ttCommentsOpen[id]) {
+      const input = document.getElementById('ttci-'+id);
+      if (input) setTimeout(() => input.focus(), 100);
+    }
+  }
 }
 
 function toggleTTLike(id) {
@@ -3483,58 +3405,78 @@ function deleteTTComment(ttId, ts) {
 
 let editTTId=null;
 function openTTSheet() {
-  editTTId=null;
-  document.getElementById('ttSheetTitle').textContent='Add TikTok';
-  document.getElementById('ttDelBtn').style.display='none';
-  document.getElementById('ttEditId').value='';
-  ['ttUrl','ttTitle','ttNotes'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('ttCat').value='food';
-  document.getElementById('ttCity').value='general';
-  document.getElementById('ttPreviewWrap').style.display='none';
+  editTTId = null;
+  document.getElementById('ttSheetTitle').textContent = 'Add TikTok';
+  document.getElementById('ttDelBtn').style.display = 'none';
+  document.getElementById('ttEditId').value = '';
+  ['ttUrl','ttTitle','ttNotes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ttCat').value = 'food';
+  document.getElementById('ttCity').value = 'general';
+  document.getElementById('ttThumb').value = '';
+  document.getElementById('ttThumbImg').src = '';
+  document.getElementById('ttThumbPreview').style.display = 'none';
+  document.getElementById('ttThumbFile').value = '';
   openSheet('ttSheet');
 }
 function editTTItem(id) {
-  const t=ttItems.find(x=>x.id===id); if(!t) return;
-  editTTId=id;
-  document.getElementById('ttSheetTitle').textContent='Edit TikTok';
-  document.getElementById('ttDelBtn').style.display='';
-  document.getElementById('ttEditId').value=id;
-  document.getElementById('ttUrl').value=t.url||'';
-  document.getElementById('ttTitle').value=t.title||'';
-  document.getElementById('ttNotes').value=t.notes||'';
-  document.getElementById('ttCat').value=t.cat||'food';
-  document.getElementById('ttCity').value=t.city||'general';
-  if(t.title){document.getElementById('ttPreviewWrap').style.display='';document.getElementById('ttPreviewTitle').textContent=t.title;}
+  const t = ttItems.find(x => x.id===id); if (!t) return;
+  editTTId = id;
+  document.getElementById('ttSheetTitle').textContent = 'Edit TikTok';
+  document.getElementById('ttDelBtn').style.display = '';
+  document.getElementById('ttEditId').value = id;
+  document.getElementById('ttUrl').value = t.url || '';
+  document.getElementById('ttTitle').value = t.title || '';
+  document.getElementById('ttNotes').value = t.notes || '';
+  document.getElementById('ttCat').value = t.cat || 'food';
+  document.getElementById('ttCity').value = t.city || 'general';
+  document.getElementById('ttThumb').value = t.thumb || '';
+  if (t.thumb) {
+    document.getElementById('ttThumbImg').src = t.thumb;
+    document.getElementById('ttThumbPreview').style.display = 'block';
+  } else {
+    document.getElementById('ttThumbPreview').style.display = 'none';
+  }
   openSheet('ttSheet');
 }
-async function onTTUrlInput() {
+function handleTTThumb(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    document.getElementById('ttThumb').value = dataUrl;
+    document.getElementById('ttThumbImg').src = dataUrl;
+    document.getElementById('ttThumbPreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function clearTTThumb() {
+  document.getElementById('ttThumb').value = '';
+  document.getElementById('ttThumbImg').src = '';
+  document.getElementById('ttThumbPreview').style.display = 'none';
+  document.getElementById('ttThumbFile').value = '';
+}
+function onTTUrlInput() {
   const url = document.getElementById('ttUrl').value.trim();
   if (!url || !url.includes('tiktok')) return;
-
-  // Extract a readable title from the URL without any API call
-  // e.g. https://www.tiktok.com/@username/video/123 → "TikTok by @username"
   const userMatch = url.match(/@([^/?]+)/);
-  const autoTitle = userMatch ? `TikTok by @${userMatch[1]}` : 'TikTok video';
-
-  if (!document.getElementById('ttTitle').value) {
-    document.getElementById('ttTitle').value = autoTitle;
+  if (userMatch && !document.getElementById('ttTitle').value) {
+    document.getElementById('ttTitle').value = 'TikTok by @' + userMatch[1];
   }
-  document.getElementById('ttPreviewWrap').style.display = '';
-  document.getElementById('ttPreviewTitle').textContent = document.getElementById('ttTitle').value || autoTitle;
 }
 function saveTT() {
-  const url=document.getElementById('ttUrl').value.trim();
-  const title=document.getElementById('ttTitle').value.trim()||url;
-  if(!url){showToast('URL required');return;}
-  const t={
-    id:editTTId||'tt'+Date.now(),
+  const url = document.getElementById('ttUrl').value.trim();
+  const title = document.getElementById('ttTitle').value.trim() || url;
+  if (!url) { showToast('URL required'); return; }
+  const t = {
+    id: editTTId || 'tt' + Date.now(),
     url, title,
-    notes:document.getElementById('ttNotes').value,
-    cat:document.getElementById('ttCat').value,
-    city:document.getElementById('ttCity').value,
+    notes: document.getElementById('ttNotes').value,
+    cat: document.getElementById('ttCat').value,
+    city: document.getElementById('ttCity').value,
+    thumb: document.getElementById('ttThumb').value || '',
   };
-  if(editTTId){const i=ttItems.findIndex(x=>x.id===editTTId);if(i>-1)ttItems[i]=t;}else ttItems.push(t);
-  save('tt'); renderTT(); closeSheet('ttSheet'); showToast(editTTId?'✏️ Updated!':'🎵 Saved!'); editTTId=null;
+  if (editTTId) { const i = ttItems.findIndex(x => x.id===editTTId); if (i>-1) ttItems[i]=t; } else ttItems.push(t);
+  save('tt'); renderTT(); closeSheet('ttSheet'); showToast(editTTId ? '✏️ Updated!' : '🎵 Saved!'); editTTId = null;
 }
 function deleteTT() {
   if(!editTTId||!confirm('Delete?'))return;
