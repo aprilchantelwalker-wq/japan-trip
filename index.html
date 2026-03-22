@@ -140,6 +140,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 .itin-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
 .tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
+.tag-cat{background:#f0ece6;color:var(--stone);}
 .tag-booked{background:rgba(192,57,43,.1);color:var(--red-torii);}
 .tag-must{background:rgba(201,151,58,.12);color:var(--gold);}
 .tag-flex{background:rgba(107,143,94,.12);color:var(--matcha);}
@@ -2037,6 +2038,9 @@ function renderItinCard(item) {
       </div>
     </div>`;
 
+  const CAT_LABELS = {food:'🍽 Food',activity:'🎨 Activity',hotel:'🏨 Hotel',shopping:'🛍 Shopping',onsen:'♨️ Onsen',transport:'🚄 Transport',explore:'🗺 Explore',rest:'😴 Rest'};
+  const catTagHtml = `<span class="tag tag-cat">${CAT_LABELS[item.cat]||('🎯 '+item.cat)}</span>`;
+
   return `<div class="itin-card ${item.status}" id="ic-${item.id}" draggable="true" data-id="${item.id}" data-day="${esc(item.day)}"
     ondragstart="onDragStart(event,'${item.id}')" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
     <div class="who-stripe ${stripeCls(item.who)}"></div>
@@ -2044,11 +2048,10 @@ function renderItinCard(item) {
       <div class="itin-top">
         <span class="drag-handle" title="Drag to reorder">⠿</span>
         <span class="itin-time">${item.time||''}</span>
-        <div class="itin-dot ${dotCls(item.cat)}"></div>
         <div class="itin-main">
           <div class="itin-title">${item.name}</div>
           ${item.detail?`<div class="itin-detail">${item.detail}</div>`:''}
-          <div class="itin-tags">${whoTagHtml}${statusTagHtml}${item.cost?`<span class="tag tag-flex">${item.cost}</span>`:''}</div>
+          <div class="itin-tags">${whoTagHtml}${statusTagHtml}${catTagHtml}${item.cost?`<span class="tag tag-flex">${item.cost}</span>`:''}</div>
         </div>
         <button class="itin-edit-btn" onclick="editItin('${item.id}')">✏️</button>
       </div>
