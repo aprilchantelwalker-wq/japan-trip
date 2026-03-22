@@ -3356,39 +3356,62 @@ async function loadTTEmbed(id, url) {
   const embedEl = document.getElementById('ttembed-'+id);
   if (!embedEl) return;
 
-  // Extract video ID from URL
-  // Handles: https://www.tiktok.com/@user/video/1234567890
-  //          https://vm.tiktok.com/XXXXXX/ (short links need redirect — show open button)
-  const videoIdMatch = url.match(/video\/(\d+)/);
+  embedEl.innerHTML = `<div class="tt-embed-loading">Loading preview…</div>`;
+
+  // Resolve short links (vm.tiktok.com) to full URL via corsproxy
+  let fullUrl = url;
+  if (!url.includes('/video/')) {
+    try {
+      // Use corsproxy.io to follow the redirect and get the final URL
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+      const res = await fetch(proxyUrl, {method:'HEAD', redirect:'follow'});
+      fullUrl = res.url.includes('corsproxy') ? url : res.url;
+      // If that didn't work, try fetching the page and parsing the canonical URL
+      if (!fullUrl.includes('/video/')) {
+        const res2 = await fetch(proxyUrl);
+        const text = await res2.text();
+        const match = text.match(/https:\/\/www\.tiktok\.com\/@[^"]+\/video\/(\d+)/);
+        if (match) fullUrl = match[0];
+      }
+    } catch(e) {
+      // proxy failed — fall through to show open button
+    }
+  }
+
+  // Extract video ID
+  const videoIdMatch = fullUrl.match(/video\/(\d+)/);
 
   if (!videoIdMatch) {
-    // Short link or unrecognised format — can't embed, show open button
-    embedEl.innerHTML = `<div style="text-align:center;padding:14px 12px">
-      <div style="font-size:13px;color:var(--stone);margin-bottom:8px">Short links can't be previewed inline.</div>
-      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none">Open in TikTok ↗</a>
+    // Couldn't resolve — show open button
+    embedEl.innerHTML = `<div style="text-align:center;padding:16px 12px">
+      <div style="font-size:13px;color:var(--stone);margin-bottom:10px">Tap to watch in TikTok</div>
+      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none">Open in TikTok ↗</a>
     </div>`;
     return;
   }
 
   const videoId = videoIdMatch[1];
+  // Reconstruct clean full URL for the embed cite attribute
+  const userMatch = fullUrl.match(/@([^/?]+)/);
+  const cleanUrl = userMatch
+    ? `https://www.tiktok.com/@${userMatch[1]}/video/${videoId}`
+    : `https://www.tiktok.com/video/${videoId}`;
 
-  // Use TikTok's standard blockquote embed — works without any API call
   embedEl.innerHTML = `<div style="padding:4px 8px 8px">
-    <blockquote class="tiktok-embed" cite="${url}" data-video-id="${videoId}" style="max-width:100%;min-width:200px;">
+    <blockquote class="tiktok-embed" cite="${cleanUrl}" data-video-id="${videoId}" style="max-width:100%;min-width:200px;">
       <section></section>
     </blockquote>
   </div>`;
 
-  // Load TikTok's embed script if not already loaded
+  // Load TikTok embed script once
   if (!document.getElementById('tiktok-embed-script')) {
     const s = document.createElement('script');
     s.id = 'tiktok-embed-script';
     s.src = 'https://www.tiktok.com/embed.js';
     s.async = true;
     document.body.appendChild(s);
-  } else {
-    // Script already loaded — trigger re-render
-    if (window.tiktokEmbed) window.tiktokEmbed.lib?.scan?.();
+  } else if (window.tiktokEmbed) {
+    window.tiktokEmbed.lib?.scan?.();
   }
 }
 
