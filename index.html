@@ -436,6 +436,11 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .note-text .nt-bullet{display:block;padding-left:12px;position:relative;}
 .note-text .nt-bullet::before{content:"•";position:absolute;left:2px;}
 
+
+.disc-emoji-grid{display:flex;flex-wrap:wrap;gap:4px;flex:1;}
+.disc-emoji-grid span{font-size:20px;cursor:pointer;padding:4px;border-radius:6px;transition:background .1s;line-height:1;}
+.disc-emoji-grid span:hover,.disc-emoji-grid span:active{background:#f0ece6;}
+
 /* PICKER */
 /* PASSWORD GATE */
 
@@ -1437,7 +1442,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
           </select>        </div>
         <div>
           <label class="form-label">Category</label>
-          <select class="form-select" id="discCat" onchange="autofillEmoji()">
+          <select class="form-select" id="discCat" onchange="onDiscCatChange()">
             <option value="matcha">🍵 Matcha</option>
             <option value="coffee">☕ Coffee</option>
             <option value="ramen">🍜 Ramen</option>
@@ -1448,7 +1453,25 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
             <option value="experience">🎨 Experience</option>
             <option value="attraction">⛩️ Attraction</option>
             <option value="onsen">♨️ Onsen</option>
+            <option value="custom">✏️ Custom…</option>
           </select>
+          <div id="discCustomCatRow" style="display:none;margin-top:6px;display:none">
+            <input class="form-input" id="discCustomCat" placeholder="e.g. Vintage, Dessert, Bar…" style="margin-bottom:0">
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Emoji</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input class="form-input" id="discEmoji" placeholder="🍜" maxlength="4" style="width:64px;text-align:center;font-size:22px;padding:6px">
+            <div class="disc-emoji-grid" id="discEmojiGrid">
+              <span onclick="pickDiscEmoji('🍜')">🍜</span><span onclick="pickDiscEmoji('🍣')">🍣</span><span onclick="pickDiscEmoji('🍵')">🍵</span><span onclick="pickDiscEmoji('☕')">☕</span>
+              <span onclick="pickDiscEmoji('🦀')">🦀</span><span onclick="pickDiscEmoji('🥞')">🥞</span><span onclick="pickDiscEmoji('🍱')">🍱</span><span onclick="pickDiscEmoji('🍰')">🍰</span>
+              <span onclick="pickDiscEmoji('🍺')">🍺</span><span onclick="pickDiscEmoji('🍸')">🍸</span><span onclick="pickDiscEmoji('🛍')">🛍</span><span onclick="pickDiscEmoji('👗')">👗</span>
+              <span onclick="pickDiscEmoji('👟')">👟</span><span onclick="pickDiscEmoji('💄')">💄</span><span onclick="pickDiscEmoji('🎨')">🎨</span><span onclick="pickDiscEmoji('⛩️')">⛩️</span>
+              <span onclick="pickDiscEmoji('🌸')">🌸</span><span onclick="pickDiscEmoji('♨️')">♨️</span><span onclick="pickDiscEmoji('🎮')">🎮</span><span onclick="pickDiscEmoji('📸')">📸</span>
+              <span onclick="pickDiscEmoji('🎭')">🎭</span><span onclick="pickDiscEmoji('🏯')">🏯</span><span onclick="pickDiscEmoji('🚢')">🚢</span><span onclick="pickDiscEmoji('📍')">📍</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-row">
@@ -1458,10 +1481,6 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
       <div class="form-row">
         <label class="form-label">Link (optional — reservation, website, etc.)</label>
         <input class="form-input" id="discLink" placeholder="https://…">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Emoji <span style="color:var(--stone);font-size:10px;font-weight:400">(auto-set by category, override here)</span></label>
-        <input class="form-input" id="discEmoji" placeholder="e.g. 🍜" maxlength="4">
       </div>
       <button class="form-submit" onclick="saveDisc()">Save →</button>
       <button class="form-delete" id="discDelBtn" style="display:none" onclick="deleteDisc()">🗑 Delete</button>
@@ -3069,7 +3088,8 @@ function openDiscSheet() {
   editDiscId=null;
   document.getElementById('discSheetTitle').textContent='Add to Discover';
   document.getElementById('discDelBtn').style.display='none';
-  ['discName','discDesc','discTags','discEmoji','discLink'].forEach(id=>document.getElementById(id).value='');
+  ['discName','discDesc','discTags','discEmoji','discLink','discCustomCat'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const ccr=document.getElementById('discCustomCatRow');if(ccr)ccr.style.display='none';
   document.getElementById('discCat').value='ramen';
   autofillEmoji();
   openSheet('discSheet');
@@ -3082,20 +3102,42 @@ function editDisc(id) {
   document.getElementById('discName').value=d.name;
   document.getElementById('discDesc').value=d.desc||'';
   document.getElementById('discCity').value=d.city;
-  document.getElementById('discCat').value=d.cat;
+  const isCustomCat = !['matcha','coffee','ramen','sushi','street','breakfast','shopping','experience','attraction','onsen'].includes(d.cat);
+  if (isCustomCat) {
+    document.getElementById('discCat').value='custom';
+    const ccr=document.getElementById('discCustomCatRow');if(ccr)ccr.style.display='';
+    const cci=document.getElementById('discCustomCat');if(cci)cci.value=d.cat;
+  } else {
+    document.getElementById('discCat').value=d.cat;
+    const ccr=document.getElementById('discCustomCatRow');if(ccr)ccr.style.display='none';
+  }
   document.getElementById('discTags').value=(d.tags||[]).join(', ');
   document.getElementById('discEmoji').value=d.emoji||'';
   document.getElementById('discLink').value=d.link||'';
   openSheet('discSheet');
 }
 function autofillEmoji() {
-  const cat=document.getElementById('discCat').value;
-  const emojiField=document.getElementById('discEmoji');
-  if (!emojiField.value||Object.values(CAT_EMOJI).includes(emojiField.value)) emojiField.value=CAT_EMOJI[cat]||'📍';
+  const cat = document.getElementById('discCat').value;
+  const emojiField = document.getElementById('discEmoji');
+  if (cat !== 'custom' && (!emojiField.value || Object.values(CAT_EMOJI).includes(emojiField.value))) {
+    emojiField.value = CAT_EMOJI[cat] || '📍';
+  }
+}
+
+function onDiscCatChange() {
+  const val = document.getElementById('discCat').value;
+  const customRow = document.getElementById('discCustomCatRow');
+  if (customRow) customRow.style.display = val === 'custom' ? '' : 'none';
+  autofillEmoji();
+}
+
+function pickDiscEmoji(emoji) {
+  document.getElementById('discEmoji').value = emoji;
 }
 function saveDisc() {
   const name=document.getElementById('discName').value.trim(); if(!name){showToast('Name required');return;}
-  const cat=document.getElementById('discCat').value;
+  let cat=document.getElementById('discCat').value;
+  if (cat==='custom') { cat=document.getElementById('discCustomCat')?.value.trim().toLowerCase().replace(/\s+/g,'-')||'other'; }
   const d={
     id:editDiscId||'d'+Date.now(),
     name, desc:document.getElementById('discDesc').value,
