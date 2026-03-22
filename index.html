@@ -1644,7 +1644,7 @@ function initApp() {
   // Re-read itinItems after potential clear
   itinItems = JSON.parse(localStorage.getItem('jp-itin') || 'null');
 
-  // Seed from localStorage for instant load (Supabase will update momentarily)
+  // Seed defaults (used only if Supabase is unreachable)
   if (!itinItems)    { itinItems    = SEED_ITIN; }
   if (!discItems)    { discItems    = SEED_DISC; }
   if (!bookItems)    { bookItems    = SEED_BOOK; }
@@ -1653,12 +1653,15 @@ function initApp() {
   if (!ttItems)      { ttItems      = SEED_TT; }
 
   populateDaySelect();
-  renderAll();           // fast render from localStorage/seed
+
+  // Show loading state while we wait for fresh Supabase data
+  document.getElementById('itinRoot').innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--stone);font-size:13px">⏳ Loading latest data…</div>';
+
   initBanners();
   fixNavPosition();
   renderCustomCityPills();
   updateDiscCitySelects();
-  initSupabase();        // Supabase loads fresh data → re-renders automatically
+  initSupabase();        // loads fresh from Supabase → calls renderAll() when done
   updateNotifBadge();
   if (!currentCouple) showPicker();
   else {
@@ -1699,10 +1702,11 @@ async function loadFromSupabase(key, setter, fallback) {
   const table = 'japan_' + key;
   const {data, error} = await sb.from(table).select('data').eq('id','main').single();
   if (data?.data && data.data.length) {
+    // Always use Supabase — it's the source of truth
     setter(data.data);
     localStorage.setItem('jp-'+key, JSON.stringify(data.data));
   } else {
-    // Nothing in Supabase yet — push our seed data up
+    // Nothing in Supabase yet — push our local data up
     setter(fallback);
     if (fallback) syncToSupabase(key, fallback);
   }
@@ -1733,6 +1737,12 @@ function initSupabase() {
     document.getElementById('liveDot').style.background = '#4ade80';
 
     // Load all collections from Supabase, then subscribe for live updates
+    // Fallback: if Supabase takes >5s, render from localStorage anyway
+    const offlineTimer = setTimeout(() => {
+      console.warn('Supabase slow/offline — rendering from localStorage');
+      renderAll(); initBanners();
+    }, 5000);
+
     Promise.all([
       loadFromSupabase('itin',    v => { itinItems    = v; }, itinItems    || SEED_ITIN),
       loadFromSupabase('disc',    v => { discItems    = v; }, discItems    || SEED_DISC),
@@ -1741,9 +1751,11 @@ function initSupabase() {
       loadFromSupabase('tips',    v => { tipsItems    = v; }, tipsItems    || SEED_TIPS),
       loadFromSupabase('tt',      v => { ttItems      = v; }, ttItems      || SEED_TT),
     ]).then(() => {
-      syncAllBookingsToItin(); // sync confirmed bookings → itinerary with times
-      renderAll();
-      // Now subscribe each collection for real-time updates
+      clearTimeout(offlineTimer);
+      syncAllBookingsToItin(); // fill in confirmed bookings → itinerary
+      renderAll();             // render fresh Supabase data
+      initBanners();
+      // Subscribe for live updates from other devices
       subscribeCollection('itin',    v => { itinItems    = v; }, () => renderItin());
       subscribeCollection('disc',    v => { discItems    = v; }, () => renderDisc());
       subscribeCollection('book',    v => { bookItems    = v; }, () => renderBook());
