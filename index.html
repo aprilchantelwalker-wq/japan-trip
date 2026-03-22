@@ -1631,37 +1631,30 @@ window.onload = () => {
 function initApp() {
   currentCouple = localStorage.getItem('japan-couple') || null;
 
-  // Version bump — clear old disc cache if it's the old seed
-  const discVer = localStorage.getItem('jp-disc-ver');
-  if (discVer !== '2') { localStorage.removeItem('jp-disc'); localStorage.setItem('jp-disc-ver','2'); }
-  // Bump tips version so new app links in seed data appear
-  const tipsVer = localStorage.getItem('jp-tips-ver');
-  if (tipsVer !== '2') { localStorage.removeItem('jp-tips'); localStorage.setItem('jp-tips-ver','2'); }
-  // Bump itin version — day numbering changed (Day 1 = Mar 29 now)
-  const itinVer = localStorage.getItem('jp-itin-ver');
-  if (itinVer !== '3') { localStorage.removeItem('jp-itin'); localStorage.setItem('jp-itin-ver','3'); }
+  // Always clear shared collection caches so every load pulls fresh from Supabase
+  // This guarantees all devices see the same data — no stale cache issues
+  ['jp-itin','jp-disc','jp-book','jp-transit','jp-tips','jp-tt'].forEach(k => localStorage.removeItem(k));
 
-  // Re-read itinItems after potential clear
-  itinItems = JSON.parse(localStorage.getItem('jp-itin') || 'null');
-
-  // Seed defaults (used only if Supabase is unreachable)
-  if (!itinItems)    { itinItems    = SEED_ITIN; }
-  if (!discItems)    { discItems    = SEED_DISC; }
-  if (!bookItems)    { bookItems    = SEED_BOOK; }
-  if (!transitItems) { transitItems = SEED_TRANSIT; }
-  if (!tipsItems)    { tipsItems    = SEED_TIPS; }
-  if (!ttItems)      { ttItems      = SEED_TT; }
+  // Set variables to seed defaults — Supabase will overwrite these momentarily
+  itinItems    = null;
+  discItems    = null;
+  bookItems    = null;
+  transitItems = null;
+  tipsItems    = null;
+  ttItems      = null;
 
   populateDaySelect();
 
-  // Show loading state while we wait for fresh Supabase data
-  document.getElementById('itinRoot').innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--stone);font-size:13px">⏳ Loading latest data…</div>';
+  // Show loading state on all tabs while Supabase loads
+  ['itinRoot','discRoot','bookingsRoot'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--stone);font-size:13px">⏳ Syncing…</div>';
+  });
 
   initBanners();
   fixNavPosition();
-  renderCustomCityPills();
   updateDiscCitySelects();
-  initSupabase();        // loads fresh from Supabase → calls renderAll() when done
+  initSupabase();
   updateNotifBadge();
   if (!currentCouple) showPicker();
   else {
@@ -1700,15 +1693,20 @@ async function syncToSupabase(key, data) {
 async function loadFromSupabase(key, setter, fallback) {
   if (!sb) { setter(fallback); return; }
   const table = 'japan_' + key;
-  const {data, error} = await sb.from(table).select('data').eq('id','main').single();
-  if (data?.data && data.data.length) {
-    // Always use Supabase — it's the source of truth
-    setter(data.data);
-    localStorage.setItem('jp-'+key, JSON.stringify(data.data));
-  } else {
-    // Nothing in Supabase yet — push our local data up
+  try {
+    const {data, error} = await sb.from(table).select('data').eq('id','main').single();
+    if (data?.data && data.data.length) {
+      // Supabase is source of truth — always use it
+      setter(data.data);
+      localStorage.setItem('jp-'+key, JSON.stringify(data.data));
+    } else {
+      // Nothing in Supabase yet — seed it
+      setter(fallback);
+      if (fallback) syncToSupabase(key, fallback);
+    }
+  } catch(e) {
+    // Network error — use seed fallback
     setter(fallback);
-    if (fallback) syncToSupabase(key, fallback);
   }
 }
 
@@ -1744,18 +1742,18 @@ function initSupabase() {
     }, 5000);
 
     Promise.all([
-      loadFromSupabase('itin',    v => { itinItems    = v; }, itinItems    || SEED_ITIN),
-      loadFromSupabase('disc',    v => { discItems    = v; }, discItems    || SEED_DISC),
-      loadFromSupabase('book',    v => { bookItems    = v; }, bookItems    || SEED_BOOK),
-      loadFromSupabase('transit', v => { transitItems = v; }, transitItems || SEED_TRANSIT),
-      loadFromSupabase('tips',    v => { tipsItems    = v; }, tipsItems    || SEED_TIPS),
-      loadFromSupabase('tt',      v => { ttItems      = v; }, ttItems      || SEED_TT),
+      loadFromSupabase('itin',    v => { itinItems    = v; }, SEED_ITIN),
+      loadFromSupabase('disc',    v => { discItems    = v; }, SEED_DISC),
+      loadFromSupabase('book',    v => { bookItems    = v; }, SEED_BOOK),
+      loadFromSupabase('transit', v => { transitItems = v; }, SEED_TRANSIT),
+      loadFromSupabase('tips',    v => { tipsItems    = v; }, SEED_TIPS),
+      loadFromSupabase('tt',      v => { ttItems      = v; }, SEED_TT),
     ]).then(() => {
       clearTimeout(offlineTimer);
-      syncAllBookingsToItin(); // fill in confirmed bookings → itinerary
-      renderAll();             // render fresh Supabase data
+      syncAllBookingsToItin();
+      renderAll();
       initBanners();
-      // Subscribe for live updates from other devices
+      renderCustomCityPills();
       subscribeCollection('itin',    v => { itinItems    = v; }, () => renderItin());
       subscribeCollection('disc',    v => { discItems    = v; }, () => renderDisc());
       subscribeCollection('book',    v => { bookItems    = v; }, () => renderBook());
