@@ -604,6 +604,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .wl-store-body.open{max-height:2000px;}
 .wl-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f5f2ee;}
 .wl-item:last-child{border-bottom:none;}
+.wl-thumb{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;cursor:pointer;border:1px solid #e8e4de;}
 .wl-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--stone-light);background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .wl-check.done{background:var(--matcha);border-color:var(--matcha);}
 .wl-check.done::after{content:'✓';font-size:11px;color:white;font-weight:700;}
@@ -1128,6 +1129,17 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
       <div class="form-row">
         <label class="form-label">Notes (size, colour, price limit…)</label>
         <input class="form-input" id="wlDetail" placeholder="e.g. medium, under ¥3000">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Link (optional — paste product URL or inspo)</label>
+        <input class="form-input" id="wlLink" placeholder="https://…" type="url">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Photo (optional — paste image URL)</label>
+        <input class="form-input" id="wlPhoto" placeholder="https://…image.jpg" type="url" oninput="previewWLPhoto(this.value)">
+        <div id="wlPhotoPreview" style="margin-top:6px;display:none">
+          <img id="wlPhotoImg" style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;border:1px solid #e8e4de" onerror="this.parentElement.style.display='none'">
+        </div>
       </div>
       <div class="form-row">
         <label class="form-label">Store</label>
@@ -1844,6 +1856,8 @@ function initSupabase() {
     loadNotes(); subscribeNotes();
     subscribeActivity();
     loadShared(); subscribeWLShared();
+    loadWLPrivate(); subscribeWLPrivate();
+    loadNoteComments(); subscribeNoteComments();
     loadVotes(); subscribeVotes();
 
     // TT reactions sync
@@ -3446,6 +3460,31 @@ function renderNoteText(text) {
 let noteCommentsMap = JSON.parse(localStorage.getItem('jp-note-comments') || '{}');
 const openNoteComments = new Set();
 
+async function loadNoteComments() {
+  if (!sb) return;
+  const {data} = await sb.from('japan_note_comments').select('*');
+  if (data) {
+    noteCommentsMap = {};
+    data.forEach(row => {
+      if (!noteCommentsMap[row.note_id]) noteCommentsMap[row.note_id] = [];
+      noteCommentsMap[row.note_id].push({couple: row.couple, text: row.text, ts: row.created_at});
+    });
+    noteCommentsMap = Object.fromEntries(
+      Object.entries(noteCommentsMap).map(([k,v]) => [k, v.sort((a,b) => new Date(a.ts)-new Date(b.ts))])
+    );
+    localStorage.setItem('jp-note-comments', JSON.stringify(noteCommentsMap));
+    renderNotes();
+  }
+}
+
+function subscribeNoteComments() {
+  if (!sb) return;
+  sb.channel('sync-note-comments')
+    .on('postgres_changes', {event:'*', schema:'public', table:'japan_note_comments'}, () => {
+      loadNoteComments();
+    }).subscribe();
+}
+
 function toggleNoteComments(noteId) {
   const id = String(noteId);
   if (openNoteComments.has(id)) openNoteComments.delete(id);
@@ -3457,14 +3496,24 @@ function toggleNoteComments(noteId) {
   }, 50);
 }
 
-function postNoteComment(noteId) {
+async function postNoteComment(noteId) {
   const inp = document.getElementById('nc-inp-'+noteId);
   if (!inp) return;
   const text = inp.value.trim();
   if (!text) return;
+  inp.value = '';
+  const comment = {couple: currentCouple||'ca', text, ts: new Date().toISOString()};
   if (!noteCommentsMap[noteId]) noteCommentsMap[noteId] = [];
-  noteCommentsMap[noteId].push({couple: currentCouple||'ca', text, ts: new Date().toISOString()});
+  noteCommentsMap[noteId].push(comment);
   localStorage.setItem('jp-note-comments', JSON.stringify(noteCommentsMap));
+  if (sb) {
+    await sb.from('japan_note_comments').insert([{
+      note_id: String(noteId),
+      couple: currentCouple||'ca',
+      text,
+      created_at: comment.ts
+    }]);
+  }
   renderNotes();
 }
 
@@ -4288,9 +4337,50 @@ const WL_MEMBERS = {
 let wlActivePerson = localStorage.getItem('jp-wl-active') || null;
 let wlShared = JSON.parse(localStorage.getItem('jp-wl-shared') || '[]');
 
-function getWLMembers()         { return WL_MEMBERS[currentCouple||'ca'] || WL_MEMBERS.ca; }
-function getWL(person)          { return JSON.parse(localStorage.getItem('jp-wl-' + person) || '[]'); }
-function saveWLFor(person, arr) { localStorage.setItem('jp-wl-' + person, JSON.stringify(arr)); }
+function getWLMembers() { return WL_MEMBERS[currentCouple||'ca'] || WL_MEMBERS.ca; }
+
+// In-memory wishlist cache (loaded from Supabase)
+let _wlCache = {};
+
+function getWL(person) {
+  return _wlCache[person] || JSON.parse(localStorage.getItem('jp-wl-'+person) || '[]');
+}
+
+async function saveWLFor(person, arr) {
+  _wlCache[person] = arr;
+  localStorage.setItem('jp-wl-'+person, JSON.stringify(arr)); // local fallback
+  if (sb) {
+    await sb.from('japan_wl_private').upsert(
+      {person, data: arr, updated_at: new Date().toISOString()},
+      {onConflict: 'person'}
+    );
+  }
+}
+
+async function loadWLPrivate() {
+  if (!sb) return;
+  const {data} = await sb.from('japan_wl_private').select('person,data');
+  if (data) {
+    data.forEach(row => {
+      _wlCache[row.person] = row.data || [];
+      localStorage.setItem('jp-wl-'+row.person, JSON.stringify(row.data || []));
+    });
+    renderWL();
+  }
+}
+
+function subscribeWLPrivate() {
+  if (!sb) return;
+  sb.channel('sync-wl-private')
+    .on('postgres_changes', {event:'*', schema:'public', table:'japan_wl_private'}, p => {
+      const row = p.new;
+      if (row?.person) {
+        _wlCache[row.person] = row.data || [];
+        localStorage.setItem('jp-wl-'+row.person, JSON.stringify(row.data || []));
+        renderWL();
+      }
+    }).subscribe();
+}
 
 function saveShared() {
   localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
@@ -4414,11 +4504,13 @@ function renderWL() {
     const storeEmoji = emojiMatch ? emojiMatch[0] : '🛍';
 
     const rows = storeItems.map(w =>
-      '<div class="wl-item">'
+      '<div class="wl-item ' + (w.photo ? 'wl-has-photo' : '') + '">'
+      + (w.photo ? '<img class="wl-thumb" src="' + w.photo + '" onerror="this.style.display=\'none\'" onclick="event.stopPropagation();window.open(\'' + (w.link||w.photo) + '\',\'_blank\')">' : '')
       + '<div class="wl-check ' + (w.done ? 'done' : '') + '" onclick="toggleWLDone(\'' + w.id + '\')"></div>'
       + '<div class="wl-item-body">'
       + '<div class="wl-item-name ' + (w.done ? 'done' : '') + '">' + w.name + '</div>'
       + (w.detail ? '<div class="wl-item-detail">' + w.detail + '</div>' : '')
+      + (w.link ? '<a href="' + w.link + '" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;color:var(--sky);font-weight:500;display:inline-block;margin-top:2px">↗ View link</a>' : '')
       + '</div>'
       + (w.shared ? '<span class="wl-shared-badge">💌 shared</span>' : '')
       + '<button class="wl-share-btn ' + (w.shared ? 'shared' : '') + '" onclick="toggleWLShare(\'' + w.id + '\')">' + (w.shared ? '📢' : '📤') + '</button>'
@@ -4557,6 +4649,9 @@ function openWLSheet() {
   document.getElementById('wlEditId').value  = '';
   document.getElementById('wlName').value    = '';
   document.getElementById('wlDetail').value  = '';
+  document.getElementById('wlLink').value    = '';
+  document.getElementById('wlPhoto').value   = '';
+  document.getElementById('wlPhotoPreview').style.display = 'none';
   document.getElementById('wlStore').value   = 'Don Quijote 🦆';
   document.getElementById('wlCustomStoreRow').style.display = 'none';
   const cb = document.getElementById('wlShared');
@@ -4585,6 +4680,9 @@ function editWL(id) {
   document.getElementById('wlEditId').value  = id;
   document.getElementById('wlName').value    = w.name;
   document.getElementById('wlDetail').value  = w.detail || '';
+  document.getElementById('wlLink').value    = w.link || '';
+  document.getElementById('wlPhoto').value   = w.photo || '';
+  previewWLPhoto(w.photo || '');
   const sel = document.getElementById('wlStore');
   const opt = [...sel.options].find(o => o.value === w.store);
   if (opt) { sel.value = w.store; document.getElementById('wlCustomStoreRow').style.display = 'none'; }
@@ -4609,6 +4707,18 @@ function updateWLSharedSlider() {
   if (label) label.textContent = cb.checked ? 'On — other couple will see this as a suggestion' : 'Off — only visible to your couple';
 }
 
+function previewWLPhoto(url) {
+  const wrap = document.getElementById('wlPhotoPreview');
+  const img  = document.getElementById('wlPhotoImg');
+  if (!wrap || !img) return;
+  if (url && url.startsWith('http')) {
+    img.src = url;
+    wrap.style.display = 'block';
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
 function saveWL() {
   const name = document.getElementById('wlName').value.trim();
   if (!name) { showToast('Enter an item name'); return; }
@@ -4618,7 +4728,7 @@ function saveWL() {
   const person   = getActiveWLPerson();
   const items    = getWL(person);
   const existing = editWLId ? items.find(x => x.id === editWLId) : null;
-  const w = { id: editWLId || 'w' + Date.now(), store, name, detail: document.getElementById('wlDetail').value, done: existing?.done || false, shared: isShared };
+  const w = { id: editWLId || 'w' + Date.now(), store, name, detail: document.getElementById('wlDetail').value, link: document.getElementById('wlLink').value.trim(), photo: document.getElementById('wlPhoto').value.trim(), done: existing?.done || false, shared: isShared };
   if (editWLId) { const i = items.findIndex(x => x.id === editWLId); if (i > -1) items[i] = w; } else items.push(w);
   saveWLFor(person, items);
   if (isShared) {
