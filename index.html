@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -40,16 +41,16 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 /* HEADER */
 .app-header{background:white;padding:0;padding-top:env(safe-area-inset-top);position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;z-index:100;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.12);}.app-header-stripe{height:6px;background:linear-gradient(to right,#c8102e 0%,#c8102e 33%,#f7941d 33%,#f7941d 66%,#007a3d 66%,#007a3d 100%);}.app-header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;}
-.app-header h1{font-family:'Bebas Neue',sans-serif;font-size:26px;font-weight:400;color:#c8102e;letter-spacing:.04em;line-height:1;}
-.app-header .sub{font-size:10px;color:var(--stone);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
+.app-header h1{font-family:‘Bebas Neue’,sans-serif;font-size:26px;font-weight:400;color:#c8102e;letter-spacing:.04em;line-height:1;}
+.app-header .sub{font-size:10px;color:var(–stone);letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
-.couple-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(--ca);letter-spacing:.02em;}
-.couple-badge.pj{background:var(--pj);}
+.couple-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;cursor:pointer;color:white;background:var(–ca);letter-spacing:.02em;}
+.couple-badge.pj{background:var(–pj);}
 .live-dot{display:none!important;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
 
 /* NAV */
-.nav-tabs{background:var(--ink);display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-bottom:2px solid var(--ink-light);position:fixed;top:62px;left:0;right:0;max-width:430px;margin:0 auto;z-index:99;touch-action:pan-x;-webkit-overflow-scrolling:touch;}
+.nav-tabs{background:var(–ink);display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-bottom:2px solid var(–ink-light);position:fixed;top:62px;left:0;right:0;max-width:430px;margin:0 auto;z-index:99;touch-action:pan-x;-webkit-overflow-scrolling:touch;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .nav-tab{flex:none;padding:9px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
 .nav-tab.active{color:white;border-bottom-color:#f7941d;}
@@ -62,26 +63,26 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 /* SMART TRIP HEADER */
 .itin-smart-header{margin:8px 12px 4px;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(200,16,46,.12);}
 .ish-countdown{background:linear-gradient(135deg,#c8102e,#a00e26);color:white;padding:16px;display:flex;align-items:center;gap:14px;}
-.ish-count-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:white;flex-shrink:0;}
+.ish-count-num{font-family:‘Bebas Neue’,sans-serif;font-size:52px;line-height:1;color:white;flex-shrink:0;}
 .ish-count-right{display:flex;flex-direction:column;}
 .ish-count-unit{font-size:15px;font-weight:700;color:white;}
 .ish-count-label{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
 .ish-count-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px;}
 .ish-trip-day{background:white;padding:11px 16px 0;display:flex;align-items:flex-start;justify-content:space-between;}
 .ish-today-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c8102e;}
-.ish-today-day{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#1a1a1a;letter-spacing:.03em;margin-top:1px;line-height:1.1;}
-.ish-today-city{font-size:12px;color:var(--stone);margin-top:2px;}
+.ish-today-day{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:#1a1a1a;letter-spacing:.03em;margin-top:1px;line-height:1.1;}
+.ish-today-city{font-size:12px;color:var(–stone);margin-top:2px;}
 .ish-progress-wrap{padding:10px 16px 13px;background:white;}
 .ish-progress-bar{height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden;}
 .ish-progress-fill{height:100%;background:linear-gradient(to right,#c8102e,#f7941d);border-radius:2px;transition:width .5s ease;}
-.ish-progress-label{font-size:10px;color:var(--stone);margin-top:5px;}
+.ish-progress-label{font-size:10px;color:var(–stone);margin-top:5px;}
 
 /* CITY — now collapsible */
 .city-header{display:flex;align-items:center;gap:8px;padding:10px 12px 8px;margin:8px 12px 0;background:white;border-left:5px solid #f7941d;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;user-select:none;}
-.city-name{font-family:'Bebas Neue',sans-serif;font-size:22px;font-weight:400;letter-spacing:.04em;}
-.city-kanji{font-family:'Shippori Mincho',serif;font-size:13px;color:var(--stone);}
+.city-name{font-family:‘Bebas Neue’,sans-serif;font-size:22px;font-weight:400;letter-spacing:.04em;}
+.city-kanji{font-family:‘Shippori Mincho’,serif;font-size:13px;color:var(–stone);}
 .city-dates{margin-left:auto;font-size:11px;color:#c8102e;font-weight:600;background:rgba(200,16,46,.08);padding:3px 10px;border-radius:20px;}
-.city-chev{font-size:11px;color:var(--stone);transition:transform .25s;flex-shrink:0;}
+.city-chev{font-size:11px;color:var(–stone);transition:transform .25s;flex-shrink:0;}
 .city-chev.collapsed{transform:rotate(-90deg);}
 .city-block{overflow:hidden;max-height:5000px;transition:max-height .4s cubic-bezier(.4,0,.2,1);}
 .city-block.collapsed{max-height:0;}
@@ -91,84 +92,101 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .itin-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px;gap:8px;}
 .itin-who-filter{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none;}
 .itin-who-filter::-webkit-scrollbar{display:none;}
-.iwf-btn{flex:none;font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:1.5px solid var(--stone-light);background:white;color:var(--stone);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
-.iwf-btn.active{background:var(--ink);color:white;border-color:var(--ink);}
+.iwf-btn{flex:none;font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:1.5px solid var(–stone-light);background:white;color:var(–stone);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+.iwf-btn.active{background:var(–ink);color:white;border-color:var(–ink);}
 .itin-collapse-btns{display:flex;gap:2px;flex-shrink:0;}
-.itin-collapse-btns button{background:none;border:1.5px solid var(--stone-light);border-radius:7px;padding:4px 7px;font-size:14px;cursor:pointer;color:var(--stone);transition:all .15s;}
-.itin-collapse-btns button:hover{background:var(--ink);color:white;border-color:var(--ink);}
+.itin-collapse-btns button{background:none;border:1.5px solid var(–stone-light);border-radius:7px;padding:4px 7px;font-size:14px;cursor:pointer;color:var(–stone);transition:all .15s;}
+.itin-collapse-btns button:hover{background:var(–ink);color:white;border-color:var(–ink);}
 
 /* DAY COLLAPSE */
 .day-header-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 3px;cursor:pointer;user-select:none;}
-.day-header-row:hover .dl{color:var(--ink);}
-.day-header-row .dl{font-family:'Shippori Mincho',serif;font-size:13px;font-weight:700;color:var(--ink-light);transition:color .15s;}
+.day-header-row:hover .dl{color:var(–ink);}
+.day-header-row .dl{font-family:‘Shippori Mincho’,serif;font-size:13px;font-weight:700;color:var(–ink-light);transition:color .15s;}
 .day-header-row .day-right{display:flex;align-items:center;gap:6px;}
-.day-chev{font-size:11px;color:var(--stone);transition:transform .22s;}
+.day-chev{font-size:11px;color:var(–stone);transition:transform .22s;}
 .day-chev.open{transform:rotate(180deg);}
 .day-drop-zone{overflow:hidden;max-height:5000px;transition:max-height .28s cubic-bezier(.4,0,.2,1);}
 .day-drop-zone.collapsed{max-height:0;}
 .day-drop-zone.open{max-height:5000px;}
-.day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
+.day-add-btn{background:none;border:none;color:var(–blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
 
 /* ITIN CARD */
 /* Prevent iOS grey flash on tap for all interactive elements */
 .itin-card,.disc-card,.disc-grid-card,.tt-card,.note-card,.wl-item,.bk-card,.tr-card,.tip-item,.coll-hdr,.day-header-row,.city-header,.tab-banner-hdr,.wl-store-hdr{-webkit-tap-highlight-color:transparent;}
-.itin-card:active,.disc-card:active,.disc-grid-card:active,.tt-card:active,.note-card:active{background:white;}background:white;border-radius:2px;border-left:3px solid #c8102e;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
+.itin-card:active,.disc-card:active,.disc-grid-card:active,.tt-card:active,.note-card:active{background:white;}background:white;border-radius:2px;border-left:3px solid #c8102e;overflow:hidden;box-shadow:0 1px 8px var(–shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
 .itin-card:active{cursor:grabbing;}
-.itin-card.tentative{border-style:dashed;border-color:var(--stone-light);background:#fcfaf7;}
-.itin-card.idea{border-style:dashed;border-color:var(--gold);background:#fffdf7;}
-.itin-card.dragging{opacity:.5;box-shadow:0 8px 24px var(--shadow-deep);}
-.itin-card.drag-over{box-shadow:0 0 0 2px var(--blossom-deep);}
+.itin-card.tentative{border-left-color:var(–stone);background:#fcfaf7;}
+.itin-card.idea{border-left-color:var(–gold);background:#fffdf7;}
+
+/* ── Scroll magnify effect on itinerary cards ── */
+.itin-card {
+transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, opacity .2s ease;
+transform-origin: center center;
+will-change: transform;
+}
+.itin-card.card-far   { transform: scale(0.95); opacity: 0.65; }
+.itin-card.card-near  { transform: scale(0.98); opacity: 0.82; }
+.itin-card.card-focus { transform: scale(1.025) translateY(-2px);
+box-shadow: 0 8px 28px rgba(0,0,0,.14);
+opacity: 1; z-index: 3; position: relative; }
+
+.itin-card.dragging{opacity:.5;box-shadow:0 8px 24px var(–shadow-deep);}
+.itin-card.drag-over{box-shadow:0 0 0 2px var(–blossom-deep);}
+.itin-card:focus-within{box-shadow:0 0 0 2.5px var(–gold),0 2px 12px rgba(201,151,58,.18);outline:none;z-index:2;position:relative;}
 
 .who-stripe{height:3px;}
-.ws-together{background:var(--tog);}
-.ws-ca{background:var(--ca);}
-.ws-pj{background:var(--pj);}
+.ws-together{background:var(–tog);}
+.ws-ca{background:var(–ca);}
+.ws-pj{background:var(–pj);}
 
 .itin-card-body{padding:10px 12px 7px;}
 .itin-top{display:flex;align-items:flex-start;gap:7px;}
-.drag-handle{font-size:14px;color:var(--stone-light);cursor:grab;padding-top:1px;flex-shrink:0;touch-action:none;}
-.itin-time{font-size:11px;color:var(--stone);min-width:50px;padding-top:2px;font-weight:500;}
+.drag-handle{font-size:14px;color:var(–stone-light);cursor:grab;padding-top:1px;flex-shrink:0;touch-action:none;}
+.itin-time{font-size:11px;color:var(–stone);min-width:50px;padding-top:2px;font-weight:500;}
 .itin-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.dot-food{background:var(--matcha);}
-.dot-activity{background:var(--sky);}
-.dot-hotel{background:var(--gold);}
-.dot-shopping{background:var(--blossom-deep);}
+.dot-food{background:var(–matcha);}
+.dot-activity{background:var(–sky);}
+.dot-hotel{background:var(–gold);}
+.dot-shopping{background:var(–blossom-deep);}
 .dot-onsen{background:#a78bfa;}
-.dot-transport{background:var(--stone);}
+.dot-transport{background:var(–stone);}
 .dot-explore{background:#f97316;}
 .dot-rest{background:#94a3b8;}
 .itin-main{flex:1;}
-.itin-title{font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
-.itin-detail{font-size:12px;color:var(--stone);margin-top:2px;line-height:1.4;}
+.itin-title{font-size:14px;font-weight:500;color:var(–ink);line-height:1.3;}
+.itin-card:focus-within .itin-title{color:var(–ca);}
+.itin-detail{font-size:12px;color:var(–stone);margin-top:2px;line-height:1.4;}
 .itin-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.3;padding:2px;flex-shrink:0;}
 .itin-edit-btn:hover{opacity:.9;}
 
 .itin-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
 .tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
-.tag-cat{background:#f0ece6;color:var(--stone);}
-.tag-booked{background:rgba(192,57,43,.1);color:var(--red-torii);}
-.tag-must{background:rgba(201,151,58,.12);color:var(--gold);}
-.tag-flex{background:rgba(107,143,94,.12);color:var(--matcha);}
-.tag-idea{background:rgba(201,151,58,.08);color:var(--gold);border:1px dashed var(--gold);}
-.tag-tog{background:rgba(91,143,168,.12);color:var(--tog);}
-.tag-ca{background:rgba(201,109,138,.12);color:var(--ca);}
-.tag-pj{background:rgba(107,143,94,.12);color:var(--pj);}
+.tag-cat{background:#f0ece6;color:var(–stone);}
+.tag-booked{background:rgba(192,57,43,.1);color:var(–red-torii);}
+.tag-must{background:rgba(201,151,58,.12);color:var(–gold);}
+.tag-flex{background:rgba(107,143,94,.12);color:var(–matcha);}
+.tag-idea{background:rgba(201,151,58,.08);color:var(–gold);border:1px dashed var(–gold);}
+.tag-tog{background:rgba(91,143,168,.12);color:var(–tog);}
+.tag-ca{background:rgba(201,109,138,.12);color:var(–ca);}
+.tag-pj{background:rgba(107,143,94,.12);color:var(–pj);}
 
 /* CONFIRM ROW */
 .confirm-row{border-top:1px solid #f0ece6;background:#faf8f5;}
 .confirm-couple-row{display:flex;align-items:center;gap:6px;padding:5px 12px;}
 .confirm-couple-row:first-child{padding-bottom:2px;}
 .confirm-couple-row:last-child{padding-top:2px;padding-bottom:7px;}
+.itin-card:focus-within .confirm-row{background:#fff8ee;border-top-color:var(–gold);}
+
 .clabel{font-size:10px;font-weight:600;min-width:26px;}
-.clabel.ca{color:var(--ca);}
-.clabel.pj{color:var(--pj);}
+.clabel.ca{color:var(–ca);}
+.clabel.pj{color:var(–pj);}
 .cvote-btns{display:flex;gap:3px;}
-.cvbtn{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--stone-light);background:white;cursor:pointer;transition:all .15s;font-family:inherit;}
+.cvbtn{font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(–stone-light);background:white;cursor:pointer;transition:all .15s;font-family:inherit;}
 .cvbtn.vy{background:#dcfce7;border-color:#86efac;}
-.cvbtn.vm{background:var(--gold-light);border-color:var(--gold);}
+.cvbtn.vm{background:var(–gold-light);border-color:var(–gold);}
 .cvbtn.vn{background:#fee2e2;border-color:#fca5a5;}
-.vote-comment{flex:1;font-size:12px;background:transparent;border:none;outline:none;color:var(--ink);font-family:inherit;padding:1px 4px;min-width:0;}
-.vote-comment::placeholder{color:var(--stone-light);}
+.vote-comment{flex:1;font-size:12px;background:transparent;border:none;outline:none;color:var(–ink);font-family:inherit;padding:1px 4px;min-width:0;}
+.vote-comment::placeholder{color:var(–stone-light);}
 
 /* FAB */
 .fab{position:fixed;bottom:20px;right:16px;width:50px;height:50px;background:#c8102e;color:white;border-radius:4px;border:none;font-size:23px;cursor:pointer;box-shadow:0 4px 16px rgba(201,109,138,.45);z-index:50;display:flex;align-items:center;justify-content:center;transition:all .2s;}
@@ -178,130 +196,130 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 /* SHEET */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;max-width:430px;margin:0 auto;}
 .sheet-overlay.open{opacity:1;pointer-events:all;}
-.sheet{background:var(--parchment);border-radius:20px 20px 0 0;width:100%;padding:0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet{background:var(–parchment);border-radius:20px 20px 0 0;width:100%;padding:0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
 .sheet-overlay.open .sheet{transform:translateY(0);}
-.sheet-handle{width:38px;height:4px;background:var(--stone-light);border-radius:2px;margin:13px auto 0;}
-.sheet-title{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700;color:var(--ink);padding:13px 18px 3px;}
+.sheet-handle{width:38px;height:4px;background:var(–stone-light);border-radius:2px;margin:13px auto 0;}
+.sheet-title{font-family:‘Shippori Mincho’,serif;font-size:18px;font-weight:700;color:var(–ink);padding:13px 18px 3px;}
 .sheet-body{padding:4px 18px 28px;}
 
 .form-row{margin-bottom:12px;}
-.form-label{font-size:11px;font-weight:500;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
-.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border:1.5px solid var(--stone-light);border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:white;outline:none;transition:border-color .2s;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blossom-deep);}
+.form-label{font-size:11px;font-weight:500;color:var(–stone);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border:1.5px solid var(–stone-light);border-radius:10px;font-size:14px;font-family:inherit;color:var(–ink);background:white;outline:none;transition:border-color .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(–blossom-deep);}
 .form-textarea{resize:none;min-height:58px;}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
 
 .who-sel{display:flex;gap:6px;}
-.who-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(--stone-light);text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--stone);transition:all .2s;}
-.who-opt.s-tog{border-color:var(--tog);background:rgba(91,143,168,.12);color:var(--tog);}
-.who-opt.s-ca{border-color:var(--ca);background:rgba(201,109,138,.1);color:var(--ca);}
-.who-opt.s-pj{border-color:var(--pj);background:rgba(107,143,94,.12);color:var(--pj);}
+.who-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(–stone-light);text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(–stone);transition:all .2s;}
+.who-opt.s-tog{border-color:var(–tog);background:rgba(91,143,168,.12);color:var(–tog);}
+.who-opt.s-ca{border-color:var(–ca);background:rgba(201,109,138,.1);color:var(–ca);}
+.who-opt.s-pj{border-color:var(–pj);background:rgba(107,143,94,.12);color:var(–pj);}
 
 .status-sel{display:flex;gap:6px;}
-.status-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(--stone-light);text-align:center;cursor:pointer;font-size:11px;font-weight:500;color:var(--stone);transition:all .2s;}
-.status-opt.sel{border-color:var(--ink);background:var(--ink);color:white;}
+.status-opt{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid var(–stone-light);text-align:center;cursor:pointer;font-size:11px;font-weight:500;color:var(–stone);transition:all .2s;}
+.status-opt.sel{border-color:var(–ink);background:var(–ink);color:white;}
 
-.form-submit{width:100%;padding:13px;background:var(--ink);color:white;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s;}
-.form-submit:hover{background:var(--ink-light);}
-.form-cancel{width:100%;padding:10px;background:transparent;color:var(--stone);border:none;border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
-.form-delete{width:100%;padding:10px;background:rgba(192,57,43,.07);color:var(--red-torii);border:1px solid rgba(192,57,43,.2);border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
+.form-submit{width:100%;padding:13px;background:var(–ink);color:white;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s;}
+.form-submit:hover{background:var(–ink-light);}
+.form-cancel{width:100%;padding:10px;background:transparent;color:var(–stone);border:none;border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
+.form-delete{width:100%;padding:10px;background:rgba(192,57,43,.07);color:var(–red-torii);border:1px solid rgba(192,57,43,.2);border-radius:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px;}
 
 /* DISCOVER LIST */
-.discover-list-picker{max-height:200px;overflow-y:auto;border:1.5px solid var(--stone-light);border-radius:10px;background:white;margin-bottom:8px;-webkit-overflow-scrolling:touch;}
+.discover-list-picker{max-height:200px;overflow-y:auto;border:1.5px solid var(–stone-light);border-radius:10px;background:white;margin-bottom:8px;-webkit-overflow-scrolling:touch;}
 .dl-item{padding:9px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid #f0ece6;display:flex;align-items:center;gap:8px;transition:background .15s;}
 .dl-item:last-child{border-bottom:none;}
 .dl-item:hover{background:#f5f0eb;}
 .dl-item.selected{background:rgba(201,109,138,.08);}
-.dl-tab{display:flex;gap:0;margin-bottom:10px;border:1.5px solid var(--stone-light);border-radius:10px;overflow:hidden;}
-.dl-tab-btn{flex:1;padding:8px;background:white;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--stone);transition:all .2s;}
-.dl-tab-btn.active{background:var(--ink);color:white;}
+.dl-tab{display:flex;gap:0;margin-bottom:10px;border:1.5px solid var(–stone-light);border-radius:10px;overflow:hidden;}
+.dl-tab-btn{flex:1;padding:8px;background:white;border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;color:var(–stone);transition:all .2s;}
+.dl-tab-btn.active{background:var(–ink);color:white;}
 
 /* ── DISCOVER + MAP (merged) ── */
-.disc-map-wrap{margin:0 12px 0;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);height:220px;background:#e8e4df;position:relative;transition:height .35s ease;}
+.disc-map-wrap{margin:0 12px 0;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(–shadow);height:220px;background:#e8e4df;position:relative;transition:height .35s ease;}
 .disc-map-wrap iframe{width:100%;height:100%;border:0;}
 .disc-map-wrap.map-expanded{height:340px;}
-.disc-map-link{position:absolute;bottom:8px;right:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(--ink);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
-.disc-map-expand{position:absolute;bottom:8px;left:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
+.disc-map-link{position:absolute;bottom:8px;right:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(–ink);text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
+.disc-map-expand{position:absolute;bottom:8px;left:8px;background:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:500;color:var(–ink);box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;}
 
 /* active spot banner */
-.disc-active-banner{display:none;margin:8px 12px 2px;background:var(--ink);color:white;border-radius:12px;padding:9px 14px;align-items:center;gap:10px;animation:si .2s ease;}
+.disc-active-banner{display:none;margin:8px 12px 2px;background:var(–ink);color:white;border-radius:12px;padding:9px 14px;align-items:center;gap:10px;animation:si .2s ease;}
 .disc-active-banner.show{display:flex;}
 .dab-icon{font-size:20px;flex-shrink:0;}
 .dab-info{flex:1;}
 .dab-name{font-size:13px;font-weight:500;}
-.dab-city{font-size:11px;color:var(--blossom);margin-top:1px;}
-.dab-gmaps{font-size:11px;color:var(--sky);background:rgba(91,143,168,.2);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;white-space:nowrap;text-decoration:none;}
+.dab-city{font-size:11px;color:var(–blossom);margin-top:1px;}
+.dab-gmaps{font-size:11px;color:var(–sky);background:rgba(91,143,168,.2);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;white-space:nowrap;text-decoration:none;}
 .dab-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;}
 
 /* toolbar */
 .disc-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 2px;}
-.disc-count{font-size:11px;color:var(--stone);}
+.disc-count{font-size:11px;color:var(–stone);}
 .view-toggle{display:flex;gap:2px;background:#f0ece6;border-radius:8px;padding:2px;}
-.view-btn{background:none;border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:14px;color:var(--stone);transition:all .15s;}
-.view-btn.active{background:white;color:var(--ink);box-shadow:0 1px 4px var(--shadow);}
+.view-btn{background:none;border:none;padding:5px 9px;border-radius:6px;cursor:pointer;font-size:14px;color:var(–stone);transition:all .15s;}
+.view-btn.active{background:white;color:var(–ink);box-shadow:0 1px 4px var(–shadow);}
 
 .filter-scroll{display:flex;gap:6px;padding:10px 12px 7px;overflow-x:auto;scrollbar-width:none;}
 .filter-scroll::-webkit-scrollbar{display:none;}
-.fpill{flex:none;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--stone-light);color:var(--stone);background:white;transition:all .2s;}
-.fpill.active{background:var(--ink);color:white;border-color:var(--ink);}
+.fpill{flex:none;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(–stone-light);color:var(–stone);background:white;transition:all .2s;}
+.fpill.active{background:var(–ink);color:white;border-color:var(–ink);}
 
 .disc-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c8102e;padding:10px 14px 5px;}
 
 /* LIST view */
 .disc-list{display:flex;flex-direction:column;gap:6px;padding:0 12px;}
-.disc-card{background:white;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px var(--shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;}
+.disc-card{background:white;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 6px var(–shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;}
 .disc-card:active{transform:scale(.98);}
-.disc-card.map-active{border-color:var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+.disc-card.map-active{border-color:var(–sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
 .disc-card.visited{opacity:.5;}
 .disc-card.visited .disc-name{text-decoration:line-through;}
 .disc-icon{font-size:21px;flex-shrink:0;}
 .disc-body{flex:1;}
 .disc-name{font-size:14px;font-weight:500;}
-.disc-desc{font-size:12px;color:var(--stone);margin-top:2px;line-height:1.4;}
+.disc-desc{font-size:12px;color:var(–stone);margin-top:2px;line-height:1.4;}
 .disc-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
 .disc-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;}
-.db-0{background:rgba(107,143,94,.12);color:var(--matcha);}
-.db-1{background:rgba(201,151,58,.12);color:var(--gold);}
-.db-2{background:rgba(232,160,180,.2);color:var(--blossom-deep);}
-.db-3{background:rgba(91,143,168,.12);color:var(--sky);}
+.db-0{background:rgba(107,143,94,.12);color:var(–matcha);}
+.db-1{background:rgba(201,151,58,.12);color:var(–gold);}
+.db-2{background:rgba(232,160,180,.2);color:var(–blossom-deep);}
+.db-3{background:rgba(91,143,168,.12);color:var(–sky);}
 .disc-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
-.disc-map-btn{font-size:11px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;}
-.disc-visit-btn{font-size:11px;font-weight:500;border-radius:20px;padding:3px 9px;cursor:pointer;border:none;background:#f0ece6;color:var(--stone);white-space:nowrap;}
-.disc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
+.disc-map-btn{font-size:11px;color:var(–sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;}
+.disc-visit-btn{font-size:11px;font-weight:500;border-radius:20px;padding:3px 9px;cursor:pointer;border:none;background:#f0ece6;color:var(–stone);white-space:nowrap;}
+.disc-visit-btn.done{background:rgba(107,143,94,.15);color:var(–matcha);}
 .disc-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.25;}
 .disc-edit-btn:hover{opacity:.8;}
-.disc-city-chip{font-size:10px;background:rgba(107,143,94,.1);color:var(--matcha);padding:2px 8px;border-radius:10px;font-weight:500;}
+.disc-city-chip{font-size:10px;background:rgba(107,143,94,.1);color:var(–matcha);padding:2px 8px;border-radius:10px;font-weight:500;}
 
 /* GRID view */
 .disc-grid-view{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px;}
-.disc-grid-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 6px var(--shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;position:relative;}
+.disc-grid-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 1px 6px var(–shadow);border:1.5px solid rgba(0,0,0,.04);cursor:pointer;transition:all .18s;position:relative;}
 .disc-grid-card:active{transform:scale(.97);}
-.disc-grid-card.map-active{border-color:var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+.disc-grid-card.map-active{border-color:var(–sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
 .disc-grid-card.visited{opacity:.45;}
 .disc-grid-card.visited .dgc-name{text-decoration:line-through;}
 .dgc-top{height:70px;display:flex;align-items:center;justify-content:center;font-size:34px;position:relative;}
 .dgc-visited-badge{position:absolute;top:5px;right:7px;font-size:14px;}
 .dgc-body{padding:7px 10px 9px;}
-.dgc-name{font-size:13px;font-weight:500;color:var(--ink);line-height:1.3;}
-.dgc-city{font-size:10px;color:var(--stone);margin-top:2px;}
+.dgc-name{font-size:13px;font-weight:500;color:var(–ink);line-height:1.3;}
+.dgc-city{font-size:10px;color:var(–stone);margin-top:2px;}
 .dgc-actions{display:flex;gap:4px;margin-top:6px;}
-.dgc-map-btn{font-size:10px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 0;cursor:pointer;flex:1;text-align:center;}
-.dgc-visit-btn{font-size:10px;font-weight:500;border-radius:20px;padding:3px 0;cursor:pointer;border:none;flex:1;text-align:center;background:#f0ece6;color:var(--stone);}
-.dgc-visit-btn.done{background:rgba(107,143,94,.15);color:var(--matcha);}
+.dgc-map-btn{font-size:10px;color:var(–sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 0;cursor:pointer;flex:1;text-align:center;}
+.dgc-visit-btn{font-size:10px;font-weight:500;border-radius:20px;padding:3px 0;cursor:pointer;border:none;flex:1;text-align:center;background:#f0ece6;color:var(–stone);}
+.dgc-visit-btn.done{background:rgba(107,143,94,.15);color:var(–matcha);}
 
 /* ── UNIVERSAL COLLAPSIBLE SECTIONS ── */
 .coll-section{margin:0 12px 6px;}
-.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:0;border-left:4px solid #c8102e;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
-.coll-hdr:active{box-shadow:0 1px 3px var(--shadow);}
+.coll-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:0;border-left:4px solid #c8102e;cursor:pointer;box-shadow:0 1px 6px var(–shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .15s,box-shadow .15s;user-select:none;}
+.coll-hdr:active{box-shadow:0 1px 3px var(–shadow);}
 .coll-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
 .coll-hdr-left{display:flex;align-items:center;gap:8px;flex:1;}
-.coll-hdr-title{font-size:13px;font-weight:600;color:var(--ink);}
-.coll-hdr-count{font-size:11px;color:var(--stone);font-weight:400;}
-.coll-chev{font-size:11px;color:var(--stone);transition:transform .22s;flex-shrink:0;}
+.coll-hdr-title{font-size:13px;font-weight:600;color:var(–ink);}
+.coll-hdr-count{font-size:11px;color:var(–stone);font-weight:400;}
+.coll-chev{font-size:11px;color:var(–stone);transition:transform .22s;flex-shrink:0;}
 .coll-chev.open{transform:rotate(180deg);}
-.coll-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
-.coll-body{background:white;border-radius:0;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.coll-add-btn{background:none;border:none;color:var(–blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;flex-shrink:0;}
+.coll-body{background:white;border-radius:0;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(–shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
 .coll-body.open{max-height:3000px;}
 .coll-inner{padding:8px 0 4px;}
 /* items inside coll sections lose their own card shadow */
@@ -311,30 +329,30 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .coll-inner .tip-banner{margin:6px 12px;}
 
 /* ── BOOKINGS ── */
-.section-label{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
+.section-label{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(–stone);padding:12px 14px 5px;}
 .booking-section{margin:0 12px 12px;}
-.booking-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 8px var(--shadow);margin-bottom:7px;border:1px solid rgba(0,0,0,.04);}
+.booking-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 8px var(–shadow);margin-bottom:7px;border:1px solid rgba(0,0,0,.04);}
 .bk-header{padding:10px 12px;display:flex;align-items:center;gap:8px;}
 .bk-icon{font-size:18px;}
 .bk-title{font-size:14px;font-weight:500;}
-.bk-sub{font-size:12px;color:var(--stone);margin-top:1px;}
+.bk-sub{font-size:12px;color:var(–stone);margin-top:1px;}
 .bk-status{margin-left:auto;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;}
-.sc{background:rgba(107,143,94,.15);color:var(--matcha);}
-.sp{background:rgba(201,151,58,.15);color:var(--gold);}
-.st{background:rgba(192,57,43,.1);color:var(--red-torii);}
+.sc{background:rgba(107,143,94,.15);color:var(–matcha);}
+.sp{background:rgba(201,151,58,.15);color:var(–gold);}
+.st{background:rgba(192,57,43,.1);color:var(–red-torii);}
 .bk-edit{background:none;border:none;font-size:14px;cursor:pointer;opacity:.25;padding:0 2px;}
 .bk-edit:hover{opacity:.8;}
 .bk-details{border-top:1px solid #f0ece6;padding:8px 12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.bk-di .lbl{font-size:10px;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;}
+.bk-di .lbl{font-size:10px;color:var(–stone);text-transform:uppercase;letter-spacing:.06em;}
 .bk-di .val{font-size:13px;font-weight:500;margin-top:1px;}
 
 /* TRANSIT */
 .shin-card{background:linear-gradient(135deg,#1a1512,#2d2520);border-radius:13px;padding:14px;margin:0 12px 9px;color:white;position:relative;overflow:hidden;}
-.shin-card::before{content:'新幹線';position:absolute;right:-6px;top:-8px;font-family:'Shippori Mincho',serif;font-size:50px;color:rgba(255,255,255,.05);}
-.shin-type{font-size:10px;color:var(--blossom);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.shin-card::before{content:‘新幹線’;position:absolute;right:-6px;top:-8px;font-family:‘Shippori Mincho’,serif;font-size:50px;color:rgba(255,255,255,.05);}
+.shin-type{font-size:10px;color:var(–blossom);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
 .shin-route{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
-.shin-city{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;}
-.shin-arrow{color:var(--blossom);flex:1;text-align:center;}
+.shin-city{font-family:‘Shippori Mincho’,serif;font-size:15px;font-weight:700;}
+.shin-arrow{color:var(–blossom);flex:1;text-align:center;}
 .shin-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
 .shin-d .lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;}
 .shin-d .val{font-size:13px;font-weight:500;margin-top:1px;}
@@ -345,42 +363,38 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .shin-edit-btn:hover{opacity:.9;}
 
 /* NOTES */
-.note-composer{margin:0 12px 11px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 2px 10px var(--shadow);border:1px solid rgba(0,0,0,.05);}
+.note-composer{margin:0 12px 11px;background:white;border-radius:13px;overflow:hidden;box-shadow:0 2px 10px var(–shadow);border:1px solid rgba(0,0,0,.05);}
 .nc-top{display:flex;align-items:center;gap:7px;padding:10px 12px 7px;border-bottom:1px solid #f0ece6;}
 .nc-sel{font-size:12px;font-weight:500;padding:4px 9px;border-radius:20px;border:none;font-family:inherit;cursor:pointer;}
-.nc-couple{background:var(--ca);color:white;}
-.nc-couple.pj{background:var(--pj);}
-.nc-type{background:#f0ece6;color:var(--ink);}
-.note-ta{width:100%;padding:10px 12px;border:none;outline:none;font-family:inherit;font-size:14px;color:var(--ink);resize:none;min-height:62px;background:transparent;line-height:1.5;}
-.note-ta::placeholder{color:var(--stone-light);}
+.nc-couple{background:var(–ca);color:white;}
+.nc-couple.pj{background:var(–pj);}
+.nc-type{background:#f0ece6;color:var(–ink);}
+.note-ta{width:100%;padding:10px 12px;border:none;outline:none;font-family:inherit;font-size:14px;color:var(–ink);resize:none;min-height:62px;background:transparent;line-height:1.5;}
+.note-ta::placeholder{color:var(–stone-light);}
 .note-footer{display:flex;align-items:center;justify-content:flex-end;padding:6px 12px 10px;gap:6px;}
-.note-cc{font-size:11px;color:var(--stone);}
-.note-post{background:var(--ink);color:white;border:none;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.note-cc{font-size:11px;color:var(–stone);}
+.note-post{background:var(–ink);color:white;border:none;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
 .notes-feed{padding:0 12px;}
-.note-card{background:white;border-radius:13px;padding:12px;margin-bottom:8px;box-shadow:0 2px 10px var(--shadow);border:1px solid rgba(0,0,0,.05);animation:si .25s ease;}
+.note-card{background:white;border-radius:13px;padding:12px;margin-bottom:8px;box-shadow:0 2px 10px var(–shadow);border:1px solid rgba(0,0,0,.05);animation:si .25s ease;}
 @keyframes si{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 .nc-top2{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .nc-badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
-.nc-badge.ca{background:rgba(201,109,138,.15);color:var(--ca);}
-.nc-badge.pj{background:rgba(107,143,94,.15);color:var(--pj);}
-.nc-ttype{font-size:10px;color:var(--stone);}
-.nc-ts{font-size:10px;color:var(--stone-light);margin-left:auto;}
-.note-text{font-size:14px;color:var(--ink);line-height:1.6;}
+.nc-badge.ca{background:rgba(201,109,138,.15);color:var(–ca);}
+.nc-badge.pj{background:rgba(107,143,94,.15);color:var(–pj);}
+.nc-ttype{font-size:10px;color:var(–stone);}
+.nc-ts{font-size:10px;color:var(–stone-light);margin-left:auto;}
+.note-text{font-size:14px;color:var(–ink);line-height:1.6;}
 .react-row{display:flex;gap:5px;margin-top:8px;}
 .rbtn{background:#f5f2ee;border:none;border-radius:20px;padding:4px 9px;font-size:12px;cursor:pointer;transition:all .2s;}
-.rbtn:hover{background:var(--stone-light);}
+.rbtn:hover{background:var(–stone-light);}
 
 /* PICKER */
 /* PASSWORD GATE */
 
-
-
-
-
-.pw-input{width:100%;border:1.5px solid var(--stone-light);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;background:white;color:var(--ink);text-align:center;letter-spacing:.08em;transition:border-color .2s;box-sizing:border-box;}
-.pw-input:focus{border-color:var(--blossom-deep);}
+.pw-input{width:100%;border:1.5px solid var(–stone-light);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit;outline:none;background:white;color:var(–ink);text-align:center;letter-spacing:.08em;transition:border-color .2s;box-sizing:border-box;}
+.pw-input:focus{border-color:var(–blossom-deep);}
 .pw-input.error{border-color:#e53e3e;animation:shake .3s ease;}
-.pw-btn{width:100%;margin-top:12px;background:var(--ink);color:white;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+.pw-btn{width:100%;margin-top:12px;background:var(–ink);color:white;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;}
 .pw-btn:hover{opacity:.85;}
 .pw-error{color:#e53e3e;font-size:12px;margin-top:8px;min-height:16px;}
 
@@ -393,56 +407,56 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .picker-btn:last-child{margin-bottom:0;}
 
 /* BOOKING PROGRESS */
-.bk-progress{margin:0 12px 11px;background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px var(--shadow);}
-.bp-label{font-size:12px;color:var(--stone);margin-bottom:6px;display:flex;justify-content:space-between;}
+.bk-progress{margin:0 12px 11px;background:white;border-radius:12px;padding:12px;box-shadow:0 1px 6px var(–shadow);}
+.bp-label{font-size:12px;color:var(–stone);margin-bottom:6px;display:flex;justify-content:space-between;}
 .bp-bar{height:5px;background:#f0ece6;border-radius:3px;overflow:hidden;}
-.bp-fill{height:100%;background:linear-gradient(to right,var(--matcha-light),var(--matcha));border-radius:3px;transition:width .5s ease;}
+.bp-fill{height:100%;background:linear-gradient(to right,var(–matcha-light),var(–matcha));border-radius:3px;transition:width .5s ease;}
 
 /* TIPS */
 .tip-banner{margin:0 12px 7px;background:linear-gradient(135deg,rgba(107,143,94,.1),rgba(107,143,94,.05));border:1px solid rgba(107,143,94,.2);border-radius:12px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;}
 .tip-icon{font-size:16px;}
-.tip-text{font-size:13px;color:var(--ink-light);line-height:1.5;}
-.tip-text strong{color:var(--matcha);}
+.tip-text{font-size:13px;color:var(–ink-light);line-height:1.5;}
+.tip-text strong{color:var(–matcha);}
 
 /* TOAST */
 .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-size:13px;z-index:400;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* EMPTY */
-.empty-st{text-align:center;padding:26px 16px;color:var(--stone);}
+.empty-st{text-align:center;padding:26px 16px;color:var(–stone);}
 .empty-icon{font-size:36px;margin-bottom:8px;}
 
 /* LINE UP STATUS */
 .sq{background:rgba(234,88,12,.12);color:#ea580c;}
 
 /* DISC CARD MAP BUTTON */
-.disc-map-btn{font-size:11px;color:var(--sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.disc-map-btn{font-size:11px;color:var(–sky);font-weight:500;background:rgba(91,143,168,.1);border:1px solid rgba(91,143,168,.2);border-radius:20px;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:all .2s;}
 .disc-map-btn:hover{background:rgba(91,143,168,.2);}
-.disc-card.map-active{border:1.5px solid var(--sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
+.disc-card.map-active{border:1.5px solid var(–sky);box-shadow:0 0 0 3px rgba(91,143,168,.15);}
 
 /* TIPS TAB */
 .tips-section{margin:0 12px 6px;}
-.tips-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .2s;}
+.tips-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(–shadow);border:1px solid rgba(0,0,0,.04);transition:border-radius .2s;}
 .tips-section-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
 .tips-section-left{display:flex;align-items:center;gap:10px;}
-.tips-section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:700;color:var(--ink);}
-.tips-section-chevron{font-size:12px;color:var(--stone);transition:transform .25s;display:inline-block;}
+.tips-section-title{font-family:‘Shippori Mincho’,serif;font-size:15px;font-weight:700;color:var(–ink);}
+.tips-section-chevron{font-size:12px;color:var(–stone);transition:transform .25s;display:inline-block;}
 .tips-section-chevron.open{transform:rotate(180deg);}
-.tips-section-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
-.tips-section-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.tips-section-add{background:none;border:none;color:var(–blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
+.tips-section-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(–shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
 .tips-section-body.open{max-height:2000px;}
 .tips-section-inner{padding:10px 0 4px;}
 .tip-item{padding:10px 14px;margin:0;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f5f2ee;cursor:default;}
 .tip-item:last-child{border-bottom:none;}
 .tip-item.dragging{opacity:.4;background:#faf8f5;}
-.tip-item.drag-over-tip{box-shadow:inset 0 2px 0 var(--blossom-deep);}
-.tip-drag-handle{font-size:14px;color:var(--stone-light);cursor:grab;flex-shrink:0;padding-top:2px;touch-action:none;user-select:none;}
+.tip-item.drag-over-tip{box-shadow:inset 0 2px 0 var(–blossom-deep);}
+.tip-drag-handle{font-size:14px;color:var(–stone-light);cursor:grab;flex-shrink:0;padding-top:2px;touch-action:none;user-select:none;}
 .tip-drag-handle:active{cursor:grabbing;}
 .tip-item-icon{font-size:20px;flex-shrink:0;padding-top:1px;}
 .tip-item-body{flex:1;}
-.tip-item-title{font-size:14px;font-weight:500;color:var(--ink);}
-.tip-item-detail{font-size:12px;color:var(--stone);margin-top:3px;line-height:1.5;}
-.tip-item-link{font-size:12px;color:var(--sky);margin-top:3px;word-break:break-all;}
+.tip-item-title{font-size:14px;font-weight:500;color:var(–ink);}
+.tip-item-detail{font-size:12px;color:var(–stone);margin-top:3px;line-height:1.5;}
+.tip-item-link{font-size:12px;color:var(–sky);margin-top:3px;word-break:break-all;}
 .tip-open-btn{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;font-weight:600;color:white;background:#c8102e;border:none;border-radius:20px;padding:4px 11px;cursor:pointer;font-family:inherit;text-decoration:none;}
 .tip-store-btn{display:inline-flex;align-items:center;gap:4px;margin-top:5px;margin-left:5px;font-size:11px;font-weight:500;color:#c8102e;background:rgba(200,16,46,.08);border:1px solid rgba(200,16,46,.2);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;text-decoration:none;}
 .tip-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.2;flex-shrink:0;}
@@ -452,34 +466,34 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .phrase-table{width:100%;border-collapse:collapse;}
 .phrase-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid #f0ece6;}
 .phrase-row:last-child{border-bottom:none;}
-.phrase-en{font-size:13px;color:var(--ink);padding:9px 12px;}
-.phrase-jp{font-size:13px;color:var(--matcha);padding:9px 12px;font-weight:500;}
+.phrase-en{font-size:13px;color:var(–ink);padding:9px 12px;}
+.phrase-jp{font-size:13px;color:var(–matcha);padding:9px 12px;font-weight:500;}
 
 /* BLOSSOM TABLE */
 .blossom-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.blossom-card{background:white;border-radius:10px;padding:10px 12px;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);}
-.blossom-city{font-size:13px;font-weight:600;color:var(--ink);}
-.blossom-date{font-size:12px;color:var(--blossom-deep);margin-top:2px;}
+.blossom-card{background:white;border-radius:10px;padding:10px 12px;box-shadow:0 1px 6px var(–shadow);border:1px solid rgba(0,0,0,.04);}
+.blossom-city{font-size:13px;font-weight:600;color:var(–ink);}
+.blossom-date{font-size:12px;color:var(–blossom-deep);margin-top:2px;}
 
 /* TIKTOK TAB */
 /* TikTok 2-col grid */
 .tt-2grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:6px 12px 4px;}
-.tt-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.05);display:flex;flex-direction:column;}
+.tt-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px var(–shadow);border:1px solid rgba(0,0,0,.05);display:flex;flex-direction:column;}
 .tt-card-accent{height:5px;width:100%;}
 .tt-card-body{padding:9px 9px 4px;flex:1;cursor:pointer;}
 .tt-card-emoji{font-size:20px;margin-bottom:4px;display:block;}
-.tt-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.tt-title{font-size:12px;font-weight:600;color:var(–ink);line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 .tt-meta{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;align-items:center;}
 .tt-cat-chip{font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;}
-.tt-city-chip{font-size:9px;color:var(--stone);background:#f0ece6;padding:2px 6px;border-radius:8px;}
-.tt-notes{font-size:11px;color:var(--stone);padding:0 9px 6px;line-height:1.4;}
+.tt-city-chip{font-size:9px;color:var(–stone);background:#f0ece6;padding:2px 6px;border-radius:8px;}
+.tt-notes{font-size:11px;color:var(–stone);padding:0 9px 6px;line-height:1.4;}
 .tt-card-actions{display:flex;align-items:center;padding:6px 8px 7px;gap:4px;border-top:1px solid #f5f2ee;margin-top:auto;}
 .tt-like-btn{background:none;border:none;font-size:15px;cursor:pointer;transition:transform .15s;padding:0;}
 .tt-like-btn:active{transform:scale(1.3);}
 .tt-who-liked{display:flex;gap:2px;}
 .tt-liker-badge{font-size:9px;font-weight:600;padding:1px 5px;border-radius:20px;}
-.tt-liker-ca{background:rgba(201,109,138,.15);color:var(--ca);}
-.tt-liker-pj{background:rgba(107,143,94,.15);color:var(--pj);}
+.tt-liker-ca{background:rgba(201,109,138,.15);color:var(–ca);}
+.tt-liker-pj{background:rgba(107,143,94,.15);color:var(–pj);}
 .tt-spacer{flex:1;}
 .tt-open-btn{font-size:10px;font-weight:700;color:white;background:#c8102e;border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;white-space:nowrap;}
 .tt-comment-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.35;padding:0;}
@@ -492,32 +506,32 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .tt-comment{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid #f9f6f2;}
 .tt-comment:last-child{border-bottom:none;}
 .tt-comment-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;flex-shrink:0;height:fit-content;margin-top:1px;}
-.tt-comment-text{font-size:13px;color:var(--ink);flex:1;line-height:1.4;}
+.tt-comment-text{font-size:13px;color:var(–ink);flex:1;line-height:1.4;}
 .tt-comment-del{background:none;border:none;font-size:12px;cursor:pointer;opacity:.2;flex-shrink:0;}
 .tt-comment-del:hover{opacity:.8;}
-.tt-comment-time{font-size:10px;color:var(--stone-light);margin-top:2px;}
+.tt-comment-time{font-size:10px;color:var(–stone-light);margin-top:2px;}
 .tt-comment-form{display:flex;gap:6px;padding:8px 12px 10px;border-top:1px solid #f5f2ee;}
-.tt-comment-input{flex:1;border:1.5px solid var(--stone-light);border-radius:20px;padding:6px 12px;font-size:13px;font-family:inherit;outline:none;background:white;}
-.tt-comment-input:focus{border-color:var(--blossom-deep);}
-.tt-comment-send{background:var(--ink);color:white;border:none;border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0;}
-.tt-section-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);padding:12px 14px 5px;}
+.tt-comment-input{flex:1;border:1.5px solid var(–stone-light);border-radius:20px;padding:6px 12px;font-size:13px;font-family:inherit;outline:none;background:white;}
+.tt-comment-input:focus{border-color:var(–blossom-deep);}
+.tt-comment-send{background:var(–ink);color:white;border:none;border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;flex-shrink:0;}
+.tt-section-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(–stone);padding:12px 14px 5px;}
 
 /* NOTIFICATION BELL */
-.notif-bell{background:none;border:none;color:var(--parchment);font-size:18px;cursor:pointer;position:relative;padding:2px;}
-.notif-badge{position:absolute;top:-2px;right:-2px;background:var(--blossom-deep);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;}
+.notif-bell{background:none;border:none;color:var(–parchment);font-size:18px;cursor:pointer;position:relative;padding:2px;}
+.notif-badge{position:absolute;top:-2px;right:-2px;background:var(–blossom-deep);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;}
 .notif-badge.show{display:flex;}
-.notif-panel{position:fixed;top:110px;right:8px;width:310px;max-width:calc(100vw - 16px);background:var(--ink);border-radius:14px;z-index:150;transform:scale(.9) translateY(-10px);transform-origin:top right;opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.32,.72,0,1);max-height:65vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);}
+.notif-panel{position:fixed;top:110px;right:8px;width:310px;max-width:calc(100vw - 16px);background:var(–ink);border-radius:14px;z-index:150;transform:scale(.9) translateY(-10px);transform-origin:top right;opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.32,.72,0,1);max-height:65vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);}
 .notif-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-.notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:var(--ink);z-index:1;}
-.notif-title{font-size:13px;font-weight:600;color:var(--parchment);letter-spacing:.04em;}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:var(–ink);z-index:1;}
+.notif-title{font-size:13px;font-weight:600;color:var(–parchment);letter-spacing:.04em;}
 .notif-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0;}
 .notif-item{display:flex;gap:10px;padding:10px 14px 10px 16px;border-bottom:1px solid rgba(255,255,255,.06);transition:background .15s;align-items:flex-start;}
 .notif-item:hover{background:rgba(255,255,255,.04);}
-.notif-item.unread{background:rgba(232,160,180,.06);border-left:2px solid var(--blossom-deep);}
+.notif-item.unread{background:rgba(232,160,180,.06);border-left:2px solid var(–blossom-deep);}
 .notif-item-clickable{flex:1;cursor:pointer;display:flex;gap:10px;align-items:flex-start;}
 .notif-icon{font-size:17px;flex-shrink:0;padding-top:1px;}
 .notif-body{flex:1;}
-.notif-text{font-size:13px;color:var(--parchment);line-height:1.4;}
+.notif-text{font-size:13px;color:var(–parchment);line-height:1.4;}
 .notif-time{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
 .notif-dismiss{background:none;border:none;color:rgba(255,255,255,.25);font-size:14px;cursor:pointer;padding:0 2px;flex-shrink:0;line-height:1;transition:color .15s;}
 .notif-dismiss:hover{color:rgba(255,255,255,.7);}
@@ -525,36 +539,36 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 /* WISHLIST TAB */
 .wl-section{margin:0 12px 8px;}
-.wl-store-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(--shadow);border:1px solid rgba(0,0,0,.04);user-select:none;}
+.wl-store-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:white;border-radius:12px;cursor:pointer;box-shadow:0 1px 6px var(–shadow);border:1px solid rgba(0,0,0,.04);user-select:none;}
 .wl-store-hdr.open{border-radius:12px 12px 0 0;border-bottom:1px solid #f0ece6;}
 .wl-store-left{display:flex;align-items:center;gap:8px;}
 .wl-store-emoji{font-size:20px;}
-.wl-store-name{font-size:14px;font-weight:600;color:var(--ink);}
-.wl-store-count{font-size:11px;color:var(--stone);}
-.wl-store-chev{font-size:11px;color:var(--stone);transition:transform .22s;}
+.wl-store-name{font-size:14px;font-weight:600;color:var(–ink);}
+.wl-store-count{font-size:11px;color:var(–stone);}
+.wl-store-chev{font-size:11px;color:var(–stone);transition:transform .22s;}
 .wl-store-chev.open{transform:rotate(180deg);}
-.wl-store-add{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
-.wl-store-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(--shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
+.wl-store-add{background:none;border:none;color:var(–blossom-deep);font-size:18px;cursor:pointer;padding:2px 4px;line-height:1;}
+.wl-store-body{background:white;border-radius:0 0 12px 12px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 8px var(–shadow);border:1px solid rgba(0,0,0,.04);border-top:none;margin-bottom:8px;}
 .wl-store-body.open{max-height:2000px;}
 .wl-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f5f2ee;}
 .wl-item:last-child{border-bottom:none;}
-.wl-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--stone-light);background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.wl-check.done{background:var(--matcha);border-color:var(--matcha);}
-.wl-check.done::after{content:'✓';font-size:11px;color:white;font-weight:700;}
+.wl-check{width:20px;height:20px;border-radius:50%;border:2px solid var(–stone-light);background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.wl-check.done{background:var(–matcha);border-color:var(–matcha);}
+.wl-check.done::after{content:‘✓’;font-size:11px;color:white;font-weight:700;}
 .wl-item-body{flex:1;}
-.wl-item-name{font-size:14px;color:var(--ink);transition:all .2s;}
-.wl-item-name.done{text-decoration:line-through;color:var(--stone);}
-.wl-item-detail{font-size:12px;color:var(--stone);margin-top:1px;}
+.wl-item-name{font-size:14px;color:var(–ink);transition:all .2s;}
+.wl-item-name.done{text-decoration:line-through;color:var(–stone);}
+.wl-item-detail{font-size:12px;color:var(–stone);margin-top:1px;}
 .wl-item-who{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:auto;flex-shrink:0;}
-.wl-item-who.ca{background:rgba(201,109,138,.12);color:var(--ca);}
-.wl-item-who.pj{background:rgba(107,143,94,.12);color:var(--pj);}
-.wl-item-who.all{background:rgba(91,143,168,.12);color:var(--tog);}
+.wl-item-who.ca{background:rgba(201,109,138,.12);color:var(–ca);}
+.wl-item-who.pj{background:rgba(107,143,94,.12);color:var(–pj);}
+.wl-item-who.all{background:rgba(91,143,168,.12);color:var(–tog);}
 .wl-edit-btn{background:none;border:none;font-size:13px;cursor:pointer;opacity:.2;flex-shrink:0;}
 .wl-edit-btn:hover{opacity:.8;}
 .wl-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 4px;}
-.wl-progress{font-size:11px;color:var(--stone);}
+.wl-progress{font-size:11px;color:var(–stone);}
 .wl-progress-bar{height:4px;background:#f0ece6;border-radius:2px;margin:4px 14px 8px;overflow:hidden;}
-.wl-progress-fill{height:100%;background:linear-gradient(to right,var(--matcha-light),var(--matcha));border-radius:2px;transition:width .4s ease;}
+.wl-progress-fill{height:100%;background:linear-gradient(to right,var(–matcha-light),var(–matcha));border-radius:2px;transition:width .4s ease;}
 
 /* ── TAB HELP BANNERS ── */
 .tab-banner{margin:8px 12px 2px;border-radius:10px;overflow:hidden;border:1px solid rgba(200,16,46,.15);background:rgba(200,16,46,.04);}
@@ -570,13 +584,14 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .tab-banner-body ul{margin:4px 0 0 14px;padding:0;}
 .tab-banner-body li{margin-bottom:2px;}
 </style>
+
 </head>
 <body>
 
 <!-- PASSWORD GATE -->
 
-
 <!-- COUPLE PICKER -->
+
 <div class="picker-ov" id="pickerOv">
   <div class="picker-card">
     <div style="font-size:32px;margin-bottom:8px">🌸</div>
@@ -600,7 +615,9 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- FIXED HEADER + NAV -->
+
 <!-- HEADER -->
+
 <div class="app-header">
   <div class="app-header-stripe"></div>
   <div class="app-header-inner">
@@ -621,6 +638,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- NOTIFICATION PANEL -->
+
 <div class="notif-panel" id="notifPanel">
   <div class="notif-header">
     <span class="notif-title">🔔 Activity</span>
@@ -630,6 +648,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- NAV -->
+
 <div class="nav-tabs" ontouchmove="event.stopPropagation()">
   <div class="nav-tab active" onclick="switchTab('itinerary')" id="tab-itinerary">📅 ITINERARY</div>
   <div class="nav-tab" onclick="switchTab('discover')" id="tab-discover">🗺 DISCOVER</div>
@@ -642,6 +661,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ ITINERARY ══ -->
+
 <div class="tab-content active" id="content-itinerary">
   <div class="tab-banner" id="banner-itinerary">
   <div class="tab-banner-hdr" onclick="toggleBanner('itinerary')">
@@ -663,6 +683,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
   <!-- Smart Trip Header -->
+
   <div id="itinSmartHeader"></div>
   <!-- Toolbar -->
   <div class="itin-toolbar">
@@ -681,6 +702,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ DISCOVER + MAP ══ -->
+
 <div class="tab-content" id="content-discover">
   <div class="tab-banner" id="banner-discover">
   <div class="tab-banner-hdr" onclick="toggleBanner('discover')">
@@ -701,6 +723,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
   <!-- Embedded Map -->
+
   <div class="disc-map-wrap" id="discMapWrap">
     <iframe id="discMapFrame" src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
     <button class="disc-map-expand" onclick="toggleMapExpand()" id="mapExpandBtn">⤢ Expand</button>
@@ -708,6 +731,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   </div>
 
   <!-- Active spot banner -->
+
   <div class="disc-active-banner" id="discActiveBanner">
     <div class="dab-icon" id="dabIcon">📍</div>
     <div class="dab-info">
@@ -766,6 +790,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ BOOKINGS ══ -->
+
 <div class="tab-content" id="content-bookings">
   <div class="tab-banner" id="banner-bookings">
   <div class="tab-banner-hdr" onclick="toggleBanner('bookings')">
@@ -792,6 +817,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ TRANSIT ══ -->
+
 <div class="tab-content" id="content-transit">
   <div class="tab-banner" id="banner-transit">
   <div class="tab-banner-hdr" onclick="toggleBanner('transit')">
@@ -815,6 +841,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ TRAVEL TIPS ══ -->
+
 <div class="tab-content" id="content-tips">
   <div class="tab-banner" id="banner-tips">
   <div class="tab-banner-hdr" onclick="toggleBanner('tips')">
@@ -837,6 +864,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ TIKTOKS ══ -->
+
 <div class="tab-content" id="content-tiktok">
   <div class="tab-banner" id="banner-tiktok">
   <div class="tab-banner-hdr" onclick="toggleBanner('tiktok')">
@@ -879,6 +907,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- TIKTOK SHEET -->
+
 <div class="sheet-overlay" id="ttSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -930,6 +959,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- TIPS SHEET -->
+
 <div class="sheet-overlay" id="tipsSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -970,6 +1000,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ NOTES ══ -->
+
 <div class="tab-content" id="content-notes">
   <div class="tab-banner" id="banner-notes">
   <div class="tab-banner-hdr" onclick="toggleBanner('notes')">
@@ -1011,6 +1042,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- ══ WISHLIST ══ -->
+
 <div class="tab-content" id="content-wishlist">
   <div class="tab-banner" id="banner-wishlist">
   <div class="tab-banner-hdr" onclick="toggleBanner('wishlist')">
@@ -1041,6 +1073,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- WISHLIST SHEET -->
+
 <div class="sheet-overlay" id="wlSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1094,6 +1127,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- CITY SHEET -->
+
 <div class="sheet-overlay" id="citySheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1118,11 +1152,13 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- FAB -->
+
 <button class="fab" onclick="openFab()">＋</button>
 
 <!-- ══ SHEETS ══ -->
 
 <!-- ITIN SHEET -->
+
 <div class="sheet-overlay" id="itinSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1205,6 +1241,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- BOOKING SHEET -->
+
 <div class="sheet-overlay" id="bkSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1285,6 +1322,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- TRANSIT SHEET -->
+
 <div class="sheet-overlay" id="transitSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1322,6 +1360,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 </div>
 
 <!-- DISCOVER SHEET -->
+
 <div class="sheet-overlay" id="discSheet">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1695,11 +1734,13 @@ async function loadFromSupabase(key, setter, fallback) {
   const table = 'japan_' + key;
   try {
     const {data, error} = await sb.from(table).select('data').eq('id','main').single();
-    if (data?.data && data.data.length) {
-      setter(data.data);
-      localStorage.setItem('jp-'+key, JSON.stringify(data.data));
+    if (data) {
+      // Row exists — use whatever is there (even empty array = user deleted everything)
+      const arr = data.data || [];
+      setter(arr);
+      localStorage.setItem('jp-'+key, JSON.stringify(arr));
     } else {
-      // Nothing in Supabase yet — seed it
+      // Row doesn't exist at all — first ever load, seed it once
       setter(fallback);
       if (fallback) syncToSupabase(key, fallback);
     }
@@ -2011,6 +2052,7 @@ function itinCollapseAll(collapse) {
 }
 
 function renderItin() {
+  if (isDragging) return; // don't re-render mid-drag — cards would disappear
   renderSmartHeader();
   const root  = document.getElementById('itinRoot');
   const byDay = {};
@@ -2057,6 +2099,7 @@ function renderItin() {
   html += flushCity(lastCity, cityBuffer);
   root.innerHTML = html;
   initDrag();
+  setTimeout(() => { if (window._magnifyUpdate) window._magnifyUpdate(); }, 50);
 }
 
 function toggleDay(day) {
@@ -2107,7 +2150,7 @@ function renderItinCard(item) {
           <button class="cvbtn ${cv.ca==='maybe'?'vm':''}" onclick="castVote('${item.id}','ca','maybe',this)">💭</button>
           <button class="cvbtn ${cv.ca==='no'?'vn':''}" onclick="castVote('${item.id}','ca','no',this)">👋 Skip</button>
         </div>
-        <input class="vote-comment" placeholder="note…" value="${esc(cv.ca_note||'')}" onchange="saveVoteNote('${item.id}','ca',this.value)">
+        <input class="vote-comment" placeholder="note…" value="${esc(cv.ca_note||'')}" onblur="saveVoteNote('${item.id}','ca',this.value)" onkeydown="if(event.key==='Enter')this.blur()">
       </div>
       <div class="confirm-couple-row">
         <span class="clabel pj">P&J</span>
@@ -2116,7 +2159,7 @@ function renderItinCard(item) {
           <button class="cvbtn ${cv.pj==='maybe'?'vm':''}" onclick="castVote('${item.id}','pj','maybe',this)">💭</button>
           <button class="cvbtn ${cv.pj==='no'?'vn':''}" onclick="castVote('${item.id}','pj','no',this)">👋 Skip</button>
         </div>
-        <input class="vote-comment" placeholder="note…" value="${esc(cv.pj_note||'')}" onchange="saveVoteNote('${item.id}','pj',this.value)">
+        <input class="vote-comment" placeholder="note…" value="${esc(cv.pj_note||'')}" onblur="saveVoteNote('${item.id}','pj',this.value)" onkeydown="if(event.key==='Enter')this.blur()">
       </div>
     </div>`;
 
@@ -2124,7 +2167,7 @@ function renderItinCard(item) {
   const catTagHtml = `<span class="tag tag-cat">${CAT_LABELS[item.cat]||('🎯 '+item.cat)}</span>`;
 
   return `<div class="itin-card ${item.status}" id="ic-${item.id}" draggable="true" data-id="${item.id}" data-day="${esc(item.day)}"
-    ondragstart="onDragStart(event,'${item.id}')" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
+    ondragstart="onDragStart(event,'${item.id}')" ondragend="onDragEnd(event)" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
     <div class="who-stripe ${stripeCls(item.who)}"></div>
     <div class="itin-card-body">
       <div class="itin-top">
@@ -2189,10 +2232,18 @@ function onTouchEnd() {
   persistOrder();
 }
 
+let isDragging = false;
 function onDragStart(e, id) {
   dragSrc = id;
+  isDragging = true;
   e.dataTransfer.effectAllowed = 'move';
-  document.getElementById('ic-'+id)?.classList.add('dragging');
+  // Use setTimeout so the drag image renders before opacity change
+  setTimeout(() => document.getElementById('ic-'+id)?.classList.add('dragging'), 0);
+}
+function onDragEnd(e) {
+  isDragging = false;
+  document.querySelectorAll('.itin-card.dragging').forEach(c => c.classList.remove('dragging'));
+  document.querySelectorAll('.itin-card.drag-over').forEach(c => c.classList.remove('drag-over'));
 }
 function onCardDragOver(e) {
   e.preventDefault(); e.dataTransfer.dropEffect='move';
@@ -2207,6 +2258,7 @@ function onCardDrop(e, targetId) {
   const tgtCard = document.getElementById('ic-'+targetId);
   if (srcCard && tgtCard) tgtCard.parentNode.insertBefore(srcCard, tgtCard);
   srcCard?.classList.remove('dragging');
+  isDragging = false;
   persistOrder();
 }
 function onDayDragOver(e) { e.preventDefault(); }
@@ -2219,6 +2271,7 @@ function onDayDrop(e, day) {
   const item = itinItems.find(i=>i.id===dragSrc);
   if (item) item.day = day;
   srcCard?.classList.remove('dragging');
+  isDragging = false;
   persistOrder();
 }
 function persistOrder() {
@@ -2241,6 +2294,22 @@ function persistOrder() {
 // create policy "Allow all" on japan_votes for all using (true) with check (true);
 // ════════════════════════════════════════
 
+function saveVoteNote(itemId, couple, noteVal) {
+  if (!votes[itemId]) votes[itemId] = {};
+  votes[itemId][couple+'_note'] = noteVal;
+  localStorage.setItem('jp-votes', JSON.stringify(votes));
+  if (sb) {
+    sb.from('japan_votes').upsert({
+      item_id: itemId, couple,
+      vote: votes[itemId][couple] || null,
+      note: noteVal,
+      updated_at: new Date().toISOString()
+    }, {onConflict:'item_id,couple'}).then(({error}) => {
+      if (error) console.error('Vote note save error:', error.message);
+    });
+  }
+}
+
 async function castVote(itemId, couple, choice, btn) {
   if (!votes[itemId]) votes[itemId] = {};
   const cur = votes[itemId][couple];
@@ -2251,6 +2320,7 @@ async function castVote(itemId, couple, choice, btn) {
     sb.from('japan_votes').upsert({
       item_id: itemId, couple,
       vote: votes[itemId][couple] || null,
+      note: votes[itemId][couple+'_note'] || null,
       updated_at: new Date().toISOString()
     }, {onConflict:'item_id,couple'}).then(()=>{});
   }
@@ -2258,6 +2328,20 @@ async function castVote(itemId, couple, choice, btn) {
   const cv = votes[itemId]; const bothIn = cv.ca==='yes'&&cv.pj==='yes';
   const item = itinItems.find(i=>i.id===itemId);
   showToast(bothIn?'🎉 Both couples in!'+(item?' on '+item.name:''):votes[itemId][couple]==='yes'?"✅ We're in!":votes[itemId][couple]==='maybe'?'💭 Maybe':'👋 Skipping');
+}
+
+async function saveVoteNote(itemId, couple, val) {
+  if (!votes[itemId]) votes[itemId] = {};
+  votes[itemId][couple+'_note'] = val;
+  localStorage.setItem('jp-votes', JSON.stringify(votes));
+  if (sb) {
+    sb.from('japan_votes').upsert({
+      item_id: itemId, couple,
+      vote: votes[itemId][couple] || null,
+      note: val,
+      updated_at: new Date().toISOString()
+    }, {onConflict:'item_id,couple'}).then(()=>{});
+  }
 }
 
 function applyVoteToCard(itemId) {
@@ -3170,116 +3254,120 @@ function renderNotes() {
       </div>
       ${isEditing
         ? `<textarea id="noteEditTA-${n.id}" style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid #c8102e;border-radius:8px;padding:8px;resize:none;outline:none;line-height:1.5" rows="3">${esc(n.text)}</textarea>
-           <div style="display:flex;gap:6px;margin-top:6px">
-             <button onclick="saveNoteEdit('${n.id}')" style="flex:1;background:#c8102e;color:white;border:none;border-radius:20px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Save</button>
-             <button onclick="cancelNoteEdit()" style="flex:1;background:#f0ece6;color:var(--stone);border:none;border-radius:20px;padding:7px;font-size:12px;cursor:pointer;font-family:inherit">Cancel</button>
-           </div>`
-        : `<div class="note-text">${esc(n.text)}</div>`
-      }
-      <div class="react-row">
-        <button class="rbtn" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)">👍</button>
-        <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
-        <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
-        <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
-      </div>
-    </div>`;
-  }).join('');
-  applyNoteReactions();
+
+```
+       <div style="display:flex;gap:6px;margin-top:6px">
+         <button onclick="saveNoteEdit('${n.id}')" style="flex:1;background:#c8102e;color:white;border:none;border-radius:20px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Save</button>
+         <button onclick="cancelNoteEdit()" style="flex:1;background:#f0ece6;color:var(--stone);border:none;border-radius:20px;padding:7px;font-size:12px;cursor:pointer;font-family:inherit">Cancel</button>
+       </div>`
+    : `<div class="note-text">${esc(n.text)}</div>`
+  }
+  <div class="react-row">
+    <button class="rbtn" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)">👍</button>
+    <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
+    <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
+    <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
+  </div>
+</div>`;
+```
+
+}).join(’’);
+applyNoteReactions();
 }
 
 let editingNoteId = null;
 
 function editNote(id) {
-  editingNoteId = String(id);
-  renderNotes();
-  setTimeout(() => {
-    const ta = document.getElementById('noteEditTA-'+id);
-    if (ta) { ta.focus(); ta.selectionStart = ta.value.length; }
-  }, 50);
+editingNoteId = String(id);
+renderNotes();
+setTimeout(() => {
+const ta = document.getElementById(‘noteEditTA-’+id);
+if (ta) { ta.focus(); ta.selectionStart = ta.value.length; }
+}, 50);
 }
 
 function cancelNoteEdit() {
-  editingNoteId = null;
-  renderNotes();
+editingNoteId = null;
+renderNotes();
 }
 
 async function saveNoteEdit(id) {
-  const ta = document.getElementById('noteEditTA-'+id);
-  if (!ta) return;
-  const newText = ta.value.trim();
-  if (!newText) { showToast('Note can\'t be empty'); return; }
-  const note = notes.find(n => String(n.id) === String(id));
-  if (!note) return;
-  note.text = newText;
-  if (sb) {
-    await sb.from('japan_notes').update({ text: newText }).eq('id', id);
-  }
-  editingNoteId = null;
-  renderNotes();
-  showToast('✏️ Updated!');
+const ta = document.getElementById(‘noteEditTA-’+id);
+if (!ta) return;
+const newText = ta.value.trim();
+if (!newText) { showToast(‘Note can't be empty’); return; }
+const note = notes.find(n => String(n.id) === String(id));
+if (!note) return;
+note.text = newText;
+if (sb) {
+await sb.from(‘japan_notes’).update({ text: newText }).eq(‘id’, id);
+}
+editingNoteId = null;
+renderNotes();
+showToast(‘✏️ Updated!’);
 }
 
-let noteReacts = JSON.parse(localStorage.getItem('jp-notereacts') || '{}');
+let noteReacts = JSON.parse(localStorage.getItem(‘jp-notereacts’) || ‘{}’);
 // { noteId: { emoji: [coupleIds] } }
 
 function reactNote(btn) {
-  if (!currentCouple) { showToast('Pick your couple first'); return; }
-  const noteId = btn.dataset.id;
-  const emoji = btn.dataset.emoji;
-  if (!noteId || !emoji) return;
-  if (!noteReacts[noteId]) noteReacts[noteId] = {};
-  if (!noteReacts[noteId][emoji]) noteReacts[noteId][emoji] = [];
-  const arr = noteReacts[noteId][emoji];
-  const idx = arr.indexOf(currentCouple);
-  if (idx > -1) {
-    arr.splice(idx, 1); // toggle off
-  } else {
-    arr.push(currentCouple);
-  }
-  localStorage.setItem('jp-notereacts', JSON.stringify(noteReacts));
-  applyNoteReactions();
+if (!currentCouple) { showToast(‘Pick your couple first’); return; }
+const noteId = btn.dataset.id;
+const emoji = btn.dataset.emoji;
+if (!noteId || !emoji) return;
+if (!noteReacts[noteId]) noteReacts[noteId] = {};
+if (!noteReacts[noteId][emoji]) noteReacts[noteId][emoji] = [];
+const arr = noteReacts[noteId][emoji];
+const idx = arr.indexOf(currentCouple);
+if (idx > -1) {
+arr.splice(idx, 1); // toggle off
+} else {
+arr.push(currentCouple);
+}
+localStorage.setItem(‘jp-notereacts’, JSON.stringify(noteReacts));
+applyNoteReactions();
 }
 
 function applyNoteReactions() {
-  Object.entries(noteReacts).forEach(([noteId, emojis]) => {
-    Object.entries(emojis).forEach(([emoji, couples]) => {
-      const btns = document.querySelectorAll(`.rbtn[data-id="${noteId}"][data-emoji="${emoji}"]`);
-      btns.forEach(btn => {
-        const count = couples.length;
-        const isMine = currentCouple && couples.includes(currentCouple);
-        btn.textContent = count > 0 ? `${emoji} ${count}` : emoji;
-        btn.style.background = isMine ? 'var(--gold-light)' : '';
-        btn.style.fontWeight = isMine ? '600' : '';
-      });
-    });
-  });
+Object.entries(noteReacts).forEach(([noteId, emojis]) => {
+Object.entries(emojis).forEach(([emoji, couples]) => {
+const btns = document.querySelectorAll(`.rbtn[data-id="${noteId}"][data-emoji="${emoji}"]`);
+btns.forEach(btn => {
+const count = couples.length;
+const isMine = currentCouple && couples.includes(currentCouple);
+btn.textContent = count > 0 ? `${emoji} ${count}` : emoji;
+btn.style.background = isMine ? ‘var(–gold-light)’ : ‘’;
+btn.style.fontWeight = isMine ? ‘600’ : ‘’;
+});
+});
+});
 }
 
 async function deleteNote(id) {
-  if (!confirm('Delete this note?')) return;
-  if (sb) {
-    await sb.from('japan_notes').delete().eq('id', id);
-  }
-  notes = notes.filter(n => String(n.id) !== String(id));
-  renderNotes();
-  showToast('🗑 Deleted');
+if (!confirm(‘Delete this note?’)) return;
+if (sb) {
+await sb.from(‘japan_notes’).delete().eq(‘id’, id);
+}
+notes = notes.filter(n => String(n.id) !== String(id));
+renderNotes();
+showToast(‘🗑 Deleted’);
 }
 
 // ════════════════════════════════════════
 // FAB
 // ════════════════════════════════════════
 function openFab() {
-  const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,tips:openTipsSheet,tiktok:openTTSheet,wishlist:openWLSheet,notes:()=>{ document.getElementById('noteText').focus(); }};
-  (map[currentTab]||openDiscSheet)();
+const map={itinerary:()=>openItinSheet(DAYS[0]),discover:openDiscSheet,bookings:openBkSheet,transit:openTrSheet,tips:openTipsSheet,tiktok:openTTSheet,wishlist:openWLSheet,notes:()=>{ document.getElementById(‘noteText’).focus(); }};
+(map[currentTab]||openDiscSheet)();
 }
 
 // ════════════════════════════════════════
 // SHEETS
 // ════════════════════════════════════════
-function openSheet(id){document.getElementById(id).classList.add('open');}
-function closeSheet(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.sheet-overlay').forEach(el=>{
-  el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); });
+function openSheet(id){document.getElementById(id).classList.add(‘open’);}
+function closeSheet(id){document.getElementById(id).classList.remove(‘open’);}
+document.querySelectorAll(’.sheet-overlay’).forEach(el=>{
+el.addEventListener(‘click’,e=>{ if(e.target===el) el.classList.remove(‘open’); });
 });
 
 // ════════════════════════════════════════
@@ -3291,134 +3379,133 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
 // SEED TIPS
 // ════════════════════════════════════════
 const SEED_TIPS = [
-  // Apps
-  {id:'tip1', section:'apps', emoji:'🍽', title:'Tabelog', detail:'Better than Google Maps for restaurants — like Yelp for Japan. Use this to find where to eat.', appLink:'tabelog://', storeLink:'https://apps.apple.com/jp/app/tabelog/id370545585'},
-  {id:'tip2', section:'apps', emoji:'📅', title:'Tablecheck', detail:'Restaurant reservations app — use to book popular spots in advance.', appLink:'tablecheck://', storeLink:'https://apps.apple.com/app/tablecheck-diner/id1451126904'},
-  {id:'tip3', section:'apps', emoji:'🌐', title:'Papago', detail:'Better than Google Translate for Japanese. Download before you go.', appLink:'papago://', storeLink:'https://apps.apple.com/app/papago/id1117408899'},
-  {id:'tip4', section:'apps', emoji:'📶', title:'Japan Wi-Fi Autoconnect', detail:'Free wifi hotspot connector — connects to free hotspots automatically around Japan.', storeLink:'https://apps.apple.com/app/japan-wi-fi-auto-connect/id1027316697'},
-  {id:'tip5', section:'apps', emoji:'📶', title:'Softbank Wi-Fi Spot', detail:'Another free wifi hotspot connector. Download both for best coverage.', storeLink:'https://apps.apple.com/jp/app/id403341986'},
-  {id:'tip6', section:'apps', emoji:'🚕', title:'Go Taxi', detail:'Japan ride-hailing app. Better than trying to hail a cab.', appLink:'goinc://', storeLink:'https://apps.apple.com/app/go-taxi-app/id1254919059'},
-  {id:'tip7', section:'apps', emoji:'🚽', title:'Flush', detail:'Finds nearest public toilet. Trust us, you\'ll need this.', appLink:'flush://', storeLink:'https://apps.apple.com/app/flush-toilet-finder/id984198094'},
-  {id:'tip8', section:'apps', emoji:'🛂', title:'Visit Japan Web', detail:'Once we land, fill this out BEFORE we deboard — immigration questionnaire so we don\'t wait in line at the airport.', storeLink:'https://vjw-lp.digital.go.jp/en/'},
-  {id:'tip9', section:'apps', emoji:'💳', title:'Wise / EQ Bank Card', detail:'Reloadable Mastercard/Visa. No foreign transaction fees. Can use to take out cash.', appLink:'wise://', storeLink:'https://apps.apple.com/app/wise-ex-transferwise/id612261027'},
-  {id:'tip10',section:'apps', emoji:'🎫', title:'Suica (Apple Wallet)', detail:'Reloadable transit card — add to Apple Wallet before you go. Works on all trains, subways, and konbini.', storeLink:'https://apps.apple.com/jp/app/suica/id1156875272'},
-  {id:'tip11',section:'apps', emoji:'🧳', title:'Kuli Kuli', detail:'Luggage delivery service app (see Yamato tip below).', storeLink:'https://apps.apple.com/app/kuroneko-yamato/id572208855'},
-  // Links
-  {id:'tip12',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 1', detail:'https://vm.tiktok.com/things-regret-1'},
-  {id:'tip13',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 2', detail:'Watch on TikTok'},
-  {id:'tip14',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 3', detail:'Watch on TikTok'},
-  {id:'tip15',section:'links', emoji:'📺', title:'Japan Travel Vlog Series', detail:'They had a more chill itinerary and not as much touristy things, which we love'},
-  {id:'tip16',section:'links', emoji:'📺', title:'What to Expect When Arriving in Japan', detail:'Watch before landing'},
-  {id:'tip17',section:'links', emoji:'📺', title:'Yamato Luggage Transport', detail:'How to use — send bags to next hotel night before (before 4pm) for next-day delivery'},
-  // Transport
-  {id:'tip18',section:'transport', emoji:'🕛', title:'Trains stop around midnight', detail:'Trains in Tokyo stop running around midnight. Plan late nights accordingly — last train home!'},
-  {id:'tip19',section:'transport', emoji:'😤', title:'Rush hour is real', detail:'Trains get very busy during rush hour: weekdays 7–9 AM & 5–7 PM. Avoid if you can.'},
-  {id:'tip20',section:'transport', emoji:'🧳', title:'Yamato luggage delivery', detail:'Send bags to next hotel the night before (before 4pm) for next-day delivery. Don\'t lug suitcases on trains!'},
-  {id:'tip21',section:'transport', emoji:'🛬', title:'Express from Narita', detail:'Take express train from NRT airport to hotel since we\'ll have luggage. Buy tickets from Klook and pick up at service desk.'},
-  {id:'tip22',section:'transport', emoji:'📱', title:'Skytree Pass', detail:'Buy transit passes on the Smartex app before leaving home.'},
-  // Etiquette
-  {id:'tip23',section:'etiquette', emoji:'🍱', title:'Don\'t walk and eat', detail:'Eating while walking is considered rude in Japan. Find somewhere to stand or sit.'},
-  {id:'tip24',section:'etiquette', emoji:'💴', title:'Don\'t tip', detail:'Tipping is not customary in Japan and can actually be considered rude.'},
-  {id:'tip25',section:'etiquette', emoji:'🔇', title:'Keep your voice down', detail:'Especially on trains and in quiet areas. Japan is a quiet culture in public.'},
-  {id:'tip26',section:'etiquette', emoji:'☝️', title:'Don\'t point with fingers', detail:'Use your whole hand to gesture instead of pointing with a finger.'},
-  {id:'tip27',section:'etiquette', emoji:'🧾', title:'Pay at the front', detail:'After order is brought out they bring a check. Bring it up to the front to pay — don\'t wait at the table.'},
-  {id:'tip28',section:'etiquette', emoji:'💰', title:'Payment tray', detail:'Put payment method in the little tray they give you at the register.'},
-  // Misc
-  {id:'tip29',section:'misc', emoji:'🪙', title:'Get a coin pouch', detail:'Cards widely accepted, but some places only take cash. Coins add up fast in Japan.'},
-  {id:'tip30',section:'misc', emoji:'🍱', title:'Eat expensive meals at lunch', detail:'Many high-end restaurants offer amazing lunch specials for much less than dinner. Plan accordingly.'},
-  {id:'tip31',section:'misc', emoji:'💴', title:'Exchange $500–$700 cash', detail:'Have cash when arriving. Exchange at the airport or use an ATM (7-Eleven ATMs accept foreign cards).'},
-  {id:'tip32',section:'misc', emoji:'📡', title:'Get an eSIM', detail:'~$35 for 15 days. Get before you leave. NTT Docomo JW-Auto or Airalo Japan.'},
-  {id:'tip33',section:'misc', emoji:'🛂', title:'Bring passport for tax-free shopping', detail:'Spend more than ¥5,500 and get tax free — but they\'ll seal the bag and you can\'t open it until you leave the country.'},
-  {id:'tip34',section:'misc', emoji:'🧻', title:'Bring hand tissues + mini soap', detail:'No paper towels in public bathrooms. Bring a small pack of hand tissues and a mini soap/hand sanitizer.'},
-  // Phrases
-  {id:'tip35',section:'phrases', emoji:'🗣', title:'Yes / Hair', detail:'はい (hai)'},
-  {id:'tip36',section:'phrases', emoji:'🗣', title:'Yes please / Hai, onegaishimasu', detail:'はい、お願いします'},
-  {id:'tip37',section:'phrases', emoji:'🗣', title:'No thank you / Daijoubu desu', detail:'大丈夫です — literally "it\'s fine/okay"'},
-  {id:'tip38',section:'phrases', emoji:'🗣', title:'Thank you / Arigatou gozaimasu', detail:'ありがとうございます'},
-  {id:'tip39',section:'phrases', emoji:'🗣', title:'Excuse me / Sumimasen', detail:'すみません — also used to get a waiter\'s attention'},
-  {id:'tip40',section:'phrases', emoji:'🗣', title:'Sorry / Gomen nasai', detail:'ごめんなさい'},
-  {id:'tip41',section:'phrases', emoji:'🗣', title:'Itadakimasu', detail:'いただきます — said before eating a meal (like "bon appétit" to yourself)'},
-  {id:'tip42',section:'phrases', emoji:'🗣', title:'Oishii! / Tastes so good!', detail:'おいしい！— use freely when food is amazing (it will be)'},
-  {id:'tip43',section:'phrases', emoji:'🗣', title:'Two people (for restaurants)', detail:'Futari desu — ふたりです — hold up two fingers too'},
-  // Blossoms
-  {id:'tip44',section:'blossoms', emoji:'🌸', title:'Tokyo — March 26', detail:'Peak bloom expected around March 26th'},
-  {id:'tip45',section:'blossoms', emoji:'🌸', title:'Kyoto — March 31', detail:'Peak bloom expected around March 31st — perfect timing!'},
-  {id:'tip46',section:'blossoms', emoji:'🌸', title:'Osaka — March 31', detail:'Peak bloom expected around March 31st'},
-  {id:'tip47',section:'blossoms', emoji:'🌸', title:'Nagoya — March 28', detail:'Peak bloom expected around March 28th'},
+// Apps
+{id:‘tip1’, section:‘apps’, emoji:‘🍽’, title:‘Tabelog’, detail:‘Better than Google Maps for restaurants — like Yelp for Japan. Use this to find where to eat.’, appLink:‘tabelog://’, storeLink:‘https://apps.apple.com/jp/app/tabelog/id370545585’},
+{id:‘tip2’, section:‘apps’, emoji:‘📅’, title:‘Tablecheck’, detail:‘Restaurant reservations app — use to book popular spots in advance.’, appLink:‘tablecheck://’, storeLink:‘https://apps.apple.com/app/tablecheck-diner/id1451126904’},
+{id:‘tip3’, section:‘apps’, emoji:‘🌐’, title:‘Papago’, detail:‘Better than Google Translate for Japanese. Download before you go.’, appLink:‘papago://’, storeLink:‘https://apps.apple.com/app/papago/id1117408899’},
+{id:‘tip4’, section:‘apps’, emoji:‘📶’, title:‘Japan Wi-Fi Autoconnect’, detail:‘Free wifi hotspot connector — connects to free hotspots automatically around Japan.’, storeLink:‘https://apps.apple.com/app/japan-wi-fi-auto-connect/id1027316697’},
+{id:‘tip5’, section:‘apps’, emoji:‘📶’, title:‘Softbank Wi-Fi Spot’, detail:‘Another free wifi hotspot connector. Download both for best coverage.’, storeLink:‘https://apps.apple.com/jp/app/id403341986’},
+{id:‘tip6’, section:‘apps’, emoji:‘🚕’, title:‘Go Taxi’, detail:‘Japan ride-hailing app. Better than trying to hail a cab.’, appLink:‘goinc://’, storeLink:‘https://apps.apple.com/app/go-taxi-app/id1254919059’},
+{id:‘tip7’, section:‘apps’, emoji:‘🚽’, title:‘Flush’, detail:‘Finds nearest public toilet. Trust us, you'll need this.’, appLink:‘flush://’, storeLink:‘https://apps.apple.com/app/flush-toilet-finder/id984198094’},
+{id:‘tip8’, section:‘apps’, emoji:‘🛂’, title:‘Visit Japan Web’, detail:‘Once we land, fill this out BEFORE we deboard — immigration questionnaire so we don't wait in line at the airport.’, storeLink:‘https://vjw-lp.digital.go.jp/en/’},
+{id:‘tip9’, section:‘apps’, emoji:‘💳’, title:‘Wise / EQ Bank Card’, detail:‘Reloadable Mastercard/Visa. No foreign transaction fees. Can use to take out cash.’, appLink:‘wise://’, storeLink:‘https://apps.apple.com/app/wise-ex-transferwise/id612261027’},
+{id:‘tip10’,section:‘apps’, emoji:‘🎫’, title:‘Suica (Apple Wallet)’, detail:‘Reloadable transit card — add to Apple Wallet before you go. Works on all trains, subways, and konbini.’, storeLink:‘https://apps.apple.com/jp/app/suica/id1156875272’},
+{id:‘tip11’,section:‘apps’, emoji:‘🧳’, title:‘Kuli Kuli’, detail:‘Luggage delivery service app (see Yamato tip below).’, storeLink:‘https://apps.apple.com/app/kuroneko-yamato/id572208855’},
+// Links
+{id:‘tip12’,section:‘links’, emoji:‘📺’, title:‘Things I Regret from Trip to Japan — Part 1’, detail:‘https://vm.tiktok.com/things-regret-1’},
+{id:‘tip13’,section:‘links’, emoji:‘📺’, title:‘Things I Regret from Trip to Japan — Part 2’, detail:‘Watch on TikTok’},
+{id:‘tip14’,section:‘links’, emoji:‘📺’, title:‘Things I Regret from Trip to Japan — Part 3’, detail:‘Watch on TikTok’},
+{id:‘tip15’,section:‘links’, emoji:‘📺’, title:‘Japan Travel Vlog Series’, detail:‘They had a more chill itinerary and not as much touristy things, which we love’},
+{id:‘tip16’,section:‘links’, emoji:‘📺’, title:‘What to Expect When Arriving in Japan’, detail:‘Watch before landing’},
+{id:‘tip17’,section:‘links’, emoji:‘📺’, title:‘Yamato Luggage Transport’, detail:‘How to use — send bags to next hotel night before (before 4pm) for next-day delivery’},
+// Transport
+{id:‘tip18’,section:‘transport’, emoji:‘🕛’, title:‘Trains stop around midnight’, detail:‘Trains in Tokyo stop running around midnight. Plan late nights accordingly — last train home!’},
+{id:‘tip19’,section:‘transport’, emoji:‘😤’, title:‘Rush hour is real’, detail:‘Trains get very busy during rush hour: weekdays 7–9 AM & 5–7 PM. Avoid if you can.’},
+{id:‘tip20’,section:‘transport’, emoji:‘🧳’, title:‘Yamato luggage delivery’, detail:‘Send bags to next hotel the night before (before 4pm) for next-day delivery. Don't lug suitcases on trains!’},
+{id:‘tip21’,section:‘transport’, emoji:‘🛬’, title:‘Express from Narita’, detail:‘Take express train from NRT airport to hotel since we'll have luggage. Buy tickets from Klook and pick up at service desk.’},
+{id:‘tip22’,section:‘transport’, emoji:‘📱’, title:‘Skytree Pass’, detail:‘Buy transit passes on the Smartex app before leaving home.’},
+// Etiquette
+{id:‘tip23’,section:‘etiquette’, emoji:‘🍱’, title:‘Don't walk and eat’, detail:‘Eating while walking is considered rude in Japan. Find somewhere to stand or sit.’},
+{id:‘tip24’,section:‘etiquette’, emoji:‘💴’, title:‘Don't tip’, detail:‘Tipping is not customary in Japan and can actually be considered rude.’},
+{id:‘tip25’,section:‘etiquette’, emoji:‘🔇’, title:‘Keep your voice down’, detail:‘Especially on trains and in quiet areas. Japan is a quiet culture in public.’},
+{id:‘tip26’,section:‘etiquette’, emoji:‘☝️’, title:‘Don't point with fingers’, detail:‘Use your whole hand to gesture instead of pointing with a finger.’},
+{id:‘tip27’,section:‘etiquette’, emoji:‘🧾’, title:‘Pay at the front’, detail:‘After order is brought out they bring a check. Bring it up to the front to pay — don't wait at the table.’},
+{id:‘tip28’,section:‘etiquette’, emoji:‘💰’, title:‘Payment tray’, detail:‘Put payment method in the little tray they give you at the register.’},
+// Misc
+{id:‘tip29’,section:‘misc’, emoji:‘🪙’, title:‘Get a coin pouch’, detail:‘Cards widely accepted, but some places only take cash. Coins add up fast in Japan.’},
+{id:‘tip30’,section:‘misc’, emoji:‘🍱’, title:‘Eat expensive meals at lunch’, detail:‘Many high-end restaurants offer amazing lunch specials for much less than dinner. Plan accordingly.’},
+{id:‘tip31’,section:‘misc’, emoji:‘💴’, title:‘Exchange $500–$700 cash’, detail:‘Have cash when arriving. Exchange at the airport or use an ATM (7-Eleven ATMs accept foreign cards).’},
+{id:‘tip32’,section:‘misc’, emoji:‘📡’, title:‘Get an eSIM’, detail:’~$35 for 15 days. Get before you leave. NTT Docomo JW-Auto or Airalo Japan.’},
+{id:‘tip33’,section:‘misc’, emoji:‘🛂’, title:‘Bring passport for tax-free shopping’, detail:‘Spend more than ¥5,500 and get tax free — but they'll seal the bag and you can't open it until you leave the country.’},
+{id:‘tip34’,section:‘misc’, emoji:‘🧻’, title:‘Bring hand tissues + mini soap’, detail:‘No paper towels in public bathrooms. Bring a small pack of hand tissues and a mini soap/hand sanitizer.’},
+// Phrases
+{id:‘tip35’,section:‘phrases’, emoji:‘🗣’, title:‘Yes / Hair’, detail:‘はい (hai)’},
+{id:‘tip36’,section:‘phrases’, emoji:‘🗣’, title:‘Yes please / Hai, onegaishimasu’, detail:‘はい、お願いします’},
+{id:‘tip37’,section:‘phrases’, emoji:‘🗣’, title:‘No thank you / Daijoubu desu’, detail:‘大丈夫です — literally “it's fine/okay”’},
+{id:‘tip38’,section:‘phrases’, emoji:‘🗣’, title:‘Thank you / Arigatou gozaimasu’, detail:‘ありがとうございます’},
+{id:‘tip39’,section:‘phrases’, emoji:‘🗣’, title:‘Excuse me / Sumimasen’, detail:‘すみません — also used to get a waiter's attention’},
+{id:‘tip40’,section:‘phrases’, emoji:‘🗣’, title:‘Sorry / Gomen nasai’, detail:‘ごめんなさい’},
+{id:‘tip41’,section:‘phrases’, emoji:‘🗣’, title:‘Itadakimasu’, detail:‘いただきます — said before eating a meal (like “bon appétit” to yourself)’},
+{id:‘tip42’,section:‘phrases’, emoji:‘🗣’, title:‘Oishii! / Tastes so good!’, detail:‘おいしい！— use freely when food is amazing (it will be)’},
+{id:‘tip43’,section:‘phrases’, emoji:‘🗣’, title:‘Two people (for restaurants)’, detail:‘Futari desu — ふたりです — hold up two fingers too’},
+// Blossoms
+{id:‘tip44’,section:‘blossoms’, emoji:‘🌸’, title:‘Tokyo — March 26’, detail:‘Peak bloom expected around March 26th’},
+{id:‘tip45’,section:‘blossoms’, emoji:‘🌸’, title:‘Kyoto — March 31’, detail:‘Peak bloom expected around March 31st — perfect timing!’},
+{id:‘tip46’,section:‘blossoms’, emoji:‘🌸’, title:‘Osaka — March 31’, detail:‘Peak bloom expected around March 31st’},
+{id:‘tip47’,section:‘blossoms’, emoji:‘🌸’, title:‘Nagoya — March 28’, detail:‘Peak bloom expected around March 28th’},
 ];
 
 // ════════════════════════════════════════
 // SEED TIKTOKS
 // ════════════════════════════════════════
 const SEED_TT = [
-  {id:'tt1', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 1', notes:'Great tips about what NOT to do', cat:'tips', city:'general'},
-  {id:'tt2', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 2', notes:'Part 2 of regrets series', cat:'tips', city:'general'},
-  {id:'tt3', url:'https://www.tiktok.com', title:'Things I Regret from Trip to Japan — Part 3', notes:'Part 3 — great info on etiquette', cat:'tips', city:'general'},
-  {id:'tt4', url:'https://www.tiktok.com', title:'Japan Travel Vlog Series', notes:'Chill itinerary vibes — not too touristy, which we love', cat:'vlog', city:'general'},
-  {id:'tt5', url:'https://www.tiktok.com', title:'What to Expect When Arriving at Narita', notes:'Watch before we land!', cat:'tips', city:'tokyo'},
+{id:‘tt1’, url:‘https://www.tiktok.com’, title:‘Things I Regret from Trip to Japan — Part 1’, notes:‘Great tips about what NOT to do’, cat:‘tips’, city:‘general’},
+{id:‘tt2’, url:‘https://www.tiktok.com’, title:‘Things I Regret from Trip to Japan — Part 2’, notes:‘Part 2 of regrets series’, cat:‘tips’, city:‘general’},
+{id:‘tt3’, url:‘https://www.tiktok.com’, title:‘Things I Regret from Trip to Japan — Part 3’, notes:‘Part 3 — great info on etiquette’, cat:‘tips’, city:‘general’},
+{id:‘tt4’, url:‘https://www.tiktok.com’, title:‘Japan Travel Vlog Series’, notes:‘Chill itinerary vibes — not too touristy, which we love’, cat:‘vlog’, city:‘general’},
+{id:‘tt5’, url:‘https://www.tiktok.com’, title:‘What to Expect When Arriving at Narita’, notes:‘Watch before we land!’, cat:‘tips’, city:‘tokyo’},
 ];
 
 // ════════════════════════════════════════
 // TIPS RENDER + CRUD
 // ════════════════════════════════════════
 const TIP_SECTIONS = [
-  {key:'apps', label:'📱 Apps & Services'},
-  {key:'links', label:'🔗 Helpful Links & Videos'},
-  {key:'transport', label:'🚄 Transportation'},
-  {key:'etiquette', label:'🙏 Etiquette'},
-  {key:'misc', label:'✨ Misc Tips'},
-  {key:'phrases', label:'🗣 Japanese Phrases'},
-  {key:'blossoms', label:'🌸 Cherry Blossoms 2026'},
+{key:‘apps’, label:‘📱 Apps & Services’},
+{key:‘links’, label:‘🔗 Helpful Links & Videos’},
+{key:‘transport’, label:‘🚄 Transportation’},
+{key:‘etiquette’, label:‘🙏 Etiquette’},
+{key:‘misc’, label:‘✨ Misc Tips’},
+{key:‘phrases’, label:‘🗣 Japanese Phrases’},
+{key:‘blossoms’, label:‘🌸 Cherry Blossoms 2026’},
 ];
 
 // ════════════════════════════════════════
 // PASSWORD AUTH
 // ════════════════════════════════════════
 const PASSWORDS = {
-  'novabean':   'ca',   // Connor & April
-  'themurphys': 'pj',   // Pat & Julia
+‘novabean’:   ‘ca’,   // Connor & April
+‘themurphys’: ‘pj’,   // Pat & Julia
 };
 
 function checkAuth() {
-  const saved = localStorage.getItem('jp-auth');
-  if (saved && PASSWORDS[saved]) {
-    // already authenticated — hide gate and apply couple
-    document.getElementById('pwGate').style.display = 'none';
-    // set couple from password if not already set
-    if (!localStorage.getItem('japan-couple')) {
-      localStorage.setItem('japan-couple', PASSWORDS[saved]);
-    }
-    return true;
-  }
-  // show gate, hide app content until logged in
-  document.getElementById('pwGate').style.display = 'flex';
-  return false;
+const saved = localStorage.getItem(‘jp-auth’);
+if (saved && PASSWORDS[saved]) {
+// already authenticated — hide gate and apply couple
+document.getElementById(‘pwGate’).style.display = ‘none’;
+// set couple from password if not already set
+if (!localStorage.getItem(‘japan-couple’)) {
+localStorage.setItem(‘japan-couple’, PASSWORDS[saved]);
+}
+return true;
+}
+// show gate, hide app content until logged in
+document.getElementById(‘pwGate’).style.display = ‘flex’;
+return false;
 }
 
 function checkPassword() {
-  const input = document.getElementById('pwInput');
-  const val = input.value.trim().toLowerCase();
-  const errorEl = document.getElementById('pwError');
+const input = document.getElementById(‘pwInput’);
+const val = input.value.trim().toLowerCase();
+const errorEl = document.getElementById(‘pwError’);
 
-  if (PASSWORDS[val]) {
-    // ✅ correct — save auth and couple
-    localStorage.setItem('jp-auth', val);
-    const couple = PASSWORDS[val];
-    if (!localStorage.getItem('japan-couple')) {
-      localStorage.setItem('japan-couple', couple);
-    }
-    document.getElementById('pwGate').style.display = 'none';
-    // finish app init
-    initApp();
-  } else {
-    // ❌ wrong
-    errorEl.textContent = 'Incorrect password — ask Connor, April, Pat or Julia!';
-    input.classList.add('error');
-    input.value = '';
-    setTimeout(() => { input.classList.remove('error'); errorEl.textContent = ''; }, 2000);
-  }
+if (PASSWORDS[val]) {
+// ✅ correct — save auth and couple
+localStorage.setItem(‘jp-auth’, val);
+const couple = PASSWORDS[val];
+if (!localStorage.getItem(‘japan-couple’)) {
+localStorage.setItem(‘japan-couple’, couple);
 }
-
+document.getElementById(‘pwGate’).style.display = ‘none’;
+// finish app init
+initApp();
+} else {
+// ❌ wrong
+errorEl.textContent = ‘Incorrect password — ask Connor, April, Pat or Julia!’;
+input.classList.add(‘error’);
+input.value = ‘’;
+setTimeout(() => { input.classList.remove(‘error’); errorEl.textContent = ‘’; }, 2000);
+}
+}
 
 // Per-DEVICE preferences stored in localStorage
 // key format: jp-collapse-device  → { sectionKey: bool }
@@ -3426,486 +3513,439 @@ function checkPassword() {
 
 // Generate a stable device ID once
 function getDeviceId() {
-  let id = localStorage.getItem('jp-device-id');
-  if (!id) { id = 'dev-' + Math.random().toString(36).slice(2,10); localStorage.setItem('jp-device-id', id); }
-  return id;
+let id = localStorage.getItem(‘jp-device-id’);
+if (!id) { id = ‘dev-’ + Math.random().toString(36).slice(2,10); localStorage.setItem(‘jp-device-id’, id); }
+return id;
 }
 
 function getCollapsePrefs() {
-  const key = 'jp-collapse-' + getDeviceId();
-  return JSON.parse(localStorage.getItem(key) || 'null') || getDefaultCollapsePrefs();
+const key = ‘jp-collapse-’ + getDeviceId();
+return JSON.parse(localStorage.getItem(key) || ‘null’) || getDefaultCollapsePrefs();
 }
 
 function getDefaultCollapsePrefs() {
-  // sensible defaults: everything open
-  return {
-    // bookings
-    'bk-flights': true, 'bk-hotels': true, 'bk-activities': true,
-    // transit
-    'tr-trains': true, 'tr-tips': false,
-    // discover cats — open
-    // tips — first two open
-    'tips-apps': true, 'tips-links': true, 'tips-transport': false,
-    'tips-etiquette': false, 'tips-misc': false, 'tips-phrases': false, 'tips-blossoms': false,
-    // notes
-    'notes-composer': true,
-    // tiktok cats — open by default
-    // itinerary city sections — open
-  };
+// sensible defaults: everything open
+return {
+// bookings
+‘bk-flights’: true, ‘bk-hotels’: true, ‘bk-activities’: true,
+// transit
+‘tr-trains’: true, ‘tr-tips’: false,
+// discover cats — open
+// tips — first two open
+‘tips-apps’: true, ‘tips-links’: true, ‘tips-transport’: false,
+‘tips-etiquette’: false, ‘tips-misc’: false, ‘tips-phrases’: false, ‘tips-blossoms’: false,
+// notes
+‘notes-composer’: true,
+// tiktok cats — open by default
+// itinerary city sections — open
+};
 }
 
 function isOpen(key) {
-  const prefs = getCollapsePrefs();
-  return key in prefs ? prefs[key] : true; // default open
+const prefs = getCollapsePrefs();
+return key in prefs ? prefs[key] : true; // default open
 }
 
 function toggleSection(key, noRender) {
-  const k = 'jp-collapse-' + getDeviceId();
-  const prefs = getCollapsePrefs();
-  prefs[key] = !prefs[key];
-  localStorage.setItem(k, JSON.stringify(prefs));
-  if (!noRender) {
-    // toggle DOM directly — no re-render needed
-    const hdr = document.getElementById('chdr-'+key);
-    const body = document.getElementById('cbody-'+key);
-    const chev = document.getElementById('cchev-'+key);
-    if (hdr) hdr.classList.toggle('open', prefs[key]);
-    if (body) body.classList.toggle('open', prefs[key]);
-    if (chev) chev.classList.toggle('open', prefs[key]);
-  }
+const k = ‘jp-collapse-’ + getDeviceId();
+const prefs = getCollapsePrefs();
+prefs[key] = !prefs[key];
+localStorage.setItem(k, JSON.stringify(prefs));
+if (!noRender) {
+// toggle DOM directly — no re-render needed
+const hdr = document.getElementById(‘chdr-’+key);
+const body = document.getElementById(‘cbody-’+key);
+const chev = document.getElementById(‘cchev-’+key);
+if (hdr) hdr.classList.toggle(‘open’, prefs[key]);
+if (body) body.classList.toggle(‘open’, prefs[key]);
+if (chev) chev.classList.toggle(‘open’, prefs[key]);
+}
 }
 
 // Build a collapsible section HTML wrapper
 function collSection(key, title, countOrBadge, addFn, innerHtml) {
-  const open = isOpen(key);
-  const countHtml = countOrBadge ? `<span class="coll-hdr-count">${countOrBadge}</span>` : '';
-  const addBtn = addFn ? `<button class="coll-add-btn" onclick="event.stopPropagation();${addFn}" title="Add">＋</button>` : '';
-  return `<div class="coll-section">
-    <div class="coll-hdr ${open?'open':''}" id="chdr-${key}" onclick="toggleSection('${key}')">
-      <div class="coll-hdr-left">
-        <span class="coll-chev ${open?'open':''}" id="cchev-${key}">▼</span>
-        <span class="coll-hdr-title">${title}</span>
-        ${countHtml}
-      </div>
-      ${addBtn}
-    </div>
-    <div class="coll-body ${open?'open':''}" id="cbody-${key}">
-      <div class="coll-inner">${innerHtml}</div>
-    </div>
+const open = isOpen(key);
+const countHtml = countOrBadge ? `<span class="coll-hdr-count">${countOrBadge}</span>` : ‘’;
+const addBtn = addFn ? `<button class="coll-add-btn" onclick="event.stopPropagation();${addFn}" title="Add">＋</button>` : ‘’;
+return `<div class="coll-section">
+<div class="coll-hdr ${open?'open':''}" id="chdr-${key}" onclick="toggleSection('${key}')">
+<div class="coll-hdr-left">
+<span class="coll-chev ${open?'open':''}" id="cchev-${key}">▼</span>
+<span class="coll-hdr-title">${title}</span>
+${countHtml}
+</div>
+${addBtn}
+</div>
+<div class="coll-body ${open?'open':''}" id="cbody-${key}">
+<div class="coll-inner">${innerHtml}</div>
+</div>
+
   </div>`;
 }
 
 function renderTips() {
-  const root = document.getElementById('tipsRoot');
-  let html = '<div style="padding:6px 0 2px"></div>';
-  TIP_SECTIONS.forEach(sec => {
-    const items = tipsItems.filter(t=>t.section===sec.key);
-    let innerHtml = '';
-    if (sec.key === 'phrases') {
-      innerHtml = '<div>' + items.map(t=>`<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="phrase-en">${t.title}</div><div class="phrase-jp">${t.detail}</div></div>`).join('') + (items.length?'':'<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>') + '</div>';
-    } else if (sec.key === 'blossoms') {
-      innerHtml = `<div class="blossom-grid" style="padding:4px 12px 8px">${items.map(t=>`<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="blossom-city">${t.title.split('—')[0].trim()}</div><div class="blossom-date">${t.title.split('—')[1]?.trim()||''}</div>${t.detail?`<div style="font-size:11px;color:var(--stone);margin-top:3px">${t.detail}</div>`:''}</div>`).join('')||'<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>'}</div>`;
-    } else {
-      innerHtml = items.length ? items.map(t=>{
-        const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
-        // Build app buttons if tip has appLink or storeLink
-        let appBtns = '';
-        if (t.appLink || t.storeLink) {
-          if (t.appLink) appBtns += `<a class="tip-open-btn" href="${t.appLink}" onclick="tryOpenApp(event,'${t.appLink}','${t.storeLink||''}')">📱 Open App</a>`;
-          if (t.storeLink) appBtns += `<a class="tip-store-btn" href="${t.storeLink}" target="_blank">${t.appLink?'↗ App Store':'↗ Get App'}</a>`;
-        }
-        return `<div class="tip-item" draggable="true" data-tip-id="${t.id}" data-tip-sec="${t.section}"
-          ondragstart="tipDragStart(event,'${t.id}')" ondragover="tipDragOver(event)" ondragleave="tipDragLeave(event)" ondrop="tipDrop(event,'${t.id}')">
-          <span class="tip-drag-handle" title="Drag to reorder">⠿</span>
-          <div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}${appBtns}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
-      }).join('') : `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
-    }
-    html += collSection('tips-'+sec.key, sec.label, items.length||null, `openTipsSheet('${sec.key}')`, innerHtml);
-  });
-  root.innerHTML = html;
+const root = document.getElementById(‘tipsRoot’);
+let html = ‘<div style="padding:6px 0 2px"></div>’;
+TIP_SECTIONS.forEach(sec => {
+const items = tipsItems.filter(t=>t.section===sec.key);
+let innerHtml = ‘’;
+if (sec.key === ‘phrases’) {
+innerHtml = ‘<div>’ + items.map(t=>`<div class="phrase-row" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="phrase-en">${t.title}</div><div class="phrase-jp">${t.detail}</div></div>`).join(’’) + (items.length?’’:’<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>’) + ‘</div>’;
+} else if (sec.key === ‘blossoms’) {
+innerHtml = `<div class="blossom-grid" style="padding:4px 12px 8px">${items.map(t=>`<div class="blossom-card" onclick="editTip('${t.id}')" style="cursor:pointer"><div class="blossom-city">${t.title.split(’—’)[0].trim()}</div><div class="blossom-date">${t.title.split(’—’)[1]?.trim()||’’}</div>${t.detail?`<div style="font-size:11px;color:var(--stone);margin-top:3px">${t.detail}</div>`:’’}</div>`).join('')||'<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing yet</div>'}</div>`;
+} else {
+innerHtml = items.length ? items.map(t=>{
+const isLink = t.detail && (t.detail.startsWith(‘http’)||t.detail.startsWith(‘Watch’));
+// Build app buttons if tip has appLink or storeLink
+let appBtns = ‘’;
+if (t.appLink || t.storeLink) {
+if (t.appLink || t.storeLink) appBtns += `<a class="tip-open-btn" href="${t.storeLink||t.appLink||'#'}" target="_blank" onclick="tryOpenApp(event,'${t.appLink||''}','${t.storeLink||''}')">↗ Get App</a>`;
+if (t.storeLink) appBtns += `<a class="tip-store-btn" href="${t.storeLink}" target="_blank">${t.appLink?'↗ App Store':'↗ Get App'}</a>`;
+}
+return `<div class="tip-item" draggable="true" data-tip-id="${t.id}" data-tip-sec="${t.section}" ondragstart="tipDragStart(event,'${t.id}')" ondragover="tipDragOver(event)" ondragleave="tipDragLeave(event)" ondrop="tipDrop(event,'${t.id}')"> <span class="tip-drag-handle" title="Drag to reorder">⠿</span> <div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>`: ''}${isLink ?`<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}${appBtns}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
+}).join(’’) : `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
+}
+html += collSection(‘tips-’+sec.key, sec.label, items.length||null, `openTipsSheet('${sec.key}')`, innerHtml);
+});
+root.innerHTML = html;
 }
 
-let editTipId=null, tipDefaultSection='misc';
+let editTipId=null, tipDefaultSection=‘misc’;
 function openTipsSheet(section) {
-  editTipId=null; tipDefaultSection=section||'misc';
-  document.getElementById('tipsSheetTitle').textContent='Add Tip';
-  document.getElementById('tipDelBtn').style.display='none';
-  document.getElementById('tipTitle').value='';
-  document.getElementById('tipDetail').value='';
-  document.getElementById('tipEmoji').value='';
-  document.getElementById('tipSection').value=tipDefaultSection;
-  openSheet('tipsSheet');
+editTipId=null; tipDefaultSection=section||‘misc’;
+document.getElementById(‘tipsSheetTitle’).textContent=‘Add Tip’;
+document.getElementById(‘tipDelBtn’).style.display=‘none’;
+document.getElementById(‘tipTitle’).value=’’;
+document.getElementById(‘tipDetail’).value=’’;
+document.getElementById(‘tipEmoji’).value=’’;
+document.getElementById(‘tipSection’).value=tipDefaultSection;
+openSheet(‘tipsSheet’);
 }
 function editTip(id) {
-  const t=tipsItems.find(x=>x.id===id); if(!t) return;
-  editTipId=id;
-  document.getElementById('tipsSheetTitle').textContent='Edit Tip';
-  document.getElementById('tipDelBtn').style.display='';
-  document.getElementById('tipTitle').value=t.title;
-  document.getElementById('tipDetail').value=t.detail||'';
-  document.getElementById('tipSection').value=t.section;
-  document.getElementById('tipEmoji').value=t.emoji||'';
-  openSheet('tipsSheet');
+const t=tipsItems.find(x=>x.id===id); if(!t) return;
+editTipId=id;
+document.getElementById(‘tipsSheetTitle’).textContent=‘Edit Tip’;
+document.getElementById(‘tipDelBtn’).style.display=’’;
+document.getElementById(‘tipTitle’).value=t.title;
+document.getElementById(‘tipDetail’).value=t.detail||’’;
+document.getElementById(‘tipSection’).value=t.section;
+document.getElementById(‘tipEmoji’).value=t.emoji||’’;
+openSheet(‘tipsSheet’);
 }
 function saveTip() {
-  const title=document.getElementById('tipTitle').value.trim(); if(!title){showToast('Title required');return;}
-  const t={id:editTipId||'tip'+Date.now(), title, detail:document.getElementById('tipDetail').value, section:document.getElementById('tipSection').value, emoji:document.getElementById('tipEmoji').value||'💡'};
-  if(editTipId){const i=tipsItems.findIndex(x=>x.id===editTipId);if(i>-1)tipsItems[i]=t;}else tipsItems.push(t);
-  save('tips'); renderTips(); closeSheet('tipsSheet'); showToast(editTipId?'✏️ Updated!':'✅ Added!'); editTipId=null;
+const title=document.getElementById(‘tipTitle’).value.trim(); if(!title){showToast(‘Title required’);return;}
+const t={id:editTipId||‘tip’+Date.now(), title, detail:document.getElementById(‘tipDetail’).value, section:document.getElementById(‘tipSection’).value, emoji:document.getElementById(‘tipEmoji’).value||‘💡’};
+if(editTipId){const i=tipsItems.findIndex(x=>x.id===editTipId);if(i>-1)tipsItems[i]=t;}else tipsItems.push(t);
+save(‘tips’); renderTips(); closeSheet(‘tipsSheet’); showToast(editTipId?‘✏️ Updated!’:‘✅ Added!’); editTipId=null;
 }
 function deleteTip() {
-  if(!editTipId||!confirm('Delete this tip?'))return;
-  tipsItems=tipsItems.filter(t=>t.id!==editTipId);
-  save('tips'); renderTips(); closeSheet('tipsSheet'); showToast('🗑 Deleted'); editTipId=null;
+if(!editTipId||!confirm(‘Delete this tip?’))return;
+tipsItems=tipsItems.filter(t=>t.id!==editTipId);
+save(‘tips’); renderTips(); closeSheet(‘tipsSheet’); showToast(‘🗑 Deleted’); editTipId=null;
 }
 
 // ════════════════════════════════════════
 // TIKTOK RENDER + CRUD
 // ════════════════════════════════════════
-let ttFilter='all';
-const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',content:'background:rgba(167,139,250,.15);color:#7c3aed',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',activity:'background:rgba(200,16,46,.1);color:#c8102e',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
-const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',content:'🎬 Content',vlog:'📹 Vlog',activity:'🎯 Activity',other:'✨ Other'};
+let ttFilter=‘all’;
+const TT_CAT_COLORS={food:‘background:rgba(107,143,94,.12);color:var(–matcha)’,tips:‘background:rgba(201,151,58,.12);color:var(–gold)’,attraction:‘background:rgba(91,143,168,.12);color:var(–sky)’,shopping:‘background:rgba(232,160,180,.2);color:var(–blossom-deep)’,content:‘background:rgba(167,139,250,.15);color:#7c3aed’,vlog:‘background:rgba(26,21,18,.08);color:var(–ink)’,activity:‘background:rgba(200,16,46,.1);color:#c8102e’,other:‘background:rgba(140,128,117,.1);color:var(–stone)’};
+const TT_CAT_LABELS={food:‘🍜 Food’,tips:‘💡 Tips’,attraction:‘⛩️ Attraction’,shopping:‘🛍 Shopping’,content:‘🎬 Content’,vlog:‘📹 Vlog’,activity:‘🎯 Activity’,other:‘✨ Other’};
 
 // tt reactions stored locally + synced to supabase
-let ttReactions = JSON.parse(localStorage.getItem('jp-ttreact') || '{}');
-// { ttId: { likes: ['ca','pj'], comments: [{couple,text,ts}] } }
+let ttReactions = JSON.parse(localStorage.getItem(‘jp-ttreact’) || ‘{}’);
+// { ttId: { likes: [‘ca’,‘pj’], comments: [{couple,text,ts}] } }
 // ttPreviews removed — no embed preview
 
 function filterTT(cat, el) {
-  ttFilter=cat;
-  document.querySelectorAll('#ttCatFilter .fpill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  renderTT();
+ttFilter=cat;
+document.querySelectorAll(’#ttCatFilter .fpill’).forEach(p=>p.classList.remove(‘active’));
+el.classList.add(‘active’);
+renderTT();
 }
 
 function renderTT() {
-  const root=document.getElementById('ttRoot');
+const root=document.getElementById(‘ttRoot’);
 
-  // Apply filter
-  let filtered;
-  if (ttFilter === 'liked') {
-    // show only items liked by current couple
-    filtered = ttItems.filter(t => {
-      const rx = ttReactions[t.id]||{};
-      return (rx.likes||[]).includes(currentCouple);
-    });
-    if (!filtered.length) {
-      root.innerHTML = `<div class="empty-st"><div class="empty-icon">❤️</div><p>No liked TikToks yet!<br>Tap 🤍 on any video to like it.</p></div>`;
-      return;
-    }
-  } else {
-    filtered = ttFilter==='all' ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
-  }
-
-  if(!filtered.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🎵</div><p>No TikToks saved yet!<br>Tap ＋ to add one.</p></div>`;return;}
-  const cats={};
-  filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
-  let html='';
-  Object.entries(cats).forEach(([cat,items])=>{
-    const cardsHtml = `<div class="tt-2grid">` + items.map(t=>{
-      const rx = ttReactions[t.id]||{likes:[],comments:[]};
-      const likes = rx.likes||[];
-      const comments = rx.comments||[];
-      const myLike = currentCouple && likes.includes(currentCouple);
-      const colStyle = TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
-      const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
-      const catEmoji = {food:'🍜',tips:'💡',attraction:'⛩️',shopping:'🛍',content:'🎬',vlog:'📹',activity:'🎯',other:'✨'}[t.cat]||'🎵';
-      const commentsOpen = !!ttCommentsOpen?.[t.id];
-      const accentColor = {'food':'#c8102e','tips':'#f7941d','attraction':'#5b8fa8','shopping':'#c96d8a','content':'#6b8f5e','vlog':'#8b5cf6','activity':'#c8102e','other':'#999'}[t.cat]||'#c8102e';
-      return `<div class="tt-card" id="ttcard-${t.id}">
-        <div class="tt-card-accent" style="background:${accentColor}"></div>
-        <div class="tt-card-body" onclick="openTT('${esc(t.url)}')">
-          <span class="tt-card-emoji">${catEmoji}</span>
-          <div class="tt-title">${t.title||'TikTok video'}</div>
-          <div class="tt-meta">
-            <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span>
-            ${t.city&&t.city!=='general'?`<span class="tt-city-chip">${t.city}</span>`:''}
-          </div>
-        </div>
-        ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''}
-        <div class="tt-card-actions">
-          <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')">${myLike?'❤️':'🤍'}</button>
-          <div class="tt-who-liked">${whoLikedHtml}</div>
-          <div class="tt-spacer"></div>
-          <button class="tt-comment-btn" onclick="toggleTTComments('${t.id}')">💬${comments.length?`<span style="font-size:10px;color:var(--stone);margin-left:1px">${comments.length}</span>`:''}</button>
-          <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">▶ Open</a>
-          <button class="tt-edit-btn" onclick="event.stopPropagation();editTTItem('${t.id}')">✏️</button>
-        </div>
-        <div class="tt-comments ${commentsOpen?'open':''}" id="ttcomments-${t.id}">
-          ${comments.map(c=>`<div class="tt-comment"><span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span><div style="flex:1"><div class="tt-comment-text">${esc(c.text)}</div><div class="tt-comment-time">${fmtTime(c.ts)}</div></div>${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:''}</div>`).join('')}
-          <div class="tt-comment-form"><input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')"><button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button></div>
-        </div>
-      </div>`;
-    }).join('') + `</div>`;
-    if (ttFilter==='all' || ttFilter==='liked') {
-      html += collSection('tt-'+cat, TT_CAT_LABELS[cat]||cat, items.length, 'openTTSheet()', cardsHtml);
-    } else {
-      html += cardsHtml;
-    }
-  });
-  root.innerHTML=html;
-  // load any open previews
-  // embed previews removed
+// Apply filter
+let filtered;
+if (ttFilter === ‘liked’) {
+// show only items liked by current couple
+filtered = ttItems.filter(t => {
+const rx = ttReactions[t.id]||{};
+return (rx.likes||[]).includes(currentCouple);
+});
+if (!filtered.length) {
+root.innerHTML = `<div class="empty-st"><div class="empty-icon">❤️</div><p>No liked TikToks yet!<br>Tap 🤍 on any video to like it.</p></div>`;
+return;
+}
+} else {
+filtered = ttFilter===‘all’ ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
 }
 
+if(!filtered.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🎵</div><p>No TikToks saved yet!<br>Tap ＋ to add one.</p></div>`;return;}
+const cats={};
+filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
+let html=’’;
+Object.entries(cats).forEach(([cat,items])=>{
+const cardsHtml = `<div class="tt-2grid">` + items.map(t=>{
+const rx = ttReactions[t.id]||{likes:[],comments:[]};
+const likes = rx.likes||[];
+const comments = rx.comments||[];
+const myLike = currentCouple && likes.includes(currentCouple);
+const colStyle = TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
+const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join(’’);
+const catEmoji = {food:‘🍜’,tips:‘💡’,attraction:‘⛩️’,shopping:‘🛍’,content:‘🎬’,vlog:‘📹’,activity:‘🎯’,other:‘✨’}[t.cat]||‘🎵’;
+const commentsOpen = !!ttCommentsOpen?.[t.id];
+const accentColor = {‘food’:’#c8102e’,‘tips’:’#f7941d’,‘attraction’:’#5b8fa8’,‘shopping’:’#c96d8a’,‘content’:’#6b8f5e’,‘vlog’:’#8b5cf6’,‘activity’:’#c8102e’,‘other’:’#999’}[t.cat]||’#c8102e’;
+return `<div class="tt-card" id="ttcard-${t.id}"> <div class="tt-card-accent" style="background:${accentColor}"></div> <div class="tt-card-body" onclick="openTT('${esc(t.url)}')"> <span class="tt-card-emoji">${catEmoji}</span> <div class="tt-title">${t.title||'TikTok video'}</div> <div class="tt-meta"> <span class="tt-cat-chip" style="${colStyle}">${TT_CAT_LABELS[t.cat]||t.cat}</span> ${t.city&&t.city!=='general'?`<span class="tt-city-chip">${t.city}</span>`:''} </div> </div> ${t.notes?`<div class="tt-notes">${t.notes}</div>`:''} <div class="tt-card-actions"> <button class="tt-like-btn" onclick="toggleTTLike('${t.id}')">${myLike?'❤️':'🤍'}</button> <div class="tt-who-liked">${whoLikedHtml}</div> <div class="tt-spacer"></div> <button class="tt-comment-btn" onclick="toggleTTComments('${t.id}')">💬${comments.length?`<span style="font-size:10px;color:var(--stone);margin-left:1px">${comments.length}</span>`:''}</button> <a href="${t.url}" target="_blank" class="tt-open-btn" onclick="event.stopPropagation()">▶ Open</a> <button class="tt-edit-btn" onclick="event.stopPropagation();editTTItem('${t.id}')">✏️</button> </div> <div class="tt-comments ${commentsOpen?'open':''}" id="ttcomments-${t.id}"> ${comments.map(c=>`<div class="tt-comment"><span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple===‘ca’?‘C&A’:‘P&J’}</span><div style="flex:1"><div class="tt-comment-text">${esc(c.text)}</div><div class="tt-comment-time">${fmtTime(c.ts)}</div></div>${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${t.id}','${c.ts}')">✕</button>`:’’}</div>`).join('')} <div class="tt-comment-form"><input class="tt-comment-input" id="ttci-${t.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${t.id}')"><button class="tt-comment-send" onclick="postTTComment('${t.id}')">Send</button></div> </div> </div>`;
+}).join(’’) + `</div>`;
+if (ttFilter===‘all’ || ttFilter===‘liked’) {
+html += collSection(‘tt-’+cat, TT_CAT_LABELS[cat]||cat, items.length, ‘openTTSheet()’, cardsHtml);
+} else {
+html += cardsHtml;
+}
+});
+root.innerHTML=html;
+// load any open previews
+// embed previews removed
+}
 
 let ttCommentsOpen = {};
 function toggleTTComments(id) {
-  ttCommentsOpen[id] = !ttCommentsOpen[id];
-  const el = document.getElementById('ttcomments-'+id);
-  if (el) {
-    el.classList.toggle('open', ttCommentsOpen[id]);
-    if (ttCommentsOpen[id]) {
-      const input = document.getElementById('ttci-'+id);
-      if (input) setTimeout(() => input.focus(), 100);
-    }
-  }
+ttCommentsOpen[id] = !ttCommentsOpen[id];
+const el = document.getElementById(‘ttcomments-’+id);
+if (el) {
+el.classList.toggle(‘open’, ttCommentsOpen[id]);
+if (ttCommentsOpen[id]) {
+const input = document.getElementById(‘ttci-’+id);
+if (input) setTimeout(() => input.focus(), 100);
+}
+}
 }
 
 function toggleTTLike(id) {
-  if (!currentCouple) { showToast('Pick your couple first'); return; }
-  if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
-  const likes = ttReactions[id].likes;
-  const idx = likes.indexOf(currentCouple);
-  if (idx > -1) {
-    likes.splice(idx, 1);
-    showToast('💔 Unliked');
-  } else {
-    likes.push(currentCouple);
-    showToast('❤️ Liked!');
-    logActivity(currentCouple, 'liked a TikTok', `❤️ ${currentCouple==='ca'?'Connor & April':'Pat & Julia'} liked a TikTok`, 'tiktok', id);
-  }
-  saveTTReactions();
-  // update just the like area without full re-render
-  const card = document.getElementById('ttcard-'+id);
-  if (card) {
-    const rx = ttReactions[id];
-    const myLike = rx.likes.includes(currentCouple);
-    const likeBtn = card.querySelector('.tt-like-btn');
-    const whoDiv = card.querySelector('.tt-who-liked');
-    if (likeBtn) likeBtn.textContent = myLike ? '❤️' : '🤍';
-    if (whoDiv) whoDiv.innerHTML = rx.likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
-  }
+if (!currentCouple) { showToast(‘Pick your couple first’); return; }
+if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
+const likes = ttReactions[id].likes;
+const idx = likes.indexOf(currentCouple);
+if (idx > -1) {
+likes.splice(idx, 1);
+showToast(‘💔 Unliked’);
+} else {
+likes.push(currentCouple);
+showToast(‘❤️ Liked!’);
+logActivity(currentCouple, ‘liked a TikTok’, `❤️ ${currentCouple==='ca'?'Connor & April':'Pat & Julia'} liked a TikTok`, ‘tiktok’, id);
+}
+saveTTReactions();
+// update just the like area without full re-render
+const card = document.getElementById(‘ttcard-’+id);
+if (card) {
+const rx = ttReactions[id];
+const myLike = rx.likes.includes(currentCouple);
+const likeBtn = card.querySelector(’.tt-like-btn’);
+const whoDiv = card.querySelector(’.tt-who-liked’);
+if (likeBtn) likeBtn.textContent = myLike ? ‘❤️’ : ‘🤍’;
+if (whoDiv) whoDiv.innerHTML = rx.likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join(’’);
+}
 }
 
 function postTTComment(id) {
-  if (!currentCouple) { showToast('Pick your couple first'); return; }
-  const input = document.getElementById('ttci-'+id);
-  const text = input?.value.trim();
-  if (!text) return;
-  if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
-  const comment = {couple: currentCouple, text, ts: new Date().toISOString()};
-  ttReactions[id].comments.push(comment);
-  saveTTReactions();
-  input.value = '';
-  logActivity(currentCouple, 'commented on a TikTok', `💬 ${currentCouple==='ca'?'Connor & April':'Pat & Julia'}: "${text.slice(0,40)}"`, 'tiktok', id);
-  // re-render just the comments section
-  const commentsEl = document.getElementById('ttcomments-'+id);
-  if (commentsEl) {
-    const comments = ttReactions[id].comments;
-    commentsEl.innerHTML = comments.map(c=>`
-      <div class="tt-comment">
-        <span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span>
-        <div style="flex:1">
-          <div class="tt-comment-text">${esc(c.text)}</div>
-          <div class="tt-comment-time">${fmtTime(c.ts)}</div>
-        </div>
-        ${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${id}','${c.ts}')">✕</button>`:''}
-      </div>`).join('')+`
-      <div class="tt-comment-form">
-        <input class="tt-comment-input" id="ttci-${id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${id}')">
-        <button class="tt-comment-send" onclick="postTTComment('${id}')">Send</button>
-      </div>`;
-  }
-  showToast('💬 Comment posted!');
+if (!currentCouple) { showToast(‘Pick your couple first’); return; }
+const input = document.getElementById(‘ttci-’+id);
+const text = input?.value.trim();
+if (!text) return;
+if (!ttReactions[id]) ttReactions[id] = {likes:[], comments:[]};
+const comment = {couple: currentCouple, text, ts: new Date().toISOString()};
+ttReactions[id].comments.push(comment);
+saveTTReactions();
+input.value = ‘’;
+logActivity(currentCouple, ‘commented on a TikTok’, `💬 ${currentCouple==='ca'?'Connor & April':'Pat & Julia'}: "${text.slice(0,40)}"`, ‘tiktok’, id);
+// re-render just the comments section
+const commentsEl = document.getElementById(‘ttcomments-’+id);
+if (commentsEl) {
+const comments = ttReactions[id].comments;
+commentsEl.innerHTML = comments.map(c=>` <div class="tt-comment"> <span class="tt-comment-badge ${c.couple==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c.couple==='ca'?'C&A':'P&J'}</span> <div style="flex:1"> <div class="tt-comment-text">${esc(c.text)}</div> <div class="tt-comment-time">${fmtTime(c.ts)}</div> </div> ${c.couple===currentCouple?`<button class="tt-comment-del" onclick="deleteTTComment('${id}','${c.ts}')">✕</button>`:''} </div>`).join(’’)+` <div class="tt-comment-form"> <input class="tt-comment-input" id="ttci-${id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')postTTComment('${id}')"> <button class="tt-comment-send" onclick="postTTComment('${id}')">Send</button> </div>`;
+}
+showToast(‘💬 Comment posted!’);
 }
 
 function deleteTTComment(ttId, ts) {
-  if (!ttReactions[ttId]) return;
-  ttReactions[ttId].comments = ttReactions[ttId].comments.filter(c=>c.ts!==ts);
-  saveTTReactions();
-  renderTT();
-  showToast('🗑 Deleted');
+if (!ttReactions[ttId]) return;
+ttReactions[ttId].comments = ttReactions[ttId].comments.filter(c=>c.ts!==ts);
+saveTTReactions();
+renderTT();
+showToast(‘🗑 Deleted’);
 }
 
 let editTTId=null;
 function openTTSheet() {
-  editTTId = null;
-  document.getElementById('ttSheetTitle').textContent = 'Add TikTok';
-  document.getElementById('ttDelBtn').style.display = 'none';
-  document.getElementById('ttEditId').value = '';
-  ['ttUrl','ttTitle','ttNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('ttCat').value = 'food';
-  document.getElementById('ttCity').value = 'general';
-  openSheet('ttSheet');
+editTTId = null;
+document.getElementById(‘ttSheetTitle’).textContent = ‘Add TikTok’;
+document.getElementById(‘ttDelBtn’).style.display = ‘none’;
+document.getElementById(‘ttEditId’).value = ‘’;
+[‘ttUrl’,‘ttTitle’,‘ttNotes’].forEach(id => document.getElementById(id).value = ‘’);
+document.getElementById(‘ttCat’).value = ‘food’;
+document.getElementById(‘ttCity’).value = ‘general’;
+openSheet(‘ttSheet’);
 }
 function editTTItem(id) {
-  const t = ttItems.find(x => x.id===id); if (!t) return;
-  editTTId = id;
-  document.getElementById('ttSheetTitle').textContent = 'Edit TikTok';
-  document.getElementById('ttDelBtn').style.display = '';
-  document.getElementById('ttEditId').value = id;
-  document.getElementById('ttUrl').value = t.url || '';
-  document.getElementById('ttTitle').value = t.title || '';
-  document.getElementById('ttNotes').value = t.notes || '';
-  document.getElementById('ttCat').value = t.cat || 'food';
-  document.getElementById('ttCity').value = t.city || 'general';
-  openSheet('ttSheet');
+const t = ttItems.find(x => x.id===id); if (!t) return;
+editTTId = id;
+document.getElementById(‘ttSheetTitle’).textContent = ‘Edit TikTok’;
+document.getElementById(‘ttDelBtn’).style.display = ‘’;
+document.getElementById(‘ttEditId’).value = id;
+document.getElementById(‘ttUrl’).value = t.url || ‘’;
+document.getElementById(‘ttTitle’).value = t.title || ‘’;
+document.getElementById(‘ttNotes’).value = t.notes || ‘’;
+document.getElementById(‘ttCat’).value = t.cat || ‘food’;
+document.getElementById(‘ttCity’).value = t.city || ‘general’;
+openSheet(‘ttSheet’);
 }
 function onTTUrlInput() {
-  const url = document.getElementById('ttUrl').value.trim();
-  if (!url || !url.includes('tiktok')) return;
-  const userMatch = url.match(/@([^/?]+)/);
-  if (userMatch && !document.getElementById('ttTitle').value) {
-    document.getElementById('ttTitle').value = 'TikTok by @' + userMatch[1];
-  }
+const url = document.getElementById(‘ttUrl’).value.trim();
+if (!url || !url.includes(‘tiktok’)) return;
+const userMatch = url.match(/@([^/?]+)/);
+if (userMatch && !document.getElementById(‘ttTitle’).value) {
+document.getElementById(‘ttTitle’).value = ‘TikTok by @’ + userMatch[1];
+}
 }
 function saveTT() {
-  const url = document.getElementById('ttUrl').value.trim();
-  const title = document.getElementById('ttTitle').value.trim() || url;
-  if (!url) { showToast('URL required'); return; }
-  const t = {
-    id: editTTId || 'tt' + Date.now(),
-    url, title,
-    notes: document.getElementById('ttNotes').value,
-    cat: document.getElementById('ttCat').value,
-    city: document.getElementById('ttCity').value,
-  };
-  if (editTTId) { const i = ttItems.findIndex(x => x.id===editTTId); if (i>-1) ttItems[i]=t; } else ttItems.push(t);
-  save('tt'); renderTT(); closeSheet('ttSheet'); showToast(editTTId ? '✏️ Updated!' : '🎵 Saved!'); editTTId = null;
+const url = document.getElementById(‘ttUrl’).value.trim();
+const title = document.getElementById(‘ttTitle’).value.trim() || url;
+if (!url) { showToast(‘URL required’); return; }
+const t = {
+id: editTTId || ‘tt’ + Date.now(),
+url, title,
+notes: document.getElementById(‘ttNotes’).value,
+cat: document.getElementById(‘ttCat’).value,
+city: document.getElementById(‘ttCity’).value,
+};
+if (editTTId) { const i = ttItems.findIndex(x => x.id===editTTId); if (i>-1) ttItems[i]=t; } else ttItems.push(t);
+save(‘tt’); renderTT(); closeSheet(‘ttSheet’); showToast(editTTId ? ‘✏️ Updated!’ : ‘🎵 Saved!’); editTTId = null;
 }
 function deleteTT() {
-  if(!editTTId||!confirm('Delete?'))return;
-  ttItems=ttItems.filter(t=>t.id!==editTTId);
-  save('tt'); renderTT(); closeSheet('ttSheet'); showToast('🗑 Deleted'); editTTId=null;
+if(!editTTId||!confirm(‘Delete?’))return;
+ttItems=ttItems.filter(t=>t.id!==editTTId);
+save(‘tt’); renderTT(); closeSheet(‘ttSheet’); showToast(‘🗑 Deleted’); editTTId=null;
 }
 
 // Register new sheet close handlers
-document.querySelectorAll('.sheet-overlay').forEach(el=>{
-  if(!el._hasClose) { el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); }); el._hasClose=true; }
+document.querySelectorAll(’.sheet-overlay’).forEach(el=>{
+if(!el._hasClose) { el.addEventListener(‘click’,e=>{ if(e.target===el) el.classList.remove(‘open’); }); el._hasClose=true; }
 });
 
 // ════════════════════════════════════════
 // NOTIFICATIONS
 // ════════════════════════════════════════
-let activityLog = JSON.parse(localStorage.getItem('jp-activity') || '[]');
-let notifSeen = parseInt(localStorage.getItem('jp-notifseen') || '0');
-// First-ever load: set notifSeen to now so old/empty logs don't trigger badge
-if (!localStorage.getItem('jp-notifseen')) {
-  notifSeen = Date.now();
-  localStorage.setItem('jp-notifseen', notifSeen);
+let activityLog = JSON.parse(localStorage.getItem(‘jp-activity’) || ‘[]’);
+let notifSeen = parseInt(localStorage.getItem(‘jp-notifseen’) || ‘0’);
+// First-ever load: set notifSeen to now so old/empty logs don’t trigger badge
+if (!localStorage.getItem(‘jp-notifseen’)) {
+notifSeen = Date.now();
+localStorage.setItem(‘jp-notifseen’, notifSeen);
 }
 let notifPanelOpen = false;
 
 function logActivity(couple, action, label, tab, refId) {
-  const entry = { couple, action, label, tab, refId, ts: new Date().toISOString(), id: Date.now() };
-  activityLog.unshift(entry);
-  if (activityLog.length > 50) activityLog = activityLog.slice(0, 50);
-  localStorage.setItem('jp-activity', JSON.stringify(activityLog));
-  // sync to supabase if available
-  if (sb) sb.from('japan_activity').insert([{couple, action, label, tab, ref_id: refId, created_at: entry.ts}]).then(()=>{});
-  updateNotifBadge();
+const entry = { couple, action, label, tab, refId, ts: new Date().toISOString(), id: Date.now() };
+activityLog.unshift(entry);
+if (activityLog.length > 50) activityLog = activityLog.slice(0, 50);
+localStorage.setItem(‘jp-activity’, JSON.stringify(activityLog));
+// sync to supabase if available
+if (sb) sb.from(‘japan_activity’).insert([{couple, action, label, tab, ref_id: refId, created_at: entry.ts}]).then(()=>{});
+updateNotifBadge();
 }
 
 function subscribeActivity() {
-  if (!sb) return;
-  sb.channel('activity-v1').on('postgres_changes', {event:'INSERT', schema:'public', table:'japan_activity'}, p => {
-    const n = p.new;
-    // only notify if it's from the other couple
-    if (n.couple === currentCouple) return;
-    const entry = {id: n.id, couple:n.couple, action:n.action, label:n.label, tab:n.tab, refId:n.ref_id, ts:n.created_at};
-    activityLog.unshift(entry);
-    localStorage.setItem('jp-activity', JSON.stringify(activityLog.slice(0,50)));
-    updateNotifBadge();
-    if (notifPanelOpen) renderNotifPanel();
-  }).subscribe();
+if (!sb) return;
+sb.channel(‘activity-v1’).on(‘postgres_changes’, {event:‘INSERT’, schema:‘public’, table:‘japan_activity’}, p => {
+const n = p.new;
+// only notify if it’s from the other couple
+if (n.couple === currentCouple) return;
+const entry = {id: n.id, couple:n.couple, action:n.action, label:n.label, tab:n.tab, refId:n.ref_id, ts:n.created_at};
+activityLog.unshift(entry);
+localStorage.setItem(‘jp-activity’, JSON.stringify(activityLog.slice(0,50)));
+updateNotifBadge();
+if (notifPanelOpen) renderNotifPanel();
+}).subscribe();
 }
 
-let dismissedNotifs = new Set(JSON.parse(localStorage.getItem('jp-notif-dismissed') || '[]'));
+let dismissedNotifs = new Set(JSON.parse(localStorage.getItem(‘jp-notif-dismissed’) || ‘[]’));
 
 function updateNotifBadge() {
-  // Only count items from the OTHER couple that haven't been dismissed
-  const unseen = activityLog.filter(e => {
-    if (e.couple === currentCouple) return false; // your own actions never badge
-    if (dismissedNotifs.has(String(e.id))) return false; // dismissed
-    return new Date(e.ts).getTime() > notifSeen;
-  }).length;
-  const badge = document.getElementById('notifBadge');
-  if (!badge) return;
-  if (unseen > 0) {
-    badge.textContent = unseen > 9 ? '9+' : unseen;
-    badge.classList.add('show');
-  } else {
-    badge.classList.remove('show');
-  }
+// Only count items from the OTHER couple that haven’t been dismissed
+const unseen = activityLog.filter(e => {
+if (e.couple === currentCouple) return false; // your own actions never badge
+if (dismissedNotifs.has(String(e.id))) return false; // dismissed
+return new Date(e.ts).getTime() > notifSeen;
+}).length;
+const badge = document.getElementById(‘notifBadge’);
+if (!badge) return;
+if (unseen > 0) {
+badge.textContent = unseen > 9 ? ‘9+’ : unseen;
+badge.classList.add(‘show’);
+} else {
+badge.classList.remove(‘show’);
+}
 }
 
 function dismissNotif(id, e) {
-  e.stopPropagation();
-  dismissedNotifs.add(String(id));
-  localStorage.setItem('jp-notif-dismissed', JSON.stringify([...dismissedNotifs]));
-  // remove from DOM immediately
-  const el = document.getElementById('nitem-'+id);
-  if (el) el.style.cssText = 'height:0;overflow:hidden;padding:0;opacity:0;transition:all .2s';
-  setTimeout(() => { if (el) el.remove(); checkNotifEmpty(); }, 220);
-  updateNotifBadge();
+e.stopPropagation();
+dismissedNotifs.add(String(id));
+localStorage.setItem(‘jp-notif-dismissed’, JSON.stringify([…dismissedNotifs]));
+// remove from DOM immediately
+const el = document.getElementById(‘nitem-’+id);
+if (el) el.style.cssText = ‘height:0;overflow:hidden;padding:0;opacity:0;transition:all .2s’;
+setTimeout(() => { if (el) el.remove(); checkNotifEmpty(); }, 220);
+updateNotifBadge();
 }
 
 function checkNotifEmpty() {
-  const list = document.getElementById('notifList');
-  if (list && !list.querySelector('.notif-item')) {
-    list.innerHTML = `<div class="notif-empty">All caught up! ✓</div>`;
-  }
+const list = document.getElementById(‘notifList’);
+if (list && !list.querySelector(’.notif-item’)) {
+list.innerHTML = `<div class="notif-empty">All caught up! ✓</div>`;
+}
 }
 
 function toggleNotifPanel() {
-  notifPanelOpen = !notifPanelOpen;
-  document.getElementById('notifPanel').classList.toggle('open', notifPanelOpen);
-  if (notifPanelOpen) {
-    renderNotifPanel();
-    // mark ALL current other-couple notifications as seen immediately
-    notifSeen = Date.now();
-    localStorage.setItem('jp-notifseen', notifSeen);
-    // clear the badge right now — don't wait
-    const badge = document.getElementById('notifBadge');
-    if (badge) badge.classList.remove('show');
-  }
+notifPanelOpen = !notifPanelOpen;
+document.getElementById(‘notifPanel’).classList.toggle(‘open’, notifPanelOpen);
+if (notifPanelOpen) {
+renderNotifPanel();
+// mark ALL current other-couple notifications as seen immediately
+notifSeen = Date.now();
+localStorage.setItem(‘jp-notifseen’, notifSeen);
+// clear the badge right now — don’t wait
+const badge = document.getElementById(‘notifBadge’);
+if (badge) badge.classList.remove(‘show’);
+}
 }
 
 function renderNotifPanel() {
-  const list = document.getElementById('notifList');
-  const visible = activityLog.filter(e => !dismissedNotifs.has(String(e.id))).slice(0, 30);
-  if (!visible.length) { list.innerHTML = `<div class="notif-empty">No activity yet</div>`; return; }
-  list.innerHTML = visible.map(e => {
-    const isOther = e.couple !== currentCouple;
-    const isNew = isOther && new Date(e.ts).getTime() > notifSeen;
-    return `<div class="notif-item ${isNew?'unread':''}" id="nitem-${e.id}">
-      <div class="notif-item-clickable" onclick="notifTap('${e.tab||''}','${e.refId||''}')">
-        <div class="notif-icon">${e.label?.split(' ')[0]||'📢'}</div>
-        <div class="notif-body">
-          <div class="notif-text">${e.label||e.action}</div>
-          <div class="notif-time">${isOther?'<span style="color:rgba(232,160,180,.7)">'+( e.couple==='ca'?'Connor & April':'Pat & Julia')+'</span> · ':''} ${fmtTime(e.ts)}</div>
-        </div>
-      </div>
-      <button class="notif-dismiss" onclick="dismissNotif('${e.id}',event)" title="Dismiss">✕</button>
-    </div>`;
-  }).join('');
+const list = document.getElementById(‘notifList’);
+const visible = activityLog.filter(e => !dismissedNotifs.has(String(e.id))).slice(0, 30);
+if (!visible.length) { list.innerHTML = `<div class="notif-empty">No activity yet</div>`; return; }
+list.innerHTML = visible.map(e => {
+const isOther = e.couple !== currentCouple;
+const isNew = isOther && new Date(e.ts).getTime() > notifSeen;
+return `<div class="notif-item ${isNew?'unread':''}" id="nitem-${e.id}"> <div class="notif-item-clickable" onclick="notifTap('${e.tab||''}','${e.refId||''}')"> <div class="notif-icon">${e.label?.split(' ')[0]||'📢'}</div> <div class="notif-body"> <div class="notif-text">${e.label||e.action}</div> <div class="notif-time">${isOther?'<span style="color:rgba(232,160,180,.7)">'+( e.couple==='ca'?'Connor & April':'Pat & Julia')+'</span> · ':''} ${fmtTime(e.ts)}</div> </div> </div> <button class="notif-dismiss" onclick="dismissNotif('${e.id}',event)" title="Dismiss">✕</button> </div>`;
+}).join(’’);
 }
 
 function notifTap(tab, refId) {
-  toggleNotifPanel();
-  if (tab) switchTab(tab);
-  // scroll to item if possible
-  if (refId) {
-    setTimeout(() => {
-      const el = document.getElementById('ttcard-'+refId) || document.getElementById('ic-'+refId);
-      if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-    }, 300);
-  }
+toggleNotifPanel();
+if (tab) switchTab(tab);
+// scroll to item if possible
+if (refId) {
+setTimeout(() => {
+const el = document.getElementById(‘ttcard-’+refId) || document.getElementById(‘ic-’+refId);
+if (el) el.scrollIntoView({behavior:‘smooth’, block:‘center’});
+}, 300);
+}
 }
 
 function openTT(url) {
-  if(url && url!=='https://www.tiktok.com') window.open(url,'_blank');
+if(url && url!==‘https://www.tiktok.com’) window.open(url,’_blank’);
 }
 
 // ════════════════════════════════════════
@@ -3920,376 +3960,381 @@ function openTT(url) {
 // Shared suggestions go couple-to-couple.
 
 const WL_MEMBERS = {
-  ca: [{id:'april',   name:'April',   emoji:'🌸'}, {id:'connor',  name:'Connor',  emoji:'🧢'}],
-  pj: [{id:'julia',   name:'Julia',   emoji:'👗'}, {id:'patrick', name:'Patrick', emoji:'🏌️'}],
+ca: [{id:‘april’,   name:‘April’,   emoji:‘🌸’}, {id:‘connor’,  name:‘Connor’,  emoji:‘🧢’}],
+pj: [{id:‘julia’,   name:‘Julia’,   emoji:‘👗’}, {id:‘patrick’, name:‘Patrick’, emoji:‘🏌️’}],
 };
 
-let wlActivePerson = localStorage.getItem('jp-wl-active') || null;
-let wlShared = JSON.parse(localStorage.getItem('jp-wl-shared') || '[]');
+let wlActivePerson = localStorage.getItem(‘jp-wl-active’) || null;
+let wlShared = JSON.parse(localStorage.getItem(‘jp-wl-shared’) || ‘[]’);
 
-function getWLMembers()         { return WL_MEMBERS[currentCouple||'ca'] || WL_MEMBERS.ca; }
-function getWL(person)          { return JSON.parse(localStorage.getItem('jp-wl-' + person) || '[]'); }
-function saveWLFor(person, arr) { localStorage.setItem('jp-wl-' + person, JSON.stringify(arr)); }
+function getWLMembers()         { return WL_MEMBERS[currentCouple||‘ca’] || WL_MEMBERS.ca; }
+function getWL(person)          { return JSON.parse(localStorage.getItem(‘jp-wl-’ + person) || ‘[]’); }
+function saveWLFor(person, arr) { localStorage.setItem(‘jp-wl-’ + person, JSON.stringify(arr)); }
 
 function saveShared() {
-  localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
-  // sync to Supabase so other couple sees it
-  if (sb) {
-    sb.from('japan_wl_shared').upsert(
-      wlShared.map(s => ({
-        id: s.id,
-        from_couple: s.fromCouple,
-        from_person: s.fromPerson,
-        item_json: JSON.stringify(s.item),
-        dismissed: JSON.stringify(s.dismissed||[]),
-        updated_at: new Date().toISOString()
-      }))
-    ).then(() => {});
-  }
+localStorage.setItem(‘jp-wl-shared’, JSON.stringify(wlShared));
+// sync to Supabase so other couple sees it
+if (sb) {
+sb.from(‘japan_wl_shared’).upsert(
+wlShared.map(s => ({
+id: s.id,
+from_couple: s.fromCouple,
+from_person: s.fromPerson,
+item_json: JSON.stringify(s.item),
+dismissed: JSON.stringify(s.dismissed||[]),
+updated_at: new Date().toISOString()
+}))
+).then(() => {});
+}
 }
 
 async function loadShared() {
-  if (!sb) return;
-  try {
-    const { data, error } = await sb.from('japan_wl_shared').select('*');
-    if (error || !data) return;
-    wlShared = data.map(r => ({
-      id: r.id,
-      fromCouple: r.from_couple,
-      fromPerson: r.from_person,
-      item: JSON.parse(r.item_json || '{}'),
-      dismissed: JSON.parse(r.dismissed || '[]'),
-    }));
-    localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
-    renderWLSuggestions();
-  } catch(e) {}
+if (!sb) return;
+try {
+const { data, error } = await sb.from(‘japan_wl_shared’).select(’*’);
+if (error || !data) return;
+wlShared = data.map(r => ({
+id: r.id,
+fromCouple: r.from_couple,
+fromPerson: r.from_person,
+item: JSON.parse(r.item_json || ‘{}’),
+dismissed: JSON.parse(r.dismissed || ‘[]’),
+}));
+localStorage.setItem(‘jp-wl-shared’, JSON.stringify(wlShared));
+renderWLSuggestions();
+} catch(e) {}
 }
 
 function subscribeWLShared() {
-  if (!sb) return;
-  sb.channel('wl-shared-v1')
-    .on('postgres_changes', {event:'*', schema:'public', table:'japan_wl_shared'}, () => {
-      loadShared();
-    })
-    .subscribe();
+if (!sb) return;
+sb.channel(‘wl-shared-v1’)
+.on(‘postgres_changes’, {event:’*’, schema:‘public’, table:‘japan_wl_shared’}, () => {
+loadShared();
+})
+.subscribe();
 }
 
 function getActiveWLPerson() {
-  const members = getWLMembers();
-  if (!wlActivePerson || !members.find(m => m.id === wlActivePerson)) {
-    wlActivePerson = members[0].id;
-    localStorage.setItem('jp-wl-active', wlActivePerson);
-  }
-  return wlActivePerson;
+const members = getWLMembers();
+if (!wlActivePerson || !members.find(m => m.id === wlActivePerson)) {
+wlActivePerson = members[0].id;
+localStorage.setItem(‘jp-wl-active’, wlActivePerson);
+}
+return wlActivePerson;
 }
 
 function setWLPerson(personId) {
-  wlActivePerson = personId;
-  localStorage.setItem('jp-wl-active', personId);
-  renderWL();
+wlActivePerson = personId;
+localStorage.setItem(‘jp-wl-active’, personId);
+renderWL();
 }
 
 function renderWL() {
-  const root     = document.getElementById('wishlistRoot');
-  const headerEl = document.getElementById('wlHeader');
-  if (!root) return;
+const root     = document.getElementById(‘wishlistRoot’);
+const headerEl = document.getElementById(‘wlHeader’);
+if (!root) return;
 
-  const person    = getActiveWLPerson();
-  const members   = getWLMembers();
-  const personObj = members.find(m => m.id === person) || members[0];
-  const accentColor = (currentCouple || 'ca') === 'ca' ? '#c8102e' : '#007a3d';
+const person    = getActiveWLPerson();
+const members   = getWLMembers();
+const personObj = members.find(m => m.id === person) || members[0];
+const accentColor = (currentCouple || ‘ca’) === ‘ca’ ? ‘#c8102e’ : ‘#007a3d’;
 
-  if (headerEl) {
-    headerEl.innerHTML =
-      '<div style="padding:12px 14px 6px">'
-      + '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;letter-spacing:.03em;color:#1a1a1a;margin-bottom:8px">'
-      + personObj.emoji + ' ' + personObj.name + '\'s Wishlist'
-      + '</div>'
-      + '<div style="display:flex;gap:6px">'
-      + members.map(m => {
-          const active = m.id === person;
-          return '<button onclick="setWLPerson(\'' + m.id + '\')" style="flex:1;padding:9px 8px;border-radius:10px;border:2px solid '
-            + (active ? accentColor : '#ddd') + ';background:' + (active ? 'rgba(200,16,46,.05)' : 'white') + ';color:'
-            + (active ? accentColor : '#888') + ';font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s">'
-            + m.emoji + ' ' + m.name
-            + '</button>';
-        }).join('')
-      + '</div></div>';
-  }
+if (headerEl) {
+headerEl.innerHTML =
+‘<div style="padding:12px 14px 6px">’
++ ‘<div style="font-family:\'Bebas Neue\',sans-serif;font-size:24px;letter-spacing:.03em;color:#1a1a1a;margin-bottom:8px">’
++ personObj.emoji + ’ ’ + personObj.name + ‘'s Wishlist’
++ ‘</div>’
++ ‘<div style="display:flex;gap:6px">’
++ members.map(m => {
+const active = m.id === person;
+return ‘<button onclick="setWLPerson(\'' + m.id + '\')" style="flex:1;padding:9px 8px;border-radius:10px;border:2px solid '
++ (active ? accentColor : '#ddd') + ';background:' + (active ? 'rgba(200,16,46,.05)' : 'white') + ';color:'
++ (active ? accentColor : '#888') + ';font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s">’
++ m.emoji + ’ ’ + m.name
++ ‘</button>’;
+}).join(’’)
++ ‘</div></div>’;
+}
 
-  const items = getWL(person);
-  const total = items.length;
-  const done  = items.filter(w => w.done).length;
-  const pct   = total ? Math.round(done / total * 100) : 0;
-  const progEl   = document.getElementById('wlProgress');
-  const progText = document.getElementById('wlProgressText');
-  const progFill = document.getElementById('wlProgressFill');
-  if (progEl)   progEl.style.display = total ? '' : 'none';
-  if (progText) progText.textContent = done + ' of ' + total + ' picked up';
-  if (progFill) progFill.style.width = pct + '%';
+const items = getWL(person);
+const total = items.length;
+const done  = items.filter(w => w.done).length;
+const pct   = total ? Math.round(done / total * 100) : 0;
+const progEl   = document.getElementById(‘wlProgress’);
+const progText = document.getElementById(‘wlProgressText’);
+const progFill = document.getElementById(‘wlProgressFill’);
+if (progEl)   progEl.style.display = total ? ‘’ : ‘none’;
+if (progText) progText.textContent = done + ’ of ’ + total + ’ picked up’;
+if (progFill) progFill.style.width = pct + ‘%’;
 
-  renderWLSuggestions();
+renderWLSuggestions();
 
-  if (!items.length) {
-    root.innerHTML = '<div class="empty-st"><div class="empty-icon">🛍</div><p>' + personObj.name + '\'s list is empty!<br>Tap + to add something.</p></div>';
-    return;
-  }
+if (!items.length) {
+root.innerHTML = ‘<div class="empty-st"><div class="empty-icon">🛍</div><p>’ + personObj.name + ‘'s list is empty!<br>Tap + to add something.</p></div>’;
+return;
+}
 
-  const stores = {};
-  items.forEach(w => { if (!stores[w.store]) stores[w.store] = []; stores[w.store].push(w); });
-  Object.keys(stores).forEach(store => {
-    const sid = ('wl-' + person + '-' + store).replace(/[^a-zA-Z0-9_]/g, '_');
-    _wlStoreMap[sid] = store;
-  });
+const stores = {};
+items.forEach(w => { if (!stores[w.store]) stores[w.store] = []; stores[w.store].push(w); });
+Object.keys(stores).forEach(store => {
+const sid = (‘wl-’ + person + ‘-’ + store).replace(/[^a-zA-Z0-9_]/g, ‘_’);
+_wlStoreMap[sid] = store;
+});
 
-  root.innerHTML = Object.keys(stores).map(store => {
-    const storeItems = stores[store];
-    const doneCount  = storeItems.filter(i => i.done).length;
-    const sid        = ('wl-' + person + '-' + store).replace(/[^a-zA-Z0-9_]/g, '_');
-    const colKey     = 'wl-' + sid;
-    const open       = isOpen(colKey);
-    const dispName   = store.replace(/\p{Emoji}/gu, '').trim();
-    const emojiMatch = store.match(/\p{Emoji}/u);
-    const storeEmoji = emojiMatch ? emojiMatch[0] : '🛍';
+root.innerHTML = Object.keys(stores).map(store => {
+const storeItems = stores[store];
+const doneCount  = storeItems.filter(i => i.done).length;
+const sid        = (‘wl-’ + person + ‘-’ + store).replace(/[^a-zA-Z0-9_]/g, ‘_’);
+const colKey     = ‘wl-’ + sid;
+const open       = isOpen(colKey);
+const dispName   = store.replace(/\p{Emoji}/gu, ‘’).trim();
+const emojiMatch = store.match(/\p{Emoji}/u);
+const storeEmoji = emojiMatch ? emojiMatch[0] : ‘🛍’;
 
-    const rows = storeItems.map(w =>
-      '<div class="wl-item">'
-      + '<div class="wl-check ' + (w.done ? 'done' : '') + '" onclick="toggleWLDone(\'' + w.id + '\')"></div>'
-      + '<div class="wl-item-body">'
-      + '<div class="wl-item-name ' + (w.done ? 'done' : '') + '">' + w.name + '</div>'
-      + (w.detail ? '<div class="wl-item-detail">' + w.detail + '</div>' : '')
-      + '</div>'
-      + (w.shared ? '<span class="wl-shared-badge">💌 shared</span>' : '')
-      + '<button class="wl-share-btn ' + (w.shared ? 'shared' : '') + '" onclick="toggleWLShare(\'' + w.id + '\')">' + (w.shared ? '📢' : '📤') + '</button>'
-      + '<button class="wl-edit-btn" onclick="editWL(\'' + w.id + '\')">✏️</button>'
-      + '</div>'
-    ).join('');
+```
+const rows = storeItems.map(w =>
+  '<div class="wl-item">'
+  + '<div class="wl-check ' + (w.done ? 'done' : '') + '" onclick="toggleWLDone(\'' + w.id + '\')"></div>'
+  + '<div class="wl-item-body">'
+  + '<div class="wl-item-name ' + (w.done ? 'done' : '') + '">' + w.name + '</div>'
+  + (w.detail ? '<div class="wl-item-detail">' + w.detail + '</div>' : '')
+  + '</div>'
+  + (w.shared ? '<span class="wl-shared-badge">💌 shared</span>' : '')
+  + '<button class="wl-share-btn ' + (w.shared ? 'shared' : '') + '" onclick="toggleWLShare(\'' + w.id + '\')">' + (w.shared ? '📢' : '📤') + '</button>'
+  + '<button class="wl-edit-btn" onclick="editWL(\'' + w.id + '\')">✏️</button>'
+  + '</div>'
+).join('');
 
-    return '<div class="wl-section">'
-      + '<div class="wl-store-hdr ' + (open ? 'open' : '') + '" id="wlhdr-' + sid + '" onclick="toggleWLStoreNew(\'' + colKey + '\',\'' + sid + '\')">'
-      + '<div class="wl-store-left">'
-      + '<span class="wl-store-chev ' + (open ? 'open' : '') + '" id="wlchev-' + sid + '">▼</span>'
-      + '<span class="wl-store-emoji">' + storeEmoji + '</span>'
-      + '<span class="wl-store-name">' + dispName + '</span>'
-      + '<span class="wl-store-count">' + doneCount + '/' + storeItems.length + '</span>'
-      + '</div>'
-      + '<button class="wl-store-add" data-wlstore="' + sid + '" onclick="event.stopPropagation();wlAddForStore(this)">＋</button>'
-      + '</div>'
-      + '<div class="wl-store-body ' + (open ? 'open' : '') + '" id="wlbody-' + sid + '">'
-      + rows
-      + '</div></div>';
-  }).join('');
+return '<div class="wl-section">'
+  + '<div class="wl-store-hdr ' + (open ? 'open' : '') + '" id="wlhdr-' + sid + '" onclick="toggleWLStoreNew(\'' + colKey + '\',\'' + sid + '\')">'
+  + '<div class="wl-store-left">'
+  + '<span class="wl-store-chev ' + (open ? 'open' : '') + '" id="wlchev-' + sid + '">▼</span>'
+  + '<span class="wl-store-emoji">' + storeEmoji + '</span>'
+  + '<span class="wl-store-name">' + dispName + '</span>'
+  + '<span class="wl-store-count">' + doneCount + '/' + storeItems.length + '</span>'
+  + '</div>'
+  + '<button class="wl-store-add" data-wlstore="' + sid + '" onclick="event.stopPropagation();wlAddForStore(this)">＋</button>'
+  + '</div>'
+  + '<div class="wl-store-body ' + (open ? 'open' : '') + '" id="wlbody-' + sid + '">'
+  + rows
+  + '</div></div>';
+```
+
+}).join(’’);
 }
 
 function renderWLSuggestions() {
-  const wrap = document.getElementById('wlSuggestionsWrap');
-  if (!wrap) return;
-  const myCouple    = currentCouple || 'ca';
-  const otherCouple = myCouple === 'ca' ? 'pj' : 'ca';
-  const otherLabel  = otherCouple === 'ca' ? 'Connor & April' : 'Patrick & Julia';
-  const visible     = wlShared.filter(s => s.fromCouple === otherCouple && !(s.dismissed || []).includes(myCouple));
-  if (!visible.length) { wrap.innerHTML = ''; return; }
-  const key  = 'wl-suggestions';
-  const open = isOpen(key);
-  wrap.innerHTML =
-    '<div style="padding:8px 14px 3px;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleSection(\'' + key + '\')">'
-    + '<span style="font-size:11px;color:var(--stone);transition:transform .22s;' + (open ? '' : 'transform:rotate(-90deg)') + '" id="cchev-' + key + '">▼</span>'
-    + '<span style="font-size:12px;font-weight:600;color:var(--blossom-deep)">💌 Suggestions from ' + otherLabel + '</span>'
-    + '<span style="font-size:11px;color:var(--stone)">' + visible.length + '</span>'
-    + '</div>'
-    + '<div class="coll-body ' + (open ? 'open' : '') + '" id="cbody-' + key + '" style="margin:0 12px 8px;border-radius:12px;border:1.5px solid rgba(201,109,138,.2);box-shadow:none">'
-    + '<div class="coll-inner" style="padding:4px 0">'
-    + visible.map(s =>
-        '<div class="wl-suggest-card" style="margin:6px 10px">'
-        + '<div class="wl-suggest-header"><span style="font-size:18px">🛍</span><div style="flex:1">'
-        + '<div class="wl-suggest-from">💌 ' + otherLabel + ' suggests</div>'
-        + '<div class="wl-suggest-item-name">' + s.item.name + '</div>'
-        + (s.item.detail ? '<div class="wl-suggest-detail">' + s.item.detail + '</div>' : '')
-        + '<span class="wl-suggest-store">' + (s.item.store || 'General') + '</span>'
-        + '</div></div>'
-        + '<div class="wl-suggest-actions">'
-        + '<button class="wl-suggest-add" onclick="addSuggestionToMyList(\'' + s.id + '\')">+ Add to my list</button>'
-        + '<button class="wl-suggest-dismiss" onclick="dismissSuggestion(\'' + s.id + '\')">Not for us</button>'
-        + '</div></div>'
-      ).join('')
-    + '</div></div>';
+const wrap = document.getElementById(‘wlSuggestionsWrap’);
+if (!wrap) return;
+const myCouple    = currentCouple || ‘ca’;
+const otherCouple = myCouple === ‘ca’ ? ‘pj’ : ‘ca’;
+const otherLabel  = otherCouple === ‘ca’ ? ‘Connor & April’ : ‘Patrick & Julia’;
+const visible     = wlShared.filter(s => s.fromCouple === otherCouple && !(s.dismissed || []).includes(myCouple));
+if (!visible.length) { wrap.innerHTML = ‘’; return; }
+const key  = ‘wl-suggestions’;
+const open = isOpen(key);
+wrap.innerHTML =
+‘<div style="padding:8px 14px 3px;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleSection(\'' + key + '\')">’
++ ‘<span style="font-size:11px;color:var(--stone);transition:transform .22s;' + (open ? '' : 'transform:rotate(-90deg)') + '" id="cchev-' + key + '">▼</span>’
++ ‘<span style="font-size:12px;font-weight:600;color:var(--blossom-deep)">💌 Suggestions from ’ + otherLabel + ‘</span>’
++ ‘<span style="font-size:11px;color:var(--stone)">’ + visible.length + ‘</span>’
++ ‘</div>’
++ ‘<div class="coll-body ' + (open ? 'open' : '') + '" id="cbody-' + key + '" style="margin:0 12px 8px;border-radius:12px;border:1.5px solid rgba(201,109,138,.2);box-shadow:none">’
++ ‘<div class="coll-inner" style="padding:4px 0">’
++ visible.map(s =>
+‘<div class="wl-suggest-card" style="margin:6px 10px">’
++ ‘<div class="wl-suggest-header"><span style="font-size:18px">🛍</span><div style="flex:1">’
++ ‘<div class="wl-suggest-from">💌 ’ + otherLabel + ’ suggests</div>’
++ ‘<div class="wl-suggest-item-name">’ + s.item.name + ‘</div>’
++ (s.item.detail ? ‘<div class="wl-suggest-detail">’ + s.item.detail + ‘</div>’ : ‘’)
++ ‘<span class="wl-suggest-store">’ + (s.item.store || ‘General’) + ‘</span>’
++ ‘</div></div>’
++ ‘<div class="wl-suggest-actions">’
++ ‘<button class="wl-suggest-add" onclick="addSuggestionToMyList(\'' + s.id + '\')">+ Add to my list</button>’
++ ‘<button class="wl-suggest-dismiss" onclick="dismissSuggestion(\'' + s.id + '\')">Not for us</button>’
++ ‘</div></div>’
+).join(’’)
++ ‘</div></div>’;
 }
 
 function addSuggestionToMyList(sid) {
-  const s = wlShared.find(x => x.id === sid);
-  if (!s) return;
-  const person = getActiveWLPerson();
-  const items  = getWL(person);
-  items.push({...s.item, id: 'w' + Date.now(), done: false, shared: false});
-  saveWLFor(person, items);
-  if (!s.dismissed) s.dismissed = [];
-  s.dismissed.push(currentCouple || 'ca');
-  saveShared(); renderWL(); showToast('🛍 Added!');
+const s = wlShared.find(x => x.id === sid);
+if (!s) return;
+const person = getActiveWLPerson();
+const items  = getWL(person);
+items.push({…s.item, id: ‘w’ + Date.now(), done: false, shared: false});
+saveWLFor(person, items);
+if (!s.dismissed) s.dismissed = [];
+s.dismissed.push(currentCouple || ‘ca’);
+saveShared(); renderWL(); showToast(‘🛍 Added!’);
 }
 
 function dismissSuggestion(sid) {
-  const s = wlShared.find(x => x.id === sid);
-  if (!s) return;
-  if (!s.dismissed) s.dismissed = [];
-  s.dismissed.push(currentCouple || 'ca');
-  saveShared(); renderWLSuggestions(); showToast('👋 Dismissed');
+const s = wlShared.find(x => x.id === sid);
+if (!s) return;
+if (!s.dismissed) s.dismissed = [];
+s.dismissed.push(currentCouple || ‘ca’);
+saveShared(); renderWLSuggestions(); showToast(‘👋 Dismissed’);
 }
 
 const _wlStoreMap = {};
 
 function wlAddForStore(btn) {
-  const store = _wlStoreMap[btn.dataset.wlstore];
-  if (store) openWLSheetForStore(store); else openWLSheet();
+const store = _wlStoreMap[btn.dataset.wlstore];
+if (store) openWLSheetForStore(store); else openWLSheet();
 }
 
 function toggleWLStoreNew(colKey, sid) {
-  const k     = 'jp-collapse-' + getDeviceId();
-  const prefs = getCollapsePrefs();
-  prefs[colKey] = !prefs[colKey];
-  localStorage.setItem(k, JSON.stringify(prefs));
-  document.getElementById('wlbody-' + sid)?.classList.toggle('open', prefs[colKey]);
-  document.getElementById('wlchev-' + sid)?.classList.toggle('open', prefs[colKey]);
-  document.getElementById('wlhdr-'  + sid)?.classList.toggle('open', prefs[colKey]);
+const k     = ‘jp-collapse-’ + getDeviceId();
+const prefs = getCollapsePrefs();
+prefs[colKey] = !prefs[colKey];
+localStorage.setItem(k, JSON.stringify(prefs));
+document.getElementById(‘wlbody-’ + sid)?.classList.toggle(‘open’, prefs[colKey]);
+document.getElementById(‘wlchev-’ + sid)?.classList.toggle(‘open’, prefs[colKey]);
+document.getElementById(‘wlhdr-’  + sid)?.classList.toggle(‘open’, prefs[colKey]);
 }
 
 function toggleWLDone(id) {
-  const person = getActiveWLPerson();
-  const items  = getWL(person);
-  const item   = items.find(w => w.id === id);
-  if (!item) return;
-  item.done = !item.done;
-  saveWLFor(person, items);
-  renderWL();
-  showToast(item.done ? '✅ Got it!' : '↩ Unmarked');
+const person = getActiveWLPerson();
+const items  = getWL(person);
+const item   = items.find(w => w.id === id);
+if (!item) return;
+item.done = !item.done;
+saveWLFor(person, items);
+renderWL();
+showToast(item.done ? ‘✅ Got it!’ : ‘↩ Unmarked’);
 }
 
 function toggleWLShare(id) {
-  const person = getActiveWLPerson();
-  const items  = getWL(person);
-  const item   = items.find(w => w.id === id);
-  if (!item) return;
-  item.shared = !item.shared;
-  const myCouple = currentCouple || 'ca';
-  if (item.shared) {
-    wlShared = wlShared.filter(s => s.id !== id);
-    wlShared.push({id, fromCouple: myCouple, fromPerson: person, item: {...item}, dismissed: []});
-    saveShared();
-    showToast('📢 Shared as suggestion!');
-  } else {
-    wlShared = wlShared.filter(s => s.id !== id);
-    saveShared();
-    showToast('🔒 Unshared');
-  }
-  saveWLFor(person, items);
-  renderWL();
+const person = getActiveWLPerson();
+const items  = getWL(person);
+const item   = items.find(w => w.id === id);
+if (!item) return;
+item.shared = !item.shared;
+const myCouple = currentCouple || ‘ca’;
+if (item.shared) {
+wlShared = wlShared.filter(s => s.id !== id);
+wlShared.push({id, fromCouple: myCouple, fromPerson: person, item: {…item}, dismissed: []});
+saveShared();
+showToast(‘📢 Shared as suggestion!’);
+} else {
+wlShared = wlShared.filter(s => s.id !== id);
+saveShared();
+showToast(‘🔒 Unshared’);
+}
+saveWLFor(person, items);
+renderWL();
 }
 
 let editWLId = null;
 
 function openWLSheet() {
-  const person    = getActiveWLPerson();
-  const members   = getWLMembers();
-  const personObj = members.find(m => m.id === person) || members[0];
-  editWLId = null;
-  document.getElementById('wlSheetTitle').textContent = 'Add to ' + personObj.name + "'s List";
-  document.getElementById('wlDelBtn').style.display   = 'none';
-  document.getElementById('wlEditId').value  = '';
-  document.getElementById('wlName').value    = '';
-  document.getElementById('wlDetail').value  = '';
-  document.getElementById('wlStore').value   = 'Don Quijote 🦆';
-  document.getElementById('wlCustomStoreRow').style.display = 'none';
-  const cb = document.getElementById('wlShared');
-  if (cb) { cb.checked = false; updateWLSharedSlider(); }
-  openSheet('wlSheet');
+const person    = getActiveWLPerson();
+const members   = getWLMembers();
+const personObj = members.find(m => m.id === person) || members[0];
+editWLId = null;
+document.getElementById(‘wlSheetTitle’).textContent = ’Add to ’ + personObj.name + “’s List”;
+document.getElementById(‘wlDelBtn’).style.display   = ‘none’;
+document.getElementById(‘wlEditId’).value  = ‘’;
+document.getElementById(‘wlName’).value    = ‘’;
+document.getElementById(‘wlDetail’).value  = ‘’;
+document.getElementById(‘wlStore’).value   = ‘Don Quijote 🦆’;
+document.getElementById(‘wlCustomStoreRow’).style.display = ‘none’;
+const cb = document.getElementById(‘wlShared’);
+if (cb) { cb.checked = false; updateWLSharedSlider(); }
+openSheet(‘wlSheet’);
 }
 
 function openWLSheetForStore(store) {
-  openWLSheet();
-  const sel = document.getElementById('wlStore');
-  const opt = [...sel.options].find(o => o.value === store);
-  if (opt) { sel.value = store; document.getElementById('wlCustomStoreRow').style.display = 'none'; }
-  else     { sel.value = 'custom'; document.getElementById('wlCustomStoreRow').style.display = ''; document.getElementById('wlCustomStore').value = store; }
+openWLSheet();
+const sel = document.getElementById(‘wlStore’);
+const opt = […sel.options].find(o => o.value === store);
+if (opt) { sel.value = store; document.getElementById(‘wlCustomStoreRow’).style.display = ‘none’; }
+else     { sel.value = ‘custom’; document.getElementById(‘wlCustomStoreRow’).style.display = ‘’; document.getElementById(‘wlCustomStore’).value = store; }
 }
 
 function editWL(id) {
-  const person    = getActiveWLPerson();
-  const items     = getWL(person);
-  const w         = items.find(x => x.id === id);
-  if (!w) return;
-  editWLId = id;
-  const members   = getWLMembers();
-  const personObj = members.find(m => m.id === person) || members[0];
-  document.getElementById('wlSheetTitle').textContent = 'Edit — ' + personObj.name + "'s List";
-  document.getElementById('wlDelBtn').style.display   = '';
-  document.getElementById('wlEditId').value  = id;
-  document.getElementById('wlName').value    = w.name;
-  document.getElementById('wlDetail').value  = w.detail || '';
-  const sel = document.getElementById('wlStore');
-  const opt = [...sel.options].find(o => o.value === w.store);
-  if (opt) { sel.value = w.store; document.getElementById('wlCustomStoreRow').style.display = 'none'; }
-  else     { sel.value = 'custom'; document.getElementById('wlCustomStoreRow').style.display = ''; document.getElementById('wlCustomStore').value = w.store; }
-  const cb = document.getElementById('wlShared');
-  if (cb) { cb.checked = !!w.shared; updateWLSharedSlider(); }
-  openSheet('wlSheet');
+const person    = getActiveWLPerson();
+const items     = getWL(person);
+const w         = items.find(x => x.id === id);
+if (!w) return;
+editWLId = id;
+const members   = getWLMembers();
+const personObj = members.find(m => m.id === person) || members[0];
+document.getElementById(‘wlSheetTitle’).textContent = ’Edit — ’ + personObj.name + “’s List”;
+document.getElementById(‘wlDelBtn’).style.display   = ‘’;
+document.getElementById(‘wlEditId’).value  = id;
+document.getElementById(‘wlName’).value    = w.name;
+document.getElementById(‘wlDetail’).value  = w.detail || ‘’;
+const sel = document.getElementById(‘wlStore’);
+const opt = […sel.options].find(o => o.value === w.store);
+if (opt) { sel.value = w.store; document.getElementById(‘wlCustomStoreRow’).style.display = ‘none’; }
+else     { sel.value = ‘custom’; document.getElementById(‘wlCustomStoreRow’).style.display = ‘’; document.getElementById(‘wlCustomStore’).value = w.store; }
+const cb = document.getElementById(‘wlShared’);
+if (cb) { cb.checked = !!w.shared; updateWLSharedSlider(); }
+openSheet(‘wlSheet’);
 }
 
-document.addEventListener('change', e => {
-  if (e.target.id === 'wlStore')  document.getElementById('wlCustomStoreRow').style.display = e.target.value === 'custom' ? '' : 'none';
-  if (e.target.id === 'wlShared') updateWLSharedSlider();
+document.addEventListener(‘change’, e => {
+if (e.target.id === ‘wlStore’)  document.getElementById(‘wlCustomStoreRow’).style.display = e.target.value === ‘custom’ ? ‘’ : ‘none’;
+if (e.target.id === ‘wlShared’) updateWLSharedSlider();
 });
 
 function updateWLSharedSlider() {
-  const cb     = document.getElementById('wlShared');
-  const slider = document.getElementById('wlSharedSlider');
-  const label  = document.getElementById('wlSharedLabel');
-  if (!cb || !slider) return;
-  slider.style.background = cb.checked ? 'var(--matcha)' : '#ddd';
-  slider.innerHTML = '<span style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:' + (cb.checked ? '21' : '3') + 'px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></span>';
-  if (label) label.textContent = cb.checked ? 'On — other couple will see this as a suggestion' : 'Off — only visible to your couple';
+const cb     = document.getElementById(‘wlShared’);
+const slider = document.getElementById(‘wlSharedSlider’);
+const label  = document.getElementById(‘wlSharedLabel’);
+if (!cb || !slider) return;
+slider.style.background = cb.checked ? ‘var(–matcha)’ : ‘#ddd’;
+slider.innerHTML = ‘<span style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:' + (cb.checked ? '21' : '3') + 'px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></span>’;
+if (label) label.textContent = cb.checked ? ‘On — other couple will see this as a suggestion’ : ‘Off — only visible to your couple’;
 }
 
 function saveWL() {
-  const name = document.getElementById('wlName').value.trim();
-  if (!name) { showToast('Enter an item name'); return; }
-  let store = document.getElementById('wlStore').value;
-  if (store === 'custom') store = document.getElementById('wlCustomStore').value.trim() || 'General 🛍';
-  const isShared = document.getElementById('wlShared')?.checked || false;
-  const person   = getActiveWLPerson();
-  const items    = getWL(person);
-  const existing = editWLId ? items.find(x => x.id === editWLId) : null;
-  const w = { id: editWLId || 'w' + Date.now(), store, name, detail: document.getElementById('wlDetail').value, done: existing?.done || false, shared: isShared };
-  if (editWLId) { const i = items.findIndex(x => x.id === editWLId); if (i > -1) items[i] = w; } else items.push(w);
-  saveWLFor(person, items);
-  if (isShared) {
-    wlShared = wlShared.filter(s => s.id !== w.id);
-    wlShared.push({id: w.id, fromCouple: currentCouple || 'ca', fromPerson: person, item: {...w}, dismissed: []});
-    saveShared();
-  } else {
-    wlShared = wlShared.filter(s => s.id !== w.id);
-    saveShared();
-  }
-  renderWL(); closeSheet('wlSheet');
-  showToast(editWLId ? '✏️ Updated!' : '🛍 Added!');
-  editWLId = null;
+const name = document.getElementById(‘wlName’).value.trim();
+if (!name) { showToast(‘Enter an item name’); return; }
+let store = document.getElementById(‘wlStore’).value;
+if (store === ‘custom’) store = document.getElementById(‘wlCustomStore’).value.trim() || ‘General 🛍’;
+const isShared = document.getElementById(‘wlShared’)?.checked || false;
+const person   = getActiveWLPerson();
+const items    = getWL(person);
+const existing = editWLId ? items.find(x => x.id === editWLId) : null;
+const w = { id: editWLId || ‘w’ + Date.now(), store, name, detail: document.getElementById(‘wlDetail’).value, done: existing?.done || false, shared: isShared };
+if (editWLId) { const i = items.findIndex(x => x.id === editWLId); if (i > -1) items[i] = w; } else items.push(w);
+saveWLFor(person, items);
+if (isShared) {
+wlShared = wlShared.filter(s => s.id !== w.id);
+wlShared.push({id: w.id, fromCouple: currentCouple || ‘ca’, fromPerson: person, item: {…w}, dismissed: []});
+saveShared();
+} else {
+wlShared = wlShared.filter(s => s.id !== w.id);
+saveShared();
+}
+renderWL(); closeSheet(‘wlSheet’);
+showToast(editWLId ? ‘✏️ Updated!’ : ‘🛍 Added!’);
+editWLId = null;
 }
 
 function deleteWL() {
-  if (!editWLId || !confirm('Remove this item?')) return;
-  const person = getActiveWLPerson();
-  saveWLFor(person, getWL(person).filter(w => w.id !== editWLId));
-  wlShared = wlShared.filter(s => s.id !== editWLId);
-  saveShared(); renderWL(); closeSheet('wlSheet');
-  showToast('🗑 Removed'); editWLId = null;
+if (!editWLId || !confirm(‘Remove this item?’)) return;
+const person = getActiveWLPerson();
+saveWLFor(person, getWL(person).filter(w => w.id !== editWLId));
+wlShared = wlShared.filter(s => s.id !== editWLId);
+saveShared(); renderWL(); closeSheet(‘wlSheet’);
+showToast(‘🗑 Removed’); editWLId = null;
 }
-
 
 // Try deep link first, fall back to App Store after 1.5s if app not installed
 function tryOpenApp(e, appLink, storeLink) {
-  e.preventDefault();
-  window.location.href = appLink;
-  if (storeLink) {
-    setTimeout(() => { if (!document.hidden) window.open(storeLink, '_blank'); }, 1500);
-  }
+e.preventDefault();
+// If we have a valid store link, just open it directly
+// Deep links only work if the app is already installed — causes errors otherwise
+if (storeLink) {
+window.open(storeLink, ‘_blank’);
+} else if (appLink) {
+window.location.href = appLink;
+}
 }
 
 // TIPS DRAG REORDER
@@ -4298,137 +4343,196 @@ function tryOpenApp(e, appLink, storeLink) {
 let tipDragId = null;
 
 function tipDragStart(e, id) {
-  tipDragId = id;
-  e.dataTransfer.effectAllowed = 'move';
-  setTimeout(() => document.querySelector(`[data-tip-id="${id}"]`)?.classList.add('dragging'), 0);
+tipDragId = id;
+e.dataTransfer.effectAllowed = ‘move’;
+setTimeout(() => document.querySelector(`[data-tip-id="${id}"]`)?.classList.add(‘dragging’), 0);
 }
 function tipDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  e.currentTarget.classList.add('drag-over-tip');
+e.preventDefault();
+e.dataTransfer.dropEffect = ‘move’;
+e.currentTarget.classList.add(‘drag-over-tip’);
 }
 function tipDragLeave(e) {
-  e.currentTarget.classList.remove('drag-over-tip');
+e.currentTarget.classList.remove(‘drag-over-tip’);
 }
 function tipDrop(e, targetId) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over-tip');
-  if (!tipDragId || tipDragId === targetId) return;
-  const srcIdx = tipsItems.findIndex(t => t.id === tipDragId);
-  const tgtIdx = tipsItems.findIndex(t => t.id === targetId);
-  if (srcIdx < 0 || tgtIdx < 0) return;
-  const [moved] = tipsItems.splice(srcIdx, 1);
-  tipsItems.splice(tgtIdx, 0, moved);
-  save('tips');
-  renderTips();
-  tipDragId = null;
+e.preventDefault();
+e.currentTarget.classList.remove(‘drag-over-tip’);
+if (!tipDragId || tipDragId === targetId) return;
+const srcIdx = tipsItems.findIndex(t => t.id === tipDragId);
+const tgtIdx = tipsItems.findIndex(t => t.id === targetId);
+if (srcIdx < 0 || tgtIdx < 0) return;
+const [moved] = tipsItems.splice(srcIdx, 1);
+tipsItems.splice(tgtIdx, 0, moved);
+save(‘tips’);
+renderTips();
+tipDragId = null;
 }
 
 // ════════════════════════════════════════
 // TAB HELP BANNERS
 // ════════════════════════════════════════
-const BANNER_DISMISSED = new Set(JSON.parse(localStorage.getItem('jp-banners-dismissed') || '[]'));
-const BANNER_COLLAPSED = new Set(JSON.parse(localStorage.getItem('jp-banners-collapsed') || '[]'));
-
+const BANNER_DISMISSED = new Set(JSON.parse(localStorage.getItem(‘jp-banners-dismissed’) || ‘[]’));
+const BANNER_COLLAPSED = new Set(JSON.parse(localStorage.getItem(‘jp-banners-collapsed’) || ‘[]’));
 
 // Fix nav position based on actual header height
 function fixNavPosition() {
-  const hdr = document.querySelector('.app-header');
-  const nav = document.querySelector('.nav-tabs');
-  if (hdr && nav) {
-    const h = hdr.offsetHeight;
-    nav.style.top = h + 'px';
-    document.body.style.paddingTop = (h + nav.offsetHeight) + 'px';
-  }
+const hdr = document.querySelector(’.app-header’);
+const nav = document.querySelector(’.nav-tabs’);
+if (hdr && nav) {
+const h = hdr.offsetHeight;
+nav.style.top = h + ‘px’;
+document.body.style.paddingTop = (h + nav.offsetHeight) + ‘px’;
+}
 }
 function initBanners() {
-  BANNER_DISMISSED.forEach(id => {
-    const el = document.getElementById('banner-'+id);
-    if (el) el.style.display = 'none';
-  });
-  BANNER_COLLAPSED.forEach(id => {
-    const body = document.getElementById('banner-body-'+id);
-    const chev = document.getElementById('banner-chev-'+id);
-    if (body) body.style.display = 'none';
-    if (chev) chev.classList.remove('open');
-  });
+BANNER_DISMISSED.forEach(id => {
+const el = document.getElementById(‘banner-’+id);
+if (el) el.style.display = ‘none’;
+});
+BANNER_COLLAPSED.forEach(id => {
+const body = document.getElementById(‘banner-body-’+id);
+const chev = document.getElementById(‘banner-chev-’+id);
+if (body) body.style.display = ‘none’;
+if (chev) chev.classList.remove(‘open’);
+});
 }
 
 function toggleBanner(id) {
-  const body = document.getElementById('banner-body-'+id);
-  const chev = document.getElementById('banner-chev-'+id);
-  if (!body) return;
-  const isOpen = body.style.display !== 'none';
-  body.style.display = isOpen ? 'none' : '';
-  if (chev) chev.classList.toggle('open', !isOpen);
-  if (isOpen) BANNER_COLLAPSED.add(id); else BANNER_COLLAPSED.delete(id);
-  localStorage.setItem('jp-banners-collapsed', JSON.stringify([...BANNER_COLLAPSED]));
+const body = document.getElementById(‘banner-body-’+id);
+const chev = document.getElementById(‘banner-chev-’+id);
+if (!body) return;
+const isOpen = body.style.display !== ‘none’;
+body.style.display = isOpen ? ‘none’ : ‘’;
+if (chev) chev.classList.toggle(‘open’, !isOpen);
+if (isOpen) BANNER_COLLAPSED.add(id); else BANNER_COLLAPSED.delete(id);
+localStorage.setItem(‘jp-banners-collapsed’, JSON.stringify([…BANNER_COLLAPSED]));
 }
 
 function dismissBanner(id) {
-  const el = document.getElementById('banner-'+id);
-  if (el) { el.style.cssText = 'height:0;overflow:hidden;padding:0;margin:0;opacity:0;transition:all .25s'; setTimeout(()=>el.remove(),260); }
-  BANNER_DISMISSED.add(id);
-  localStorage.setItem('jp-banners-dismissed', JSON.stringify([...BANNER_DISMISSED]));
+const el = document.getElementById(‘banner-’+id);
+if (el) { el.style.cssText = ‘height:0;overflow:hidden;padding:0;margin:0;opacity:0;transition:all .25s’; setTimeout(()=>el.remove(),260); }
+BANNER_DISMISSED.add(id);
+localStorage.setItem(‘jp-banners-dismissed’, JSON.stringify([…BANNER_DISMISSED]));
 }
 
 // ════════════════════════════════════════
 // PULL TO REFRESH
 // ════════════════════════════════════════
 (function() {
-  const THRESHOLD = 75; // px to pull before triggering
-  let startY = 0, pulling = false, indicator = null;
+const THRESHOLD = 75; // px to pull before triggering
+let startY = 0, pulling = false, indicator = null;
 
-  function createIndicator() {
-    const el = document.createElement('div');
-    el.id = 'ptr-indicator';
-    el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#c8102e;color:white;font-size:13px;font-weight:600;font-family:inherit;height:0;overflow:hidden;transition:height .2s;letter-spacing:.04em;';
-    el.textContent = '↓ Pull to refresh';
-    document.body.appendChild(el);
-    return el;
-  }
+function createIndicator() {
+const el = document.createElement(‘div’);
+el.id = ‘ptr-indicator’;
+el.style.cssText = ‘position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#c8102e;color:white;font-size:13px;font-weight:600;font-family:inherit;height:0;overflow:hidden;transition:height .2s;letter-spacing:.04em;’;
+el.textContent = ‘↓ Pull to refresh’;
+document.body.appendChild(el);
+return el;
+}
 
-  document.addEventListener('touchstart', e => {
-    // Only trigger when scrolled to very top
-    if (window.scrollY > 5) return;
-    startY = e.touches[0].clientY;
-    pulling = true;
-  }, {passive: true});
+document.addEventListener(‘touchstart’, e => {
+// Only trigger when scrolled to very top
+if (window.scrollY > 5) return;
+startY = e.touches[0].clientY;
+pulling = true;
+}, {passive: true});
 
-  document.addEventListener('touchmove', e => {
-    if (!pulling) return;
-    const dy = e.touches[0].clientY - startY;
-    if (dy <= 0) { pulling = false; return; }
-    if (!indicator) indicator = createIndicator();
-    const progress = Math.min(dy / THRESHOLD, 1);
-    const h = Math.min(dy * 0.4, 44);
-    indicator.style.height = h + 'px';
-    indicator.style.opacity = progress;
-    indicator.textContent = progress >= 1 ? '↻ Release to refresh' : '↓ Pull to refresh';
-  }, {passive: true});
+document.addEventListener(‘touchmove’, e => {
+if (!pulling) return;
+const dy = e.touches[0].clientY - startY;
+if (dy <= 0) { pulling = false; return; }
+if (!indicator) indicator = createIndicator();
+const progress = Math.min(dy / THRESHOLD, 1);
+const h = Math.min(dy * 0.4, 44);
+indicator.style.height = h + ‘px’;
+indicator.style.opacity = progress;
+indicator.textContent = progress >= 1 ? ‘↻ Release to refresh’ : ‘↓ Pull to refresh’;
+}, {passive: true});
 
-  document.addEventListener('touchend', e => {
-    if (!pulling || !indicator) { pulling = false; return; }
-    const dy = e.changedTouches[0].clientY - startY;
-    pulling = false;
-    if (dy >= THRESHOLD) {
-      indicator.style.height = '40px';
-      indicator.textContent = '↻ Refreshing…';
-      setTimeout(() => location.reload(), 400);
-    } else {
-      indicator.style.height = '0';
-    }
-  }, {passive: true});
+document.addEventListener(‘touchend’, e => {
+if (!pulling || !indicator) { pulling = false; return; }
+const dy = e.changedTouches[0].clientY - startY;
+pulling = false;
+if (dy >= THRESHOLD) {
+indicator.style.height = ‘40px’;
+indicator.textContent = ‘↻ Refreshing…’;
+setTimeout(() => location.reload(), 400);
+} else {
+indicator.style.height = ‘0’;
+}
+}, {passive: true});
 })();
 
 function fmtTime(iso){
-  const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
-  if(diff<1) return 'just now'; if(diff<60) return diff+'m ago';
-  if(diff<1440) return Math.floor(diff/60)+'h ago';
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const d=new Date(iso),now=new Date(),diff=Math.floor((now-d)/60000);
+if(diff<1) return ‘just now’; if(diff<60) return diff+‘m ago’;
+if(diff<1440) return Math.floor(diff/60)+‘h ago’;
+return d.toLocaleDateString(‘en-US’,{month:‘short’,day:‘numeric’});
 }
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+function esc(s){return(s||’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/’/g,’'’);}
+function showToast(msg){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘show’);setTimeout(()=>t.classList.remove(‘show’),2000);}
+
+// ════════════════════════════════════════
+// SCROLL MAGNIFY — itinerary cards
+// ════════════════════════════════════════
+(function() {
+let rafId = null;
+let magnifyActive = false;
+
+function updateMagnify() {
+// Only run on itinerary tab
+if (!document.getElementById(‘content-itinerary’)?.classList.contains(‘active’)) return;
+const cards = document.querySelectorAll(’#itinRoot .itin-card’);
+if (!cards.length) return;
+
+```
+const vpMid = window.innerHeight / 2;
+
+cards.forEach(card => {
+  const rect = card.getBoundingClientRect();
+  const cardMid = rect.top + rect.height / 2;
+  const dist = Math.abs(cardMid - vpMid);
+  const maxDist = window.innerHeight * 0.55;
+
+  card.classList.remove('card-focus','card-near','card-far');
+  if (dist < rect.height * 0.6) {
+    card.classList.add('card-focus');
+  } else if (dist < maxDist * 0.55) {
+    card.classList.add('card-near');
+  } else if (dist > maxDist * 0.75) {
+    card.classList.add('card-far');
+  }
+});
+```
+
+}
+
+function onScroll() {
+if (rafId) return;
+rafId = requestAnimationFrame(() => {
+rafId = null;
+updateMagnify();
+});
+}
+
+// Run on scroll and when tab switches
+window.addEventListener(‘scroll’, onScroll, { passive: true });
+
+// Re-run whenever itinerary renders
+const _origRenderItin = window.renderItin;
+window._magnifyUpdate = updateMagnify;
+
+// Poll for tab switches
+setInterval(() => {
+const active = document.getElementById(‘content-itinerary’)?.classList.contains(‘active’);
+if (active !== magnifyActive) {
+magnifyActive = active;
+if (active) setTimeout(updateMagnify, 100);
+}
+}, 200);
+})();
 
 </script>
 </body>
