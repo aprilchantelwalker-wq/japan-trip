@@ -863,6 +863,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
     <div class="fpill" onclick="filterTT('shopping',this)">🛍 Shopping</div>
     <div class="fpill" onclick="filterTT('content',this)">🎬 Content</div>
     <div class="fpill" onclick="filterTT('vlog',this)">📹 Vlogs</div>
+    <div class="fpill" onclick="filterTT('activity',this)">🎯 Activities</div>
     <div class="fpill" onclick="filterTT('other',this)">✨ Other</div>
   </div>
   <div id="ttRoot"></div>
@@ -897,6 +898,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
             <option value="shopping">🛍 Shopping</option>
             <option value="content">🎬 Content</option>
             <option value="vlog">📹 Vlog</option>
+            <option value="activity">🎯 Activity</option>
             <option value="other">✨ Other</option>
           </select>
         </div>
@@ -3230,8 +3232,8 @@ function deleteTip() {
 // TIKTOK RENDER + CRUD
 // ════════════════════════════════════════
 let ttFilter='all';
-const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',content:'background:rgba(167,139,250,.15);color:#7c3aed',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
-const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',content:'🎬 Content',vlog:'📹 Vlog',other:'✨ Other'};
+const TT_CAT_COLORS={food:'background:rgba(107,143,94,.12);color:var(--matcha)',tips:'background:rgba(201,151,58,.12);color:var(--gold)',attraction:'background:rgba(91,143,168,.12);color:var(--sky)',shopping:'background:rgba(232,160,180,.2);color:var(--blossom-deep)',content:'background:rgba(167,139,250,.15);color:#7c3aed',vlog:'background:rgba(26,21,18,.08);color:var(--ink)',activity:'background:rgba(200,16,46,.1);color:#c8102e',other:'background:rgba(140,128,117,.1);color:var(--stone)'};
+const TT_CAT_LABELS={food:'🍜 Food',tips:'💡 Tips',attraction:'⛩️ Attraction',shopping:'🛍 Shopping',content:'🎬 Content',vlog:'📹 Vlog',activity:'🎯 Activity',other:'✨ Other'};
 
 // tt reactions stored locally + synced to supabase
 let ttReactions = JSON.parse(localStorage.getItem('jp-ttreact') || '{}');
@@ -3276,9 +3278,9 @@ function renderTT() {
       const myLike = currentCouple && likes.includes(currentCouple);
       const colStyle = TT_CAT_COLORS[t.cat]||TT_CAT_COLORS.other;
       const whoLikedHtml = likes.map(c=>`<span class="tt-liker-badge ${c==='ca'?'tt-liker-ca':'tt-liker-pj'}">${c==='ca'?'C&A':'P&J'}</span>`).join('');
-      const catEmoji = {food:'🍜',tips:'💡',attraction:'⛩️',shopping:'🛍',content:'🎬',vlog:'📹',other:'✨'}[t.cat]||'🎵';
+      const catEmoji = {food:'🍜',tips:'💡',attraction:'⛩️',shopping:'🛍',content:'🎬',vlog:'📹',activity:'🎯',other:'✨'}[t.cat]||'🎵';
       const commentsOpen = !!ttCommentsOpen?.[t.id];
-      const accentColor = {'food':'#c8102e','tips':'#f7941d','attraction':'#5b8fa8','shopping':'#c96d8a','content':'#6b8f5e','vlog':'#8b5cf6','other':'#999'}[t.cat]||'#c8102e';
+      const accentColor = {'food':'#c8102e','tips':'#f7941d','attraction':'#5b8fa8','shopping':'#c96d8a','content':'#6b8f5e','vlog':'#8b5cf6','activity':'#c8102e','other':'#999'}[t.cat]||'#c8102e';
       return `<div class="tt-card" id="ttcard-${t.id}">
         <div class="tt-card-accent" style="background:${accentColor}"></div>
         <div class="tt-card-body" onclick="openTT('${esc(t.url)}')">
@@ -3408,10 +3410,6 @@ function openTTSheet() {
   ['ttUrl','ttTitle','ttNotes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('ttCat').value = 'food';
   document.getElementById('ttCity').value = 'general';
-  document.getElementById('ttThumb').value = '';
-  document.getElementById('ttThumbImg').src = '';
-  document.getElementById('ttThumbPreview').style.display = 'none';
-  document.getElementById('ttThumbFile').value = '';
   openSheet('ttSheet');
 }
 function editTTItem(id) {
@@ -3425,13 +3423,6 @@ function editTTItem(id) {
   document.getElementById('ttNotes').value = t.notes || '';
   document.getElementById('ttCat').value = t.cat || 'food';
   document.getElementById('ttCity').value = t.city || 'general';
-  document.getElementById('ttThumb').value = t.thumb || '';
-  if (t.thumb) {
-    document.getElementById('ttThumbImg').src = t.thumb;
-    document.getElementById('ttThumbPreview').style.display = 'block';
-  } else {
-    document.getElementById('ttThumbPreview').style.display = 'none';
-  }
   openSheet('ttSheet');
 }
 function handleTTThumb(input) {
