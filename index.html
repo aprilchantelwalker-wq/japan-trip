@@ -2182,7 +2182,18 @@ function renderItinCard(item) {
 
   const hasVote = cv.ca || cv.pj;
   const isTask = item.cat === 'task';
-  const cardCls = (isTask ? 'task-card ' : '') + ((item.status==='idea' && !hasVote && !bothIn) ? 'idea' : item.status==='idea' ? 'idea voted' : item.status);
+
+  // Task/reminder items render as a flat black banner bar
+  if (isTask) {
+    return `<div class="itin-reminder-bar" id="ic-${item.id}" data-id="${item.id}" data-day="${esc(item.day)}">
+      <span class="irb-pin">⚠️</span>
+      <span class="irb-time">${item.time||''}</span>
+      <span class="irb-text">${esc(item.name)}</span>
+      <button class="irb-edit" onclick="editItin('${item.id}')">✏️</button>
+    </div>`;
+  }
+
+  const cardCls = (item.status==='idea' && !hasVote && !bothIn) ? 'idea' : item.status==='idea' ? 'idea voted' : item.status;
   return `<div class="itin-card ${cardCls}" id="ic-${item.id}" draggable="true" data-id="${item.id}" data-day="${esc(item.day)}"
     ondragstart="onDragStart(event,'${item.id}')" ondragend="onDragEnd(event)" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
     <div class="who-stripe ${stripeCls(item.who)}"></div>
@@ -2540,40 +2551,102 @@ function selectDiscItem(id) {
   showToast('📍 '+d.name+' selected');
 }
 
-// Push a note from the Notes tab to the itinerary as a task/reminder
+// Push a Reminder note directly to itinerary — opens a day picker then adds it
 function pushNoteToItin(noteId, noteText) {
-  // Pre-fill the itinerary sheet as a task
-  switchItinMode('new');
-  document.getElementById('itinName').value = noteText.slice(0, 80);
-  document.getElementById('itinCat').value = 'task';
-  document.getElementById('itinDetail').value = '📌 From notes';
-  // Set status to confirmed (tasks are things TO DO, not ideas)
-  document.querySelectorAll('.status-opt').forEach(b => b.classList.remove('sel'));
-  document.querySelector('.status-opt[data-status="tentative"]')?.classList.add('sel');
-  populateDaySelect();
-  openSheet('itinSheet');
-  showToast('📌 Edit details and save to itinerary');
+  // Build a small floating picker to choose which day
+  const existing = document.getElementById('note-push-picker');
+  if (existing) existing.remove();
+
+  const picker = document.createElement('div');
+  picker.id = 'note-push-picker';
+  picker.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a1a;border-radius:14px;padding:14px 16px;z-index:1000;width:88%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,.4);';
+  picker.innerHTML = `
+    <div style="color:white;font-size:13px;font-weight:600;margin-bottom:10px">⚠️ Which day?</div>
+    <select id="note-push-day" style="width:100%;background:#2a2a2a;color:white;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px;font-size:13px;font-family:inherit;margin-bottom:10px">
+      ${DAYS.map(d=>`<option value="${d}">${d}</option>`).join('')}
+    </select>
+    <div style="display:flex;gap:8px">
+      <button onclick="confirmPushNote('${noteText.replace(/'/g,"\\'")}','${noteId}')"
+        style="flex:1;background:#f7941d;color:white;border:none;border-radius:20px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Add to Itinerary</button>
+      <button onclick="document.getElementById('note-push-picker').remove()"
+        style="background:rgba(255,255,255,.1);color:white;border:none;border-radius:20px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(picker);
 }
 
-// Quick add reminder directly from itinerary FAB
+function confirmPushNote(noteText, noteId) {
+  const day = document.getElementById('note-push-day')?.value;
+  if (!day) return;
+  const newItem = {
+    id: 'nr-' + noteId + '-' + Date.now(),
+    day,
+    time: '',
+    name: noteText.slice(0, 80),
+    detail: '📌 From notes',
+    cat: 'task',
+    who: currentCouple || 'together',
+    status: 'confirmed',
+    order: 999,
+  };
+  itinItems.push(newItem);
+  save('itin'); renderItin();
+  document.getElementById('note-push-picker')?.remove();
+  showToast('⚠️ Added to ' + day + '!');
+}
+
+// Quick add reminder — shows inline text input under the day header
 function openTaskSheet(day) {
-  editItinId = null;
-  switchItinMode('new');
-  document.getElementById('itinName').value = '';
-  document.getElementById('itinCat').value = 'task';
-  document.getElementById('itinDetail').value = '';
-  document.getElementById('itinTime').value = '';
-  document.getElementById('itinTimePicker').value = '';
-  if (day) {
-    const sel = document.getElementById('itinDay');
-    if (sel) sel.value = day;
-  }
-  document.querySelectorAll('.status-opt').forEach(b => b.classList.remove('sel'));
-  document.querySelector('.status-opt[data-status="tentative"]')?.classList.add('sel');
-  document.querySelectorAll('.who-opt').forEach(b => b.classList.remove('s-tog','s-ca','s-pj'));
-  document.querySelector('.who-opt[data-who="together"]')?.classList.add('s-tog');
-  document.getElementById('itinSheetTitle').textContent = '📌 Add Reminder';
-  openSheet('itinSheet');
+  // If already open for this day, close it
+  const existing = document.getElementById('reminder-input-'+CSS.escape(day));
+  if (existing) { existing.remove(); return; }
+
+  // Remove any other open reminder inputs
+  document.querySelectorAll('.reminder-quick-bar').forEach(el => el.remove());
+
+  // Find the day header row
+  const dayKey = day.replace(/[^a-zA-Z0-9]/g,'_');
+  const dayHeader = document.querySelector(`.day-header-row[onclick*="${CSS.escape(day)}"]`)
+    || [...document.querySelectorAll('.day-header-row')].find(el => el.innerHTML.includes(day.replace(/'/g,'&#39;')));
+  if (!dayHeader) { showToast('Day not found'); return; }
+
+  const bar = document.createElement('div');
+  bar.className = 'reminder-quick-bar';
+  bar.id = 'reminder-input-' + dayKey;
+  bar.style.cssText = 'display:flex;align-items:center;gap:8px;background:#1a1a1a;padding:8px 14px;margin:0 12px 4px;border-radius:8px;';
+  bar.innerHTML = `
+    <span style="font-size:14px;flex-shrink:0">⚠️</span>
+    <input id="reminder-ta-${dayKey}" placeholder="Add a reminder…" autocomplete="off"
+      style="flex:1;background:transparent;border:none;outline:none;color:white;font-size:13px;font-family:inherit;padding:2px 0"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();saveQuickReminder('${day.replace(/'/g,"\\'")}','${dayKey}');}if(event.key==='Escape'){this.closest('.reminder-quick-bar').remove();}">
+    <button onclick="saveQuickReminder('${day.replace(/'/g,"\\'")}','${dayKey}')"
+      style="background:#f7941d;color:white;border:none;border-radius:16px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0">Post</button>
+    <button onclick="this.closest('.reminder-quick-bar').remove()"
+      style="background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer;padding:0 2px;flex-shrink:0">✕</button>
+  `;
+  dayHeader.insertAdjacentElement('afterend', bar);
+  setTimeout(() => bar.querySelector('input')?.focus(), 50);
+}
+
+function saveQuickReminder(day, dayKey) {
+  const input = document.getElementById('reminder-ta-'+dayKey);
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) { showToast('Enter a reminder first'); return; }
+  const newItem = {
+    id: 'r' + Date.now(),
+    day,
+    time: '',
+    name: text,
+    detail: '',
+    cat: 'task',
+    who: 'together',
+    status: 'confirmed',
+    order: 999,
+  };
+  itinItems.push(newItem);
+  save('itin'); renderItin();
+  showToast('⚠️ Reminder added!');
 }
 
 function saveItin() {
@@ -3341,7 +3414,7 @@ function renderNotes() {
         <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
         <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
         <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
-        <button class="rbtn" title="Push to itinerary as reminder" onclick="pushNoteToItin('${n.id}','${esc(n.text)}')" style="margin-left:auto;font-size:11px;padding:3px 8px;background:#1a1a1a;color:#f7941d;border-radius:20px;border:1px solid #f7941d;cursor:pointer;font-family:inherit;font-weight:600">📌 Remind</button>
+        ${(n.type||'').includes('Reminder') ? `<button onclick="pushNoteToItin('${n.id}','${esc(n.text)}')" style="margin-left:auto;font-size:11px;padding:3px 8px;background:#1a1a1a;color:#f7941d;border-radius:20px;border:1px solid #f7941d;cursor:pointer;font-family:inherit;font-weight:600">📌 Push to Itinerary</button>` : ''}
       </div>
     </div>`;
   }).join('');
