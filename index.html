@@ -105,7 +105,9 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
 
 /* ITIN CARD */
-.itin-card{margin:0 12px 7px;background:white;border-radius:2px;border-left:3px solid #c8102e;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
+/* Prevent iOS grey flash on tap for all interactive elements */
+.itin-card,.disc-card,.disc-grid-card,.tt-card,.note-card,.wl-item,.bk-card,.tr-card,.tip-item,.coll-hdr,.day-header-row,.city-header,.tab-banner-hdr,.wl-store-hdr{-webkit-tap-highlight-color:transparent;}
+.itin-card:active,.disc-card:active,.disc-grid-card:active,.tt-card:active,.note-card:active{background:white;}background:white;border-radius:2px;border-left:3px solid #c8102e;overflow:hidden;box-shadow:0 1px 8px var(--shadow);border:1px solid rgba(0,0,0,.05);transition:box-shadow .2s;cursor:grab;position:relative;}
 .itin-card:active{cursor:grabbing;}
 .itin-card.tentative{border-style:dashed;border-color:var(--stone-light);background:#fcfaf7;}
 .itin-card.idea{border-style:dashed;border-color:var(--gold);background:#fffdf7;}
@@ -2865,16 +2867,25 @@ function renderNotes() {
   if(!notes.length){feed.innerHTML=`<div class="empty-st"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote on a plan.</p></div>`;return;}
   feed.innerHTML=notes.map(n=>{
     const isCA = n.couple==='ca';
-    // Simple rule: you can delete notes from your couple
-    const canDelete = n.couple === currentCouple;
-    return `<div class="note-card">
+    const canEdit = n.couple === currentCouple;
+    const isEditing = editingNoteId === String(n.id);
+    return `<div class="note-card" id="notecard-${n.id}">
       <div class="nc-top2">
         <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
         <span class="nc-ttype">${n.type||''}</span>
         <span class="nc-ts">${fmtTime(n.created_at)}</span>
-        ${canDelete?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:13px;cursor:pointer;opacity:.25;margin-left:4px" title="Delete">🗑</button>`:''}
+        <span style="flex:1"></span>
+        ${canEdit?`<button onclick="editNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 2px" title="Edit">✏️</button>`:''}
+        ${canEdit?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 2px" title="Delete">🗑</button>`:''}
       </div>
-      <div class="note-text">${esc(n.text)}</div>
+      ${isEditing
+        ? `<textarea id="noteEditTA-${n.id}" style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid #c8102e;border-radius:8px;padding:8px;resize:none;outline:none;line-height:1.5" rows="3">${esc(n.text)}</textarea>
+           <div style="display:flex;gap:6px;margin-top:6px">
+             <button onclick="saveNoteEdit('${n.id}')" style="flex:1;background:#c8102e;color:white;border:none;border-radius:20px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Save</button>
+             <button onclick="cancelNoteEdit()" style="flex:1;background:#f0ece6;color:var(--stone);border:none;border-radius:20px;padding:7px;font-size:12px;cursor:pointer;font-family:inherit">Cancel</button>
+           </div>`
+        : `<div class="note-text">${esc(n.text)}</div>`
+      }
       <div class="react-row">
         <button class="rbtn" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)">👍</button>
         <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
@@ -2884,6 +2895,38 @@ function renderNotes() {
     </div>`;
   }).join('');
   applyNoteReactions();
+}
+
+let editingNoteId = null;
+
+function editNote(id) {
+  editingNoteId = String(id);
+  renderNotes();
+  setTimeout(() => {
+    const ta = document.getElementById('noteEditTA-'+id);
+    if (ta) { ta.focus(); ta.selectionStart = ta.value.length; }
+  }, 50);
+}
+
+function cancelNoteEdit() {
+  editingNoteId = null;
+  renderNotes();
+}
+
+async function saveNoteEdit(id) {
+  const ta = document.getElementById('noteEditTA-'+id);
+  if (!ta) return;
+  const newText = ta.value.trim();
+  if (!newText) { showToast('Note can\'t be empty'); return; }
+  const note = notes.find(n => String(n.id) === String(id));
+  if (!note) return;
+  note.text = newText;
+  if (sb) {
+    await sb.from('japan_notes').update({ text: newText }).eq('id', id);
+  }
+  editingNoteId = null;
+  renderNotes();
+  showToast('✏️ Updated!');
 }
 
 let noteReacts = JSON.parse(localStorage.getItem('jp-notereacts') || '{}');
