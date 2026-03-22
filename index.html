@@ -1446,17 +1446,17 @@ const CAT_EMOJI = {
 
 const SEED_ITIN = [
   {id:'s1',  day:'Travel — Mar 27 ✈️', time:'All Day',   name:'Meet in YYC → Fly to Narita ✈️',           detail:'C&A: YYZ→YYC→NRT · P&J: YHZ→YYC→NRT · Land 4:30PM', cat:'transport', who:'together', status:'confirmed', order:0},
-  {id:'s2',  day:'Travel — Mar 27 ✈️', time:'Evening',   name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku', cat:'hotel', who:'together', status:'confirmed', order:1},
-  {id:'s3',  day:'Travel — Mar 27 ✈️', time:'Evening',   name:'Find food & drinks near hotel',              detail:'Ichiryu or wander Asakusa', cat:'food', who:'together', status:'tentative', order:2},
-  {id:'s4',  day:'Arrival — Mar 28', time:'Morning',   name:'Benitsuru Pancake 🥞',                       detail:'Famous fluffy pancakes · 2 min from OMO3', cat:'food', who:'together', status:'confirmed', order:0},
-  {id:'s5',  day:'Arrival — Mar 28', time:'Morning',   name:'Senso-ji Temple & Kaminarimon Gate ⛩️',      detail:'Most iconic temple in Tokyo · book ahead ~$30 CAD', cat:'activity', who:'together', status:'confirmed', order:1},
-  {id:'s6',  day:'Arrival — Mar 28', time:'Afternoon', name:'Chopstick Making Class 🥢',                  detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed', order:2},
-  {id:'s7',  day:'Arrival — Mar 28', time:'Afternoon', name:'Nakamise Street — snacks + souvenirs',       detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative', order:3},
-  {id:'s8',  day:'Arrival — Mar 28', time:'Evening',   name:'Explore Asakusa / find dinner',              detail:'Ameyoko Market area', cat:'explore', who:'together', status:'idea', order:4},
-  {id:'s9',  day:'Day 1 — Mar 29', time:'Morning',   name:'Meiji Shrine 🌿',                            detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed', order:0},
-  {id:'s10', day:'Day 1 — Mar 29', time:'Midday',    name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'explore', who:'together', status:'confirmed', order:1},
-  {id:'s11', day:'Day 1 — Mar 29', time:'Afternoon', name:'Shibuya Crossing 🚦',                        detail:'View from above at Starbucks or Mag\'s Park', cat:'activity', who:'together', status:'confirmed', order:2},
-  {id:'s12', day:'Day 1 — Mar 29', time:'Evening',   name:'Shinjuku → Memory Lane 🍻',                  detail:'Omoide Yokocho — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed', order:3},
+  {id:'s2',  day:'Arrival — Mar 28', time:'Evening',   name:'Check into OMO3 Asakusa by Hoshino Resorts', detail:'1-15-5 Hanakawado, Taito-ku', cat:'hotel', who:'together', status:'confirmed', order:1},
+  {id:'s3',  day:'Arrival — Mar 28', time:'Evening',   name:'Find food & drinks near hotel',              detail:'Ichiryu or wander Asakusa', cat:'food', who:'together', status:'tentative', order:2},
+  {id:'s4',  day:'Day 1 — Mar 29', time:'Morning',   name:'Benitsuru Pancake 🥞',                       detail:'Famous fluffy pancakes · 2 min from OMO3', cat:'food', who:'together', status:'confirmed', order:0},
+  {id:'s5',  day:'Day 1 — Mar 29', time:'Morning',   name:'Senso-ji Temple & Kaminarimon Gate ⛩️',      detail:'Most iconic temple in Tokyo · book ahead ~$30 CAD', cat:'activity', who:'together', status:'confirmed', order:1},
+  {id:'s6',  day:'Day 1 — Mar 29', time:'Afternoon', name:'Chopstick Making Class 🥢',                  detail:'Booked Feb 1st @ 12pm · reserva.be/karakimokkou0143', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s7',  day:'Day 1 — Mar 29', time:'Afternoon', name:'Nakamise Street — snacks + souvenirs',       detail:'Shopping street leading to Senso-ji', cat:'shopping', who:'together', status:'tentative', order:3},
+  {id:'s8',  day:'Day 1 — Mar 29', time:'Evening',   name:'Explore Asakusa / find dinner',              detail:'Ameyoko Market area', cat:'explore', who:'together', status:'idea', order:4},
+  {id:'s9',  day:'Day 2 — Mar 30', time:'Morning',   name:'Meiji Shrine 🌿',                            detail:'Peaceful forested shrine in central Tokyo', cat:'activity', who:'together', status:'confirmed', order:0},
+  {id:'s10', day:'Day 2 — Mar 30', time:'Midday',    name:'Takeshita Street + Omotesando + Cat Café 🐱', detail:'Harajuku fashion → upscale shopping → cat café', cat:'explore', who:'together', status:'confirmed', order:1},
+  {id:'s11', day:'Day 2 — Mar 30', time:'Afternoon', name:'Shibuya Crossing 🚦',                        detail:'View from above at Starbucks or Mag\'s Park', cat:'activity', who:'together', status:'confirmed', order:2},
+  {id:'s12', day:'Day 2 — Mar 30', time:'Evening',   name:'Shinjuku → Memory Lane 🍻',                  detail:'Omoide Yokocho — tiny yakitori bars, smoky, legendary', cat:'food', who:'together', status:'confirmed', order:3},
   {id:'s13', day:'Day 2 — Mar 30', time:'Morning',   name:'Tsukiji Outer Market 🍣',                    detail:'Best breakfast sushi on earth · arrive early', cat:'food', who:'together', status:'confirmed', order:0},
   {id:'s14', day:'Day 2 — Mar 30', time:'Midday',    name:'Akihabara 🎮',                               detail:'Electronics, anime, arcades, manga', cat:'shopping', who:'together', status:'tentative', order:1},
   {id:'s15', day:'Day 2 — Mar 30', time:'Afternoon', name:'TeamLab Planets Toyosu 🎨',                  detail:'Immersive digital art · must book in advance!', cat:'activity', who:'together', status:'confirmed', order:2},
@@ -1639,7 +1639,7 @@ function initApp() {
   if (tipsVer !== '2') { localStorage.removeItem('jp-tips'); localStorage.setItem('jp-tips-ver','2'); }
   // Bump itin version — day numbering changed (Day 1 = Mar 29 now)
   const itinVer = localStorage.getItem('jp-itin-ver');
-  if (itinVer !== '2') { localStorage.removeItem('jp-itin'); localStorage.setItem('jp-itin-ver','2'); }
+  if (itinVer !== '3') { localStorage.removeItem('jp-itin'); localStorage.setItem('jp-itin-ver','3'); }
 
   // Re-read itinItems after potential clear
   itinItems = JSON.parse(localStorage.getItem('jp-itin') || 'null');
