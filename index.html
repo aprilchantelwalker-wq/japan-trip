@@ -1733,8 +1733,6 @@ function subscribeTTReactions() {
   }).subscribe();
 }
 
-// Override saveTTReactions to also push to Supabase
-const _origSaveTTReactions = window.saveTTReactions;
 function saveTTReactions() {
   localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
   if (sb) sb.from('japan_tt_reactions').upsert({id:'main', data:ttReactions, updated_at:new Date().toISOString()},{onConflict:'id'}).then(()=>{});
@@ -3318,10 +3316,6 @@ function renderTT() {
 }
 
 
-function saveTTReactions() {
-  localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
-}
-
 let ttCommentsOpen = {};
 function toggleTTComments(id) {
   ttCommentsOpen[id] = !ttCommentsOpen[id];
@@ -3425,23 +3419,6 @@ function editTTItem(id) {
   document.getElementById('ttCity').value = t.city || 'general';
   openSheet('ttSheet');
 }
-function handleTTThumb(input) {
-  const file = input.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
-    document.getElementById('ttThumb').value = dataUrl;
-    document.getElementById('ttThumbImg').src = dataUrl;
-    document.getElementById('ttThumbPreview').style.display = 'block';
-  };
-  reader.readAsDataURL(file);
-}
-function clearTTThumb() {
-  document.getElementById('ttThumb').value = '';
-  document.getElementById('ttThumbImg').src = '';
-  document.getElementById('ttThumbPreview').style.display = 'none';
-  document.getElementById('ttThumbFile').value = '';
-}
 function onTTUrlInput() {
   const url = document.getElementById('ttUrl').value.trim();
   if (!url || !url.includes('tiktok')) return;
@@ -3460,7 +3437,6 @@ function saveTT() {
     notes: document.getElementById('ttNotes').value,
     cat: document.getElementById('ttCat').value,
     city: document.getElementById('ttCity').value,
-    thumb: document.getElementById('ttThumb').value || '',
   };
   if (editTTId) { const i = ttItems.findIndex(x => x.id===editTTId); if (i>-1) ttItems[i]=t; } else ttItems.push(t);
   save('tt'); renderTT(); closeSheet('ttSheet'); showToast(editTTId ? '✏️ Updated!' : '🎵 Saved!'); editTTId = null;
