@@ -545,6 +545,20 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .wl-progress{font-size:11px;color:var(--stone);}
 .wl-progress-bar{height:4px;background:#f0ece6;border-radius:2px;margin:4px 14px 8px;overflow:hidden;}
 .wl-progress-fill{height:100%;background:linear-gradient(to right,var(--matcha-light),var(--matcha));border-radius:2px;transition:width .4s ease;}
+
+/* ── TAB HELP BANNERS ── */
+.tab-banner{margin:8px 12px 2px;border-radius:10px;overflow:hidden;border:1px solid rgba(200,16,46,.15);background:rgba(200,16,46,.04);}
+.tab-banner-hdr{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;user-select:none;}
+.tab-banner-icon{font-size:16px;flex-shrink:0;}
+.tab-banner-title{font-size:12px;font-weight:700;color:#c8102e;flex:1;letter-spacing:.02em;}
+.tab-banner-btns{display:flex;gap:6px;align-items:center;}
+.tab-banner-toggle{font-size:11px;color:#999;background:none;border:none;cursor:pointer;padding:0;transition:transform .2s;}
+.tab-banner-toggle.open{transform:rotate(180deg);}
+.tab-banner-dismiss{font-size:11px;color:#bbb;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1;}
+.tab-banner-body{padding:0 12px 10px;font-size:12px;color:#555;line-height:1.6;border-top:1px solid rgba(200,16,46,.1);}
+.tab-banner-body b{color:#c8102e;}
+.tab-banner-body ul{margin:4px 0 0 14px;padding:0;}
+.tab-banner-body li{margin-bottom:2px;}
 </style>
 </head>
 <body>
@@ -616,6 +630,25 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ ITINERARY ══ -->
 <div class="tab-content active" id="content-itinerary">
+  <div class="tab-banner" id="banner-itinerary">
+  <div class="tab-banner-hdr" onclick="toggleBanner('itinerary')">
+    <span class="tab-banner-icon">📅</span>
+    <span class="tab-banner-title">How to use the Itinerary</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-itinerary" onclick="event.stopPropagation();toggleBanner('itinerary')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('itinerary')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-itinerary"><ul>
+  <li><b>Collapse/expand</b> days by tapping the day header, or whole cities by tapping the city bar.</li>
+  <li><b>Filter by couple</b> using the All / Together / C&A / P&J buttons at the top.</li>
+  <li><b>Add something</b> with the ＋ button — new items start as <b>💡 Idea</b> so everyone can weigh in.</li>
+  <li><b>Vote</b> on ideas using <b>✅ In / 💭 / 👋 Skip</b> — when both couples hit ✅ In it shows 🎉 Both In!</li>
+  <li><b>Together + Confirmed</b> items (flights, hotels) have no vote row — those are locked in.</li>
+  <li>Drag the <b>⠿ handle</b> to reorder items within a day.</li>
+</ul></div>
+</div>
+
   <!-- Smart Trip Header -->
   <div id="itinSmartHeader"></div>
   <!-- Toolbar -->
@@ -636,6 +669,24 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ DISCOVER + MAP ══ -->
 <div class="tab-content" id="content-discover">
+  <div class="tab-banner" id="banner-discover">
+  <div class="tab-banner-hdr" onclick="toggleBanner('discover')">
+    <span class="tab-banner-icon">🗺</span>
+    <span class="tab-banner-title">How to use Discover</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-discover" onclick="event.stopPropagation();toggleBanner('discover')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('discover')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-discover"><ul>
+  <li>Browse <b>102 spots</b> from our Google Map — filtered by city and category.</li>
+  <li>Tap <b>📍 Map</b> on any card to pan the map to that location.</li>
+  <li>Tap <b>✅ Mark done</b> during the trip to track what you've visited.</li>
+  <li>Toggle <b>☰ List / ⊞ Grid</b> view with the buttons top-right.</li>
+  <li>Tap <b>＋ City</b> to add a new city if your plans change.</li>
+</ul></div>
+</div>
+
   <!-- Embedded Map -->
   <div class="disc-map-wrap" id="discMapWrap">
     <iframe id="discMapFrame" src="https://www.google.com/maps/d/embed?mid=1NJI6ZlAiMlMkLFY-PyecirIY0NdECYI" allowfullscreen></iframe>
@@ -692,6 +743,23 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ BOOKINGS ══ -->
 <div class="tab-content" id="content-bookings">
+  <div class="tab-banner" id="banner-bookings">
+  <div class="tab-banner-hdr" onclick="toggleBanner('bookings')">
+    <span class="tab-banner-icon">🎫</span>
+    <span class="tab-banner-title">How to use Bookings</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-bookings" onclick="event.stopPropagation();toggleBanner('bookings')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('bookings')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-bookings"><ul>
+  <li>All flights, hotels and activities to book are listed here.</li>
+  <li>Status: <b>✅ Confirmed</b> = done · <b>⏳ Pending</b> = in progress · <b>📌 Book Now</b> = needs booking · <b>🕐 Line Up</b> = no reservation, just show up.</li>
+  <li>Tap <b>✏️</b> to edit any item — you can add a booking link or confirmation number in the Notes field.</li>
+  <li>Tap <b>＋</b> in any section header or the <b>＋ FAB</b> bottom-right to add a new booking.</li>
+</ul></div>
+</div>
+
   <div class="bk-progress">
     <div class="bp-label"><span>Booking Progress</span><span>Hotels + Flights confirmed</span></div>
     <div class="bp-bar"><div class="bp-fill" style="width:55%"></div></div>
@@ -701,17 +769,69 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ TRANSIT ══ -->
 <div class="tab-content" id="content-transit">
+  <div class="tab-banner" id="banner-transit">
+  <div class="tab-banner-hdr" onclick="toggleBanner('transit')">
+    <span class="tab-banner-icon">🚄</span>
+    <span class="tab-banner-title">How to use Transit</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-transit" onclick="event.stopPropagation();toggleBanner('transit')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('transit')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-transit"><ul>
+  <li>All Shinkansen and train routes for the trip are listed here.</li>
+  <li>Tap <b>📌 Book on Klook ↗</b> on any unbooked route to go straight to the booking page.</li>
+  <li>Once booked, edit the card (✏️) and update the status to Confirmed + add seat numbers.</li>
+  <li><b>Transit Tips</b> section has Suica card, luggage delivery, and eSIM info.</li>
+</ul></div>
+</div>
+
   <div class="section-label" id="transitLabel" style="display:none"></div>
   <div id="transitRoot"></div>
 </div>
 
 <!-- ══ TRAVEL TIPS ══ -->
 <div class="tab-content" id="content-tips">
+  <div class="tab-banner" id="banner-tips">
+  <div class="tab-banner-hdr" onclick="toggleBanner('tips')">
+    <span class="tab-banner-icon">💡</span>
+    <span class="tab-banner-title">How to use Tips</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-tips" onclick="event.stopPropagation();toggleBanner('tips')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('tips')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-tips"><ul>
+  <li>Tap any <b>section header</b> to expand or collapse it.</li>
+  <li>Covers: apps to download, helpful links, transport tips, etiquette, phrases, and cherry blossom forecasts.</li>
+  <li>Tap <b>＋</b> on any section to add your own tip. Drag <b>⠿</b> to reorder.</li>
+  <li><b>Japanese Phrases</b> — tap to edit, English on the left, Japanese on the right.</li>
+</ul></div>
+</div>
+
   <div id="tipsRoot"></div>
 </div>
 
 <!-- ══ TIKTOKS ══ -->
 <div class="tab-content" id="content-tiktok">
+  <div class="tab-banner" id="banner-tiktok">
+  <div class="tab-banner-hdr" onclick="toggleBanner('tiktok')">
+    <span class="tab-banner-icon">🎵</span>
+    <span class="tab-banner-title">How to use TikToks</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-tiktok" onclick="event.stopPropagation();toggleBanner('tiktok')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('tiktok')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-tiktok"><ul>
+  <li>All Japan TikToks saved by the group, sorted by category.</li>
+  <li>Tap <b>▼ Preview</b> to watch inline, or <b>Open ↗</b> to open in TikTok.</li>
+  <li>Tap <b>🤍</b> to like — your couple's name appears as a badge. Filter by <b>❤️ Liked</b> to see your saves.</li>
+  <li>Add a <b>💬 comment</b> on any video — both couples can discuss it here.</li>
+  <li>Tap <b>＋ Add</b> at the top to save a new TikTok link.</li>
+</ul></div>
+</div>
+
   <div style="padding:13px 14px 5px;display:flex;align-items:center;justify-content:space-between">
     <div>
       <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">TikTok Saves 🎵</div>
@@ -832,6 +952,24 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ NOTES ══ -->
 <div class="tab-content" id="content-notes">
+  <div class="tab-banner" id="banner-notes">
+  <div class="tab-banner-hdr" onclick="toggleBanner('notes')">
+    <span class="tab-banner-icon">💬</span>
+    <span class="tab-banner-title">How to use Notes</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-notes" onclick="event.stopPropagation();toggleBanner('notes')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('notes')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-notes"><ul>
+  <li>Real-time shared board — anything posted here is visible to both couples instantly.</li>
+  <li>Pick your couple at the top, choose a type (💡 Idea, 🗳 Vote, 📝 Note…), and hit <b>Post →</b>.</li>
+  <li>React to notes with 👍 ❤️ 🔥 ✅ — tap again to remove your reaction.</li>
+  <li>You can <b>🗑 delete</b> your own notes using the trash icon.</li>
+  <li>The <b>🔔 bell</b> in the top-right shows activity from the other couple.</li>
+</ul></div>
+</div>
+
   <div style="padding:13px 14px 5px">
     <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Couples Notes 💬</div>
     <div style="font-size:12px;color:var(--stone);margin-top:2px">Real-time board for both couples — synced live</div>
@@ -858,6 +996,25 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ WISHLIST ══ -->
 <div class="tab-content" id="content-wishlist">
+  <div class="tab-banner" id="banner-wishlist">
+  <div class="tab-banner-hdr" onclick="toggleBanner('wishlist')">
+    <span class="tab-banner-icon">🛍</span>
+    <span class="tab-banner-title">How to use the Wishlist</span>
+    <div class="tab-banner-btns">
+      <button class="tab-banner-toggle open" id="banner-chev-wishlist" onclick="event.stopPropagation();toggleBanner('wishlist')" title="Collapse">▼</button>
+      <button class="tab-banner-dismiss" onclick="event.stopPropagation();dismissBanner('wishlist')" title="Dismiss forever">✕</button>
+    </div>
+  </div>
+  <div class="tab-banner-body" id="banner-body-wishlist"><ul>
+  <li>Four private lists — one each for <b>April, Connor, Julia and Patrick</b>.</li>
+  <li>C&A can only see April's and Connor's lists. P&J can only see Julia's and Patrick's.</li>
+  <li>Toggle between the two names in your couple using the buttons at the top.</li>
+  <li>Tap <b>✓</b> on an item when you buy it — it gets a strikethrough and the progress bar updates.</li>
+  <li>Tap <b>📤</b> on any item to share it as a <b>💌 suggestion</b> for the other couple.</li>
+  <li>Tap <b>＋</b> (FAB or store header) to add items. You can set the store, size/price notes, and whether to share.</li>
+</ul></div>
+</div>
+
   <div id="wlHeader"></div>
   <div id="wlProgress" style="display:none">
     <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
@@ -1430,6 +1587,7 @@ function initApp() {
 
   populateDaySelect();
   renderAll();           // fast render from localStorage/seed
+  initBanners();
   renderCustomCityPills();
   updateDiscCitySelects();
   initSupabase();        // Supabase loads fresh data → re-renders automatically
@@ -3736,6 +3894,43 @@ function tipDrop(e, targetId) {
   save('tips');
   renderTips();
   tipDragId = null;
+}
+
+// ════════════════════════════════════════
+// TAB HELP BANNERS
+// ════════════════════════════════════════
+const BANNER_DISMISSED = new Set(JSON.parse(localStorage.getItem('jp-banners-dismissed') || '[]'));
+const BANNER_COLLAPSED = new Set(JSON.parse(localStorage.getItem('jp-banners-collapsed') || '[]'));
+
+function initBanners() {
+  BANNER_DISMISSED.forEach(id => {
+    const el = document.getElementById('banner-'+id);
+    if (el) el.style.display = 'none';
+  });
+  BANNER_COLLAPSED.forEach(id => {
+    const body = document.getElementById('banner-body-'+id);
+    const chev = document.getElementById('banner-chev-'+id);
+    if (body) body.style.display = 'none';
+    if (chev) chev.classList.remove('open');
+  });
+}
+
+function toggleBanner(id) {
+  const body = document.getElementById('banner-body-'+id);
+  const chev = document.getElementById('banner-chev-'+id);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : '';
+  if (chev) chev.classList.toggle('open', !isOpen);
+  if (isOpen) BANNER_COLLAPSED.add(id); else BANNER_COLLAPSED.delete(id);
+  localStorage.setItem('jp-banners-collapsed', JSON.stringify([...BANNER_COLLAPSED]));
+}
+
+function dismissBanner(id) {
+  const el = document.getElementById('banner-'+id);
+  if (el) { el.style.cssText = 'height:0;overflow:hidden;padding:0;margin:0;opacity:0;transition:all .25s'; setTimeout(()=>el.remove(),260); }
+  BANNER_DISMISSED.add(id);
+  localStorage.setItem('jp-banners-dismissed', JSON.stringify([...BANNER_DISMISSED]));
 }
 
 function fmtTime(iso){
