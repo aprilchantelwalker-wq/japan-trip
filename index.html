@@ -1369,14 +1369,21 @@ window.onload = () => {
   if (!transitItems) { transitItems = SEED_TRANSIT; save('transit'); }
   if (!tipsItems) { tipsItems = SEED_TIPS; save('tips'); }
   if (!ttItems) { ttItems = SEED_TT; save('tt'); }
-  if (!wlItems) { wlItems = SEED_WL; saveWLData(); }
+  // wishlist is per-person, initialized on first open of tab
   populateDaySelect();
   renderAll();
   renderCustomCityPills();
   updateDiscCitySelects();
   initSupabase();
   updateNotifBadge();
-  if (!currentCouple) showPicker(); else applyCouple(currentCouple);
+  if (!currentCouple) showPicker();
+  else {
+    applyCouple(currentCouple);
+    // ensure composer reflects saved couple on load
+    const sel = document.getElementById('noteCouple');
+    if (sel) sel.value = currentCouple;
+    updateCoupleSelect();
+  }
 };
 
 function save(key) {
@@ -2284,14 +2291,16 @@ function renderNotes() {
   const feed=document.getElementById('notesFeed');
   if(!notes.length){feed.innerHTML=`<div class="empty-st"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote on a plan.</p></div>`;return;}
   feed.innerHTML=notes.map(n=>{
-    const isCA=n.couple==='ca';
-    const isMine = n.couple===currentCouple;
+    const isCA = n.couple==='ca';
+    const isMine = n.couple === currentCouple;
+    // show delete if it's your note, OR if no couple is set (device owner can clean up)
+    const canDelete = isMine;
     return `<div class="note-card">
       <div class="nc-top2">
         <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
         <span class="nc-ttype">${n.type||''}</span>
         <span class="nc-ts">${fmtTime(n.created_at)}</span>
-        ${isMine?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:13px;cursor:pointer;opacity:.25;margin-left:4px" title="Delete">🗑</button>`:''}
+        ${canDelete?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:13px;cursor:pointer;opacity:.25;margin-left:4px" title="Delete">🗑</button>`:''}
       </div>
       <div class="note-text">${esc(n.text)}</div>
       <div class="react-row">
@@ -2966,96 +2975,193 @@ function openTT(url) {
 // ════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════
-// ════════════════════════════════════════
-// WISHLIST
-// ════════════════════════════════════════
-let wlItems = JSON.parse(localStorage.getItem('jp-wl') || 'null');
 
-const SEED_WL = [
-  {id:'w1', store:'Don Quijote 🦆', name:'Check snacks aisle', detail:'Pocky, KitKat flavours, regional chips', who:'all', done:false},
-  {id:'w2', store:'Don Quijote 🦆', name:'Skincare / beauty products', detail:'Japanese drugstore finds', who:'ca', done:false},
-  {id:'w3', store:'Muji 🗒', name:'Travel pouches + stationery', detail:'', who:'all', done:false},
-  {id:'w4', store:'Onitsuka Tiger 👟', name:'Onitsuka Tiger shoes', detail:'Check lowkey store + orange concept store', who:'ca', done:false},
-  {id:'w5', store:'7-Eleven 🏪', name:'7-Eleven exclusive snacks', detail:'Egg salad sandwich, steamed buns, matcha anything', who:'all', done:false},
-  {id:'w6', store:'Vintage / Thrift 👗', name:'Vintage finds in Harajuku', detail:'Cat Street + RAGTAG + AMORE', who:'ca', done:false},
+// ════════════════════════════════════════
+// WISHLIST — PER-PERSON
+// ════════════════════════════════════════
+
+const WL_PEOPLE = [
+  {id:'connor', name:'Connor', emoji:'🧢', couple:'ca'},
+  {id:'april',  name:'April',  emoji:'🌸', couple:'ca'},
+  {id:'pat',    name:'Pat',    emoji:'🏌️', couple:'pj'},
+  {id:'julia',  name:'Julia',  emoji:'👗', couple:'pj'},
 ];
 
-// Store open/closed state per couple
-function wlStoreKey(store) { return 'wl-store-' + store.replace(/[^a-zA-Z0-9]/g,'_'); }
-function isWLStoreOpen(store) { return isOpen(wlStoreKey(store)); }
-function toggleWLStore(store) {
-  const key = wlStoreKey(store);
-  const k = 'jp-collapse-' + (currentCouple||'default');
-  const prefs = getCollapsePrefs();
-  prefs[key] = !prefs[key];
-  localStorage.setItem(k, JSON.stringify(prefs));
-  const body = document.getElementById('wlbody-' + CSS.escape(store));
-  const chev = document.getElementById('wlchev-' + CSS.escape(store));
-  const hdr  = document.getElementById('wlhdr-'  + CSS.escape(store));
-  if (body) body.classList.toggle('open', prefs[key]);
-  if (chev) chev.classList.toggle('open', prefs[key]);
-  if (hdr)  hdr.classList.toggle('open', prefs[key]);
+let currentWLPerson = localStorage.getItem('jp-wl-person') || null;
+// Per-person wishlists stored as jp-wl-{personId}
+// Shared suggestions stored as jp-wl-shared (array of {item, fromPerson, dismissed:[personIds]})
+let wlShared = JSON.parse(localStorage.getItem('jp-wl-shared') || '[]');
+
+function getMyWL() {
+  if (!currentWLPerson) return [];
+  return JSON.parse(localStorage.getItem('jp-wl-'+currentWLPerson) || '[]');
+}
+function saveMyWL(items) {
+  if (!currentWLPerson) return;
+  localStorage.setItem('jp-wl-'+currentWLPerson, JSON.stringify(items));
+}
+function saveShared() {
+  localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
+}
+function myPersonObj() { return WL_PEOPLE.find(p=>p.id===currentWLPerson)||null; }
+
+// ── Person Picker ──
+function showWLPersonPicker() {
+  const wrap = document.getElementById('wlPersonPickerWrap');
+  const main = document.getElementById('wlMainWrap');
+  if (wrap) wrap.innerHTML = renderWLPersonPickerHTML();
+  if (main) main.style.display = 'none';
 }
 
+function renderWLPersonPickerHTML() {
+  return `<div class="wl-person-picker">
+    <div style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;text-align:center;margin-bottom:6px">Whose wishlist? 🛍</div>
+    <p>Your list is private. You can share items as suggestions for others.</p>
+    <div class="wl-person-grid">
+      ${WL_PEOPLE.map(p => `<button class="wl-person-btn" onclick="pickWLPerson('${p.id}')">
+        <span class="pb-emoji">${p.emoji}</span>
+        <span class="pb-name">${p.name}</span>
+        <span class="pb-couple">${p.couple==='ca'?'Connor & April':'Pat & Julia'}</span>
+      </button>`).join('')}
+    </div>
+  </div>`;
+}
+
+function pickWLPerson(personId) {
+  currentWLPerson = personId;
+  localStorage.setItem('jp-wl-person', personId);
+  document.getElementById('wlPersonPickerWrap').innerHTML = '';
+  document.getElementById('wlMainWrap').style.display = '';
+  renderWL();
+}
+
+// ── Suggestions ──
+function renderWLSuggestions() {
+  const wrap = document.getElementById('wlSuggestionsWrap');
+  if (!wrap || !currentWLPerson) return;
+  // Show suggestions not from me, not already dismissed by me
+  const mine = wlShared.filter(s => s.fromPerson !== currentWLPerson && !( s.dismissed||[]).includes(currentWLPerson));
+  if (!mine.length) { wrap.innerHTML = ''; return; }
+
+  const key = 'wl-suggestions';
+  const open = isOpen(key);
+  wrap.innerHTML = `<div style="padding:10px 14px 3px;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleSection('${key}')">
+    <span style="font-size:11px;color:var(--stone);transition:transform .22s;${open?'transform:rotate(0)':'transform:rotate(-90deg)'}" id="cchev-${key}">▼</span>
+    <span style="font-size:12px;font-weight:600;color:var(--blossom-deep)">💌 Suggestions for you</span>
+    <span style="font-size:11px;color:var(--stone)">${mine.length}</span>
+  </div>
+  <div class="coll-body ${open?'open':''}" id="cbody-${key}" style="margin:0 12px 8px;border-radius:12px;border:1.5px solid rgba(201,109,138,.2);box-shadow:none">
+    <div class="coll-inner" style="padding:4px 0">
+      ${mine.map(s => {
+        const fromP = WL_PEOPLE.find(p=>p.id===s.fromPerson);
+        const fromName = fromP ? fromP.name : s.fromPerson;
+        return `<div class="wl-suggest-card" style="margin:6px 10px">
+          <div class="wl-suggest-header">
+            <span style="font-size:18px">${s.item.store?.split(' ').pop()||'🛍'}</span>
+            <div style="flex:1">
+              <div class="wl-suggest-from">💌 from ${fromName}</div>
+              <div class="wl-suggest-item-name">${s.item.name}</div>
+              ${s.item.detail?`<div class="wl-suggest-detail">${s.item.detail}</div>`:''}
+              <span class="wl-suggest-store">${s.item.store||'General'}</span>
+            </div>
+          </div>
+          <div class="wl-suggest-actions">
+            <button class="wl-suggest-add" onclick="addSuggestionToMyList('${s.id}')">＋ Add to my list</button>
+            <button class="wl-suggest-dismiss" onclick="dismissSuggestion('${s.id}')">Not for me</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function addSuggestionToMyList(suggestId) {
+  const s = wlShared.find(x=>x.id===suggestId);
+  if (!s || !currentWLPerson) return;
+  const myItems = getMyWL();
+  myItems.push({...s.item, id:'w'+Date.now(), done:false, shared:false});
+  saveMyWL(myItems);
+  // also dismiss
+  if (!s.dismissed) s.dismissed = [];
+  s.dismissed.push(currentWLPerson);
+  saveShared();
+  renderWL();
+  showToast('🛍 Added to your list!');
+}
+
+function dismissSuggestion(suggestId) {
+  const s = wlShared.find(x=>x.id===suggestId);
+  if (!s) return;
+  if (!s.dismissed) s.dismissed = [];
+  s.dismissed.push(currentWLPerson);
+  saveShared();
+  renderWLSuggestions();
+  showToast('👋 Dismissed');
+}
+
+// ── Render ──
 function renderWL() {
-  if (!wlItems) { wlItems = SEED_WL; saveWLData(); }
+  if (!currentWLPerson) { showWLPersonPicker(); return; }
+  document.getElementById('wlMainWrap').style.display = '';
+  document.getElementById('wlPersonPickerWrap').innerHTML = '';
+
+  const person = myPersonObj();
+  const sub = document.getElementById('wlSubtitle');
+  if (sub) sub.textContent = `${person?.emoji||''} ${person?.name||''}'s private list`;
+
+  const items = getMyWL();
   const root = document.getElementById('wishlistRoot');
 
-  // Group by store
-  const stores = {};
-  wlItems.forEach(w => {
-    if (!stores[w.store]) stores[w.store] = [];
-    stores[w.store].push(w);
-  });
-
-  const total = wlItems.length;
-  const done = wlItems.filter(w=>w.done).length;
+  const total = items.length;
+  const done = items.filter(w=>w.done).length;
   const pct = total ? Math.round(done/total*100) : 0;
-
   const progEl = document.getElementById('wlProgress');
   const progText = document.getElementById('wlProgressText');
   const progFill = document.getElementById('wlProgressFill');
   if (progEl) progEl.style.display = total ? '' : 'none';
-  if (progText) progText.textContent = `${done} of ${total} items got ✓`;
-  if (progFill) progFill.style.width = pct + '%';
+  if (progText) progText.textContent = `${done} of ${total} picked up`;
+  if (progFill) progFill.style.width = pct+'%';
 
-  if (!Object.keys(stores).length) {
-    root.innerHTML = `<div class="empty-st"><div class="empty-icon">🛍</div><p>Nothing on the wishlist yet!<br>Tap ＋ to add something.</p></div>`;
+  renderWLSuggestions();
+
+  if (!items.length) {
+    root.innerHTML = `<div class="empty-st"><div class="empty-icon">🛍</div><p>Your wishlist is empty!<br>Tap ＋ to add something.</p></div>`;
     return;
   }
 
-  const storeKeys = Object.keys(stores);
-  root.innerHTML = storeKeys.map(store => {
-    const items = stores[store];
-    const doneCount = items.filter(i=>i.done).length;
-    const open = isWLStoreOpen(store);
-    const safeId = store.replace(/[^a-zA-Z0-9]/g,'_');
+  const stores = {};
+  items.forEach(w => { if(!stores[w.store]) stores[w.store]=[]; stores[w.store].push(w); });
 
-    const itemsHtml = items.map(w => {
-      const whoClass = {ca:'ca',pj:'pj',all:'all'}[w.who]||'all';
-      const whoLabel = {ca:'C&A',pj:'P&J',all:'👫'}[w.who]||'👫';
+  root.innerHTML = Object.keys(stores).map(store => {
+    const storeItems = stores[store];
+    const doneCount = storeItems.filter(i=>i.done).length;
+    const key = 'wl-'+currentWLPerson+'-'+store.replace(/[^a-zA-Z0-9]/g,'_');
+    const open = isOpen(key);
+    const safeId = key.replace(/[^a-zA-Z0-9_]/g,'_');
+
+    const itemsHtml = storeItems.map(w => {
+      const isShared = !!w.shared;
       return `<div class="wl-item">
         <div class="wl-check ${w.done?'done':''}" onclick="toggleWLDone('${w.id}')"></div>
         <div class="wl-item-body">
           <div class="wl-item-name ${w.done?'done':''}">${w.name}</div>
           ${w.detail?`<div class="wl-item-detail">${w.detail}</div>`:''}
         </div>
-        <span class="wl-item-who ${whoClass}">${whoLabel}</span>
+        ${isShared?'<span class="wl-shared-badge">💌 shared</span>':''}
+        <button class="wl-share-btn ${isShared?'shared':''}" onclick="toggleWLShare('${w.id}')" title="${isShared?'Stop sharing':'Share as suggestion'}">${isShared?'📢':'📤'}</button>
         <button class="wl-edit-btn" onclick="editWL('${w.id}')">✏️</button>
       </div>`;
     }).join('');
 
     return `<div class="wl-section">
-      <div class="wl-store-hdr ${open?'open':''}" id="wlhdr-${safeId}" onclick="toggleWLStore('${store.replace(/'/g,"\\'")}')">
+      <div class="wl-store-hdr ${open?'open':''}" id="wlhdr-${safeId}" onclick="toggleWLStoreNew('${key}','${safeId}')">
         <div class="wl-store-left">
-          <span class="wl-store-emoji">${store.split(' ').pop()}</span>
-          <span class="wl-store-name">${store.replace(/[🦆🗒👕💴🛋🛠🏪👟👗🛍]/g,'').trim()}</span>
-          <span class="wl-store-count">${doneCount}/${items.length}</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <button class="wl-store-add" onclick="event.stopPropagation();openWLSheetForStore('${store.replace(/'/g,"\\'")}')">＋</button>
           <span class="wl-store-chev ${open?'open':''}" id="wlchev-${safeId}">▼</span>
+          <span class="wl-store-emoji">${store.split(' ').pop()}</span>
+          <span class="wl-store-name">${store.replace(/[🦆🗒👕💴🛋🛠🏪👟👗🛍✏️]/gu,'').trim()}</span>
+          <span class="wl-store-count">${doneCount}/${storeItems.length}</span>
         </div>
+        <button class="wl-store-add" onclick="event.stopPropagation();openWLSheetForStore('${store.replace(/'/g,"\'")}')" >＋</button>
       </div>
       <div class="wl-store-body ${open?'open':''}" id="wlbody-${safeId}">
         ${itemsHtml}
@@ -3064,48 +3170,75 @@ function renderWL() {
   }).join('');
 }
 
+function toggleWLStoreNew(key, safeId) {
+  const k = 'jp-collapse-' + (currentCouple||'default');
+  const prefs = getCollapsePrefs();
+  prefs[key] = !prefs[key];
+  localStorage.setItem(k, JSON.stringify(prefs));
+  document.getElementById('wlbody-'+safeId)?.classList.toggle('open', prefs[key]);
+  document.getElementById('wlchev-'+safeId)?.classList.toggle('open', prefs[key]);
+  document.getElementById('wlhdr-'+safeId)?.classList.toggle('open', prefs[key]);
+}
+
 function toggleWLDone(id) {
-  const item = wlItems.find(w=>w.id===id);
+  const items = getMyWL();
+  const item = items.find(w=>w.id===id);
   if (!item) return;
   item.done = !item.done;
-  saveWLData();
+  saveMyWL(items);
   renderWL();
   showToast(item.done ? '✅ Got it!' : '↩ Unmarked');
 }
 
-function saveWLData() {
-  localStorage.setItem('jp-wl', JSON.stringify(wlItems));
+function toggleWLShare(id) {
+  const items = getMyWL();
+  const item = items.find(w=>w.id===id);
+  if (!item) return;
+  item.shared = !item.shared;
+  if (item.shared) {
+    // add to shared list
+    wlShared = wlShared.filter(s=>s.id!==id); // remove old version
+    wlShared.push({id, fromPerson:currentWLPerson, item:{...item}, dismissed:[]});
+    saveShared();
+    showToast('📢 Shared as suggestion!');
+    logActivity(currentCouple||'ca','shared a wishlist item',`💌 ${myPersonObj()?.name||''}: "${item.name}" — ${item.store||''}`, 'wishlist', id);
+  } else {
+    wlShared = wlShared.filter(s=>s.id!==id);
+    saveShared();
+    showToast('🔒 Back to private');
+  }
+  saveMyWL(items);
+  renderWL();
 }
 
+// ── Sheet ──
 let editWLId = null;
 function openWLSheet() {
+  if (!currentWLPerson) { showWLPersonPicker(); return; }
   editWLId = null;
-  document.getElementById('wlSheetTitle').textContent = 'Add to Wishlist';
+  document.getElementById('wlSheetTitle').textContent = 'Add to My List';
   document.getElementById('wlDelBtn').style.display = 'none';
   document.getElementById('wlEditId').value = '';
   document.getElementById('wlName').value = '';
   document.getElementById('wlDetail').value = '';
   document.getElementById('wlStore').value = 'Don Quijote 🦆';
-  document.getElementById('wlWho').value = currentCouple || 'all';
   document.getElementById('wlCustomStoreRow').style.display = 'none';
+  const sharedCb = document.getElementById('wlShared');
+  if (sharedCb) { sharedCb.checked = false; updateWLSharedSlider(); }
   openSheet('wlSheet');
 }
 
 function openWLSheetForStore(store) {
   openWLSheet();
   const sel = document.getElementById('wlStore');
-  // check if it's one of the preset options
-  const opt = [...sel.options].find(o => o.value === store);
+  const opt = [...sel.options].find(o=>o.value===store);
   if (opt) sel.value = store;
-  else {
-    sel.value = 'custom';
-    document.getElementById('wlCustomStoreRow').style.display = '';
-    document.getElementById('wlCustomStore').value = store;
-  }
+  else { sel.value='custom'; document.getElementById('wlCustomStoreRow').style.display=''; document.getElementById('wlCustomStore').value=store; }
 }
 
 function editWL(id) {
-  const w = wlItems.find(x=>x.id===id);
+  const items = getMyWL();
+  const w = items.find(x=>x.id===id);
   if (!w) return;
   editWLId = id;
   document.getElementById('wlSheetTitle').textContent = 'Edit Item';
@@ -3115,44 +3248,67 @@ function editWL(id) {
   document.getElementById('wlDetail').value = w.detail||'';
   const sel = document.getElementById('wlStore');
   const opt = [...sel.options].find(o=>o.value===w.store);
-  if (opt) { sel.value = w.store; document.getElementById('wlCustomStoreRow').style.display='none'; }
+  if (opt) { sel.value=w.store; document.getElementById('wlCustomStoreRow').style.display='none'; }
   else { sel.value='custom'; document.getElementById('wlCustomStoreRow').style.display=''; document.getElementById('wlCustomStore').value=w.store; }
-  document.getElementById('wlWho').value = w.who||'all';
+  const sharedCb = document.getElementById('wlShared');
+  if (sharedCb) { sharedCb.checked = !!w.shared; updateWLSharedSlider(); }
   openSheet('wlSheet');
 }
 
-// show/hide custom store field
 document.addEventListener('change', e => {
-  if (e.target.id==='wlStore') {
-    document.getElementById('wlCustomStoreRow').style.display = e.target.value==='custom' ? '' : 'none';
-  }
+  if (e.target.id==='wlStore') document.getElementById('wlCustomStoreRow').style.display = e.target.value==='custom' ? '' : 'none';
+  if (e.target.id==='wlShared') updateWLSharedSlider();
 });
+
+function updateWLSharedSlider() {
+  const cb = document.getElementById('wlShared');
+  const slider = document.getElementById('wlSharedSlider');
+  const label = document.getElementById('wlSharedLabel');
+  if (!cb||!slider) return;
+  slider.style.background = cb.checked ? 'var(--matcha)' : '#ddd';
+  slider.style.setProperty('--tx', cb.checked ? '18px' : '0');
+  slider.innerHTML = `<span style="position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:${cb.checked?'21':'3'}px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></span>`;
+  if (label) label.textContent = cb.checked ? 'On — others will see this as a suggestion' : 'Off — only visible to you';
+}
 
 function saveWL() {
   const name = document.getElementById('wlName').value.trim();
   if (!name) { showToast('Enter an item name'); return; }
   let store = document.getElementById('wlStore').value;
   if (store === 'custom') store = document.getElementById('wlCustomStore').value.trim() || 'General 🛍';
-  const w = {
-    id: editWLId || 'w'+Date.now(),
-    store, name,
-    detail: document.getElementById('wlDetail').value,
-    who: document.getElementById('wlWho').value,
-    done: editWLId ? (wlItems.find(x=>x.id===editWLId)?.done||false) : false,
-  };
-  if (editWLId) { const i=wlItems.findIndex(x=>x.id===editWLId); if(i>-1) wlItems[i]=w; }
-  else wlItems.push(w);
-  saveWLData(); renderWL(); closeSheet('wlSheet');
+  const isShared = document.getElementById('wlShared')?.checked || false;
+  const items = getMyWL();
+  const existing = editWLId ? items.find(x=>x.id===editWLId) : null;
+  const w = { id: editWLId||'w'+Date.now(), store, name, detail:document.getElementById('wlDetail').value, done: existing?.done||false, shared: isShared };
+  if (editWLId) { const i=items.findIndex(x=>x.id===editWLId); if(i>-1) items[i]=w; }
+  else items.push(w);
+  saveMyWL(items);
+  // sync shared state
+  if (isShared) {
+    wlShared = wlShared.filter(s=>s.id!==w.id);
+    wlShared.push({id:w.id, fromPerson:currentWLPerson, item:{...w}, dismissed:[]});
+    saveShared();
+  } else {
+    wlShared = wlShared.filter(s=>s.id!==w.id);
+    saveShared();
+  }
+  renderWL(); closeSheet('wlSheet');
   showToast(editWLId ? '✏️ Updated!' : '🛍 Added!');
   editWLId = null;
 }
 
 function deleteWL() {
   if (!editWLId || !confirm('Remove this item?')) return;
-  wlItems = wlItems.filter(w=>w.id!==editWLId);
-  saveWLData(); renderWL(); closeSheet('wlSheet');
+  const items = getMyWL().filter(w=>w.id!==editWLId);
+  saveMyWL(items);
+  wlShared = wlShared.filter(s=>s.id!==editWLId);
+  saveShared();
+  renderWL(); closeSheet('wlSheet');
   showToast('🗑 Removed'); editWLId=null;
 }
+
+// also expose saveWLData for backward compat
+function saveWLData() { saveMyWL(getMyWL()); }
 
 // ════════════════════════════════════════
 // TIPS DRAG REORDER
