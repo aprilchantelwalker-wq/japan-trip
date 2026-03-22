@@ -998,10 +998,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   </div>
   <div class="note-composer">
     <div class="nc-top">
-      <select class="nc-sel nc-couple" id="noteCouple" onchange="updateCoupleSelect()">
-        <option value="ca">Connor & April</option>
-        <option value="pj">Pat & Julia</option>
-      </select>
+      <span class="nc-sel nc-couple" id="noteCouple" style="cursor:default;pointer-events:none;display:inline-flex;align-items:center;font-size:12px;font-weight:600">Connor & April</span>
       <select class="nc-sel nc-type" id="noteType">
         <option>💡 Idea</option><option>🗳 Vote</option><option>📝 Note</option>
         <option>⚠️ Reminder</option><option>❤️ Loved It</option><option>👎 Skip</option>
@@ -1846,15 +1843,18 @@ function applyCouple(c) {
   const badge = document.getElementById('coupleBadge');
   badge.textContent = isCA ? 'Connor & April' : 'Pat & Julia';
   badge.className = 'couple-badge'+(isCA?'':' pj');
-  document.getElementById('noteCouple').value = c;
+  document.getElementById('noteCouple').value = c; // keep for compat
   updateCoupleSelect();
   // re-render all sections so collapse prefs apply for this couple
   renderItin(); renderBook(); renderTransit(); renderTips(); renderTT(); renderDisc();
 }
 function updateCoupleSelect() {
-  const v = document.getElementById('noteCouple').value;
-  const sel = document.querySelector('.nc-couple');
-  sel.className = 'nc-sel nc-couple'+(v==='pj'?' pj':'');
+  const c = currentCouple || 'ca';
+  const badge = document.getElementById('noteCouple');
+  if (!badge) return;
+  badge.textContent = c === 'ca' ? 'Connor & April' : 'Patrick & Julia';
+  badge.className = 'nc-sel nc-couple' + (c === 'pj' ? ' pj' : '');
+  badge.style.cssText = 'cursor:default;pointer-events:none;display:inline-flex;align-items:center;font-size:12px;font-weight:600';
 }
 
 // ════════════════════════════════════════
@@ -2855,9 +2855,8 @@ function updateCC(){document.getElementById('charCount').textContent=document.ge
 
 async function postNote() {
   const text=document.getElementById('noteText').value.trim(); if(!text) return;
-  // Always use currentCouple (not dropdown which can be out of sync) + stamp device_id
-  const note={
-    couple: currentCouple || document.getElementById('noteCouple').value,
+  const note = {
+    couple: currentCouple || 'ca',
     type: document.getElementById('noteType').value,
     text,
     created_at: new Date().toISOString(),
@@ -2878,14 +2877,10 @@ async function postNote() {
 function renderNotes() {
   const feed=document.getElementById('notesFeed');
   if(!notes.length){feed.innerHTML=`<div class="empty-st"><div class="empty-icon">💬</div><p>No notes yet! Post an idea or vote on a plan.</p></div>`;return;}
-  const myDeviceId = getDeviceId();
   feed.innerHTML=notes.map(n=>{
     const isCA = n.couple==='ca';
-    // Delete allowed if: same couple currently logged in
-    // Device ID check is kept as secondary for legacy notes without couple field
-    const canDelete = n.couple
-      ? n.couple === currentCouple
-      : n.device_id === myDeviceId;
+    // Simple rule: you can delete notes from your couple
+    const canDelete = n.couple === currentCouple;
     return `<div class="note-card">
       <div class="nc-top2">
         <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
