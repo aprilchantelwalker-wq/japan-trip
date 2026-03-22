@@ -1637,6 +1637,12 @@ function initApp() {
   // Bump tips version so new app links in seed data appear
   const tipsVer = localStorage.getItem('jp-tips-ver');
   if (tipsVer !== '2') { localStorage.removeItem('jp-tips'); localStorage.setItem('jp-tips-ver','2'); }
+  // Bump itin version — day numbering changed (Day 1 = Mar 29 now)
+  const itinVer = localStorage.getItem('jp-itin-ver');
+  if (itinVer !== '2') { localStorage.removeItem('jp-itin'); localStorage.setItem('jp-itin-ver','2'); }
+
+  // Re-read itinItems after potential clear
+  itinItems = JSON.parse(localStorage.getItem('jp-itin') || 'null');
 
   // Seed from localStorage for instant load (Supabase will update momentarily)
   if (!itinItems)    { itinItems    = SEED_ITIN; }
