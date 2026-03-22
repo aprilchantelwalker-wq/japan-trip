@@ -880,38 +880,38 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
       </div>
       <div class="form-row">
         <label class="form-label">Notes (size, colour, price limit…)</label>
-        <input class="form-input" id="wlDetail" placeholder="e.g. medium size, under ¥3000">
+        <input class="form-input" id="wlDetail" placeholder="e.g. medium, under ¥3000">
       </div>
-      <div class="form-row-2">
-        <div>
-          <label class="form-label">Store</label>
-          <select class="form-select" id="wlStore">
-            <option value="Don Quijote 🦆">Don Quijote 🦆</option>
-            <option value="Muji 🗒">Muji 🗒</option>
-            <option value="Uniqlo 👕">Uniqlo 👕</option>
-            <option value="Daiso 💴">Daiso 💴</option>
-            <option value="Loft 🛋">Loft 🛋</option>
-            <option value="Tokyu Hands 🛠">Tokyu Hands 🛠</option>
-            <option value="7-Eleven 🏪">7-Eleven 🏪</option>
-            <option value="Lawson 🏪">Lawson 🏪</option>
-            <option value="Onitsuka Tiger 👟">Onitsuka Tiger 👟</option>
-            <option value="Vintage / Thrift 👗">Vintage / Thrift 👗</option>
-            <option value="General 🛍">General 🛍</option>
-            <option value="custom">✏️ Custom store…</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Who's buying?</label>
-          <select class="form-select" id="wlWho">
-            <option value="ca">Connor & April</option>
-            <option value="pj">Pat & Julia</option>
-            <option value="all">Everyone</option>
-          </select>
-        </div>
+      <div class="form-row">
+        <label class="form-label">Store</label>
+        <select class="form-select" id="wlStore">
+          <option value="Don Quijote 🦆">Don Quijote 🦆</option>
+          <option value="Muji 🗒">Muji 🗒</option>
+          <option value="Uniqlo 👕">Uniqlo 👕</option>
+          <option value="Daiso 💴">Daiso 💴</option>
+          <option value="Loft 🛋">Loft 🛋</option>
+          <option value="Tokyu Hands 🛠">Tokyu Hands 🛠</option>
+          <option value="7-Eleven 🏪">7-Eleven 🏪</option>
+          <option value="Lawson 🏪">Lawson 🏪</option>
+          <option value="Onitsuka Tiger 👟">Onitsuka Tiger 👟</option>
+          <option value="Vintage / Thrift 👗">Vintage / Thrift 👗</option>
+          <option value="General 🛍">General 🛍</option>
+          <option value="custom">✏️ Custom store…</option>
+        </select>
       </div>
       <div class="form-row" id="wlCustomStoreRow" style="display:none">
         <label class="form-label">Custom Store Name</label>
         <input class="form-input" id="wlCustomStore" placeholder="e.g. Beams Harajuku">
+      </div>
+      <div class="form-row">
+        <label class="form-label">💌 Suggest to other couple?</label>
+        <div style="display:flex;align-items:center;gap:10px;padding:6px 0">
+          <label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;cursor:pointer">
+            <input type="checkbox" id="wlShared" style="opacity:0;width:0;height:0">
+            <span id="wlSharedSlider" style="position:absolute;inset:0;background:#ddd;border-radius:24px;transition:.2s;"></span>
+          </label>
+          <span style="font-size:13px;color:var(--stone)" id="wlSharedLabel">Off — only visible to your couple</span>
+        </div>
       </div>
       <button class="form-submit" onclick="saveWL()">Save →</button>
       <button class="form-delete" id="wlDelBtn" style="display:none" onclick="deleteWL()">🗑 Delete</button>
@@ -1451,7 +1451,7 @@ function save(key) {
 function initSupabase() {
   try {
     sb = supabase.createClient(SB_URL, SB_KEY);
-    loadNotes(); subscribeNotes(); subscribeActivity();
+    loadNotes(); subscribeNotes(); subscribeActivity(); loadShared(); subscribeWLShared();
     document.getElementById('liveDot').style.background = '#4ade80';
   } catch(e) { console.error(e); }
 }
@@ -1636,6 +1636,11 @@ function toggleDay(day) {
   if (chev) chev.classList.toggle('open', isNowOpen);
 }
 
+
+function dotCls(cat) {
+  return {food:'dot-food',activity:'dot-activity',hotel:'dot-hotel',shopping:'dot-shopping',onsen:'dot-onsen',transport:'dot-transport',explore:'dot-explore',rest:'dot-rest'}[cat]||'dot-activity';
+}
+function stripeCls(who) { return {together:'ws-together',ca:'ws-ca',pj:'ws-pj'}[who]||'ws-together'; }
 
 function renderItinCard(item) {
   const cv = votes[item.id]||{};
@@ -3084,9 +3089,12 @@ function toggleNotifPanel() {
   document.getElementById('notifPanel').classList.toggle('open', notifPanelOpen);
   if (notifPanelOpen) {
     renderNotifPanel();
+    // mark ALL current other-couple notifications as seen immediately
     notifSeen = Date.now();
     localStorage.setItem('jp-notifseen', notifSeen);
-    updateNotifBadge();
+    // clear the badge right now — don't wait
+    const badge = document.getElementById('notifBadge');
+    if (badge) badge.classList.remove('show');
   }
 }
 
@@ -3148,8 +3156,49 @@ let wlShared = JSON.parse(localStorage.getItem('jp-wl-shared') || '[]');
 function getWLMembers()         { return WL_MEMBERS[currentCouple||'ca'] || WL_MEMBERS.ca; }
 function getWL(person)          { return JSON.parse(localStorage.getItem('jp-wl-' + person) || '[]'); }
 function saveWLFor(person, arr) { localStorage.setItem('jp-wl-' + person, JSON.stringify(arr)); }
-function saveShared()           { localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared)); }
-function saveWLData()           { /* compat stub */ }
+
+function saveShared() {
+  localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
+  // sync to Supabase so other couple sees it
+  if (sb) {
+    sb.from('japan_wl_shared').upsert(
+      wlShared.map(s => ({
+        id: s.id,
+        from_couple: s.fromCouple,
+        from_person: s.fromPerson,
+        item_json: JSON.stringify(s.item),
+        dismissed: JSON.stringify(s.dismissed||[]),
+        updated_at: new Date().toISOString()
+      }))
+    ).then(() => {});
+  }
+}
+
+async function loadShared() {
+  if (!sb) return;
+  try {
+    const { data, error } = await sb.from('japan_wl_shared').select('*');
+    if (error || !data) return;
+    wlShared = data.map(r => ({
+      id: r.id,
+      fromCouple: r.from_couple,
+      fromPerson: r.from_person,
+      item: JSON.parse(r.item_json || '{}'),
+      dismissed: JSON.parse(r.dismissed || '[]'),
+    }));
+    localStorage.setItem('jp-wl-shared', JSON.stringify(wlShared));
+    renderWLSuggestions();
+  } catch(e) {}
+}
+
+function subscribeWLShared() {
+  if (!sb) return;
+  sb.channel('wl-shared-v1')
+    .on('postgres_changes', {event:'*', schema:'public', table:'japan_wl_shared'}, () => {
+      loadShared();
+    })
+    .subscribe();
+}
 
 function getActiveWLPerson() {
   const members = getWLMembers();
