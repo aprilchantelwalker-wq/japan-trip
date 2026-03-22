@@ -3351,6 +3351,32 @@ async function toggleTTPreview(id, url) {
   }
 }
 
+async function resolveVideoId(url) {
+  // Already a full URL with video ID
+  const direct = url.match(/video\/(\d+)/);
+  if (direct) return direct[1];
+
+  // Try multiple proxy strategies to resolve the short link
+  const proxies = [
+    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+
+  for (const proxyUrl of proxies) {
+    try {
+      const res = await fetch(proxyUrl);
+      const text = proxyUrl.includes('allorigins') ? (await res.json()).contents : await res.text();
+      // Look for video ID in the response HTML
+      const match = text.match(/\/video\/(\d{15,20})/);
+      if (match) return match[1];
+      // Also try og:url or canonical
+      const og = text.match(/property="og:url" content="[^"]*\/video\/(\d+)"/);
+      if (og) return og[1];
+    } catch(e) { continue; }
+  }
+  return null;
+}
+
 async function loadTTEmbed(id, url) {
   if (!url || !url.includes('tiktok.com')) return;
   const embedEl = document.getElementById('ttembed-'+id);
@@ -3358,29 +3384,16 @@ async function loadTTEmbed(id, url) {
 
   embedEl.innerHTML = `<div class="tt-embed-loading">Loading preview…</div>`;
 
-  // Resolve short links to get video ID
-  let fullUrl = url;
-  if (!fullUrl.includes('/video/')) {
-    try {
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-      const res = await fetch(proxyUrl);
-      const text = await res.text();
-      const match = text.match(/https:\/\/www\.tiktok\.com\/@[^"']+\/video\/(\d+)/);
-      if (match) fullUrl = match[0];
-    } catch(e) {}
-  }
+  const videoId = await resolveVideoId(url);
 
-  const videoIdMatch = fullUrl.match(/video\/(\d+)/);
-
-  if (!videoIdMatch) {
+  if (!videoId) {
+    // All resolution failed — just show open button
     embedEl.innerHTML = `<div style="text-align:center;padding:16px 12px">
-      <div style="font-size:13px;color:var(--stone);margin-bottom:10px">Couldn't load preview</div>
-      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none">Open in TikTok ↗</a>
+      <div style="font-size:13px;color:var(--stone);margin-bottom:10px">Preview not available for this link</div>
+      <a href="${url}" target="_blank" style="display:inline-block;background:#c8102e;color:white;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:600;text-decoration:none">▶ Open in TikTok</a>
     </div>`;
     return;
   }
-
-  const videoId = videoIdMatch[1];
 
   // TikTok's direct iframe embed — plays inline, no redirect
   embedEl.innerHTML = `
