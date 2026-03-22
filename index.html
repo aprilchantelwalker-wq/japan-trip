@@ -403,6 +403,40 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .rbtn{background:#f5f2ee;border:none;border-radius:20px;padding:4px 9px;font-size:12px;cursor:pointer;transition:all .2s;}
 .rbtn:hover{background:var(--stone-light);}
 
+
+.itin-reminder-bar{display:flex;align-items:center;gap:10px;background:#c8102e;color:white;padding:10px 16px;margin:0 12px 4px;border-radius:8px;font-size:13px;font-weight:600;}
+.irb-time{color:rgba(255,255,255,.75);font-size:11px;font-weight:700;flex-shrink:0;}
+.irb-text{flex:1;letter-spacing:.01em;}
+.irb-edit{background:none;border:none;color:rgba(255,255,255,.45);font-size:12px;cursor:pointer;padding:0;flex-shrink:0;}
+.irb-edit:hover{color:white;}
+
+
+.note-type-pills{display:flex;gap:5px;flex-wrap:wrap;padding:6px 0 8px;}
+.ntp{background:#f0ece6;border:1.5px solid transparent;border-radius:20px;padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--stone);transition:all .15s;white-space:nowrap;}
+.ntp.active{background:var(--ink);color:white;border-color:var(--ink);}
+.ntp-reminder.active{background:#c8102e;border-color:#c8102e;}
+.note-composer{background:white;border-radius:14px;padding:12px 14px;margin:8px 12px 4px;box-shadow:0 2px 12px var(--shadow);border:1px solid rgba(0,0,0,.06);}
+.note-ta{width:100%;border:none;outline:none;resize:none;font-size:14px;font-family:inherit;color:var(--ink);line-height:1.6;min-height:60px;background:transparent;box-sizing:border-box;}
+.note-footer{display:flex;align-items:center;gap:8px;border-top:1px solid #f0ece6;padding-top:8px;margin-top:2px;}
+.note-cc{font-size:11px;color:var(--stone-light);}
+.note-post{background:var(--ink);color:white;border:none;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-left:auto;}
+
+
+.nc-composer-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.nc-type-select{border:1.5px solid #e8e4de;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:600;font-family:inherit;background:white;color:var(--ink);outline:none;cursor:pointer;}
+.nc-format-bar{display:flex;gap:4px;margin-bottom:6px;}
+.nc-fmt{background:#f0ece6;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--ink);}
+.nc-fmt:active{background:var(--ink);color:white;}
+.rbtn-vote{background:rgba(0,122,61,.1);color:#005a2b;font-weight:600;}
+.rbtn-skip{background:rgba(200,16,46,.08);color:#c8102e;}
+.note-comments-wrap{border-top:1px solid #f0ece6;margin-top:8px;padding-top:8px;}
+.note-comment{display:flex;align-items:flex-start;gap:4px;padding:4px 0;font-size:13px;line-height:1.4;}
+.nc-comment-input{display:flex;align-items:center;border:1.5px solid #e8e4de;border-radius:20px;padding:5px 12px;margin-top:6px;background:white;}
+.note-text b{font-weight:700;}
+.note-text .nt-header{font-size:15px;font-weight:700;display:block;margin-bottom:2px;}
+.note-text .nt-bullet{display:block;padding-left:12px;position:relative;}
+.note-text .nt-bullet::before{content:"•";position:absolute;left:2px;}
+
 /* PICKER */
 /* PASSWORD GATE */
 
@@ -1027,16 +1061,24 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
     <div style="font-size:12px;color:var(--stone);margin-top:2px">Real-time board for both couples — synced live</div>
   </div>
   <div class="note-composer">
-    <div class="nc-top">
-      <span class="nc-sel nc-couple" id="noteCouple" style="cursor:default;pointer-events:none;display:inline-flex;align-items:center;font-size:12px;font-weight:600">Connor & April</span>
-      <select class="nc-sel nc-type" id="noteType">
-        <option>💡 Idea</option><option>🗳 Vote</option><option>📝 Note</option>
-        <option>⚠️ Reminder</option><option>❤️ Loved It</option><option>👎 Skip</option>
+    <div class="nc-composer-top">
+      <select class="nc-type-select" id="noteType" onchange="onNoteTypeChange()">
+        <option value="💡 Idea">💡 Idea</option>
+        <option value="🗳 Vote">🗳 Vote</option>
+        <option value="📝 Note">📝 Note</option>
+        <option value="⚠️ Reminder">⚠️ Reminder</option>
+        <option value="❤️ Loved It">❤️ Loved It</option>
       </select>
+      <span class="nc-sel nc-couple" id="noteCouple" style="cursor:default;pointer-events:none;margin-left:auto;font-size:11px;font-weight:600;color:var(--stone)">Connor & April</span>
     </div>
-    <textarea class="note-ta" id="noteText" placeholder="Drop an idea, vote on a plan, share something you loved…" maxlength="300" oninput="updateCC()"></textarea>
+    <div class="nc-format-bar">
+      <button class="nc-fmt" onclick="fmtNote('**')" title="Bold"><b>B</b></button>
+      <button class="nc-fmt" onclick="fmtNote('# ')" title="Header">H</button>
+      <button class="nc-fmt" onclick="fmtNote('• ')" title="Bullet">•</button>
+    </div>
+    <textarea class="note-ta" id="noteText" placeholder="Share an idea, something you loved, a reminder…" maxlength="500" oninput="updateCC()"></textarea>
     <div class="note-footer">
-      <span class="note-cc" id="charCount">0/300</span>
+      <span class="note-cc" id="charCount">0/500</span>
       <button class="note-post" onclick="postNote()">Post →</button>
     </div>
   </div>
@@ -1753,10 +1795,8 @@ function subscribeCollection(key, setter, renderFn) {
     .on('postgres_changes', {event:'*', schema:'public', table}, p => {
       const incoming = p.new?.data;
       if (!incoming) return;
-      // Only ignore if this looks like the echo of our own save
-      // (updated_at within 2s of our last save on this device)
-      const incomingTs = p.new?.updated_at ? new Date(p.new.updated_at).getTime() : 0;
-      if (_lastLocalSave[key] && Math.abs(incomingTs - _lastLocalSave[key]) < 2000) return;
+      // Block incoming for 5s after we saved — prevents our own echo overwriting local state
+      if (_lastLocalSave[key] && (Date.now() - _lastLocalSave[key]) < 5000) return;
       setter(incoming);
       localStorage.setItem('jp-'+key, JSON.stringify(incoming));
       renderFn();
@@ -2097,7 +2137,7 @@ function renderItin() {
     const dkey      = esc(itinDayKey(day));
     cityBuffer += `<div class="day-header-row" onclick="toggleDay('${esc(day)}')">`
       + `<div style="display:flex;align-items:center;gap:7px"><span class="day-chev ${open?'open':''}" id="dchev-${dkey}">▼</span><span class="dl">${day}</span>${countLbl?`<span style="font-size:10px;color:var(--stone);font-weight:400">${countLbl}</span>`:''}</div>`
-      + `<div class="day-right"><button class="day-add-btn" onclick="event.stopPropagation();openTaskSheet('${esc(day)}')" title="Add reminder" style="background:#1a1a1a;color:#f7941d;border-color:#f7941d;font-size:14px">📌</button><button class="day-add-btn" onclick="event.stopPropagation();openItinSheet('${esc(day)}')" title="Add">＋</button></div></div>`
+      + `<div class="day-right"><button class="day-add-btn" onclick="event.stopPropagation();openItinSheet('${esc(day)}')" title="Add">＋</button></div></div>`
       + `<div class="day-drop-zone ${open?'':'collapsed'}" id="${dkey}" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
     if (dayItems.length) dayItems.forEach(item => { cityBuffer += renderItinCard(item); });
     else cityBuffer += `<div style="padding:10px 14px 8px;font-size:12px;color:var(--stone)">No items${itinWhoFilter!=='all'?' for this filter':''}. Tap ＋ to add.</div>`;
@@ -3363,7 +3403,68 @@ function deleteTr() {
 // ════════════════════════════════════════
 // NOTES
 // ════════════════════════════════════════
-function updateCC(){document.getElementById('charCount').textContent=document.getElementById('noteText').value.length+'/300';}
+// Note type — now uses dropdown
+function onNoteTypeChange() {
+  // nothing extra needed — value read directly from select on post
+}
+
+// Note text formatting helpers
+function fmtNote(prefix) {
+  const ta = document.getElementById('noteText');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const selected = ta.value.substring(start, end);
+  let insert;
+  if (prefix === '**') insert = '**' + (selected || 'bold text') + '**';
+  else if (prefix === '# ') insert = '\n# ' + (selected || 'Heading');
+  else insert = '\n• ' + (selected || 'item');
+  ta.value = ta.value.substring(0, start) + insert + ta.value.substring(end);
+  ta.focus();
+  updateCC();
+}
+
+// Render note text with simple markdown
+function renderNoteText(text) {
+  if (!text) return '';
+  return text
+    .split('\n')
+    .map(line => {
+      if (line.startsWith('# ')) return `<span class="nt-header">${esc(line.slice(2))}</span>`;
+      if (line.startsWith('• ')) return `<span class="nt-bullet">${esc(line.slice(2))}</span>`;
+      // bold
+      const bolded = esc(line).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+      return bolded ? `<span>${bolded}</span>` : '';
+    })
+    .filter(Boolean)
+    .join('');
+}
+
+// Note comments — stored in localStorage, keyed by note id
+let noteCommentsMap = JSON.parse(localStorage.getItem('jp-note-comments') || '{}');
+const openNoteComments = new Set();
+
+function toggleNoteComments(noteId) {
+  const id = String(noteId);
+  if (openNoteComments.has(id)) openNoteComments.delete(id);
+  else openNoteComments.add(id);
+  renderNotes();
+  setTimeout(() => {
+    const inp = document.getElementById('nc-inp-'+id);
+    if (inp && openNoteComments.has(id)) inp.focus();
+  }, 50);
+}
+
+function postNoteComment(noteId) {
+  const inp = document.getElementById('nc-inp-'+noteId);
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  if (!noteCommentsMap[noteId]) noteCommentsMap[noteId] = [];
+  noteCommentsMap[noteId].push({couple: currentCouple||'ca', text, ts: new Date().toISOString()});
+  localStorage.setItem('jp-note-comments', JSON.stringify(noteCommentsMap));
+  renderNotes();
+}
+
+function updateCC(){document.getElementById('charCount').textContent=document.getElementById('noteText').value.length+'/500';}
 
 async function postNote() {
   const text=document.getElementById('noteText').value.trim(); if(!text) return;
@@ -3393,30 +3494,51 @@ function renderNotes() {
     const isCA = n.couple==='ca';
     const canEdit = n.couple === currentCouple;
     const isEditing = editingNoteId === String(n.id);
-    return `<div class="note-card" id="notecard-${n.id}">
+    const TYPE_COLORS = {'💡 Idea':'#f7941d','🗳 Vote':'#5b8fa8','📝 Note':'#888','⚠️ Reminder':'#c8102e','❤️ Loved It':'#e06090'};
+    const typeColor = TYPE_COLORS[n.type||'📝 Note']||'#ccc';
+    const isReminder = (n.type||'').includes('Reminder');
+    const isIdea = (n.type||'').includes('Idea');
+    const noteComments = (noteCommentsMap[n.id]||[]);
+    const showComments = openNoteComments.has(String(n.id));
+    return `<div class="note-card" id="notecard-${n.id}" style="border-left:4px solid ${typeColor}">
       <div class="nc-top2">
-        <span class="nc-badge ${isCA?'ca':'pj'}">${isCA?'Connor & April':'Pat & Julia'}</span>
-        <span class="nc-ttype">${n.type||''}</span>
-        <span class="nc-ts">${fmtTime(n.created_at)}</span>
+        <span style="color:${typeColor};font-size:11px;font-weight:700">${n.type||'📝 Note'}</span>
+        <span class="nc-badge ${isCA?'ca':'pj'}" style="margin-left:5px">${isCA?'C&A':'P&J'}</span>
         <span style="flex:1"></span>
-        ${canEdit?`<button onclick="editNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 2px" title="Edit">✏️</button>`:''}
-        ${canEdit?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 2px" title="Delete">🗑</button>`:''}
+        <span class="nc-ts">${fmtTime(n.created_at)}</span>
+        ${canEdit?`<button onclick="editNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 3px">✏️</button>`:''}
+        ${canEdit?`<button onclick="deleteNote('${n.id}')" style="background:none;border:none;font-size:12px;cursor:pointer;opacity:.3;padding:0 3px">🗑</button>`:''}
       </div>
       ${isEditing
-        ? `<textarea id="noteEditTA-${n.id}" style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid #c8102e;border-radius:8px;padding:8px;resize:none;outline:none;line-height:1.5" rows="3">${esc(n.text)}</textarea>
+        ? `<textarea id="noteEditTA-${n.id}" style="width:100%;font-family:inherit;font-size:14px;border:1.5px solid ${typeColor};border-radius:8px;padding:8px;resize:none;outline:none;line-height:1.5;margin-top:4px" rows="3">${esc(n.text)}</textarea>
            <div style="display:flex;gap:6px;margin-top:6px">
-             <button onclick="saveNoteEdit('${n.id}')" style="flex:1;background:#c8102e;color:white;border:none;border-radius:20px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Save</button>
+             <button onclick="saveNoteEdit('${n.id}')" style="flex:1;background:${typeColor};color:white;border:none;border-radius:20px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Save</button>
              <button onclick="cancelNoteEdit()" style="flex:1;background:#f0ece6;color:var(--stone);border:none;border-radius:20px;padding:7px;font-size:12px;cursor:pointer;font-family:inherit">Cancel</button>
            </div>`
-        : `<div class="note-text">${esc(n.text)}</div>`
+        : `<div class="note-text" style="margin-top:5px">${renderNoteText(n.text)}</div>`
       }
-      <div class="react-row">
-        <button class="rbtn" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)">👍</button>
-        <button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
-        <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
-        <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
-        ${(n.type||'').includes('Reminder') ? `<button onclick="pushNoteToItin('${n.id}','${esc(n.text)}')" style="margin-left:auto;font-size:11px;padding:3px 8px;background:#1a1a1a;color:#f7941d;border-radius:20px;border:1px solid #f7941d;cursor:pointer;font-family:inherit;font-weight:600">⚠️ Push to Itinerary</button>` : ''}
+      <div class="react-row" style="margin-top:8px;flex-wrap:wrap;gap:5px">
+        ${isIdea
+          ? `<button class="rbtn rbtn-vote" data-emoji="👍" data-id="${n.id}" onclick="reactNote(this)" title="We're down!">👍 Down</button>
+             <button class="rbtn rbtn-vote rbtn-skip" data-emoji="👎" data-id="${n.id}" onclick="reactNote(this)" title="Skip it">👎 Skip</button>`
+          : `<button class="rbtn" data-emoji="❤️" data-id="${n.id}" onclick="reactNote(this)">❤️</button>
+             <button class="rbtn" data-emoji="🔥" data-id="${n.id}" onclick="reactNote(this)">🔥</button>
+             <button class="rbtn" data-emoji="✅" data-id="${n.id}" onclick="reactNote(this)">✅</button>
+             <button class="rbtn" data-emoji="😂" data-id="${n.id}" onclick="reactNote(this)">😂</button>`
+        }
+        <button class="rbtn" onclick="toggleNoteComments('${n.id}')" style="margin-left:auto">
+          💬 ${noteComments.length > 0 ? noteComments.length : ''}
+        </button>
+        ${isReminder ? `<button onclick="pushNoteToItin('${n.id}','${esc(n.text)}')" style="font-size:11px;padding:4px 10px;background:#c8102e;color:white;border-radius:20px;border:none;cursor:pointer;font-family:inherit;font-weight:600">⚠️ Add to Itinerary</button>` : ''}
       </div>
+      ${showComments ? `<div class="note-comments-wrap">
+        ${noteComments.map(c=>`<div class="note-comment"><span class="nc-badge ${c.couple==='ca'?'ca':'pj'}" style="font-size:10px;padding:2px 6px">${c.couple==='ca'?'C&A':'P&J'}</span><span style="font-size:13px;flex:1;padding-left:6px">${esc(c.text)}</span><span style="font-size:10px;color:var(--stone-light)">${fmtTime(c.ts)}</span></div>`).join('')}
+        <div class="nc-comment-input">
+          <input id="nc-inp-${n.id}" placeholder="Reply…" style="flex:1;border:none;outline:none;font-size:13px;font-family:inherit;background:transparent"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();postNoteComment('${n.id}');}">
+          <button onclick="postNoteComment('${n.id}')" style="background:none;border:none;color:${typeColor};font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">→</button>
+        </div>
+      </div>` : ''}
     </div>`;
   }).join('');
   applyNoteReactions();
