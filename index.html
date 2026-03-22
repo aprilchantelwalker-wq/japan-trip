@@ -1676,9 +1676,12 @@ function initApp() {
 // ════════════════════════════════════════
 
 // LocalStorage is still used as fast cache / offline fallback
+const _lastLocalSave = {};
+
 function save(key) {
   const m = {itin:itinItems, disc:discItems, book:bookItems, transit:transitItems, tips:tipsItems, tt:ttItems};
   localStorage.setItem('jp-'+key, JSON.stringify(m[key]));
+  _lastLocalSave[key] = Date.now();
   // Also push to Supabase
   syncToSupabase(key, m[key]);
 }
@@ -1710,6 +1713,8 @@ function subscribeCollection(key, setter, renderFn) {
     .on('postgres_changes', {event:'*', schema:'public', table}, p => {
       const incoming = p.new?.data;
       if (!incoming) return;
+      // Ignore echo of our own save for 3 seconds
+      if (_lastLocalSave[key] && Date.now() - _lastLocalSave[key] < 3000) return;
       setter(incoming);
       localStorage.setItem('jp-'+key, JSON.stringify(incoming));
       renderFn();
@@ -1732,6 +1737,7 @@ function initSupabase() {
       loadFromSupabase('tips',    v => { tipsItems    = v; }, tipsItems    || SEED_TIPS),
       loadFromSupabase('tt',      v => { ttItems      = v; }, ttItems      || SEED_TT),
     ]).then(() => {
+      syncAllBookingsToItin(); // sync confirmed bookings → itinerary with times
       renderAll();
       // Now subscribe each collection for real-time updates
       subscribeCollection('itin',    v => { itinItems    = v; }, () => renderItin());
@@ -2903,7 +2909,7 @@ function syncItinTimePicker() {
 // Map booking date string to itinerary day string
 function bkDateToItinDay(dateStr) {
   const map = {
-    'Mar 27':'Day 0 — Mar 27 ✈️','Mar 28':'Arrival — Mar 28','Mar 29':'Day 1 — Mar 29',
+    'Mar 27':'Travel — Mar 27 ✈️','Mar 28':'Arrival — Mar 28','Mar 29':'Day 1 — Mar 29',
     'Mar 30':'Day 2 — Mar 30','Mar 31':'Day 3 — Mar 31','Apr 1':'Day 4 — Apr 1 🎂',
     'Apr 2':'Day 5 — Apr 2','Apr 3':'Day 6 — Apr 3','Apr 4':'Day 7 — Apr 4',
     'Apr 5':'Day 8 — Apr 5','Apr 6':'Day 9 — Apr 6','Apr 7':'Day 10 — Apr 7',
@@ -2913,10 +2919,48 @@ function bkDateToItinDay(dateStr) {
   return map[dateStr] || null;
 }
 
+// Infer itinerary day from booking date field OR sub field text
+function inferItinDay(b) {
+  if (b.date) { const d = bkDateToItinDay(b.date); if (d) return d; }
+  if (b.sub) {
+    const m = b.sub.match(/\b(Mar|Apr)\s+(\d{1,2})\b/);
+    if (m) { const d = bkDateToItinDay(m[1]+' '+m[2]); if (d) return d; }
+  }
+  return null;
+}
+
+// Sync ALL confirmed bookings to itinerary — runs once after data loads
+function syncAllBookingsToItin() {
+  if (!bookItems || !itinItems) return;
+  let changed = false;
+  bookItems.forEach(b => {
+    if (b.status !== 'confirmed') return;
+    const itinDay = inferItinDay(b);
+    if (!itinDay) return;
+    const existingIdx = itinItems.findIndex(i => i.id === 'bk-'+b.id || (i.name === b.name && i.day === itinDay));
+    if (existingIdx > -1) {
+      if (b.time && b.time !== 'TBD' && !itinItems[existingIdx].time) {
+        itinItems[existingIdx].time = b.time; changed = true;
+      }
+    } else {
+      itinItems.push({
+        id: 'bk-'+b.id, day: itinDay,
+        time: (b.time && b.time !== 'TBD') ? b.time : '',
+        name: b.name,
+        detail: [b.sub, b.notes].filter(Boolean).join(' · '),
+        cat: bkIconToCat(b.icon), who:'together', status:'confirmed', order:99,
+      });
+      changed = true;
+    }
+  });
+  if (changed) { save('itin'); renderItin(); }
+}
+
 // Map booking icon to itinerary category
 function bkIconToCat(icon) {
-  return {'✈️':'transport','🏨':'hotel','🎟':'activity','🚄':'transport','🏕️':'hotel','🎨':'activity','🍣':'food'}[icon]||'activity';
+  return {'✈️':'transport','🏨':'hotel','🎟':'activity','🚄':'transport','🏕️':'hotel','🎨':'activity','🍣':'food','🥢':'activity','🎮':'activity','🥊':'activity'}[icon]||'activity';
 }
+
 
 function saveBk() {
   const name = document.getElementById('bkName').value.trim();
@@ -2952,19 +2996,17 @@ function saveBk() {
   showToast(editBkId ? '✏️ Updated!' : '🎟 Added!');
 
   // Sync to itinerary if confirmed and has a date
-  if (b.status === 'confirmed' && b.date) {
-    const itinDay = bkDateToItinDay(b.date);
+  if (b.status === 'confirmed' && (b.date || b.sub)) {
+    const itinDay = inferItinDay(b);
     if (itinDay) {
       const existingIdx = itinItems.findIndex(i => i.id === 'bk-' + b.id || (i.name === b.name && i.day === itinDay));
       if (existingIdx > -1) {
-        // Update time and detail on existing item
-        itinItems[existingIdx].time   = b.time || itinItems[existingIdx].time;
+        if (b.time) itinItems[existingIdx].time = b.time;
         itinItems[existingIdx].detail = [b.sub, b.notes].filter(Boolean).join(' · ') || itinItems[existingIdx].detail;
-        itinItems[existingIdx].day    = itinDay;
+        itinItems[existingIdx].day = itinDay;
         save('itin'); renderItin();
         showToast('📅 Itinerary updated!');
       } else if (prevStatus !== 'confirmed') {
-        // Newly confirmed — add fresh
         const newItem = {
           id: 'bk-' + b.id,
           day: itinDay,
