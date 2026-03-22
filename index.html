@@ -435,6 +435,8 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .tip-item-title{font-size:14px;font-weight:500;color:var(--ink);}
 .tip-item-detail{font-size:12px;color:var(--stone);margin-top:3px;line-height:1.5;}
 .tip-item-link{font-size:12px;color:var(--sky);margin-top:3px;word-break:break-all;}
+.tip-open-btn{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:11px;font-weight:600;color:white;background:#c8102e;border:none;border-radius:20px;padding:4px 11px;cursor:pointer;font-family:inherit;text-decoration:none;}
+.tip-store-btn{display:inline-flex;align-items:center;gap:4px;margin-top:5px;margin-left:5px;font-size:11px;font-weight:500;color:#c8102e;background:rgba(200,16,46,.08);border:1px solid rgba(200,16,46,.2);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;text-decoration:none;}
 .tip-edit-btn{background:none;border:none;font-size:14px;cursor:pointer;opacity:.2;flex-shrink:0;}
 .tip-edit-btn:hover{opacity:.8;}
 
@@ -1596,6 +1598,9 @@ function initApp() {
   // Version bump — clear old disc cache if it's the old seed
   const discVer = localStorage.getItem('jp-disc-ver');
   if (discVer !== '2') { localStorage.removeItem('jp-disc'); localStorage.setItem('jp-disc-ver','2'); }
+  // Bump tips version so new app links in seed data appear
+  const tipsVer = localStorage.getItem('jp-tips-ver');
+  if (tipsVer !== '2') { localStorage.removeItem('jp-tips'); localStorage.setItem('jp-tips-ver','2'); }
 
   // Seed from localStorage for instant load (Supabase will update momentarily)
   if (!itinItems)    { itinItems    = SEED_ITIN; }
@@ -2970,17 +2975,17 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
 // ════════════════════════════════════════
 const SEED_TIPS = [
   // Apps
-  {id:'tip1', section:'apps', emoji:'🍽', title:'Tabelog', detail:'Better than Google Maps for restaurants — like Yelp for Japan. Use this to find where to eat.'},
-  {id:'tip2', section:'apps', emoji:'📅', title:'Tablecheck', detail:'Restaurant reservations app — use to book popular spots in advance.'},
-  {id:'tip3', section:'apps', emoji:'🌐', title:'Papago', detail:'Better than Google Translate for Japanese. Download before you go.'},
-  {id:'tip4', section:'apps', emoji:'📶', title:'Japan Wi-Fi Autoconnect', detail:'Free wifi hotspot connector — connects to free hotspots automatically around Japan.'},
-  {id:'tip5', section:'apps', emoji:'📶', title:'Softbank Wi-Fi Spot', detail:'Another free wifi hotspot connector. Download both for best coverage.'},
-  {id:'tip6', section:'apps', emoji:'🚕', title:'Go Taxi', detail:'Japan ride-hailing app. Better than trying to hail a cab.'},
-  {id:'tip7', section:'apps', emoji:'🚽', title:'Flush', detail:'Finds nearest public toilet. Trust us, you\'ll need this.'},
-  {id:'tip8', section:'apps', emoji:'🛂', title:'Visit Japan Web', detail:'Once we land, fill this out BEFORE we deboard — immigration questionnaire so we don\'t wait in line at the airport.'},
-  {id:'tip9', section:'apps', emoji:'💳', title:'Wise / EQ Bank Card', detail:'Reloadable Mastercard/Visa. No foreign transaction fees. Can use to take out cash.'},
-  {id:'tip10',section:'apps', emoji:'🎫', title:'Suica (Apple Wallet)', detail:'Reloadable transit card — add to Apple Wallet before you go. Works on all trains, subways, and konbini.'},
-  {id:'tip11',section:'apps', emoji:'🧳', title:'Kuli Kuli', detail:'Luggage delivery service app (see Yamato tip below).'},
+  {id:'tip1', section:'apps', emoji:'🍽', title:'Tabelog', detail:'Better than Google Maps for restaurants — like Yelp for Japan. Use this to find where to eat.', appLink:'tabelog://', storeLink:'https://apps.apple.com/jp/app/tabelog/id370545585'},
+  {id:'tip2', section:'apps', emoji:'📅', title:'Tablecheck', detail:'Restaurant reservations app — use to book popular spots in advance.', appLink:'tablecheck://', storeLink:'https://apps.apple.com/app/tablecheck-diner/id1451126904'},
+  {id:'tip3', section:'apps', emoji:'🌐', title:'Papago', detail:'Better than Google Translate for Japanese. Download before you go.', appLink:'papago://', storeLink:'https://apps.apple.com/app/papago/id1117408899'},
+  {id:'tip4', section:'apps', emoji:'📶', title:'Japan Wi-Fi Autoconnect', detail:'Free wifi hotspot connector — connects to free hotspots automatically around Japan.', storeLink:'https://apps.apple.com/app/japan-wi-fi-auto-connect/id1027316697'},
+  {id:'tip5', section:'apps', emoji:'📶', title:'Softbank Wi-Fi Spot', detail:'Another free wifi hotspot connector. Download both for best coverage.', storeLink:'https://apps.apple.com/jp/app/id403341986'},
+  {id:'tip6', section:'apps', emoji:'🚕', title:'Go Taxi', detail:'Japan ride-hailing app. Better than trying to hail a cab.', appLink:'goinc://', storeLink:'https://apps.apple.com/app/go-taxi-app/id1254919059'},
+  {id:'tip7', section:'apps', emoji:'🚽', title:'Flush', detail:'Finds nearest public toilet. Trust us, you\'ll need this.', appLink:'flush://', storeLink:'https://apps.apple.com/app/flush-toilet-finder/id984198094'},
+  {id:'tip8', section:'apps', emoji:'🛂', title:'Visit Japan Web', detail:'Once we land, fill this out BEFORE we deboard — immigration questionnaire so we don\'t wait in line at the airport.', storeLink:'https://vjw-lp.digital.go.jp/en/'},
+  {id:'tip9', section:'apps', emoji:'💳', title:'Wise / EQ Bank Card', detail:'Reloadable Mastercard/Visa. No foreign transaction fees. Can use to take out cash.', appLink:'wise://', storeLink:'https://apps.apple.com/app/wise-ex-transferwise/id612261027'},
+  {id:'tip10',section:'apps', emoji:'🎫', title:'Suica (Apple Wallet)', detail:'Reloadable transit card — add to Apple Wallet before you go. Works on all trains, subways, and konbini.', storeLink:'https://apps.apple.com/jp/app/suica/id1156875272'},
+  {id:'tip11',section:'apps', emoji:'🧳', title:'Kuli Kuli', detail:'Luggage delivery service app (see Yamato tip below).', storeLink:'https://apps.apple.com/app/kuroneko-yamato/id572208855'},
   // Links
   {id:'tip12',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 1', detail:'https://vm.tiktok.com/things-regret-1'},
   {id:'tip13',section:'links', emoji:'📺', title:'Things I Regret from Trip to Japan — Part 2', detail:'Watch on TikTok'},
@@ -3186,10 +3191,16 @@ function renderTips() {
     } else {
       innerHtml = items.length ? items.map(t=>{
         const isLink = t.detail && (t.detail.startsWith('http')||t.detail.startsWith('Watch'));
+        // Build app buttons if tip has appLink or storeLink
+        let appBtns = '';
+        if (t.appLink || t.storeLink) {
+          if (t.appLink) appBtns += `<a class="tip-open-btn" href="${t.appLink}" onclick="tryOpenApp(event,'${t.appLink}','${t.storeLink||''}')">📱 Open App</a>`;
+          if (t.storeLink) appBtns += `<a class="tip-store-btn" href="${t.storeLink}" target="_blank">${t.appLink?'↗ App Store':'↗ Get App'}</a>`;
+        }
         return `<div class="tip-item" draggable="true" data-tip-id="${t.id}" data-tip-sec="${t.section}"
           ondragstart="tipDragStart(event,'${t.id}')" ondragover="tipDragOver(event)" ondragleave="tipDragLeave(event)" ondrop="tipDrop(event,'${t.id}')">
           <span class="tip-drag-handle" title="Drag to reorder">⠿</span>
-          <div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
+          <div class="tip-item-icon">${t.emoji||'💡'}</div><div class="tip-item-body"><div class="tip-item-title">${t.title}</div>${t.detail && !isLink ? `<div class="tip-item-detail">${t.detail}</div>` : ''}${isLink ? `<a class="tip-item-link" href="${t.detail.startsWith('http')?t.detail:'#'}" target="_blank">${t.detail}</a>` : ''}${appBtns}</div><button class="tip-edit-btn" onclick="editTip('${t.id}')">✏️</button></div>`;
       }).join('') : `<div style="padding:12px 14px;font-size:13px;color:var(--stone)">Nothing here yet — tap ＋ to add.</div>`;
     }
     html += collSection('tips-'+sec.key, sec.label, items.length||null, `openTipsSheet('${sec.key}')`, innerHtml);
@@ -4007,7 +4018,17 @@ function deleteWL() {
 }
 
 
+// Try deep link first, fall back to App Store after 1.5s if app not installed
+function tryOpenApp(e, appLink, storeLink) {
+  e.preventDefault();
+  window.location.href = appLink;
+  if (storeLink) {
+    setTimeout(() => { if (!document.hidden) window.open(storeLink, '_blank'); }, 1500);
+  }
+}
+
 // TIPS DRAG REORDER
+// ════════════════════════════════════════
 // ════════════════════════════════════════
 let tipDragId = null;
 
