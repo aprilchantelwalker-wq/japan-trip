@@ -1886,17 +1886,14 @@ function pickerCheckPassword() {
   if (!pickerTargetCouple) return;
   const expectedCouple = PASSWORDS[val];
   if (expectedCouple === pickerTargetCouple) {
-    // correct — save auth and switch
+    // correct — save auth and switch, then reload for fresh data
     localStorage.setItem('jp-auth', val);
     localStorage.setItem('japan-couple', pickerTargetCouple);
-    currentCouple = pickerTargetCouple;
-    closePicker();
-    applyCouple(pickerTargetCouple);
-    // reset wishlist active person to first member of new couple
     wlActivePerson = null;
     localStorage.removeItem('jp-wl-active');
-    renderWL();
-    showToast('✅ Switched to ' + (pickerTargetCouple==='ca'?'Connor & April':'Patrick & Julia'));
+    closePicker();
+    showToast('✅ Switched — reloading…');
+    setTimeout(() => location.reload(), 600);
   } else {
     errEl.textContent = 'Wrong password — try again';
     document.getElementById('pickerPwInput').value = '';
