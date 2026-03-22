@@ -1631,30 +1631,30 @@ window.onload = () => {
 function initApp() {
   currentCouple = localStorage.getItem('japan-couple') || null;
 
-  // Always clear shared collection caches so every load pulls fresh from Supabase
-  // This guarantees all devices see the same data — no stale cache issues
-  ['jp-itin','jp-disc','jp-book','jp-transit','jp-tips','jp-tt'].forEach(k => localStorage.removeItem(k));
+  // Don't trust localStorage for shared data — always fetch fresh from Supabase
+  // But keep it as an instant render while we wait
+  itinItems    = JSON.parse(localStorage.getItem('jp-itin')     || 'null');
+  discItems    = JSON.parse(localStorage.getItem('jp-disc')     || 'null');
+  bookItems    = JSON.parse(localStorage.getItem('jp-book')     || 'null');
+  transitItems = JSON.parse(localStorage.getItem('jp-transit')  || 'null');
+  tipsItems    = JSON.parse(localStorage.getItem('jp-tips')     || 'null');
+  ttItems      = JSON.parse(localStorage.getItem('jp-tt')       || 'null');
 
-  // Set variables to seed defaults — Supabase will overwrite these momentarily
-  itinItems    = null;
-  discItems    = null;
-  bookItems    = null;
-  transitItems = null;
-  tipsItems    = null;
-  ttItems      = null;
+  // Use seed only if localStorage is also empty
+  if (!itinItems)    itinItems    = SEED_ITIN;
+  if (!discItems)    discItems    = SEED_DISC;
+  if (!bookItems)    bookItems    = SEED_BOOK;
+  if (!transitItems) transitItems = SEED_TRANSIT;
+  if (!tipsItems)    tipsItems    = SEED_TIPS;
+  if (!ttItems)      ttItems      = SEED_TT;
 
   populateDaySelect();
-
-  // Show loading state on all tabs while Supabase loads
-  ['itinRoot','discRoot','bookingsRoot'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--stone);font-size:13px">⏳ Syncing…</div>';
-  });
-
+  renderAll(); // instant render from cache while Supabase loads
   initBanners();
   fixNavPosition();
+  renderCustomCityPills();
   updateDiscCitySelects();
-  initSupabase();
+  initSupabase(); // fetches fresh from Supabase and re-renders
   updateNotifBadge();
   if (!currentCouple) showPicker();
   else {
@@ -1676,19 +1676,30 @@ const _lastLocalSave = {};
 
 function save(key) {
   const m = {itin:itinItems, disc:discItems, book:bookItems, transit:transitItems, tips:tipsItems, tt:ttItems};
-  localStorage.setItem('jp-'+key, JSON.stringify(m[key]));
+  const data = m[key];
+  // Write to localStorage immediately so the UI stays consistent on this device
+  localStorage.setItem('jp-'+key, JSON.stringify(data));
   _lastLocalSave[key] = Date.now();
-  // Also push to Supabase
-  syncToSupabase(key, m[key]);
+  // Push to Supabase — this is the shared source of truth for all other devices
+  syncToSupabase(key, data);
 }
 
 async function syncToSupabase(key, data) {
   if (!sb) return;
   const table = 'japan_' + key;
-  const ts = new Date().toISOString();
-  _lastLocalSave[key] = new Date(ts).getTime();
-  await sb.from(table).upsert({id: 'main', data: data, updated_at: ts}, {onConflict: 'id'});
+  _lastLocalSave[key] = Date.now();
+  try {
+    const {error} = await sb.from(table).upsert({id: 'main', data: data, updated_at: new Date().toISOString()}, {onConflict: 'id'});
+    if (error) {
+      console.error('Supabase save error:', key, error.code, error.message, error.details, error.hint);
+    } else {
+      localStorage.setItem('jp-'+key, JSON.stringify(data));
+    }
+  } catch(e) {
+    console.error('Supabase save exception:', key, e.message);
+  }
 }
+
 
 async function loadFromSupabase(key, setter, fallback) {
   if (!sb) { setter(fallback); return; }
@@ -1696,7 +1707,6 @@ async function loadFromSupabase(key, setter, fallback) {
   try {
     const {data, error} = await sb.from(table).select('data').eq('id','main').single();
     if (data?.data && data.data.length) {
-      // Supabase is source of truth — always use it
       setter(data.data);
       localStorage.setItem('jp-'+key, JSON.stringify(data.data));
     } else {
@@ -1705,8 +1715,9 @@ async function loadFromSupabase(key, setter, fallback) {
       if (fallback) syncToSupabase(key, fallback);
     }
   } catch(e) {
-    // Network error — use seed fallback
-    setter(fallback);
+    // Network error — use localStorage if we have it, otherwise seed
+    const cached = JSON.parse(localStorage.getItem('jp-'+key) || 'null');
+    setter(cached || fallback);
   }
 }
 
