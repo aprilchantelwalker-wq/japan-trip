@@ -1013,11 +1013,11 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
         </div>
       </div>
       <div class="form-row">
-        <label class="form-label">Status</label>
+        <label class="form-label">Type</label>
         <div class="status-sel">
+          <div class="status-opt sel" data-status="idea" onclick="selStatus(this)">💡 Idea</div>
+          <div class="status-opt" data-status="tentative" onclick="selStatus(this)">💭 Tentative</div>
           <div class="status-opt" data-status="confirmed" onclick="selStatus(this)">✅ Confirmed</div>
-          <div class="status-opt sel" data-status="tentative" onclick="selStatus(this)">💭 Tentative</div>
-          <div class="status-opt" data-status="idea" onclick="selStatus(this)">💡 Idea</div>
         </div>
       </div>
       <button class="form-submit" onclick="saveItin()">Save →</button>
@@ -1420,41 +1420,156 @@ function initApp() {
   const discVer = localStorage.getItem('jp-disc-ver');
   if (discVer !== '2') { localStorage.removeItem('jp-disc'); localStorage.setItem('jp-disc-ver','2'); }
 
-  if (!itinItems) { itinItems = SEED_ITIN; save('itin'); }
-  if (!discItems) { discItems = SEED_DISC; save('disc'); }
-  if (!bookItems) { bookItems = SEED_BOOK; save('book'); }
-  if (!transitItems) { transitItems = SEED_TRANSIT; save('transit'); }
-  if (!tipsItems) { tipsItems = SEED_TIPS; save('tips'); }
-  if (!ttItems) { ttItems = SEED_TT; save('tt'); }
-  // wishlist is per-person, initialized on first open of tab
+  // Seed from localStorage for instant load (Supabase will update momentarily)
+  if (!itinItems)    { itinItems    = SEED_ITIN; }
+  if (!discItems)    { discItems    = SEED_DISC; }
+  if (!bookItems)    { bookItems    = SEED_BOOK; }
+  if (!transitItems) { transitItems = SEED_TRANSIT; }
+  if (!tipsItems)    { tipsItems    = SEED_TIPS; }
+  if (!ttItems)      { ttItems      = SEED_TT; }
+
   populateDaySelect();
-  renderAll();
+  renderAll();           // fast render from localStorage/seed
   renderCustomCityPills();
   updateDiscCitySelects();
-  initSupabase();
+  initSupabase();        // Supabase loads fresh data → re-renders automatically
   updateNotifBadge();
   if (!currentCouple) showPicker();
   else {
     applyCouple(currentCouple);
-    // ensure composer reflects saved couple on load
     const sel = document.getElementById('noteCouple');
     if (sel) sel.value = currentCouple;
     updateCoupleSelect();
   }
 }
 
+// ════════════════════════════════════════
+// SUPABASE SYNC — all collections
+// Each collection stored as single row: {id:'collection', data: [...]}
+// Real-time subscriptions update all devices live
+// ════════════════════════════════════════
+
+// LocalStorage is still used as fast cache / offline fallback
 function save(key) {
-  const m = {itin:itinItems,disc:discItems,book:bookItems,transit:transitItems,tips:tipsItems,tt:ttItems};
+  const m = {itin:itinItems, disc:discItems, book:bookItems, transit:transitItems, tips:tipsItems, tt:ttItems};
   localStorage.setItem('jp-'+key, JSON.stringify(m[key]));
+  // Also push to Supabase
+  syncToSupabase(key, m[key]);
+}
+
+async function syncToSupabase(key, data) {
+  if (!sb) return;
+  const table = 'japan_' + key;
+  await sb.from(table).upsert({id: 'main', data: data, updated_at: new Date().toISOString()}, {onConflict: 'id'});
+}
+
+async function loadFromSupabase(key, setter, fallback) {
+  if (!sb) { setter(fallback); return; }
+  const table = 'japan_' + key;
+  const {data, error} = await sb.from(table).select('data').eq('id','main').single();
+  if (data?.data && data.data.length) {
+    setter(data.data);
+    localStorage.setItem('jp-'+key, JSON.stringify(data.data));
+  } else {
+    // Nothing in Supabase yet — push our seed data up
+    setter(fallback);
+    if (fallback) syncToSupabase(key, fallback);
+  }
+}
+
+function subscribeCollection(key, setter, renderFn) {
+  if (!sb) return;
+  const table = 'japan_' + key;
+  sb.channel('sync-'+key)
+    .on('postgres_changes', {event:'*', schema:'public', table}, p => {
+      const incoming = p.new?.data;
+      if (!incoming) return;
+      setter(incoming);
+      localStorage.setItem('jp-'+key, JSON.stringify(incoming));
+      renderFn();
+    }).subscribe();
 }
 
 function initSupabase() {
   try {
     sb = supabase.createClient(SB_URL, SB_KEY);
-    loadNotes(); subscribeNotes(); subscribeActivity(); loadShared(); subscribeWLShared();
     document.getElementById('liveDot').style.background = '#4ade80';
-  } catch(e) { console.error(e); }
+
+    // Load all collections from Supabase, then subscribe for live updates
+    Promise.all([
+      loadFromSupabase('itin',    v => { itinItems    = v; }, itinItems    || SEED_ITIN),
+      loadFromSupabase('disc',    v => { discItems    = v; }, discItems    || SEED_DISC),
+      loadFromSupabase('book',    v => { bookItems    = v; }, bookItems    || SEED_BOOK),
+      loadFromSupabase('transit', v => { transitItems = v; }, transitItems || SEED_TRANSIT),
+      loadFromSupabase('tips',    v => { tipsItems    = v; }, tipsItems    || SEED_TIPS),
+      loadFromSupabase('tt',      v => { ttItems      = v; }, ttItems      || SEED_TT),
+    ]).then(() => {
+      renderAll();
+      // Now subscribe each collection for real-time updates
+      subscribeCollection('itin',    v => { itinItems    = v; }, () => renderItin());
+      subscribeCollection('disc',    v => { discItems    = v; }, () => renderDisc());
+      subscribeCollection('book',    v => { bookItems    = v; }, () => renderBook());
+      subscribeCollection('transit', v => { transitItems = v; }, () => renderTransit());
+      subscribeCollection('tips',    v => { tipsItems    = v; }, () => renderTips());
+      subscribeCollection('tt',      v => { ttItems      = v; }, () => renderTT());
+    });
+
+    // Notes, votes, activity, wishlist shared
+    loadNotes(); subscribeNotes();
+    subscribeActivity();
+    loadShared(); subscribeWLShared();
+    loadVotes(); subscribeVotes();
+
+    // TT reactions sync
+    loadTTReactions(); subscribeTTReactions();
+
+    // Visited spots
+    if (sb) {
+      sb.from('japan_visited').select('data').eq('id','main').single().then(({data}) => {
+        if (data?.data) {
+          visitedSpots = new Set(data.data);
+          localStorage.setItem('jp-visited', JSON.stringify(data.data));
+          renderDisc();
+        }
+      });
+      // subscribe for live visited updates from other couple
+      sb.channel('sync-visited').on('postgres_changes',{event:'*',schema:'public',table:'japan_visited'}, p => {
+        if (p.new?.data) { visitedSpots = new Set(p.new.data); localStorage.setItem('jp-visited',JSON.stringify(p.new.data)); renderDisc(); }
+      }).subscribe();
+    }
+
+  } catch(e) { console.error('Supabase init error:', e); }
 }
+
+async function loadTTReactions() {
+  if (!sb) return;
+  const {data} = await sb.from('japan_tt_reactions').select('data').eq('id','main').single();
+  if (data?.data) {
+    ttReactions = data.data;
+    localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
+    renderTT();
+  }
+}
+
+function subscribeTTReactions() {
+  if (!sb) return;
+  sb.channel('sync-ttreact').on('postgres_changes',{event:'*',schema:'public',table:'japan_tt_reactions'}, p => {
+    if (p.new?.data) {
+      ttReactions = p.new.data;
+      localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
+      renderTT();
+    }
+  }).subscribe();
+}
+
+// Override saveTTReactions to also push to Supabase
+const _origSaveTTReactions = window.saveTTReactions;
+function saveTTReactions() {
+  localStorage.setItem('jp-ttreact', JSON.stringify(ttReactions));
+  if (sb) sb.from('japan_tt_reactions').upsert({id:'main', data:ttReactions, updated_at:new Date().toISOString()},{onConflict:'id'}).then(()=>{});
+}
+
+
 
 async function loadNotes() {
   const {data} = await sb.from('japan_notes').select('*').order('created_at',{ascending:false}).limit(80);
@@ -1644,8 +1759,46 @@ function stripeCls(who) { return {together:'ws-together',ca:'ws-ca',pj:'ws-pj'}[
 
 function renderItinCard(item) {
   const cv = votes[item.id]||{};
-  const whoTagHtml = item.who==='ca'?`<span class="tag tag-ca">Connor & April</span>`:item.who==='pj'?`<span class="tag tag-pj">Pat & Julia</span>`:`<span class="tag tag-tog">Together</span>`;
-  const statusTagHtml = item.status==='confirmed'?`<span class="tag tag-booked">✅ Confirmed</span>`:item.status==='tentative'?`<span class="tag tag-flex">💭 Tentative</span>`:`<span class="tag tag-idea">💡 Idea</span>`;
+  const bothIn = cv.ca==='yes' && cv.pj==='yes';
+
+  // Together + Confirmed = no voting needed, it's locked
+  const noVote = item.status==='confirmed' && item.who==='together';
+
+  const whoTagHtml = item.who==='ca'
+    ? `<span class="tag tag-ca">Connor & April</span>`
+    : item.who==='pj'
+    ? `<span class="tag tag-pj">Pat & Julia</span>`
+    : `<span class="tag tag-tog">Together</span>`;
+
+  const displayStatus = (!noVote && bothIn) ? 'confirmed' : item.status;
+  const statusTagHtml = displayStatus==='confirmed'
+    ? `<span class="tag tag-booked">${bothIn&&!noVote?'🎉 Both In':'✅ Confirmed'}</span>`
+    : displayStatus==='tentative'
+    ? `<span class="tag tag-flex">💭 Tentative</span>`
+    : `<span class="tag tag-idea">💡 Idea</span>`;
+
+  const voteRowHtml = noVote ? '' : `
+    <div class="confirm-row">
+      <div class="confirm-couple-row">
+        <span class="clabel ca">C&A</span>
+        <div class="cvote-btns">
+          <button class="cvbtn ${cv.ca==='yes'?'vy':''}" onclick="castVote('${item.id}','ca','yes',this)">✅ In</button>
+          <button class="cvbtn ${cv.ca==='maybe'?'vm':''}" onclick="castVote('${item.id}','ca','maybe',this)">💭</button>
+          <button class="cvbtn ${cv.ca==='no'?'vn':''}" onclick="castVote('${item.id}','ca','no',this)">👋 Skip</button>
+        </div>
+        <input class="vote-comment" placeholder="note…" value="${esc(cv.ca_note||'')}" onchange="saveVoteNote('${item.id}','ca',this.value)">
+      </div>
+      <div class="confirm-couple-row">
+        <span class="clabel pj">P&J</span>
+        <div class="cvote-btns">
+          <button class="cvbtn ${cv.pj==='yes'?'vy':''}" onclick="castVote('${item.id}','pj','yes',this)">✅ In</button>
+          <button class="cvbtn ${cv.pj==='maybe'?'vm':''}" onclick="castVote('${item.id}','pj','maybe',this)">💭</button>
+          <button class="cvbtn ${cv.pj==='no'?'vn':''}" onclick="castVote('${item.id}','pj','no',this)">👋 Skip</button>
+        </div>
+        <input class="vote-comment" placeholder="note…" value="${esc(cv.pj_note||'')}" onchange="saveVoteNote('${item.id}','pj',this.value)">
+      </div>
+    </div>`;
+
   return `<div class="itin-card ${item.status}" id="ic-${item.id}" draggable="true" data-id="${item.id}" data-day="${esc(item.day)}"
     ondragstart="onDragStart(event,'${item.id}')" ondragover="onCardDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onCardDrop(event,'${item.id}')">
     <div class="who-stripe ${stripeCls(item.who)}"></div>
@@ -1662,26 +1815,7 @@ function renderItinCard(item) {
         <button class="itin-edit-btn" onclick="editItin('${item.id}')">✏️</button>
       </div>
     </div>
-    <div class="confirm-row">
-      <div class="confirm-couple-row">
-        <span class="clabel ca">C&A</span>
-        <div class="cvote-btns">
-          <button class="cvbtn ${cv.ca==='yes'?'vy':''}" onclick="castVote('${item.id}','ca','yes',this)">✅</button>
-          <button class="cvbtn ${cv.ca==='maybe'?'vm':''}" onclick="castVote('${item.id}','ca','maybe',this)">💭</button>
-          <button class="cvbtn ${cv.ca==='no'?'vn':''}" onclick="castVote('${item.id}','ca','no',this)">👋</button>
-        </div>
-        <input class="vote-comment" placeholder="Add a note…" value="${esc(cv.ca_note||'')}" onchange="saveVoteNote('${item.id}','ca',this.value)">
-      </div>
-      <div class="confirm-couple-row">
-        <span class="clabel pj">P&J</span>
-        <div class="cvote-btns">
-          <button class="cvbtn ${cv.pj==='yes'?'vy':''}" onclick="castVote('${item.id}','pj','yes',this)">✅</button>
-          <button class="cvbtn ${cv.pj==='maybe'?'vm':''}" onclick="castVote('${item.id}','pj','maybe',this)">💭</button>
-          <button class="cvbtn ${cv.pj==='no'?'vn':''}" onclick="castVote('${item.id}','pj','no',this)">👋</button>
-        </div>
-        <input class="vote-comment" placeholder="Add a note…" value="${esc(cv.pj_note||'')}" onchange="saveVoteNote('${item.id}','pj',this.value)">
-      </div>
-    </div>
+    ${voteRowHtml}
   </div>`;
 }
 
@@ -1777,38 +1911,95 @@ function persistOrder() {
 }
 
 // ════════════════════════════════════════
-// VOTES + COMMENTS
+// VOTES + COMMENTS — synced via Supabase
+// Supabase SQL needed:
+// create table japan_votes (id bigserial primary key, item_id text, couple text, vote text, note text, updated_at timestamptz default now(), unique(item_id, couple));
+// alter table japan_votes enable row level security;
+// create policy "Allow all" on japan_votes for all using (true) with check (true);
 // ════════════════════════════════════════
-function castVote(itemId, couple, choice, btn) {
-  if (!votes[itemId]) votes[itemId]={};
+
+async function castVote(itemId, couple, choice, btn) {
+  if (!votes[itemId]) votes[itemId] = {};
   const cur = votes[itemId][couple];
-  if (cur===choice) delete votes[itemId][couple]; else votes[itemId][couple]=choice;
+  if (cur === choice) delete votes[itemId][couple];
+  else votes[itemId][couple] = choice;
   localStorage.setItem('jp-votes', JSON.stringify(votes));
-  // update just the confirm row
-  const card = document.getElementById('ic-'+itemId);
-  if (card) {
-    const cv = votes[itemId]||{};
-    card.querySelectorAll('.cvbtn').forEach(b=>{ b.classList.remove('vy','vm','vn'); });
-    const rows = card.querySelectorAll('.confirm-couple-row');
-    const setRow = (row, c) => {
-      const btns = row.querySelectorAll('.cvbtn');
-      const v = cv[c];
-      if (v==='yes') btns[0].classList.add('vy');
-      if (v==='maybe') btns[1].classList.add('vm');
-      if (v==='no') btns[2].classList.add('vn');
-    };
-    if (rows[0]) setRow(rows[0],'ca');
-    if (rows[1]) setRow(rows[1],'pj');
+  if (sb) {
+    sb.from('japan_votes').upsert({
+      item_id: itemId, couple,
+      vote: votes[itemId][couple] || null,
+      updated_at: new Date().toISOString()
+    }, {onConflict:'item_id,couple'}).then(()=>{});
   }
-  showToast(choice==='yes'?'✅ Confirmed!':choice==='maybe'?'💭 Tentative':'👋 Skipping');
-}
-function saveVoteNote(itemId, couple, val) {
-  if (!votes[itemId]) votes[itemId]={};
-  votes[itemId][couple+'_note']=val;
-  localStorage.setItem('jp-votes', JSON.stringify(votes));
+  applyVoteToCard(itemId);
+  const cv = votes[itemId]; const bothIn = cv.ca==='yes'&&cv.pj==='yes';
+  const item = itinItems.find(i=>i.id===itemId);
+  showToast(bothIn?'🎉 Both couples in!'+(item?' on '+item.name:''):votes[itemId][couple]==='yes'?"✅ We're in!":votes[itemId][couple]==='maybe'?'💭 Maybe':'👋 Skipping');
 }
 
-// ════════════════════════════════════════
+function applyVoteToCard(itemId) {
+  const card = document.getElementById('ic-'+itemId); if(!card) return;
+  const cv = votes[itemId]||{}; const bothIn = cv.ca==='yes'&&cv.pj==='yes';
+  card.querySelectorAll('.cvbtn').forEach(b=>b.classList.remove('vy','vm','vn'));
+  const rows = card.querySelectorAll('.confirm-couple-row');
+  [[rows[0],'ca'],[rows[1],'pj']].forEach(([row,c])=>{
+    if(!row) return; const btns=row.querySelectorAll('.cvbtn'); const v=cv[c];
+    if(v==='yes') btns[0]?.classList.add('vy');
+    if(v==='maybe') btns[1]?.classList.add('vm');
+    if(v==='no') btns[2]?.classList.add('vn');
+  });
+  const item = itinItems.find(i=>i.id===itemId);
+  const tagWrap = card.querySelector('.itin-tags');
+  if(tagWrap&&item) {
+    const ds = bothIn?'confirmed':item.status;
+    const oldTag = tagWrap.querySelector('.tag-booked,.tag-flex,.tag-idea');
+    if(oldTag){ oldTag.className='tag '+(ds==='confirmed'?'tag-booked':ds==='tentative'?'tag-flex':'tag-idea'); oldTag.textContent=ds==='confirmed'?(bothIn?'🎉 Both In':'✅ Confirmed'):ds==='tentative'?'💭 Tentative':'💡 Idea'; }
+  }
+}
+
+function subscribeVotes() {
+  if (!sb) return;
+  sb.channel('votes-v1').on('postgres_changes', {event:'*', schema:'public', table:'japan_votes'}, p => {
+    const row = p.new || {};
+    const {item_id, couple, vote, note} = row;
+    if (!item_id || !couple) return;
+    if (!votes[item_id]) votes[item_id] = {};
+    if (vote) votes[item_id][couple] = vote; else delete votes[item_id][couple];
+    if (note !== undefined) votes[item_id][couple+'_note'] = note || '';
+    localStorage.setItem('jp-votes', JSON.stringify(votes));
+    applyVoteToCard(item_id);
+    // update note input live
+    const card = document.getElementById('ic-'+item_id);
+    if (card) {
+      const inputs = card.querySelectorAll('.vote-comment');
+      const idx = couple === 'ca' ? 0 : 1;
+      if (inputs[idx]) inputs[idx].value = note || '';
+    }
+    if (couple !== currentCouple) {
+      const cv = votes[item_id];
+      const bothIn = cv.ca==='yes' && cv.pj==='yes';
+      const item = itinItems.find(i => i.id === item_id);
+      if (bothIn) showToast('🎉 Both couples in' + (item?' on '+item.name:'') + '!');
+      else if (note) showToast('💬 ' + (couple==='ca'?'C&A':'P&J') + ' added a note');
+    }
+  }).subscribe();
+}
+
+async function loadVotes() {
+  if (!sb) return;
+  const {data} = await sb.from('japan_votes').select('*');
+  if (data) {
+    data.forEach(r => {
+      if (!votes[r.item_id]) votes[r.item_id] = {};
+      if (r.vote) votes[r.item_id][r.couple] = r.vote;
+      if (r.note) votes[r.item_id][r.couple+'_note'] = r.note;
+    });
+    localStorage.setItem('jp-votes', JSON.stringify(votes));
+    renderItin(); // re-render so note inputs show loaded values
+  }
+}
+
+
 // ITIN CRUD
 // ════════════════════════════════════════
 let editItinId=null, itinMode='pick', selectedDiscId=null;
@@ -1824,7 +2015,7 @@ function openItinSheet(day) {
   document.getElementById('itinCost').value='';
   document.getElementById('itinCat').value='activity';
   if (day) document.getElementById('itinDay').value=day;
-  selWhoVal('together'); selStatusVal('tentative');
+  selWhoVal('together'); selStatusVal('idea');
   switchItinMode('pick');
   populateDiscoverPicker('');
   openSheet('itinSheet');
@@ -2035,7 +2226,9 @@ function filterDisc(type, val, el) {
 function toggleVisited(id, e) {
   e.stopPropagation();
   visitedSpots.has(id) ? visitedSpots.delete(id) : visitedSpots.add(id);
-  localStorage.setItem('jp-visited', JSON.stringify([...visitedSpots]));
+  const arr = [...visitedSpots];
+  localStorage.setItem('jp-visited', JSON.stringify(arr));
+  if (sb) sb.from('japan_visited').upsert({id:'main', data:arr, updated_at:new Date().toISOString()},{onConflict:'id'}).then(()=>{});
   renderDisc();
   showToast(visitedSpots.has(id) ? '✅ Marked visited!' : '↩ Unmarked');
 }
@@ -3021,6 +3214,11 @@ document.querySelectorAll('.sheet-overlay').forEach(el=>{
 // ════════════════════════════════════════
 let activityLog = JSON.parse(localStorage.getItem('jp-activity') || '[]');
 let notifSeen = parseInt(localStorage.getItem('jp-notifseen') || '0');
+// First-ever load: set notifSeen to now so old/empty logs don't trigger badge
+if (!localStorage.getItem('jp-notifseen')) {
+  notifSeen = Date.now();
+  localStorage.setItem('jp-notifseen', notifSeen);
+}
 let notifPanelOpen = false;
 
 function logActivity(couple, action, label, tab, refId) {
