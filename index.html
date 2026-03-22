@@ -92,8 +92,9 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 .day-header-row .day-right{display:flex;align-items:center;gap:6px;}
 .day-chev{font-size:11px;color:var(--stone);transition:transform .22s;}
 .day-chev.open{transform:rotate(180deg);}
-.day-drop-zone{overflow:hidden;max-height:0;transition:max-height .28s cubic-bezier(.4,0,.2,1);}
-.day-drop-zone.open{max-height:4000px;}
+.day-drop-zone{overflow:hidden;max-height:5000px;transition:max-height .28s cubic-bezier(.4,0,.2,1);}
+.day-drop-zone.collapsed{max-height:0;}
+.day-drop-zone.open{max-height:5000px;}
 .day-add-btn{background:none;border:none;color:var(--blossom-deep);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;}
 
 /* ITIN CARD */
@@ -720,6 +721,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
   </div>
   <div class="filter-scroll" id="ttCatFilter">
     <div class="fpill active" onclick="filterTT('all',this)">All</div>
+    <div class="fpill" onclick="filterTT('liked',this)">❤️ Liked</div>
     <div class="fpill" onclick="filterTT('food',this)">🍜 Food</div>
     <div class="fpill" onclick="filterTT('tips',this)">💡 Tips</div>
     <div class="fpill" onclick="filterTT('attraction',this)">⛩️ Attractions</div>
@@ -856,18 +858,30 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f5;color:#1a1a1a;min-heigh
 
 <!-- ══ WISHLIST ══ -->
 <div class="tab-content" id="content-wishlist">
-  <div style="padding:13px 14px 5px;display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Shopping Wishlist 🛍</div>
-      <div style="font-size:12px;color:var(--stone);margin-top:2px">What we want to buy — tap ✓ when you get it</div>
+  <div id="wlPersonPickerWrap"></div>
+  <div id="wlMainWrap" style="display:none">
+    <div style="padding:11px 14px 4px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700">Shopping Wishlist 🛍</div>
+        <div id="wlSubtitle" style="font-size:12px;color:var(--stone);margin-top:1px"></div>
+      </div>
     </div>
-    <button onclick="openWLSheet()" style="background:var(--blossom-deep);color:white;border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">＋ Add</button>
+    <!-- Identity banner -->
+    <div id="wlIdentityBanner" style="display:none;margin:0 12px 10px;background:var(--ink);border-radius:12px;padding:11px 14px;flex-direction:row;align-items:center;gap:10px">
+      <span id="wlIdentityEmoji" style="font-size:24px"></span>
+      <div style="flex:1">
+        <div id="wlIdentityName" style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:white"></div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:1px">Private — only visible to you on this device</div>
+      </div>
+      <button onclick="showWLPersonPicker()" style="background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:11px;padding:5px 10px;border-radius:20px;cursor:pointer;font-family:inherit">Switch</button>
+    </div>
+    <div id="wlProgress" style="display:none">
+      <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
+      <div class="wl-progress-bar"><div class="wl-progress-fill" id="wlProgressFill"></div></div>
+    </div>
+    <div id="wlSuggestionsWrap"></div>
+    <div id="wishlistRoot"></div>
   </div>
-  <div id="wlProgress" style="display:none">
-    <div class="wl-toolbar"><span class="wl-progress" id="wlProgressText"></span></div>
-    <div class="wl-progress-bar"><div class="wl-progress-fill" id="wlProgressFill"></div></div>
-  </div>
-  <div id="wishlistRoot"></div>
 </div>
 
 <!-- WISHLIST SHEET -->
@@ -1574,7 +1588,7 @@ function itinCollapseAll(collapse) {
   const prefs = getCollapsePrefs();
   DAYS.forEach(d => { prefs[itinDayKey(d)] = !collapse; });
   localStorage.setItem(k, JSON.stringify(prefs));
-  renderItin();
+  renderItin(); // re-render picks up new prefs
 }
 
 function renderItin() {
@@ -1616,7 +1630,7 @@ function renderItin() {
     cityBuffer += `<div class="day-header-row" onclick="toggleDay('${esc(day)}')">`
       + `<div style="display:flex;align-items:center;gap:7px"><span class="day-chev ${open?'open':''}" id="dchev-${dkey}">▼</span><span class="dl">${day}</span>${countLbl?`<span style="font-size:10px;color:var(--stone);font-weight:400">${countLbl}</span>`:''}</div>`
       + `<div class="day-right"><button class="day-add-btn" onclick="event.stopPropagation();openItinSheet('${esc(day)}')" title="Add">＋</button></div></div>`
-      + `<div class="day-drop-zone ${open?'open':''}" id="${dkey}" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
+      + `<div class="day-drop-zone ${open?'':'collapsed'}" id="${dkey}" data-day="${esc(day)}" ondragover="onDayDragOver(event)" ondrop="onDayDrop(event,'${esc(day)}')">`;
     if (dayItems.length) dayItems.forEach(item => { cityBuffer += renderItinCard(item); });
     else cityBuffer += `<div style="padding:10px 14px 8px;font-size:12px;color:var(--stone)">No items${itinWhoFilter!=='all'?' for this filter':''}. Tap ＋ to add.</div>`;
     cityBuffer += '</div>';
@@ -1632,10 +1646,11 @@ function toggleDay(day) {
   const prefs = getCollapsePrefs();
   prefs[key]  = !prefs[key];
   localStorage.setItem(k, JSON.stringify(prefs));
+  const isNowOpen = prefs[key];
   const zone = document.getElementById(esc(key));
   const chev = document.getElementById('dchev-' + esc(key));
-  if (zone) zone.classList.toggle('open', prefs[key]);
-  if (chev) chev.classList.toggle('open', prefs[key]);
+  if (zone) zone.classList.toggle('collapsed', !isNowOpen);
+  if (chev) chev.classList.toggle('open', isNowOpen);
 }
 
 
@@ -2756,7 +2771,23 @@ function filterTT(cat, el) {
 
 function renderTT() {
   const root=document.getElementById('ttRoot');
-  const filtered = ttFilter==='all' ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
+
+  // Apply filter
+  let filtered;
+  if (ttFilter === 'liked') {
+    // show only items liked by current couple
+    filtered = ttItems.filter(t => {
+      const rx = ttReactions[t.id]||{};
+      return (rx.likes||[]).includes(currentCouple);
+    });
+    if (!filtered.length) {
+      root.innerHTML = `<div class="empty-st"><div class="empty-icon">❤️</div><p>No liked TikToks yet!<br>Tap 🤍 on any video to like it.</p></div>`;
+      return;
+    }
+  } else {
+    filtered = ttFilter==='all' ? ttItems : ttItems.filter(t=>t.cat===ttFilter);
+  }
+
   if(!filtered.length){root.innerHTML=`<div class="empty-st"><div class="empty-icon">🎵</div><p>No TikToks saved yet!<br>Tap ＋ to add one.</p></div>`;return;}
   const cats={};
   filtered.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
@@ -2802,7 +2833,7 @@ function renderTT() {
         </div>
       </div>`;
     }).join('') + `</div>`;
-    if (ttFilter==='all') {
+    if (ttFilter==='all' || ttFilter==='liked') {
       html += collSection('tt-'+cat, TT_CAT_LABELS[cat]||cat, items.length, 'openTTSheet()', cardsHtml);
     } else {
       html += cardsHtml;
@@ -3123,7 +3154,7 @@ function openTT(url) {
 const WL_PEOPLE = [
   {id:'connor', name:'Connor', emoji:'🧢', couple:'ca'},
   {id:'april',  name:'April',  emoji:'🌸', couple:'ca'},
-  {id:'pat',    name:'Pat',    emoji:'🏌️', couple:'pj'},
+  {id:'pat',    name:'Patrick', emoji:'🏌️', couple:'pj'},
   {id:'julia',  name:'Julia',  emoji:'👗', couple:'pj'},
 ];
 
@@ -3372,7 +3403,11 @@ function toggleWLShare(id) {
 let editWLId = null;
 
 function openWLSheet() {
-  if (!currentWLPerson) { renderWL(); return; } // show picker
+  if (!currentWLPerson) {
+    // show a simple picker overlay instead of silently doing nothing
+    openWLPersonPickerSheet();
+    return;
+  }
   editWLId = null;
   document.getElementById('wlSheetTitle').textContent = 'Add to My List';
   document.getElementById('wlDelBtn').style.display   = 'none';
@@ -3384,6 +3419,34 @@ function openWLSheet() {
   const cb = document.getElementById('wlShared');
   if (cb) { cb.checked = false; updateWLSharedSlider(); }
   openSheet('wlSheet');
+}
+
+function openWLPersonPickerSheet() {
+  // Reuse the wlSheet but replace its content temporarily
+  document.getElementById('wlSheetTitle').textContent = 'Whose list? 🛍';
+  document.getElementById('wlDelBtn').style.display = 'none';
+  // replace body with person picker
+  const body = document.querySelector('#wlSheet .sheet-body');
+  if (body) {
+    body.innerHTML = '<div class="wl-person-grid" style="margin-top:8px">'
+      + WL_PEOPLE.map(p =>
+          `<button class="wl-person-btn" onclick="pickWLPersonFromSheet('${p.id}')">`
+          + `<span class="pb-emoji">${p.emoji}</span>`
+          + `<span class="pb-name">${p.name}</span>`
+          + `<span class="pb-couple">${p.couple==='ca'?'Connor & April':'Pat & Julia'}</span>`
+          + `</button>`
+        ).join('')
+      + '</div>'
+      + '<button class="form-cancel" onclick="closeSheet(\'wlSheet\')" style="margin-top:12px">Cancel</button>';
+  }
+  openSheet('wlSheet');
+}
+
+function pickWLPersonFromSheet(personId) {
+  pickWLPerson(personId);
+  closeSheet('wlSheet');
+  // now open the actual add sheet
+  setTimeout(() => openWLSheet(), 120);
 }
 
 function openWLSheetForStore(store) {
