@@ -2179,6 +2179,53 @@ function openItinSheet(day) {
   openSheet('itinSheet');
 }
 
+// Map discover city slug → best matching itinerary day
+const CITY_DAY_MAP = {
+  tokyo:     'Day 1 — Mar 28',
+  kyoto:     'Day 5 — Apr 1 🎂',
+  uji:       'Day 5 — Apr 1 🎂',
+  osaka:     'Day 8 — Apr 4',
+  hakone:    'Day 4 — Mar 31',
+  fuji:      'Day 11 — Apr 7',
+  hiroshima: 'Day 9 — Apr 5',
+};
+// Map discover category → itinerary category
+const DISC_TO_ITIN_CAT = {
+  matcha:'food', coffee:'food', ramen:'food', sushi:'food',
+  street:'food', breakfast:'food', food:'food',
+  shopping:'shopping', experience:'activity', attraction:'activity',
+  onsen:'onsen', hotel:'hotel',
+};
+
+function addDiscToItin(discId) {
+  const d = discItems.find(x => x.id === discId);
+  if (!d) return;
+
+  editItinId = null; selectedDiscId = null;
+  document.getElementById('itinSheetTitle').textContent = '＋ Add to Itinerary';
+  document.getElementById('itinDelBtn').style.display = 'none';
+  document.getElementById('itinEditId').value = '';
+  document.getElementById('itinTime').value = '';
+  document.getElementById('itinCost').value = '';
+
+  // Pre-fill from discover item
+  document.getElementById('itinName').value   = d.name;
+  document.getElementById('itinDetail').value = [d.desc, d.link].filter(Boolean).join(' · ');
+  document.getElementById('itinCat').value    = DISC_TO_ITIN_CAT[d.cat] || 'activity';
+
+  // Best-guess the day from city
+  const guessDay = CITY_DAY_MAP[d.city] || DAYS[1];
+  document.getElementById('itinDay').value = guessDay;
+
+  selWhoVal('together');
+  selStatusVal('idea');
+  switchItinMode('new'); // go straight to new mode since name is pre-filled
+
+  // Switch to itinerary tab after saving
+  openSheet('itinSheet');
+  showToast(`📅 Adding ${d.name} to itinerary…`);
+}
+
 function editItin(id) {
   const item = itinItems.find(i=>i.id===id);
   if (!item) return;
@@ -2442,7 +2489,8 @@ function renderDisc() {
             <div class="dgc-city">${d.city}</div>
             <div class="dgc-actions">
               ${d.lat?`<button class="dgc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
-              <button class="dgc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅ Visited':'Mark done'}</button>
+              <button class="dgc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅':'Mark done'}</button>
+              <button class="dgc-map-btn" onclick="event.stopPropagation();addDiscToItin('${d.id}')" style="background:rgba(200,16,46,.1);color:#c8102e;border-color:rgba(200,16,46,.2)">＋ Plan</button>
             </div>
           </div>
         </div>`;
@@ -2468,6 +2516,7 @@ function renderDisc() {
             <span class="disc-city-chip">${d.city}</span>
             ${d.lat?`<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
             <button class="disc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅':'Mark done'}</button>
+            <button class="disc-map-btn" onclick="event.stopPropagation();addDiscToItin('${d.id}')" style="background:rgba(200,16,46,.1);color:#c8102e;border-color:rgba(200,16,46,.2);white-space:nowrap">＋ Plan</button>
             <button class="disc-edit-btn" onclick="event.stopPropagation();editDisc('${d.id}')">✏️</button>
           </div>
         </div>`;
