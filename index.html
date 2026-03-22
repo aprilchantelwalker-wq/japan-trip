@@ -1689,7 +1689,9 @@ function save(key) {
 async function syncToSupabase(key, data) {
   if (!sb) return;
   const table = 'japan_' + key;
-  await sb.from(table).upsert({id: 'main', data: data, updated_at: new Date().toISOString()}, {onConflict: 'id'});
+  const ts = new Date().toISOString();
+  _lastLocalSave[key] = new Date(ts).getTime();
+  await sb.from(table).upsert({id: 'main', data: data, updated_at: ts}, {onConflict: 'id'});
 }
 
 async function loadFromSupabase(key, setter, fallback) {
@@ -1713,8 +1715,10 @@ function subscribeCollection(key, setter, renderFn) {
     .on('postgres_changes', {event:'*', schema:'public', table}, p => {
       const incoming = p.new?.data;
       if (!incoming) return;
-      // Ignore echo of our own save for 3 seconds
-      if (_lastLocalSave[key] && Date.now() - _lastLocalSave[key] < 3000) return;
+      // Only ignore if this looks like the echo of our own save
+      // (updated_at within 2s of our last save on this device)
+      const incomingTs = p.new?.updated_at ? new Date(p.new.updated_at).getTime() : 0;
+      if (_lastLocalSave[key] && Math.abs(incomingTs - _lastLocalSave[key]) < 2000) return;
       setter(incoming);
       localStorage.setItem('jp-'+key, JSON.stringify(incoming));
       renderFn();
