@@ -2972,7 +2972,7 @@ function renderDisc() {
             <div class="dgc-name">${d.name}</div>
             <div class="dgc-city">${d.city}</div>
             <div class="dgc-actions">
-              ${d.lat?`<button class="dgc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
+              ${d.lat ? `<button class="dgc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>` : d.link ? `<a class="dgc-map-btn" href="${d.link}" target="_blank" onclick="event.stopPropagation()" style="text-decoration:none;text-align:center">📍 Map</a>` : ''}
               <button class="dgc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅':'Mark done'}</button>
               <button class="dgc-map-btn" onclick="event.stopPropagation();addDiscToItin('${d.id}')" style="background:rgba(200,16,46,.1);color:#c8102e;border-color:rgba(200,16,46,.2)">＋ Plan</button>
             </div>
@@ -2991,14 +2991,14 @@ function renderDisc() {
           <div class="disc-body">
             <div class="disc-name">${d.name}</div>
             <div class="disc-desc">${d.desc||''}</div>
-            ${d.link?`<a href="${d.link}" target="_blank" onclick="event.stopPropagation()" style="display:inline-block;margin-top:4px;font-size:11px;color:var(--sky);font-weight:500">↗ ${d.link.replace(/^https?:\/\//,'').split('/')[0]}</a>`:''}
+            ${d.link && !d.lat ? '' : d.link ? `<a href="${d.link}" target="_blank" onclick="event.stopPropagation()" style="display:inline-block;margin-top:4px;font-size:11px;color:var(--sky);font-weight:500">↗ ${d.link.replace(/^https?:\/\//,'').split('/')[0]}</a>` : ''}
             <div class="disc-meta">
               ${(d.tags||[]).map((t,i)=>`<span class="disc-badge ${dbcls[i%4]}">${t}</span>`).join('')}
             </div>
           </div>
           <div class="disc-right">
             <span class="disc-city-chip">${d.city}</span>
-            ${d.lat?`<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>`:''}
+            ${d.lat ? `<button class="disc-map-btn" onclick="panMap(event,'${d.id}',${d.lat},${d.lng},'${(d.mapsq||'').replace(/'/g,"\\'")}')">📍 Map</button>` : d.link ? `<a class="disc-map-btn" href="${d.link}" target="_blank" onclick="event.stopPropagation()" style="text-decoration:none">📍 Map</a>` : ''}
             <button class="disc-visit-btn ${vis?'done':''}" onclick="toggleVisited('${d.id}',event)">${vis?'✅':'Mark done'}</button>
             <button class="disc-map-btn" onclick="event.stopPropagation();addDiscToItin('${d.id}')" style="background:rgba(200,16,46,.1);color:#c8102e;border-color:rgba(200,16,46,.2);white-space:nowrap">＋ Plan</button>
             <button class="disc-edit-btn" onclick="event.stopPropagation();editDisc('${d.id}')">✏️</button>
